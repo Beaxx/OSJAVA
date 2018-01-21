@@ -33,7 +33,7 @@ public class Spielplan {
         for (int tagIndex = 0; tagIndex <= 20; tagIndex++) {
             for (int saalIndex = 0; saalIndex <= SaalVerwaltung.getSize() - 1; saalIndex++) {
                 for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
-                    spielplan[tagIndex][saalIndex][vorstellungIndex] = new Vorstellung(); //TODO: Bei constructor call vorstelung und Spielzeit übergeben
+                    spielplan[tagIndex][saalIndex][vorstellungIndex] = new Vorstellung();
                 }
             }
         }
@@ -58,8 +58,12 @@ public class Spielplan {
      * Berechnet die zu erwartenden Ausgaben durch den Spielplan
      */
     private void spielplanAusgaben() {
-        for (int tagIndex = 0; tagIndex <= 20; tagIndex += 7) {
-
+        Vorstellung[][] wochenweiseVorstellungen = new Vorstellung[3][SaalVerwaltung.getSize()];
+        for (int wochenIndex = 0; wochenIndex <= 20; wochenIndex += 7) {
+            for (int tagProWoche = 0; tagProWoche < 7; tagProWoche++) {
+                wochenweiseVorstellungen[wochenIndex][tagProWoche] = ???
+                        // TOOD: Die Vorstellungen einer Woche sammeln
+            }
         }
     }
 
