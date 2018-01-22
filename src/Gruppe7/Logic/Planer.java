@@ -25,9 +25,14 @@ public class Planer
         spielplanEinnahmen();
         spielplanAusgaben();
     }
+
+    /**
+     * Erstellteinen zufälligen Spielplan
+     * @return Ein zufälliger Spielplan
+     */
     public Vorstellung[][][] CreateRandomSpielplan() {
         for (int tagIndex = 0; tagIndex <= 20; tagIndex++) {
-            for (int saalIndex = 0; saalIndex <= SaalVerwaltung.getSize() - 1; saalIndex++) {
+            for (int saalIndex = 0; saalIndex < SaalVerwaltung.getSize(); saalIndex++) {
                 for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
                     spielplan[tagIndex][saalIndex][vorstellungIndex] = new Vorstellung();
                 }
@@ -50,8 +55,10 @@ public class Planer
         }
     }
 
-    public static void Improve()
-    {
+    /**
+     *
+     */
+    public static void Improve() {
 
     }
 
@@ -154,13 +161,12 @@ public class Planer
      * Berechnet die zu erwartenden Ausgaben durch den Spielplan
      */
     private void spielplanAusgaben() {
-//        Vorstellung[][] wochenweiseVorstellungen = new Vorstellung[3][SaalVerwaltung.getSize()];
-//        for (int wochenIndex = 0; wochenIndex <= 20; wochenIndex += 7) {
-//            for (int tagProWoche = 0; tagProWoche < 7; tagProWoche++) {
-//                wochenweiseVorstellungen[wochenIndex][tagProWoche] = ???
-//                // TOOD: Die Vorstellungen einer Woche sammeln
-//            }
-//        }
+
+        // Kosten [w1,w2,w3]
+        int[] kosten = new int[3];
+        for (int wochenIndex = 0; wochenIndex < 20; wochenIndex++) {
+            // TODO: Arrayl flattening to get the Films.
+        }
     }
 
     //Check Methode
