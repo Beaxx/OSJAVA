@@ -8,7 +8,7 @@ public class Kinofilm extends Film
     private String sprache;
     private String regisseur;
     private int erscheinungsjahr;
-    private  String erscheinungsland;
+    private String erscheinungsland;
     private int beliebtheit;
     private int verleihpreisProWoche;
     private Fsk fsk;

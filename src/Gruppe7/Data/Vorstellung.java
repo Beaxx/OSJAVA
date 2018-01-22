@@ -16,7 +16,7 @@ public class Vorstellung {
     private static final int werbezeitMax = 20;
 
     //Constructor
-    Vorstellung()
+    public Vorstellung()
     {
         //Boolean Check Variablen
         boolean threeD = false;

@@ -18,12 +18,7 @@ public class Main {
         new WerbefilmImporter("C:/import/werbespots.csv");
         new KinofilmImporter("C:/import/filme.csv");
 
-        //Spielplaninitialisierung
-        Spielplan randomSpielplan = new Spielplan();
-        randomSpielplan.getSpielplan();
-        System.out.println(randomSpielplan.getSpielplaneinnahmen());
-        System.out.println(randomSpielplan.getSpielplanAusgaben());
-        //System.out.println(Spielplan.toString(Spielplan.getSpielplan()));
-
+        Planer planer = new Planer();
+        System.out.println(Arrays.deepToString(planer.getSpielplan()));
     }
 }
