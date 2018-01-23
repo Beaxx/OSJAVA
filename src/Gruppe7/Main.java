@@ -18,7 +18,10 @@ public class Main {
         new WerbefilmImporter("C:/import/werbespots.csv");
         new KinofilmImporter("C:/import/filme.csv");
 
-        Planer planer = new Planer();
-        System.out.println(Arrays.deepToString(planer.getSpielplan()));
+        while (true){
+            Planer planer = new Planer();
+//            System.out.println(planer.getSpielplaneinnahmen());
+//            System.out.println(planer.getSpielplanAusgaben());
+        }
     }
 }
