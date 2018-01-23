@@ -11,17 +11,23 @@ import sun.security.provider.ConfigFile;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
 
+    public static void main(String[] args) throws IOException {
         //Datenimport
         new SaalImporter("C:/import/saele.csv");
         new WerbefilmImporter("C:/import/werbespots.csv");
         new KinofilmImporter("C:/import/filme.csv");
 
-        while (true){
-            Planer planer = new Planer();
-//            System.out.println(planer.getSpielplaneinnahmen());
-//            System.out.println(planer.getSpielplanAusgaben());
-        }
+        //Performance Wrapper
+        long startTime = System.currentTimeMillis();
+
+            for (int i = 0; i < 1000000; i++) {
+                Planer planer = new Planer();
+            }
+
+        // Performance Measure
+        long endTime   = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        System.out.println(totalTime/1000);
     }
 }

@@ -22,7 +22,8 @@ public class Planer
      */
     public Planer(){
         spielplan = CreateRandomSpielplan();
-        spielplanAusgaben(spielplan);
+        spielplanAusgaben = spielplanAusgaben(spielplan);
+        SpielplanGewinn();
     }
 
     /**
@@ -52,39 +53,51 @@ public class Planer
     /**
      * Berechnet die zu erwartenden Ausgaben für einen Spielplan
      */
-    private void spielplanAusgaben(Vorstellung[][][][] spielplan) {
+    private int spielplanAusgaben(Vorstellung[][][][] spielplan) {
 
-        //Die Betrachtung findet tagweise statt.
-        int[] kosten = {0,0,0};
-        for (int wochenindex = 0; wochenindex < 3; wochenindex++) {
+        //Die Betrachtung findet zunächst wochenweise statt.
+        int[] kosten = {0, 0, 0};
+        for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++) {
+            ArrayList<Vorstellung> wochenVorstellungen = new ArrayList<>();
+
+            // Alle vorstellungen einer Woche werden in einer Liste zusammengefasst.
             for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
-                ArrayList<Vorstellung> tagesVorstellungen = new ArrayList<>();
-
-                /*
-                 * Alle vorstellungen eines Tages werden in einer Liste zusammengefasst.
-                 */
                 for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
-                        tagesVorstellungen.add(spielplan[wochenindex][tagIndex][saalIndex][vorstellungIndex]);
+                        wochenVorstellungen.add(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex]);
                     }
                 }
+            }
 
-                /*
-                 * Es wird überprüft ob Filme parallel am gleichen Tag gezeigt werden.
-                 */
-                for (Vorstellung vorstellung: tagesVorstellungen){
-                    int dupecount = findeParralelLaufendeVorstellungen(vorstellung, tagesVorstellungen);
-                        kosten[wochenindex] += vorstellung.getKinofilm().getVerleihpreisProWoche() * dupecount;
-                        System.out.println(dupecount);
+            //Erstellung aller einzigartigen Kinofilme einer Woche.
+            ArrayList<Kinofilm> wochenKinofilme = new ArrayList<>();
+            for (Vorstellung vorstellung : wochenVorstellungen) {
+                if (!wochenKinofilme.contains(vorstellung.getKinofilm())) {
+                    wochenKinofilme.add(vorstellung.getKinofilm());
                 }
+            }
 
-                /*
-                 *
-                 */
-                for
+            // Berechnung der Leihgebühren
+            for (Kinofilm film : wochenKinofilme) {
+                kosten[wochenIndex] += film.getVerleihpreisProWoche();
+            }
+
+            Vorstellung[] wochenVorstellungArray = new Vorstellung[wochenVorstellungen.size()];
+            wochenVorstellungArray = wochenVorstellungen.toArray(wochenVorstellungArray);
+
+            // Überprüfung ob Filme parallel am gleichen Tag laufen. Wenn ja, einbezug der Kosten
+            for (int vorstellungsIndexProTag = 0; vorstellungsIndexProTag < 4 * anzahlSaele; vorstellungsIndexProTag++) {
+                for (Vorstellung vorstellung : wochenVorstellungen) {
+                    if (vorstellung.getKinofilm() == wochenVorstellungArray[vorstellungsIndexProTag].getKinofilm() &&
+                            vorstellung.getSpielzeiten() == wochenVorstellungArray[vorstellungsIndexProTag].getSpielzeiten() &&
+                            vorstellung.getSaal() != wochenVorstellungArray[vorstellungsIndexProTag].getSaal()) {
+
+                        kosten[wochenIndex] += vorstellung.getKinofilm().getVerleihpreisProWoche();
+                    }
+                }
             }
         }
-        spielplanAusgaben = IntStream.of(kosten).sum();
+        return IntStream.of(kosten).sum();
     }
 
     /**
@@ -226,9 +239,9 @@ public class Planer
 //        return false;
 //    }
 
-    //??
+    // Berechnet den durch den Spielplan generierten Gewinn
     public int SpielplanGewinn() {
-        return 0;
+        return spielplaneinnahmen - spielplanAusgaben;
     }
 
     //Getter
