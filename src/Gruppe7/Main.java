@@ -21,13 +21,13 @@ public class Main {
         //Performance Wrapper
         long startTime = System.currentTimeMillis();
 
-            for (int i = 0; i < 1000000; i++) {
+            for (int i = 0; i < 1000; i++) {
                 Planer planer = new Planer();
             }
 
         // Performance Measure
         long endTime   = System.currentTimeMillis();
         long totalTime = endTime - startTime;
-        System.out.println(totalTime/1000);
+        System.out.println(totalTime/1000 + "Sekunden");
     }
 }

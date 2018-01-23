@@ -14,6 +14,9 @@ public class Planer
     private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4];
     private int spielplaneinnahmen = 0;
     private int spielplanAusgaben = 0;
+    List<Genre> genreList = Arrays.asList(Genre.values());
+    boolean checkGenre = false;
+
 
     /**
      * Erstellung eines zufälligen Spielplans durch Iteration durch das leere Vorstellungs-Array
@@ -21,9 +24,27 @@ public class Planer
      * @return Ein dreidimensionales Vorstellungsarray [tag][saal][timeslot]
      */
     public Planer(){
-        spielplan = CreateRandomSpielplan();
-        spielplanAusgaben = spielplanAusgaben(spielplan);
-        SpielplanGewinn();
+        while (checkGenre == false)
+            spielplan = CreateRandomSpielplan();
+
+        if (checkGenre == true) {
+            spielplanAusgaben = spielplanAusgaben(spielplan);
+            SpielplanGewinn();
+        }
+    }
+
+    //Check Methode
+    // TODO: Genrecheck in die Spielplanerstellung einbinden.
+    private boolean checkGenre(ArrayList<Genre> vorstellungsGenre) {
+        //Temporäre Genre-Liste
+        for (Genre genre: vorstellungsGenre){
+            genreList.remove(genre);
+        }
+        if (genreList.isEmpty()){
+            checkGenre = true;
+            return true;
+        }
+        else{return false;}
     }
 
     /**
@@ -36,6 +57,7 @@ public class Planer
                 for (int saalIndex = 0; saalIndex < SaalVerwaltung.getSize(); saalIndex++) {
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
                         spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex] = new Vorstellung();
+                        checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getKinofilm().getGenre());
                         spielplanEinnahmen(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex], tagIndex, vorstellungIndex);
                     }
                 }
@@ -98,24 +120,6 @@ public class Planer
             }
         }
         return IntStream.of(kosten).sum();
-    }
-
-    /**
-     * Findet zeitgleich stattfindende Filmvorführungen
-     * @param input Eine Vorstellung, für die Überprüft werden soll, ob parallel in einem anderen Saal läuft
-     * @param tagesVorstellungen Alle Vorstellung die an einem Tag stattfinden
-     * @return Die anzahl der Dopplungen (Keine Dopplung = 1)
-     */
-    private int findeParralelLaufendeVorstellungen(Vorstellung input, ArrayList<Vorstellung> tagesVorstellungen){
-        int counter = 0;
-        for (Vorstellung vorstellung : tagesVorstellungen)
-        {
-            if (input.getKinofilm().equals(vorstellung.getKinofilm()) &&
-                    input.getSpielzeiten().equals(vorstellung.getSpielzeiten())){
-            counter++;
-            }
-        }
-        return counter;
     }
 
     /**
@@ -215,30 +219,6 @@ public class Planer
     }
 
 
-    //Check Methode
-    // TODO: Genrecheck in die Spielplanerstellung einbinden.
-//    private boolean checkGenre() {
-//        //Temporäre Genre-Liste
-//        List<Genre> enumerationList = Arrays.asList(Genre.values());
-//
-//        // Prüfung, ob jedes Genre im Spielplan mindestens einmal vertreten ist.
-//        for (int tag = 0; tag <= 20; tag++) {
-//            for (int saal = 0; saal < SaalVerwaltung.getSize() - 1; saal++) {
-//                for (int vorstellung = 0; vorstellung < 4; vorstellung++) {
-////                    if (enumerationList.contains(spielplan[tag][saal][vorstellung].getKinofilm().getGenre())) {
-////                        enumerationList.remove(spielplan[tag][saal][vorstellung].getKinofilm().getGenre());
-//                    }
-//
-//                    // Abbruchbedingung
-//                    if (enumerationList.isEmpty()) {
-//                        return true;
-//                    }
-//                }
-//            }
-//        }
-//        return false;
-//    }
-
     // Berechnet den durch den Spielplan generierten Gewinn
     public int SpielplanGewinn() {
         return spielplaneinnahmen - spielplanAusgaben;
@@ -258,8 +238,7 @@ public class Planer
         //Setter
     }
 
-        //Setter
-
+    //Setter
     public void setSpielplan(Vorstellung[][][][] spielplan) {
         this.spielplan = spielplan;
     }
