@@ -1,5 +1,6 @@
 package Gruppe7.Logic;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
@@ -15,8 +16,8 @@ public class Planer
     private int spielplaneinnahmen = 0;
     private int spielplanAusgaben = 0;
     List<Genre> genreList = Arrays.asList(Genre.values());
-    boolean checkGenre = false;
 
+    boolean checkGenre = false;
 
     /**
      * Erstellung eines zufälligen Spielplans durch Iteration durch das leere Vorstellungs-Array
@@ -24,8 +25,11 @@ public class Planer
      * @return Ein dreidimensionales Vorstellungsarray [tag][saal][timeslot]
      */
     public Planer(){
+        ArrayList<Genre> localGenreList = new ArrayList<>();
+        localGenreList.addAll(genreList);
+
         while (checkGenre == false)
-            spielplan = CreateRandomSpielplan();
+            spielplan = CreateRandomSpielplan(localGenreList);
 
         if (checkGenre == true) {
             spielplanAusgaben = spielplanAusgaben(spielplan);
@@ -34,13 +38,14 @@ public class Planer
     }
 
     //Check Methode
-    // TODO: Genrecheck in die Spielplanerstellung einbinden.
-    private boolean checkGenre(ArrayList<Genre> vorstellungsGenre) {
+    private boolean checkGenre(ArrayList<Genre> vorstellungsGenres, ArrayList<Genre> genreArrayList) {
         //Temporäre Genre-Liste
-        for (Genre genre: vorstellungsGenre){
-            genreList.remove(genre);
+        for (Genre genre: vorstellungsGenres){
+            if(genreArrayList.contains(genre)) {
+                genreArrayList.remove(genre);
+            }
         }
-        if (genreList.isEmpty()){
+        if (genreArrayList.isEmpty()){
             checkGenre = true;
             return true;
         }
@@ -51,13 +56,15 @@ public class Planer
      * Erstellteinen zufälligen Spielplan
      * @return Ein zufälliger Spielplan
      */
-    public Vorstellung[][][][] CreateRandomSpielplan() {
+    public Vorstellung[][][][] CreateRandomSpielplan(ArrayList<Genre> genreList) {
         for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++)
             for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
-                for (int saalIndex = 0; saalIndex < SaalVerwaltung.getSize(); saalIndex++) {
+                for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
                         spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex] = new Vorstellung();
+
                         checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getKinofilm().getGenre());
+
                         spielplanEinnahmen(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex], tagIndex, vorstellungIndex);
                     }
                 }

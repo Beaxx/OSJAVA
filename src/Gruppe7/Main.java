@@ -21,7 +21,7 @@ public class Main {
         //Performance Wrapper
         long startTime = System.currentTimeMillis();
 
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 10; i++) {
                 Planer planer = new Planer();
             }
 
