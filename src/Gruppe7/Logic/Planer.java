@@ -8,17 +8,26 @@ import java.util.stream.IntStream;
 import Gruppe7.Data.*;
 import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 
+/**
+ * @author Lennart Völler
+ * @date 24.01.2018
+ *
+ * Die Planerklasse stellt die zentrale Logik des Programs dar. Jedes Objekt der Klasse Planer beinhaltet ein
+ * 4-dimensionales Array vom Typ Vorstellung. Nach der Erstellung eines zufälligen Spielplans wird dieser lokal
+ * optimiert. Ist der Optimierungsprozess abgeschlossen beendes der Planer den Konstruktor und gibt den optimierten
+ * Spielplan zurück.
+ */
 public class Planer
 {
-    int anzahlSaele = SaalVerwaltung.getSize();
+    private int anzahlSaele = SaalVerwaltung.getSize();
 
     //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
     private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4];
     private int spielplaneinnahmen = 0;
     private int spielplanAusgaben = 0;
-    List<Genre> genreList = Arrays.asList(Genre.values());
+    private int spielplanGewinn = 0;
 
-    boolean checkGenre = false;
+    private boolean checkGenre = false;
 
     /**
      * Erstellung eines zufälligen Spielplans durch Iteration durch das leere Vorstellungs-Array
@@ -26,15 +35,19 @@ public class Planer
      * @return Ein dreidimensionales Vorstellungsarray [tag][saal][timeslot]
      */
     public Planer(){
+        // Liste aus Enum
+        List<Genre> genreList = Arrays.asList(Genre.values());
+
+        // Kopie der Liste
         ArrayList<Genre> localGenreList = new ArrayList<>();
-        localGenreList.addAll(genreList);
+            localGenreList.addAll(genreList);
 
         while (checkGenre == false)
             spielplan = CreateRandomSpielplan(localGenreList);
 
         if (checkGenre == true) {
             spielplanAusgaben = spielplanAusgaben(spielplan);
-            SpielplanGewinn();
+            spielplanGewinn = spielplaneinnahmen - spielplanAusgaben;
         }
     }
 
@@ -42,7 +55,7 @@ public class Planer
     private boolean checkGenre(ArrayList<Genre> vorstellungsGenres, ArrayList<Genre> localGenreList) {
 
         for (Genre genre: vorstellungsGenres){
-            localGenreList.removeIf(g -> g==genre);
+            localGenreList.removeIf(g -> g == genre);
             localGenreList.remove(Genre.DRAMA); // TODO: Wenn nur noch das Genre Drama übrig ist werden ur noch Vorstellungen anderer Genres erzeugt.
         }
         if (localGenreList.isEmpty()){
@@ -227,7 +240,6 @@ public class Planer
         //TODO: Der Normalpreis (Parkett) beträgt 7 Euro. Für jeden Euro, den der Preis erhöht wird, sinkt der Zuschauerandrang um 5%. Für jeden Euro, den der Preis gesenkt wird, steigt der Besucherandrang um 2%.
     }
 
-
     // Berechnet den durch den Spielplan generierten Gewinn
     public int SpielplanGewinn() {
         return spielplaneinnahmen - spielplanAusgaben;
@@ -244,7 +256,10 @@ public class Planer
 
     public int getSpielplanAusgaben() {
         return spielplanAusgaben;
-        //Setter
+    }
+
+    public int getSpielplanGewinn() {
+        return spielplanGewinn;
     }
 
     //Setter

@@ -147,22 +147,16 @@ public class KinofilmImporter extends Datei {
 
             //SaalVerwaltung.setSaele(new Saal(importPlaetzeLoge, importPlaetzeParkett, importThreeD, importSaalNr));
 
-            FilmVerwaltung.setFilme(new Kinofilm (importKinofilmTitel, importKinofilmLaufzeit, importThreeD, importKinofilmSprache, importKinofilmRegisseur, importKinofilmErscheinungsjahr, importKinofilmErscheinungsland, importKinofilmBeliebtheit, importKinofilmMietpreis, importKinofilmFSK, importKinofilmGenres));
+            Kinofilm tempKinofilm = new Kinofilm (importKinofilmTitel, importKinofilmLaufzeit, importThreeD, importKinofilmSprache, importKinofilmRegisseur, importKinofilmErscheinungsjahr, importKinofilmErscheinungsland, importKinofilmBeliebtheit, importKinofilmMietpreis, importKinofilmFSK, importKinofilmGenres);
+
+            //Beliebtheitsfilter
+            if (tempKinofilm.getBeliebtheit() >= 90){
+                FilmVerwaltung.setFilme(tempKinofilm);
+            }
+
         }
     }
 }
-                //ArrayList<Genre> TODO weiteres Array auslesen.
-                // importKinofilmGemrsString
-
-                //
-
-
-                //importKinofilmLaufzeit = Integer.valueOf(arrayKinofilm[6]);
-
-
-                // WerbefilmVerwaltung.setWerbefilme(new Werbefilm(importKinofilmTitel, importKinofilmLaufzeit, importKinofilmRegisseur));
-
-
 
 
 

@@ -21,8 +21,17 @@ public class Main {
         //Performance Wrapper
         long startTime = System.currentTimeMillis();
 
-            for (int i = 0; i < 100; i++) {
-                Planer planer = new Planer();
+        Planer planer = new Planer();
+            for (int i = 0; i < 1000000; i++) {
+                Planer tempPlaner = new Planer();
+
+                if (tempPlaner.getSpielplanGewinn() > planer.getSpielplanGewinn()){
+                    planer = tempPlaner;
+                    System.out.println("Einnahmen: " + planer.getSpielplaneinnahmen() +"\n"+
+                                        "Ausgaben: " + planer.getSpielplanAusgaben() +"\n"+
+                                        "Gewinn:" + planer.getSpielplanGewinn() +"\n"+
+                                        "--------------------------------");
+                }
             }
 
         // Performance Measure
