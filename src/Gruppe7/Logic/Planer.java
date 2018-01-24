@@ -98,6 +98,7 @@ public class Planer
 
                         int andrang = andrang(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex], tagIndex, vorstellungIndex, wochenIndex, spielplan);
                         //Einnahmen aus Ticketverkäufen
+                        // TODO: Check ob Säle überbesetzt
                         localSpielplaneinnahmen[0] += spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getEintrittspreis() * andrang;
 
                         //Einnahmen aus Werbung

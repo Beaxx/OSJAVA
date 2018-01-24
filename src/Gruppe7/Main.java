@@ -30,8 +30,16 @@ public class Main {
         //Performance Wrapper
         long startTime = System.currentTimeMillis();
 
+        int plaetze = 0;
+        for (Saal saal : SaalVerwaltung.getSaele()){
+
+            plaetze += saal.getPlaetzeParkett()+saal.getPlaetzeLoge();
+        }
+        System.out.println(plaetze);
+
+
         Planer planer = new Planer();
-        int durchläufe = 10000;
+        int durchläufe = 1000000;
         for (int i = 0; i < durchläufe; i++)
 
         {
