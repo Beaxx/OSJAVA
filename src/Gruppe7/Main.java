@@ -1,13 +1,9 @@
 package Gruppe7;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
-import Gruppe7.Data.*;
 import Gruppe7.Logic.*;
 import Gruppe7.Importer.*;
-import sun.security.provider.ConfigFile;
 
 public class Main {
 
@@ -27,7 +23,7 @@ public class Main {
 
                 if (tempPlaner.getSpielplanGewinn() > planer.getSpielplanGewinn()){
                     planer = tempPlaner;
-                    System.out.println("Einnahmen: " + planer.getSpielplaneinnahmen() +"\n"+
+                    System.out.println("Einnahmen: " + planer.getSpielplanEinnahmen() +"\n"+
                                         "Ausgaben: " + planer.getSpielplanAusgaben() +"\n"+
                                         "Gewinn:" + planer.getSpielplanGewinn() +"\n"+
                                         "--------------------------------");

@@ -1,12 +1,9 @@
 package Gruppe7.Logic;
 
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 import Gruppe7.Data.*;
-import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 
 /**
  * @author Lennart Völler
@@ -23,7 +20,7 @@ public class Planer
 
     //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
     private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4];
-    private int spielplaneinnahmen = 0;
+    private int spielplanEinnahmen = 0;
     private int spielplanAusgaben = 0;
     private int spielplanGewinn = 0;
 
@@ -47,7 +44,8 @@ public class Planer
 
         if (checkGenre == true) {
             spielplanAusgaben = spielplanAusgaben(spielplan);
-            spielplanGewinn = spielplaneinnahmen - spielplanAusgaben;
+            spielplanEinnahmen = spielplanEinnahmen(spielplan);
+            spielplanGewinn = spielplanEinnahmen - spielplanAusgaben;
         }
     }
 
@@ -79,8 +77,6 @@ public class Planer
                         if (!checkGenre){
                             checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getKinofilm().getGenre(), localGenreList);
                         }
-
-                        spielplanEinnahmen(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex], tagIndex, vorstellungIndex);
                     }
                 }
             }
@@ -90,9 +86,19 @@ public class Planer
     /**
      * Berechnet die zu erwartenden Einnahmen einer Vorstellung und fügt sie den Spielplaneinnahmen hinzu
      */
-    private void spielplanEinnahmen(Vorstellung vorstellung, int tagIndex, int vorstellungIndex) {
-        spielplaneinnahmen += vorstellung.getEintrittspreis() * andrang(vorstellung, tagIndex, vorstellungIndex);
-    }
+    private int spielplanEinnahmen(Vorstellung[][][][] spielplan) {
+        int localSpielplaneinnahmen = 0;
+        for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++)
+            for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
+                for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
+                    for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
+                        localSpielplaneinnahmen += spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getEintrittspreis() *
+                                andrang(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex], tagIndex, vorstellungIndex);
+                    }
+                }
+            }
+            return localSpielplaneinnahmen;
+        }
 
     /**
      * Berechnet die zu erwartenden Ausgaben für einen Spielplan
@@ -142,13 +148,6 @@ public class Planer
             }
         }
         return IntStream.of(kosten).sum();
-    }
-
-    /**
-     *
-     */
-    public static void Improve() {
-
     }
 
     /**
@@ -236,22 +235,20 @@ public class Planer
         //Montag und Catch-All 100%
         else {return basisandrang;}
 
-        //TODO: Wird in Woche 2 (bzw. 3) ein Film gezeigt, der bereits in der ersten (bzw. ersten oder zweiten) Woche gezeigt wurde, werden nur 80% des Werts erreicht; wird in Woche 3 ein Film gezeigt der bereits in der ersten UND zweiten Woche gezeigt wurde, nur 50%.
+        //TODO: Wird in Woche 2 (bzw. 3) ein Film gezeigt, der bereits in der ersten (bzw. ersten oder zweiten) Woche
+        // gezeigt wurde, werden nur 80% des Werts erreicht; wird in Woche 3 ein Film gezeigt der bereits in der ersten UND zweiten Woche gezeigt wurde, nur 50%.
+
         //TODO: Der Normalpreis (Parkett) beträgt 7 Euro. Für jeden Euro, den der Preis erhöht wird, sinkt der Zuschauerandrang um 5%. Für jeden Euro, den der Preis gesenkt wird, steigt der Besucherandrang um 2%.
     }
 
-    // Berechnet den durch den Spielplan generierten Gewinn
-    public int SpielplanGewinn() {
-        return spielplaneinnahmen - spielplanAusgaben;
-    }
 
     //Getter
     public Vorstellung[][][][] getSpielplan() {
         return spielplan;
     }
 
-    public int getSpielplaneinnahmen() {
-        return spielplaneinnahmen;
+    public int getSpielplanEinnahmen() {
+        return spielplanEinnahmen;
     }
 
     public int getSpielplanAusgaben() {
