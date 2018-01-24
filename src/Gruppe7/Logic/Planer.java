@@ -75,7 +75,6 @@ public class Planer
                 for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
                         spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex] = new Vorstellung();
-
                         if (!checkGenre){
                             checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getKinofilm().getGenre(), localGenreList);
                         }

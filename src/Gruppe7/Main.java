@@ -22,6 +22,7 @@ public class Main {
 
         //Werbeplan sortieren
         WerbefilmVerwaltung.werbeplanSortieren();
+        // TODO: Totalen zuschauerandrang berechnen zur Überprüfung ob Einnahmen stimmen.
 
         // Saal sortieren
         SaalVerwaltung.saalplanSortieren();
