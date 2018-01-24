@@ -18,7 +18,8 @@ public class Main {
         long startTime = System.currentTimeMillis();
 
         Planer planer = new Planer();
-            for (int i = 0; i < 1000000; i++) {
+        int durchläufe = 10000;
+            for (int i = 0; i < 10000; i++) {
                 Planer tempPlaner = new Planer();
 
                 if (tempPlaner.getSpielplanGewinn() > planer.getSpielplanGewinn()){
@@ -33,6 +34,6 @@ public class Main {
         // Performance Measure
         long endTime   = System.currentTimeMillis();
         long totalTime = endTime - startTime;
-        System.out.println(totalTime/1000 + "Sekunden");
+        System.out.println(totalTime/1000 + " Sekunden für " + durchläufe + " Durchläufe");
     }
 }

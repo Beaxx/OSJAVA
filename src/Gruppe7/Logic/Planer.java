@@ -1,5 +1,6 @@
 package Gruppe7.Logic;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -93,7 +94,7 @@ public class Planer
                 for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
                         localSpielplaneinnahmen += spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getEintrittspreis() *
-                                andrang(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex], tagIndex, vorstellungIndex);
+                                andrang(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex], tagIndex, vorstellungIndex, wochenIndex, spielplan);
                     }
                 }
             }
@@ -187,60 +188,118 @@ public class Planer
         return outputarray;
     }
 
-    /**
-     * Berechnet den Andrang für eine Vorstellung.
-     * @param vorstellung Die Vorstellung, für die der Andrang berechnet werden soll.
-     * @param tagIndex Der Index des Tages, an dem die Vorstellung stattfindet.
-     * @param vorstellungIndex Der Index des Timeslots, zu dem die Vorstellung stattfindet.
-     * @return Die Zahl der für die Vorstellung erwarteten Zuschauer.
-     */
-    private int andrang(Vorstellung vorstellung, int tagIndex, int vorstellungIndex){
-        int basisandrang = (int)Math.round((plaetzteInGroestemUndZweitgroeßtemSaal()[0] +
-                                            plaetzteInGroestemUndZweitgroeßtemSaal()[1]) *
-                                            ((double)(vorstellung.getKinofilm().getBeliebtheit()) / 85));
 
-        int vorstellungsabHaengigerAndrang;
+    private int andrang(Vorstellung vorstellung, int in_tagIndex, int in_vorstellungIndex, int in_wochenIndex, Vorstellung[][][][] spielplan) {
+        // TODO: Code kopiert aus spielplanAusgaben() - Auslagern
+        ArrayList<Kinofilm> woche0 = new ArrayList<>();
+        ArrayList<Kinofilm> woche1 = new ArrayList<>();
+        ArrayList<Kinofilm> woche2 = new ArrayList<>();
+
+        // Alle vorstellungen jeder Woche werden in je einer Liste zusammengefasst.
+        for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++) {
+            for (int tagesIndex = 0; tagesIndex < 7; tagesIndex++) {
+                for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
+                    for (int vorstellungsIndex = 0; vorstellungsIndex < 4; vorstellungsIndex++) {
+
+                        switch (wochenIndex) {
+                            case 0:
+                                woche0.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex].getKinofilm());
+                                break;
+                            case 1:
+                                woche1.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex].getKinofilm());
+                                break;
+                            case 2:
+                                woche2.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex].getKinofilm());
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        int[] saalPlaetze = plaetzteInGroestemUndZweitgroeßtemSaal();
+        int basisandrang = (int) Math.round((saalPlaetze[0] + saalPlaetze[1]) *
+                ((double) (vorstellung.getKinofilm().getBeliebtheit()) / 85));
+
+        /**
+         * Einbezug der Uhrzeit
+         */
+        int vorstellungsabhaengigerAndrang;
 
         //15 Uhr Vorstellung 90%
-        if (vorstellungIndex == 0){
-            vorstellungsabHaengigerAndrang = (int)Math.round(basisandrang * .9);
+        if (in_vorstellungIndex == 0) {
+            vorstellungsabhaengigerAndrang = (int) Math.round(basisandrang * .9);
         }
         //17:30 Uhr Vorstellung 95%
-        else if (vorstellungIndex == 1){
-            vorstellungsabHaengigerAndrang = (int)Math.round(basisandrang * .95);
+        else if (in_vorstellungIndex == 1) {
+            vorstellungsabhaengigerAndrang = (int) Math.round(basisandrang * .95);
         }
         //23 Uhr Vorstellung 85%
-        else if (vorstellungIndex == 3){
-            vorstellungsabHaengigerAndrang = (int)Math.round(basisandrang * .85);
+        else if (in_vorstellungIndex == 3) {
+            vorstellungsabhaengigerAndrang = (int) Math.round(basisandrang * .85);
         }
 
         //20 Uhr und Catch-All 100%
-        else { return basisandrang; }
+        else {
+            vorstellungsabhaengigerAndrang = basisandrang;
+        }
 
-
-        //Montag 100%
-        if (tagIndex == 0 || tagIndex == 7 || tagIndex == 14 || tagIndex == 21)
-            return vorstellungsabHaengigerAndrang;
+        /*
+         * Einbezug des Tages
+         */
+        int vorstellungsUndTagesabhaengigerAndrang;
+//
+//        Montag 100%
+//        if (in_tagIndex == 0 || in_tagIndex == 7 || in_tagIndex == 14 || in_tagIndex == 21)
+//            return vorstellungsabhaengigerAndrang;
 
         //Dienstag, Mittwoch, Donnerstag 60%
-        else if ((tagIndex > 0 && tagIndex < 4) || (tagIndex > 7 && tagIndex < 11) || (tagIndex > 14 && tagIndex < 18)){
-            return (int)Math.round(vorstellungsabHaengigerAndrang * .6);
+        if ((in_tagIndex > 0 && in_tagIndex < 4) || (in_tagIndex > 7 && in_tagIndex < 11) || (in_tagIndex > 14 && in_tagIndex < 18)) {
+            vorstellungsUndTagesabhaengigerAndrang = (int) Math.round(vorstellungsabhaengigerAndrang * .6);
         }
 
         //Freitag, Samstag, Sonntag 80%
-        else if ((tagIndex > 3 && tagIndex < 7) || (tagIndex > 10 && tagIndex < 14) || (tagIndex > 17 && tagIndex < 21)) {
-            return (int) Math.round(vorstellungsabHaengigerAndrang * .8);
+        else if ((in_tagIndex > 3 && in_tagIndex < 7) || (in_tagIndex > 10 && in_tagIndex < 14) || (in_tagIndex > 17 && in_tagIndex < 21)) {
+            vorstellungsUndTagesabhaengigerAndrang = (int) Math.round(vorstellungsabhaengigerAndrang * .8);
         }
 
         //Montag und Catch-All 100%
-        else {return basisandrang;}
+        else {
+            vorstellungsUndTagesabhaengigerAndrang = vorstellungsabhaengigerAndrang;
+        }
 
-        //TODO: Wird in Woche 2 (bzw. 3) ein Film gezeigt, der bereits in der ersten (bzw. ersten oder zweiten) Woche
-        // gezeigt wurde, werden nur 80% des Werts erreicht; wird in Woche 3 ein Film gezeigt der bereits in der ersten UND zweiten Woche gezeigt wurde, nur 50%.
+        /*
+         * Einbezug der anderen Wochen:
+         * In Woche 0 kann es keine Abzüge geben, da die Filme zum ersten Mal gezeigt werden.
+         * In Woche 1 kommt es zu abzügen, wenn der Film bereits in Woche 0 gezeigt wurde.
+         * In Woche 2 kommt es zu den selben Abzügen wie in Woche 1, wenn der Film in Woche 1 ODER in Woche 0
+         *  gezeigt wurde. Wenn der Film sowohl in Woche 0 als auch Woche 1 gezeigt wurde kommt es zu stärkeren
+         *  abzügen.
+         */
+        switch (in_wochenIndex) {
 
-        //TODO: Der Normalpreis (Parkett) beträgt 7 Euro. Für jeden Euro, den der Preis erhöht wird, sinkt der Zuschauerandrang um 5%. Für jeden Euro, den der Preis gesenkt wird, steigt der Besucherandrang um 2%.
+            case 1: {
+                if (woche0.contains(vorstellung.getKinofilm())) {
+                    return (int) Math.round(vorstellungsUndTagesabhaengigerAndrang * 0.8);
+                } else {
+                    return vorstellungsUndTagesabhaengigerAndrang;
+                }
+            }
+
+            case 2: {
+                if ((woche0.contains(vorstellung.getKinofilm()) && !woche1.contains(vorstellung.getKinofilm())) ||
+                        (!woche0.contains(vorstellung.getKinofilm()) && woche1.contains((vorstellung.getKinofilm())))) {
+                    return (int) Math.round(vorstellungsUndTagesabhaengigerAndrang * 0.8);
+                } else if (woche0.contains(vorstellung.getKinofilm()) && woche1.contains(vorstellung.getKinofilm())) {
+                    return (int) Math.round(vorstellungsUndTagesabhaengigerAndrang * 0.5);
+                } else {
+                    return vorstellungsUndTagesabhaengigerAndrang;
+                }
+            }
+
+            default: return vorstellungsUndTagesabhaengigerAndrang;
+            //TODO: Der Normalpreis (Parkett) beträgt 7 Euro. Für jeden Euro, den der Preis erhöht wird, sinkt der Zuschauerandrang um 5%. Für jeden Euro, den der Preis gesenkt wird, steigt der Besucherandrang um 2%.
+        }
     }
-
 
     //Getter
     public Vorstellung[][][][] getSpielplan() {

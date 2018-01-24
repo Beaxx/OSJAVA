@@ -150,7 +150,7 @@ public class KinofilmImporter extends Datei {
             Kinofilm tempKinofilm = new Kinofilm (importKinofilmTitel, importKinofilmLaufzeit, importThreeD, importKinofilmSprache, importKinofilmRegisseur, importKinofilmErscheinungsjahr, importKinofilmErscheinungsland, importKinofilmBeliebtheit, importKinofilmMietpreis, importKinofilmFSK, importKinofilmGenres);
 
             //Beliebtheitsfilter
-            if (tempKinofilm.getBeliebtheit() >= 95){
+            if (tempKinofilm.getBeliebtheit() >= 80){
                 FilmVerwaltung.setFilme(tempKinofilm);
             }
 
