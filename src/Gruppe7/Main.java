@@ -25,16 +25,13 @@ public class Main {
 
         // Saal sortieren
         SaalVerwaltung.saalplanSortieren();
-        for (Saal saal : SaalVerwaltung.getSaele()){
-            System.out.println(saal.getThreeD());
-        }
 
         //Performance Wrapper
         long startTime = System.currentTimeMillis();
 
         Planer planer = new Planer();
-        int durchläufe = 100000;
-        for (int i = 0; i < 100000; i++)
+        int durchläufe = 10000;
+        for (int i = 0; i < durchläufe; i++)
 
         {
             Planer tempPlaner = new Planer();
@@ -47,13 +44,14 @@ public class Main {
                         "Gewinn:" + planer.getSpielplanGewinn() + "\n" +
                         "--------------------------------");
             }
-            if (i % 10000 == 0){ System.out.println("Durchlauf" + i);}
+            if (i % 10000 == 0){ System.out.println("\n" + "Durchlauf " + i + "\n");}
         }
 
         // Performance Messung
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
-        System.out.println(totalTime / 1000 + " Sekunden für " + durchläufe + " Durchläufe");
+        System.out.println(totalTime / 1000 + " Sekunden für " + durchläufe + " Durchläufe" + "\n" +
+                Math.round((double)durchläufe/(double)totalTime) / 1000 + " pro Sekunde");
     }
 
 

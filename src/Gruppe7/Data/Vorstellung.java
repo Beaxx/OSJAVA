@@ -25,20 +25,23 @@ public class Vorstellung {
         boolean filmLaufzeit = false;
 
         // Solange Vorstellungen erstellen, bis gültig
-        while (!threeD || !FSK || !filmLaufzeit) {
+        while (!FSK || !filmLaufzeit) {
 
             //Random Index für Vorstellungserstellung
-            int kinofilmIndex = ThreadLocalRandom.current().nextInt(0, FilmVerwaltung.getSize());
-            int saalIndex = ThreadLocalRandom.current().nextInt(0, SaalVerwaltung.getSize());
-            int vorstellungsTimeslotIndex = ThreadLocalRandom.current().nextInt(0, 3);
+            int saalIndex;
+            int vorstellungsTimeslotIndex = ThreadLocalRandom.current().nextInt(0, 3); //TODO Auswahl gemäß FSK
 
+            int kinofilmIndex = ThreadLocalRandom.current().nextInt(0, FilmVerwaltung.getSize());
             vorstellungsFilm = FilmVerwaltung.getFilme().get(kinofilmIndex);
+
+            if(vorstellungsFilm.getThreeD()){
+                saalIndex = ThreadLocalRandom.current().nextInt(0, SaalVerwaltung.getAnzahl3D()-1);
+            }
+            else {saalIndex = ThreadLocalRandom.current().nextInt(0, SaalVerwaltung.getSize()-1);}
+
             vorstellungsSaal = SaalVerwaltung.getSaele().get(saalIndex);
             vorstellungsTimeslot = Spielzeiten.values()[vorstellungsTimeslotIndex];
 
-            // TODO:
-
-            threeD = check3D(vorstellungsFilm, vorstellungsSaal);
             FSK = checkFSK(vorstellungsTimeslot, vorstellungsFilm);
             filmLaufzeit = checkLaufzeiten(vorstellungsFilm, vorstellungsTimeslot);
         }
