@@ -188,7 +188,6 @@ public class Planer
         return outputarray;
     }
 
-
     private int andrang(Vorstellung vorstellung, int in_tagIndex, int in_vorstellungIndex, int in_wochenIndex, Vorstellung[][][][] spielplan) {
         // TODO: Code kopiert aus spielplanAusgaben() - Auslagern
         ArrayList<Kinofilm> woche0 = new ArrayList<>();
@@ -216,42 +215,37 @@ public class Planer
                 }
             }
         }
+
+        /*
+        Berechnung des Basisandrangs über die größe der beiden größten Säle.
+         */
         int[] saalPlaetze = plaetzteInGroestemUndZweitgroeßtemSaal();
         int basisandrang = (int) Math.round((saalPlaetze[0] + saalPlaetze[1]) *
                 ((double) (vorstellung.getKinofilm().getBeliebtheit()) / 85));
 
-        /**
-         * Einbezug der Uhrzeit
-         */
+
+        //region Einfluss der Uhrzeit auf den Andrang
         int vorstellungsabhaengigerAndrang;
+        switch (in_vorstellungIndex){
+            //15 Uhr Vorstellung 90%
+            case 0: {vorstellungsabhaengigerAndrang = (int) Math.round(basisandrang * .9);
+                        break;}
 
-        //15 Uhr Vorstellung 90%
-        if (in_vorstellungIndex == 0) {
-            vorstellungsabhaengigerAndrang = (int) Math.round(basisandrang * .9);
-        }
-        //17:30 Uhr Vorstellung 95%
-        else if (in_vorstellungIndex == 1) {
-            vorstellungsabhaengigerAndrang = (int) Math.round(basisandrang * .95);
-        }
-        //23 Uhr Vorstellung 85%
-        else if (in_vorstellungIndex == 3) {
-            vorstellungsabhaengigerAndrang = (int) Math.round(basisandrang * .85);
-        }
+            //17:30 Uhr Vorstellung 95%
+            case 1: {vorstellungsabhaengigerAndrang = (int) Math.round(basisandrang * .95);
+                        break;}
 
-        //20 Uhr und Catch-All 100%
-        else {
-            vorstellungsabhaengigerAndrang = basisandrang;
-        }
+            //23 Uhr Vorstellung 85%
+            case 3: {vorstellungsabhaengigerAndrang = (int) Math.round(basisandrang * .85);
+                        break;}
 
-        /*
-         * Einbezug des Tages
-         */
+            //20 Uhr und Catch-All 100%
+            default: vorstellungsabhaengigerAndrang = basisandrang;
+        }
+        //endregion
+
+        //region Einfluss des Wochentages auf den Andrang.
         int vorstellungsUndTagesabhaengigerAndrang;
-//
-//        Montag 100%
-//        if (in_tagIndex == 0 || in_tagIndex == 7 || in_tagIndex == 14 || in_tagIndex == 21)
-//            return vorstellungsabhaengigerAndrang;
-
         //Dienstag, Mittwoch, Donnerstag 60%
         if ((in_tagIndex > 0 && in_tagIndex < 4) || (in_tagIndex > 7 && in_tagIndex < 11) || (in_tagIndex > 14 && in_tagIndex < 18)) {
             vorstellungsUndTagesabhaengigerAndrang = (int) Math.round(vorstellungsabhaengigerAndrang * .6);
@@ -266,7 +260,9 @@ public class Planer
         else {
             vorstellungsUndTagesabhaengigerAndrang = vorstellungsabhaengigerAndrang;
         }
+        //endregion
 
+        //region Einfluss der Wiederholung von Filmen
         /*
          * Einbezug der anderen Wochen:
          * In Woche 0 kann es keine Abzüge geben, da die Filme zum ersten Mal gezeigt werden.
@@ -299,6 +295,7 @@ public class Planer
             default: return vorstellungsUndTagesabhaengigerAndrang;
             //TODO: Der Normalpreis (Parkett) beträgt 7 Euro. Für jeden Euro, den der Preis erhöht wird, sinkt der Zuschauerandrang um 5%. Für jeden Euro, den der Preis gesenkt wird, steigt der Besucherandrang um 2%.
         }
+        //endregion
     }
 
     //Getter

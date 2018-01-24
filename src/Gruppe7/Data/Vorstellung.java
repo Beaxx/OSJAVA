@@ -9,7 +9,7 @@ public class Vorstellung {
 
     //Attribute
     private Kinofilm vorstellungsFilm;
-    private Werbefilm[] werbungen = new Werbefilm[1]; // TODO: Anzhal der Werbefilme über ihre Länge geregelt
+    private Werbefilm[] werbungen; // TODO: Anzhal der Werbefilme über ihre Länge geregelt
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
     private int eintrittspreis = 7; // TODO: Hardcoded
@@ -23,31 +23,31 @@ public class Vorstellung {
         //Boolean Check Variablen
         boolean threeD = false;
         boolean FSK = false;
-        boolean laufzeiten = false;
-        boolean werbefilme = false;
+        boolean filmLaufzeit = false;
 
         // Solange Vorstellungen erstellen, bis gültig
-        while (!threeD || !FSK || !laufzeiten || !werbefilme) {
+        while (!threeD || !FSK || !filmLaufzeit) {
 
             //Random Index für Vorstellungserstellung
             int kinofilmIndex = ThreadLocalRandom.current().nextInt(0, FilmVerwaltung.getSize());
-            int werbefilmIndex = ThreadLocalRandom.current().nextInt(0, WerbefilmVerwaltung.getSize());
             int saalIndex = ThreadLocalRandom.current().nextInt(0, SaalVerwaltung.getSize());
             int vorstellungsTimeslotIndex = ThreadLocalRandom.current().nextInt(0, 3);
 
             vorstellungsFilm = FilmVerwaltung.getFilme().get(kinofilmIndex);
-            werbungen[0]= WerbefilmVerwaltung.getWerbefilme().get(werbefilmIndex);
             vorstellungsSaal = SaalVerwaltung.getSaele().get(saalIndex);
             vorstellungsTimeslot = Spielzeiten.values()[vorstellungsTimeslotIndex];
 
             threeD = check3D(vorstellungsFilm, vorstellungsSaal);
             FSK = checkFSK(vorstellungsTimeslot, vorstellungsFilm);
-            laufzeiten = checkLaufzeiten(vorstellungsFilm, vorstellungsTimeslot);
-            werbefilme = checkWerbefilmeLaufzeit(vorstellungsTimeslot, vorstellungsFilm, werbungen, werbezeitMax);
+            filmLaufzeit = checkLaufzeiten(vorstellungsFilm, vorstellungsTimeslot);
         }
+
+        //Wenn Vorstellung fertig, Werbung anhängen
+        werbungAnhängen(vorstellungsFilm, vorstellungsTimeslot);
     }
 
-    //Check Methoden
+    /*Check Methoden*/
+    //Check 3D
     private boolean check3D(Kinofilm vorstellungsFilm, Saal vorstellungsSaal) {
 
         //Wenn der Saal 3D-Fähig ist, immer True
@@ -70,18 +70,15 @@ public class Vorstellung {
         else return vorstellungsTimeslot != Spielzeiten.SLOT_2000 || vorstellungsFilm.getFsk() != Fsk.FSK_18;
     }
 
-    //Check Laufzeiten
+    //Check Film Laufzeiten
     private boolean checkLaufzeiten(Kinofilm vorstellungsFilm, Spielzeiten vorstellungsTimeslot) {
         return vorstellungsTimeslot.getSlotDuration() >= vorstellungsFilm.getLaufzeit();
     }
 
-    //Check Werbefilme // TODO: Werbefilme so sortieren, dass zuerst die Kombinationen mit dem Höchstern Betrag / Zuschauer gewählt werden.
-    private boolean checkWerbefilmeLaufzeit(Spielzeiten vorstellungsTimeslot,
-                                            Kinofilm vorstellungsFilm,
-                                            Werbefilm[] werbungen,
-                                            int werbezeitMax){
+    //Check Werbefilme
+    private Werbefilm[] werbungAnhängen(Kinofilm vorstellungsFilm, Spielzeiten timeslot){
+        int werbeDauer = timeslot.getSlotDuration() - vorstellungsFilm.getLaufzeit();
 
-        int sumWerbungDuration = 0;
         for (Werbefilm w: werbungen) { // TODO: Über Intstream?
             sumWerbungDuration += w.getLaufzeit();
         }
