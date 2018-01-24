@@ -134,7 +134,6 @@ public class KinofilmImporter extends Datei {
 
             }
             importKinofilmMietpreis = Integer.valueOf(arrayKinofilm[4]);
-                //System.out.println("Mietpreis" + importKinofilmMietpreis);
             importKinofilmBeliebtheit = Integer.valueOf(arrayKinofilm[5]);
             importKinofilmLaufzeit = Integer.valueOf(arrayKinofilm[6]);
             importKinofilmSprache = String.valueOf(arrayKinofilm[7]);
@@ -142,18 +141,19 @@ public class KinofilmImporter extends Datei {
             importKinofilmErscheinungsjahr=Integer.valueOf(arrayKinofilm[9]);
             importThreeD=Boolean.valueOf(arrayKinofilm[10]);
 
-
-            //Constructor
-
-            //SaalVerwaltung.setSaele(new Saal(importPlaetzeLoge, importPlaetzeParkett, importThreeD, importSaalNr));
-
             Kinofilm tempKinofilm = new Kinofilm (importKinofilmTitel, importKinofilmLaufzeit, importThreeD, importKinofilmSprache, importKinofilmRegisseur, importKinofilmErscheinungsjahr, importKinofilmErscheinungsland, importKinofilmBeliebtheit, importKinofilmMietpreis, importKinofilmFSK, importKinofilmGenres);
+            KinofilmFilter(95, tempKinofilm); // TODO: Filterung auslagern und von der Main-Methode zugägnlich machen
+        }
+    }
 
-            //Beliebtheitsfilter
-            if (tempKinofilm.getBeliebtheit() >= 95){
-                FilmVerwaltung.setFilme(tempKinofilm);
-            }
-
+    /**
+     * Fügt einen Kinofilm der Sammlung hinzu, wenn dessen Beliebtheitswert den Schwellenwert überschreitet
+     * @param in_schwellenwert Beliebtheitswert zwischen 0 und 100
+     * @param film ein Kinofilm
+     */
+    private void KinofilmFilter(int in_schwellenwert, Kinofilm film){
+        if (film.getBeliebtheit() >= in_schwellenwert){
+            FilmVerwaltung.setFilme(film);
         }
     }
 }

@@ -41,5 +41,6 @@ public class SaalImporter extends Datei {
 
             }
         }
+        SaalVerwaltung.saalplanSortieren();
     }
 }

@@ -1,15 +1,14 @@
 package Gruppe7.Data;
 
-import com.sun.corba.se.impl.io.TypeMismatchException;
-
-import java.util.stream.IntStream;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Vorstellung {
 
     //Attribute
     private Kinofilm vorstellungsFilm;
-    private Werbefilm[] werbungen; // TODO: Anzhal der Werbefilme über ihre Länge geregelt
+    private ArrayList<Werbefilm> werbungen = new ArrayList<>(); // TODO: Anzhal der Werbefilme über ihre Länge geregelt
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
     private int eintrittspreis = 7; // TODO: Hardcoded
@@ -37,13 +36,38 @@ public class Vorstellung {
             vorstellungsSaal = SaalVerwaltung.getSaele().get(saalIndex);
             vorstellungsTimeslot = Spielzeiten.values()[vorstellungsTimeslotIndex];
 
+            // TODO:
+
             threeD = check3D(vorstellungsFilm, vorstellungsSaal);
             FSK = checkFSK(vorstellungsTimeslot, vorstellungsFilm);
             filmLaufzeit = checkLaufzeiten(vorstellungsFilm, vorstellungsTimeslot);
         }
 
         //Wenn Vorstellung fertig, Werbung anhängen
-        werbungAnhängen(vorstellungsFilm, vorstellungsTimeslot);
+        werbungen = werbungAnhaengen();
+    }
+    //Werbung anhängen
+
+    /**
+     * Je nach verbleibender Zeit zum Zeigen von Werbung wird eine Liste mit dem besten Profitabilitätswert
+     * (UmsatzProZuschauer/Laufzeit) erstellt.
+     * @return Eine ArrayList der Werbung einer Vorstellung
+     */
+    private ArrayList<Werbefilm> werbungAnhaengen(){
+        int werbeDauerSoll = vorstellungsTimeslot.getSlotDuration() - vorstellungsFilm.getLaufzeit();
+            if (werbeDauerSoll > 20) { werbeDauerSoll = 20;}
+
+        int werbeDauerIst = 0;
+
+        ArrayList<Werbefilm> output = new ArrayList<>();
+
+        for (Werbefilm werbung : WerbefilmVerwaltung.getWerbefilme()){
+            if ((werbeDauerIst + werbung.getLaufzeit()) <= werbeDauerSoll){
+                output.add(werbung);
+                werbeDauerIst += werbung.getLaufzeit();
+            }
+        }
+        return output;
     }
 
     /*Check Methoden*/
@@ -75,20 +99,6 @@ public class Vorstellung {
         return vorstellungsTimeslot.getSlotDuration() >= vorstellungsFilm.getLaufzeit();
     }
 
-    //Check Werbefilme
-    private Werbefilm[] werbungAnhängen(Kinofilm vorstellungsFilm, Spielzeiten timeslot){
-        int werbeDauer = timeslot.getSlotDuration() - vorstellungsFilm.getLaufzeit();
-
-        for (Werbefilm w: werbungen) { // TODO: Über Intstream?
-            sumWerbungDuration += w.getLaufzeit();
-        }
-
-        /* Wenn die Summe der Werbezeiten größer ist, als die verbleibende Zeit im Timeslot abzüglich des Hauptfilms
-            oder der Werbeblock länger als 20min ist return: false*/
-        return (sumWerbungDuration <= (vorstellungsTimeslot.getSlotDuration() - vorstellungsFilm.getLaufzeit())) &&
-                (sumWerbungDuration <= werbezeitMax);
-    }
-
     //Getter
     public Kinofilm getKinofilm(){
         return vorstellungsFilm;
@@ -99,7 +109,7 @@ public class Vorstellung {
     public Spielzeiten getSpielzeiten(){
         return vorstellungsTimeslot;
     }
-    public Werbefilm[] getWerbefilme(){
+    public ArrayList<Werbefilm> getWerbefilme(){
         return werbungen;
     } // TODO: Festlegung der Anzahl der Webefilmelemente wo?
     public int getEintrittspreis() {

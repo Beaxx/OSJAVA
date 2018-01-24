@@ -10,7 +10,7 @@ public class FilmVerwaltung
     static  ArrayList<Kinofilm> getFilme() {
         return filme;
     }
-    static int getSize() { return filme.size(); } // TODO: Acess package privat --> Exception?
+    static int getSize() { return filme.size(); }
 
     // Setter
     public static void setFilme(Kinofilm in_film) {filme.add(in_film);}

@@ -1,6 +1,5 @@
 package Gruppe7.Logic;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -21,9 +20,10 @@ public class Planer
 
     //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
     private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4];
-    private int spielplanEinnahmen = 0;
+    private int spielplanEinnahmenAusKartenverkaeufen = 0;
     private int spielplanAusgaben = 0;
     private int spielplanGewinn = 0;
+    private int spielplanWerbungsEinnahmen = 0;
 
     private boolean checkGenre = false;
 
@@ -45,8 +45,9 @@ public class Planer
 
         if (checkGenre == true) {
             spielplanAusgaben = spielplanAusgaben(spielplan);
-            spielplanEinnahmen = spielplanEinnahmen(spielplan);
-            spielplanGewinn = spielplanEinnahmen - spielplanAusgaben;
+            spielplanEinnahmenAusKartenverkaeufen = spielplanEinnahmen(spielplan)[0];
+            spielplanWerbungsEinnahmen = spielplanEinnahmen(spielplan)[1];
+            spielplanGewinn = spielplanEinnahmenAusKartenverkaeufen - spielplanAusgaben + spielplanWerbungsEinnahmen;
         }
     }
 
@@ -85,21 +86,31 @@ public class Planer
         }
 
     /**
-     * Berechnet die zu erwartenden Einnahmen einer Vorstellung und fügt sie den Spielplaneinnahmen hinzu
+     * Berechnet die zu erwartenden Einnahmen aus Ticketverkäufen und Werbung einer Vorstellung und fügt sie den Spielplaneinnahmen hinzu
+     * @param spielplan der Spielplan für den die Einnahmen zu berechnen sind
+     * @return ein Array mit [Einnahmen durch Kartenverkäufe][Einnahmen durch Werbung]
      */
-    private int spielplanEinnahmen(Vorstellung[][][][] spielplan) {
-        int localSpielplaneinnahmen = 0;
+    private int[] spielplanEinnahmen(Vorstellung[][][][] spielplan) {
+        int[] localSpielplaneinnahmen = {0, 0};
         for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++)
             for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
                 for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
-                        localSpielplaneinnahmen += spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getEintrittspreis() *
-                                andrang(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex], tagIndex, vorstellungIndex, wochenIndex, spielplan);
+
+                        int andrang = andrang(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex], tagIndex, vorstellungIndex, wochenIndex, spielplan);
+                        //Einnahmen aus Ticketverkäufen
+                        localSpielplaneinnahmen[0] += spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getEintrittspreis() * andrang;
+
+                        //Einnahmen aus Werbung
+                        for (Werbefilm werbung : spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getWerbefilme()) {
+                        localSpielplaneinnahmen[1] += werbung.getUmsatzProZuschauer() * andrang;
+                        }
                     }
                 }
             }
-            return localSpielplaneinnahmen;
-        }
+        return localSpielplaneinnahmen;
+    }
+
 
     /**
      * Berechnet die zu erwartenden Ausgaben für einen Spielplan
@@ -303,8 +314,8 @@ public class Planer
         return spielplan;
     }
 
-    public int getSpielplanEinnahmen() {
-        return spielplanEinnahmen;
+    public int getSpielplanEinnahmenAusKartenverkaeufen() {
+        return spielplanEinnahmenAusKartenverkaeufen;
     }
 
     public int getSpielplanAusgaben() {
@@ -313,6 +324,10 @@ public class Planer
 
     public int getSpielplanGewinn() {
         return spielplanGewinn;
+    }
+
+    public int getSpielplanWerbungsEinnahmen() {
+        return spielplanWerbungsEinnahmen;
     }
 
     //Setter
