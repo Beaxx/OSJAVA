@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 import Gruppe7.Data.*;
+import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 
 public class Planer
 {
@@ -37,15 +38,14 @@ public class Planer
         }
     }
 
-    //Check Methode
-    private boolean checkGenre(ArrayList<Genre> vorstellungsGenres, ArrayList<Genre> genreArrayList) {
-        //Temporäre Genre-Liste
+    //Check Genre Methode
+    private boolean checkGenre(ArrayList<Genre> vorstellungsGenres, ArrayList<Genre> localGenreList) {
+
         for (Genre genre: vorstellungsGenres){
-            if(genreArrayList.contains(genre)) {
-                genreArrayList.remove(genre);
-            }
+            localGenreList.removeIf(g -> g==genre);
+            localGenreList.remove(Genre.DRAMA); // TODO: Wenn nur noch das Genre Drama übrig ist werden ur noch Vorstellungen anderer Genres erzeugt.
         }
-        if (genreArrayList.isEmpty()){
+        if (localGenreList.isEmpty()){
             checkGenre = true;
             return true;
         }
@@ -56,14 +56,16 @@ public class Planer
      * Erstellteinen zufälligen Spielplan
      * @return Ein zufälliger Spielplan
      */
-    public Vorstellung[][][][] CreateRandomSpielplan(ArrayList<Genre> genreList) {
+    public Vorstellung[][][][] CreateRandomSpielplan(ArrayList<Genre> localGenreList) {
         for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++)
             for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
                 for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
                         spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex] = new Vorstellung();
 
-                        checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getKinofilm().getGenre());
+                        if (!checkGenre){
+                            checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getKinofilm().getGenre(), localGenreList);
+                        }
 
                         spielplanEinnahmen(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex], tagIndex, vorstellungIndex);
                     }
