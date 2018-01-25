@@ -8,10 +8,7 @@ import java.util.Collections;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
-import Gruppe7.Data.Saal;
-import Gruppe7.Data.SaalVerwaltung;
-import Gruppe7.Data.Werbefilm;
-import Gruppe7.Data.WerbefilmVerwaltung;
+import Gruppe7.Data.*;
 import Gruppe7.Logic.*;
 import Gruppe7.Importer.*;
 
@@ -22,6 +19,9 @@ public class Main {
         new WerbefilmImporter("C:/import/werbespots.csv");
         new SaalImporter("C:/import/saele.csv");
         new KinofilmImporter("C:/import/filme.csv");
+
+        //FilmArrays erstellen
+        FilmVerwaltung.FilmArraysHelper();
 
         //Werbeplan sortieren und Standard 20 Minunten Block festlegen
         WerbefilmVerwaltung.werbeplanSortieren();
@@ -34,7 +34,7 @@ public class Main {
         long startTime = System.currentTimeMillis();
 
             Planer planer = new Planer();
-            int durchläufe = 10000;
+            int durchläufe = 1000000;
             for (int i = 0; i < durchläufe; i++)
 
             {

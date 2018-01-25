@@ -19,17 +19,16 @@ public class Vorstellung {
     private Spielzeiten vorstellungsTimeslot;
     private int eintrittspreis;
 
+    // TODO: Beliebtheit random iterieren
+    // TODO: Was ist mit der Sprache?
+
     //Constructor
     public Vorstellung(int in_saalIndex, int in_vorstellungsTimeslotIndex) {
         vorstellungsSaal = SaalVerwaltung.getSaele().get(in_saalIndex);
         vorstellungsTimeslot = Spielzeiten.values()[in_vorstellungsTimeslotIndex];
 
-        //Für Saal und Timeslot gültige Kinofilme werden in ein Set gejoint, aus dem dann zufällig ausgewählt wird.
-        Set<Kinofilm> filmSet = FilmVerwaltung.getFilmSet(vorstellungsSaal.getThreeD(), vorstellungsTimeslot);
+        ArrayList<Kinofilm> filmSet = FilmVerwaltung.getFilme(vorstellungsSaal.getThreeD(), vorstellungsTimeslot);
 
-        // TODO: Sets alle vor Optimierung erstellen.
-        // TODO: Beliebtheit random iterieren
-        // TODO: Was ist mit der Sprache?
         // Zufälligen Film aus dem Set auswählen.
         vorstellungsFilm = (Kinofilm)filmSet.toArray()[ThreadLocalRandom.current().nextInt(0, filmSet.size() - 1)];
 
