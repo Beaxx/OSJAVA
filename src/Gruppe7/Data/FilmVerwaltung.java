@@ -10,16 +10,25 @@ import java.util.*;
  */
 public class FilmVerwaltung
 {
-    static private ArrayList<Kinofilm> filme3D = new ArrayList<>();
-    static private ArrayList<Kinofilm> filme2D = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme3D_150_1500 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme3D_150_1730 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme3D_150_2000 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme3D_150_2300 = new ArrayList<>();
 
-    static private ArrayList<Kinofilm> filme1500 = new ArrayList<>();
-    static private ArrayList<Kinofilm> filme1730 = new ArrayList<>();
-    static private ArrayList<Kinofilm> filme2000 = new ArrayList<>();
-    static private ArrayList<Kinofilm> filme2300 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme3D_180_1500 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme3D_180_1730 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme3D_180_2000 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme3D_180_2300 = new ArrayList<>();
 
-    static private ArrayList<Kinofilm> filme150min = new ArrayList<>();
-    static private ArrayList<Kinofilm> filme180min = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme2D_150_1500 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme2D_150_1730 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme2D_150_2000 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme2D_150_2300 = new ArrayList<>();
+
+    static private ArrayList<Kinofilm> filme2D_180_1500 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme2D_180_1730 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme2D_180_2000 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme2D_180_2300 = new ArrayList<>();
 
     // Getter
     public static Set<Kinofilm> getFilmSet(boolean in_threeD, Spielzeiten in_timeslot){
@@ -29,12 +38,17 @@ public class FilmVerwaltung
         if (in_threeD) { switchInt3D = 1;}
             else { switchInt3D = 0;}
 
+        int switchSlotDuration;
+        if (in_timeslot.getSlotDuration() == 150){ switchSlotDuration = 150;}
+            else {switchSlotDuration = 180; }
+
         Set<Kinofilm> output;
 
         switch (switchInt3D){
 
             // 3D Film
             case 1:{
+                switchInt3D
                 switch (in_timeslot){
                     case SLOT_1500: {
                         output = new HashSet<>(filme3D);

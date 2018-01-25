@@ -27,6 +27,8 @@ public class Vorstellung {
         //Für Saal und Timeslot gültige Kinofilme werden in ein Set gejoint, aus dem dann zufällig ausgewählt wird.
         Set<Kinofilm> filmSet = FilmVerwaltung.getFilmSet(vorstellungsSaal.getThreeD(), vorstellungsTimeslot);
 
+        // TODO: Sets alle vor Optimierung erstellen.
+        // TODO: Beliebtheit random iterieren
         // TODO: Was ist mit der Sprache?
         // Zufälligen Film aus dem Set auswählen.
         vorstellungsFilm = (Kinofilm)filmSet.toArray()[ThreadLocalRandom.current().nextInt(0, filmSet.size() - 1)];

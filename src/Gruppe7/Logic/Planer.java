@@ -51,13 +51,11 @@ public class Planer {
             spielplan = createRandomSpielplan(localGenreList);
         }
 
-        if (checkGenre) {
-            spielplanAufspaltung();
-            spielplanAusgaben = spielplanAusgaben();
-            spielplanEinnahmenAusKartenverkaeufen = spielplanEinnahmen(spielplan)[0];
-            spielplanWerbungsEinnahmen = spielplanEinnahmen(spielplan)[1];
-            spielplanGewinn = spielplanEinnahmenAusKartenverkaeufen - spielplanAusgaben + spielplanWerbungsEinnahmen;
-        }
+        spielplanAufspaltung();
+        spielplanAusgaben = spielplanAusgaben();
+        spielplanEinnahmenAusKartenverkaeufen = spielplanEinnahmen(spielplan)[0];
+        spielplanWerbungsEinnahmen = spielplanEinnahmen(spielplan)[1];
+        spielplanGewinn = spielplanEinnahmenAusKartenverkaeufen - spielplanAusgaben + spielplanWerbungsEinnahmen;
     }
 
     /**
