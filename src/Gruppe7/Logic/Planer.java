@@ -16,8 +16,7 @@ import Gruppe7.Main;
  * optimiert. Ist der Optimierungsprozess abgeschlossen beendes der Planer den Konstruktor und gibt den optimierten
  * Spielplan zurück.
  */
-public class Planer
-{
+public class Planer {
     private int anzahlSaele = SaalVerwaltung.getSize();
 
     //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
@@ -37,18 +36,20 @@ public class Planer
 
     /**
      * Erstellung eines zufälligen Spielplans bei Iteration durch das leere Vorstellungs-Array
+     *
      * @return Ein vierdimensionales Vorstellungsarray [woche][tag][saal][timeslot]
      */
-    public Planer(){
+    public Planer() {
         // Liste aus Enum
         List<Genre> genreList = Arrays.asList(Genre.values());
 
         // Kopie der Liste
         ArrayList<Genre> localGenreList = new ArrayList<>();
-            localGenreList.addAll(genreList);
+        localGenreList.addAll(genreList);
 
-        while (!checkGenre) // TODO: Schleife, die für x-Iterationen Vorstellungen im Spielplan austauscht bevor ein enuer erzeugt wird.
+        while (!checkGenre) {
             spielplan = createRandomSpielplan(localGenreList);
+        }
 
         if (checkGenre) {
             spielplanAufspaltung();
@@ -59,7 +60,10 @@ public class Planer
         }
     }
 
-    private void spielplanAufspaltung(){
+    /**
+     *
+     */
+    private void spielplanAufspaltung() {
         // Alle vorstellungen jeder Woche werden in je einer Liste zusammengefasst.
         for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++) {
             for (int tagesIndex = 0; tagesIndex < 7; tagesIndex++) {
@@ -83,22 +87,25 @@ public class Planer
         }
     }
 
-    //Check Genre Methode
-    private boolean checkGenre(ArrayList<Genre> vorstellungsGenres, ArrayList<Genre> localGenreList) {
+    /**
+     *
+     * @param in_vorstellungsGenres
+     * @param in_localGenreList
+     */
+    private void checkGenre(ArrayList<Genre> in_vorstellungsGenres, ArrayList<Genre> in_localGenreList) {
 
-        for (Genre genre: vorstellungsGenres){
-            localGenreList.removeIf(g -> g == genre);
-            localGenreList.remove(Genre.DRAMA); // TODO: Wenn nur noch das Genre Drama übrig ist werden ur noch Vorstellungen anderer Genres erzeugt.
+        for (Genre vorstellungsgenre : in_vorstellungsGenres) {
+            in_localGenreList.remove(vorstellungsgenre);
+            in_localGenreList.remove(Genre.DRAMA); // TODO: BUG Wenn nur noch das Genre Drama übrig ist werden nur noch Vorstellungen anderer Genres erzeugt.
         }
-        if (localGenreList.isEmpty()){
+        if (in_localGenreList.isEmpty()) {
             checkGenre = true;
-            return true;
         }
-        else{return false;}
     }
 
     /**
      * Erstellt einen zufälligen Spielplan
+     *
      * @return Ein zufälliger Spielplan
      */
     private Vorstellung[][][][] createRandomSpielplan(ArrayList<Genre> localGenreList) {
@@ -108,17 +115,19 @@ public class Planer
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
 
                         spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex] = new Vorstellung(saalIndex, vorstellungIndex);
+
                         if (!checkGenre) {
                             checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getKinofilm().getGenre(), localGenreList);
                         }
                     }
                 }
             }
-            return spielplan;
-        } // TODO: Genrecheck effizienter?
+        return spielplan;
+    } // TODO: Genrecheck effizienter?
 
     /**
      * Berechnet die zu erwartenden Einnahmen aus Ticketverkäufen und Werbung einer Vorstellung
+     *
      * @param spielplan der Spielplan für den die Einnahmen zu berechnen sind
      * @return ein Array mit [Einnahmen durch Kartenverkäufe][Einnahmen durch Werbung]
      */
@@ -136,16 +145,18 @@ public class Planer
                         int andrangParkett;
 
                         // Andrang in der Loge
-                        if (andrang * 0.5 > SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeLoge()){
+                        if (andrang * 0.5 > SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeLoge()) {
                             andrangLoge = SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeLoge();
+                        } else {
+                            andrangLoge = (int) Math.round((double) andrang * 0.5);
                         }
-                        else { andrangLoge = (int)Math.round((double)andrang * 0.5); }
 
                         //Andrang im Parkett
-                        if (andrang * 0.5 > SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett()){
+                        if (andrang * 0.5 > SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett()) {
                             andrangParkett = SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett();
+                        } else {
+                            andrangParkett = (int) Math.round((double) andrang * 0.5);
                         }
-                        else { andrangParkett = (int)Math.round((double)andrang * 0.5); }
 
                         //Einnahmen durch Ticketsverkäufe
                         int ticketverkaeufeLoge = (eintrittspreis + 2) * andrangLoge;
@@ -163,6 +174,15 @@ public class Planer
         return localSpielplaneinnahmen;
     }
 
+    /**
+     *
+     * @param vorstellung
+     * @param in_tagIndex
+     * @param in_vorstellungIndex
+     * @param in_wochenIndex
+     * @param eintrittspreis
+     * @return
+     */
     private int andrang(Vorstellung vorstellung, int in_tagIndex, int in_vorstellungIndex, int in_wochenIndex, int eintrittspreis) {
 
         //Berechnung des Basisandrangs über die größe der beiden größten Säle.
@@ -172,21 +192,28 @@ public class Planer
 
         //region Einfluss der Uhrzeit auf den Andrang
         int zeitabhaengigerAndrang;
-        switch (in_vorstellungIndex){
+        switch (in_vorstellungIndex) {
             //15 Uhr Vorstellung 90%
-            case 0: {zeitabhaengigerAndrang = (int) Math.round(basisandrang * .9);
-                break;}
+            case 0: {
+                zeitabhaengigerAndrang = (int) Math.round(basisandrang * .9);
+                break;
+            }
 
             //17:30 Uhr Vorstellung 95%
-            case 1: {zeitabhaengigerAndrang = (int) Math.round(basisandrang * .95);
-                break;}
+            case 1: {
+                zeitabhaengigerAndrang = (int) Math.round(basisandrang * .95);
+                break;
+            }
 
             //23 Uhr Vorstellung 85%
-            case 3: {zeitabhaengigerAndrang = (int) Math.round(basisandrang * .85);
-                break;}
+            case 3: {
+                zeitabhaengigerAndrang = (int) Math.round(basisandrang * .85);
+                break;
+            }
 
             //20 Uhr und Catch-All 100%
-            default: zeitabhaengigerAndrang = basisandrang;
+            default:
+                zeitabhaengigerAndrang = basisandrang;
         }
         //endregion
 
@@ -223,7 +250,7 @@ public class Planer
 
             case 1: {
                 if (woche0.contains(vorstellung.getKinofilm())) {
-                    zeitUndTagesabhaengigerAndrang =  (int) Math.round(zeitUndTagesabhaengigerAndrang * 0.8);
+                    zeitUndTagesabhaengigerAndrang = (int) Math.round(zeitUndTagesabhaengigerAndrang * 0.8);
                 } else {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
                 }
@@ -242,24 +269,26 @@ public class Planer
                 }
                 break;
             }
-            default: zeitUndTagesUndWiederholungsabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
-            break;
+            default:
+                zeitUndTagesUndWiederholungsabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
+                break;
         }
         //endregion
 
         //region Einfluss des Preises auf den Andrang
-        if (eintrittspreis > 7){
-            return (int)Math.round(zeitUndTagesUndWiederholungsabhaengigerAndrang * (1 - (eintrittspreis - 7) * 0.05));
+        if (eintrittspreis > 7) {
+            return (int) Math.round(zeitUndTagesUndWiederholungsabhaengigerAndrang * (1 - (eintrittspreis - 7) * 0.05));
+        } else if (eintrittspreis < 7) {
+            return (int) Math.round(zeitUndTagesUndWiederholungsabhaengigerAndrang * (1 + (7 - eintrittspreis) * 0.02));
+        } else {
+            return zeitUndTagesUndWiederholungsabhaengigerAndrang;
         }
-        else if (eintrittspreis < 7){
-            return (int)Math.round(zeitUndTagesUndWiederholungsabhaengigerAndrang * (1 + (7 - eintrittspreis) * 0.02));
-        }
-        else {return zeitUndTagesUndWiederholungsabhaengigerAndrang;}
         //endregion
     }
 
     /**
      * Berechnet die durch den Spielplan entstehenden Kosten
+     *
      * @return die Kosten für den Spielplan
      */
     private int spielplanAusgaben() {
@@ -291,12 +320,15 @@ public class Planer
 
             //Ermittlung der Kinofilme einer Woche (ohne Dopplung)
             for (Vorstellung vorstellung : wochenVorstellungen) {
-                switch(wochenIndex){
-                    case 0: filmeWoche0.add(vorstellung.getKinofilm());
+                switch (wochenIndex) {
+                    case 0:
+                        filmeWoche0.add(vorstellung.getKinofilm());
                         break;
-                    case 1: filmeWoche1.add(vorstellung.getKinofilm());
+                    case 1:
+                        filmeWoche1.add(vorstellung.getKinofilm());
                         break;
-                    case 2: filmeWoche2.add(vorstellung.getKinofilm());
+                    case 2:
+                        filmeWoche2.add(vorstellung.getKinofilm());
                         break;
                 }
             }
@@ -319,13 +351,13 @@ public class Planer
         alleFilme.addAll(filmeWoche1);
         alleFilme.addAll(filmeWoche2);
 
-        for (Kinofilm kinofilm : alleFilme){
+        for (Kinofilm kinofilm : alleFilme) {
             kosten += kinofilm.getVerleihpreisProWoche();
         }
 
         // Erstellung eines Set's, dass nur die dreifach gezeigten Filme enthält.
         Set<Kinofilm> alleFilmeDreifach = new HashSet<>(alleFilme);
-        for (Kinofilm film : alleFilmeDreifach){
+        for (Kinofilm film : alleFilmeDreifach) {
             kosten -= film.getVerleihpreisProWoche() * 0.1;
         }
         return kosten;
@@ -333,53 +365,57 @@ public class Planer
 
     /**
      * Sucht den größten und den zweitgrößten Saal.
-     * @return [PlätzeImGrößtenSaal,PlätzeImZweitgrößtenSaal]
+     *
+     * @return [PlätzeImGrößtenSaal, PlätzeImZweitgrößtenSaal]
      */
-    private static int[] plaetzteInGroestemUndZweitgroestemSaal(){
+    private static int[] plaetzteInGroestemUndZweitgroestemSaal() {
         int plaetzeLoge = 0;
         int plaetzeParkett = 0;
 
         int plaetzeGroesterSaal = 0;
         int plaetzeZweitgroesterSaal = 0;
 
-            for (Saal saal: SaalVerwaltung.getSaele())
-            {
-                if((plaetzeLoge + plaetzeParkett) < saal.getPlaetzeLoge() + saal.getPlaetzeParkett()){
-                    plaetzeLoge = saal.getPlaetzeLoge();
-                    plaetzeParkett = saal.getPlaetzeParkett();
-                }
+        for (Saal saal : SaalVerwaltung.getSaele()) {
+            if ((plaetzeLoge + plaetzeParkett) < saal.getPlaetzeLoge() + saal.getPlaetzeParkett()) {
+                plaetzeLoge = saal.getPlaetzeLoge();
+                plaetzeParkett = saal.getPlaetzeParkett();
             }
-            plaetzeGroesterSaal = plaetzeLoge + plaetzeParkett;
+        }
+        plaetzeGroesterSaal = plaetzeLoge + plaetzeParkett;
 
-            plaetzeLoge = 0;
-            plaetzeParkett = 0;
+        plaetzeLoge = 0;
+        plaetzeParkett = 0;
 
-            for (Saal saal: SaalVerwaltung.getSaele())
-            {
-                if(((plaetzeLoge + plaetzeParkett) < (saal.getPlaetzeLoge() + saal.getPlaetzeParkett())) &&
-                        ((saal.getPlaetzeLoge() + saal.getPlaetzeParkett()) < plaetzeGroesterSaal)){
-                    plaetzeLoge = saal.getPlaetzeLoge();
-                    plaetzeParkett = saal.getPlaetzeParkett();
-                }
-                plaetzeZweitgroesterSaal = plaetzeLoge + plaetzeParkett;
+        for (Saal saal : SaalVerwaltung.getSaele()) {
+            if (((plaetzeLoge + plaetzeParkett) < (saal.getPlaetzeLoge() + saal.getPlaetzeParkett())) &&
+                    ((saal.getPlaetzeLoge() + saal.getPlaetzeParkett()) < plaetzeGroesterSaal)) {
+                plaetzeLoge = saal.getPlaetzeLoge();
+                plaetzeParkett = saal.getPlaetzeParkett();
             }
+            plaetzeZweitgroesterSaal = plaetzeLoge + plaetzeParkett;
+        }
         return new int[]{plaetzeGroesterSaal, plaetzeZweitgroesterSaal};
     }
 
     //Getter
-    public Vorstellung[][][][] getSpielplan() { return spielplan; }
-    public int getSpielplanEinnahmenAusKartenverkaeufen() { return spielplanEinnahmenAusKartenverkaeufen; }
-    public int getSpielplanAusgaben() { return spielplanAusgaben; }
-    public int getSpielplanGewinn() { return spielplanGewinn; }
-    public int getSpielplanWerbungsEinnahmen() { return spielplanWerbungsEinnahmen; }
-
-    //Setter
-    public void setSpielplan(Vorstellung[][][][] spielplan) {
-        this.spielplan = spielplan;
+    public Vorstellung[][][][] getSpielplan() {
+        return spielplan;
     }
 
-    //ToString
-    public String toString(Vorstellung[][][] spielplan) {
-        return Arrays.deepToString(spielplan);
+    public int getSpielplanEinnahmenAusKartenverkaeufen() {
+        return spielplanEinnahmenAusKartenverkaeufen;
     }
+
+    public int getSpielplanAusgaben() {
+        return spielplanAusgaben;
+    }
+
+    public int getSpielplanGewinn() {
+        return spielplanGewinn;
+    }
+
+    public int getSpielplanWerbungsEinnahmen() {
+        return spielplanWerbungsEinnahmen;
+    }
+
 }

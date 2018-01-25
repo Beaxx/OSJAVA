@@ -112,7 +112,7 @@ public class KinofilmImporter extends Datei {
                     importKinofilmGenres.add(Genre.DOKUMENTATION);
                 }
                 if (inputGenre.trim().equals("Drama")) {
-                    importKinofilmGenres.add(Genre.ACTION);
+                    importKinofilmGenres.add(Genre.DRAMA);
                 }
                 if (inputGenre.trim().equals("Horror")) {
                     importKinofilmGenres.add(Genre.HORROR);

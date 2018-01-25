@@ -3,6 +3,7 @@ package Gruppe7;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -26,14 +27,14 @@ public class Main {
         WerbefilmVerwaltung.werbeplanSortieren();
         WerbefilmVerwaltung.standardWerbeblock();
 
-        // Saal sortieren
+        // Saele sortieren
         SaalVerwaltung.saalplanSortieren();
 
         //Performance Wrapper
         long startTime = System.currentTimeMillis();
 
             Planer planer = new Planer();
-            int durchläufe = 100000;
+            int durchläufe = 10000;
             for (int i = 0; i < durchläufe; i++)
 
             {
@@ -54,6 +55,10 @@ public class Main {
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
         long totalTimeS = totalTime/1000;
+
+        // Ausgabe
+        System.out.println(Arrays.deepToString(planer.getSpielplan()));
+
         System.out.println(totalTimeS + " Sekunden für " + durchläufe + " Durchläufe" + "\n" +
                 (double)durchläufe/totalTimeS + " pro Sekunde");
     }
