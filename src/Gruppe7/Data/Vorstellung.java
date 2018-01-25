@@ -10,13 +10,10 @@ public class Vorstellung {
 
     //Attribute
     private Kinofilm vorstellungsFilm;
-    private ArrayList<Werbefilm> werbungen = new ArrayList<>(); // TODO: Anzhal der Werbefilme über ihre Länge geregelt
+    private ArrayList<Werbefilm> werbungen = new ArrayList<>();
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
     private int eintrittspreis = 7; // TODO: Hardcoded
-
-    // Constant
-    private static final int werbezeitMax = 20;
 
     //Constructor
     public Vorstellung(int in_saalIndex, int in_vorstellungsTimeslotIndex)
@@ -34,13 +31,10 @@ public class Vorstellung {
         }
         vorstellungsFilm =  iter.next();
 
-        //filmLaufzeit = checkLaufzeiten(vorstellungsFilm, vorstellungsTimeslot);
-
-        //Wenn Vorstellung fertig, Werbung anhängen
+        //Werbung hinzufügen
         werbungen = werbungAnhaengen(); // TODO: Wenn Werbeblock 20min Standard Werbeblock anhängen.
     }
     //Werbung anhängen
-
     /**
      * Je nach verbleibender Zeit zum Zeigen von Werbung wird eine Liste mit dem besten Profitabilitätswert
      * (UmsatzProZuschauer/Laufzeit) erstellt.
@@ -63,51 +57,42 @@ public class Vorstellung {
         return output;
     }
 
-    /*Check Methoden*/
-    //Check 3D
-    private boolean check3D(Kinofilm vorstellungsFilm, Saal vorstellungsSaal) {
 
-        //Wenn der Saal 3D-Fähig ist, immer True
-        if (vorstellungsSaal.getThreeD())
-            return true;
-
-        //Wenn Saal 2D und der Film auch
-        return !vorstellungsFilm.getThreeD() && !vorstellungsSaal.getThreeD();
-    }
-
-    //Check FSK
-    private boolean checkFSK(Spielzeiten vorstellungsTimeslot, Kinofilm vorstellungsFilm) {
-
-        // Um 15 Uhr und um 17:30 dürfen keine FSK16 und FSK18 Filme gezeigt werden
-        if ((vorstellungsTimeslot == Spielzeiten.SLOT_1500 || vorstellungsTimeslot == Spielzeiten.SLOT_1730) &&
-                (vorstellungsFilm.getFsk() == Fsk.FSK_16 || vorstellungsFilm.getFsk() == Fsk.FSK_18)){
-            return false;}
-
-        // Um 20:00 dürfen keine FSK18 Filme gezeigt werden
-        else return vorstellungsTimeslot != Spielzeiten.SLOT_2000 || vorstellungsFilm.getFsk() != Fsk.FSK_18;
-    }
-
-    //Check Film Laufzeiten
-    private boolean checkLaufzeiten(Kinofilm vorstellungsFilm, Spielzeiten vorstellungsTimeslot) {
-        return vorstellungsTimeslot.getSlotDuration() >= vorstellungsFilm.getLaufzeit();
-    }
+   //alte Check Methoden
+//    //Check 3D
+//    private boolean check3D(Kinofilm vorstellungsFilm, Saal vorstellungsSaal) {
+//
+//        //Wenn der Saal 3D-Fähig ist, immer True
+//        if (vorstellungsSaal.getThreeD())
+//            return true;
+//
+//        //Wenn Saal 2D und der Film auch
+//        return !vorstellungsFilm.getThreeD() && !vorstellungsSaal.getThreeD();
+//    }
+//
+//    //Check FSK
+//    private boolean checkFSK(Spielzeiten vorstellungsTimeslot, Kinofilm vorstellungsFilm) {
+//
+//        // Um 15 Uhr und um 17:30 dürfen keine FSK16 und FSK18 Filme gezeigt werden
+//        if ((vorstellungsTimeslot == Spielzeiten.SLOT_1500 || vorstellungsTimeslot == Spielzeiten.SLOT_1730) &&
+//                (vorstellungsFilm.getFsk() == Fsk.FSK_16 || vorstellungsFilm.getFsk() == Fsk.FSK_18)){
+//            return false;}
+//
+//        // Um 20:00 dürfen keine FSK18 Filme gezeigt werden
+//        else return vorstellungsTimeslot != Spielzeiten.SLOT_2000 || vorstellungsFilm.getFsk() != Fsk.FSK_18;
+//    }
+//
+//    //Check Film Laufzeiten
+//    private boolean checkLaufzeiten(Kinofilm vorstellungsFilm, Spielzeiten vorstellungsTimeslot) {
+//        return vorstellungsTimeslot.getSlotDuration() >= vorstellungsFilm.getLaufzeit();
+//    }
 
     //Getter
-    public Kinofilm getKinofilm(){
-        return vorstellungsFilm;
-    }
-    public Saal getSaal(){
-        return vorstellungsSaal;
-    }
-    public Spielzeiten getSpielzeiten(){
-        return vorstellungsTimeslot;
-    }
-    public ArrayList<Werbefilm> getWerbefilme(){
-        return werbungen;
-    } // TODO: Festlegung der Anzahl der Webefilmelemente wo?
-    public int getEintrittspreis() {
-        return eintrittspreis;
-    } // TODO immernoch hardcoded
+    public Kinofilm getKinofilm(){ return vorstellungsFilm; }
+    public Saal getSaal(){ return vorstellungsSaal; }
+    public Spielzeiten getSpielzeiten(){ return vorstellungsTimeslot; }
+    public ArrayList<Werbefilm> getWerbefilme(){ return werbungen; }
+    public int getEintrittspreis() { return eintrittspreis; }
 
     @Override
     public String toString() {
