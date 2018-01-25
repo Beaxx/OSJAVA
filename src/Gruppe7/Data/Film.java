@@ -11,13 +11,7 @@ public abstract class Film
         laufzeit = in_laufzeit;
     }
 
-    public String getTitel()
-    {
-        return titel;
-    }
-
-    public int getLaufzeit()
-    {
-        return laufzeit;
-    }
+    // Getter
+    public String getTitel() { return titel; }
+    public int getLaufzeit() { return laufzeit; }
 }

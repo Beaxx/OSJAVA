@@ -6,6 +6,10 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.Iterator;
 
+/**
+ * @author Lennart Völler
+ * @date 25.01.2018
+ */
 public class Vorstellung {
 
     //Attribute
@@ -13,46 +17,50 @@ public class Vorstellung {
     private ArrayList<Werbefilm> werbungen = new ArrayList<>();
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
-    private int eintrittspreis = 7; // TODO: Hardcoded
+    private int eintrittspreis = 7; // TODO: Hardcoded Random Iteration
 
     //Constructor
-    public Vorstellung(int in_saalIndex, int in_vorstellungsTimeslotIndex)
-    {
+    public Vorstellung(int in_saalIndex, int in_vorstellungsTimeslotIndex) {
         vorstellungsSaal = SaalVerwaltung.getSaele().get(in_saalIndex);
         vorstellungsTimeslot = Spielzeiten.values()[in_vorstellungsTimeslotIndex];
 
         //Für Saal und Timeslot gültige Kinofilme werden in ein Set gejoint, aus dem dann zufällig ausgewählt wird.
         Set<Kinofilm> filmSet = FilmVerwaltung.getFilmSet(vorstellungsSaal.getThreeD(), vorstellungsTimeslot);
 
-        int randomIndex = ThreadLocalRandom.current().nextInt(0, filmSet.size()-1);
-        Iterator<Kinofilm> iter = filmSet.iterator();
-        for (int i = 0; i < randomIndex; i++) {
-            iter.next();
-        }
-        vorstellungsFilm =  iter.next();
+        // TODO: Möglichkeit zur Effizienten Filmauswahl, schafft es aber nicht durch den GenreCheck
+//        for (Kinofilm film: filmSet){
+//            if ((double)film.getBeliebtheit() / (double)film.getVerleihpreisProWoche() >
+//                    ((double)vorstellungsFilm.getBeliebtheit() / (double)vorstellungsFilm.getVerleihpreisProWoche())){
+//                vorstellungsFilm = film;
+//            }
+//        }
+
+        // TODO: Was ist mit der Sprache?
+        // Zufälligen Film aus dem Set auswählen.
+        vorstellungsFilm = (Kinofilm)filmSet.toArray()[ThreadLocalRandom.current().nextInt(0, filmSet.size() - 1)];
 
         //Werbung hinzufügen
         werbungen = werbungAnhaengen();
     }
-    //Werbung anhängen
+
     /**
-     * Je nach verbleibender Zeit zum Zeigen von Werbung wird eine Liste mit dem besten Profitabilitätswert
-     * (UmsatzProZuschauer/Laufzeit) erstellt.
+     * Je nach verbleibender Zeit zum Zeigen von Werbung wird eine Liste mit den besten Profitabilitätswerten
+     * (UmsatzProZuschauer/Laufzeit) erstellt. Die Zeit zum Zeigen von Werbung ist auf 20 Minuten begrenzt. Für
+     * den Fall, dass 20 Minuten Werbung gezeigt werden können wird ein Standard-Werbeblock verwendet.
      * @return Eine ArrayList der Werbung einer Vorstellung
      */
-    private ArrayList<Werbefilm> werbungAnhaengen(){
+    private ArrayList<Werbefilm> werbungAnhaengen() {
         int werbeDauerSoll = vorstellungsTimeslot.getSlotDuration() - vorstellungsFilm.getLaufzeit();
 
         if (werbeDauerSoll >= 20) {
             return WerbefilmVerwaltung.getWerbefilme20MinutenStandard();
-        }
-        else {
+        } else {
             int werbeDauerIst = 0; // TODO: Subtraktionsansatz, solange vom 20Min standard subtrahieren bis es passt.
 
             ArrayList<Werbefilm> output = new ArrayList<>();
 
-            for (Werbefilm werbung : WerbefilmVerwaltung.getWerbefilme()){
-                if ((werbeDauerIst + werbung.getLaufzeit()) <= werbeDauerSoll){
+            for (Werbefilm werbung : WerbefilmVerwaltung.getWerbefilme()) {
+                if ((werbeDauerIst + werbung.getLaufzeit()) <= werbeDauerSoll) {
                     output.add(werbung);
                     werbeDauerIst += werbung.getLaufzeit();
                 }
