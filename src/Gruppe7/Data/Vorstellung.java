@@ -17,7 +17,7 @@ public class Vorstellung {
     private ArrayList<Werbefilm> werbungen = new ArrayList<>();
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
-    private int eintrittspreis = 7; // TODO: Hardcoded Random Iteration
+    private int eintrittspreis;
 
     //Constructor
     public Vorstellung(int in_saalIndex, int in_vorstellungsTimeslotIndex) {
@@ -42,7 +42,7 @@ public class Vorstellung {
         /* Der Andrang wird bei einem Eintrittspreis von >=27 --> 0 (obergrenze)
          * Die Kinosäle sind bei einem Eintrittspres von <=7 nah an der maximalen Kapazität (untergrenze)
          */
-        eintrittspreis = ThreadLocalRandom.current().nextInt(7, 26);
+        eintrittspreis = ThreadLocalRandom.current().nextInt(10, 18);
 
         //Werbung hinzufügen
         werbungen = werbungAnhaengen();
@@ -73,35 +73,6 @@ public class Vorstellung {
             return output;
         }
     }
-
-   //alte Check Methoden
-//    //Check 3D
-//    private boolean check3D(Kinofilm vorstellungsFilm, Saal vorstellungsSaal) {
-//
-//        //Wenn der Saal 3D-Fähig ist, immer True
-//        if (vorstellungsSaal.getThreeD())
-//            return true;
-//
-//        //Wenn Saal 2D und der Film auch
-//        return !vorstellungsFilm.getThreeD() && !vorstellungsSaal.getThreeD();
-//    }
-//
-//    //Check FSK
-//    private boolean checkFSK(Spielzeiten vorstellungsTimeslot, Kinofilm vorstellungsFilm) {
-//
-//        // Um 15 Uhr und um 17:30 dürfen keine FSK16 und FSK18 Filme gezeigt werden
-//        if ((vorstellungsTimeslot == Spielzeiten.SLOT_1500 || vorstellungsTimeslot == Spielzeiten.SLOT_1730) &&
-//                (vorstellungsFilm.getFsk() == Fsk.FSK_16 || vorstellungsFilm.getFsk() == Fsk.FSK_18)){
-//            return false;}
-//
-//        // Um 20:00 dürfen keine FSK18 Filme gezeigt werden
-//        else return vorstellungsTimeslot != Spielzeiten.SLOT_2000 || vorstellungsFilm.getFsk() != Fsk.FSK_18;
-//    }
-//
-//    //Check Film Laufzeiten
-//    private boolean checkLaufzeiten(Kinofilm vorstellungsFilm, Spielzeiten vorstellungsTimeslot) {
-//        return vorstellungsTimeslot.getSlotDuration() >= vorstellungsFilm.getLaufzeit();
-//    }
 
     //Getter
     public Kinofilm getKinofilm(){ return vorstellungsFilm; }

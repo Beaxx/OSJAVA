@@ -1,5 +1,6 @@
 package Gruppe7.Logic;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -46,7 +47,7 @@ public class Planer
         ArrayList<Genre> localGenreList = new ArrayList<>();
             localGenreList.addAll(genreList);
 
-        while (!checkGenre)
+        while (!checkGenre) // TODO: Schleife, die für x-Iterationen Vorstellungen im Spielplan austauscht bevor ein enuer erzeugt wird.
             spielplan = createRandomSpielplan(localGenreList);
 
         if (checkGenre) {
@@ -108,13 +109,13 @@ public class Planer
 
                         spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex] = new Vorstellung(saalIndex, vorstellungIndex);
                         if (!checkGenre) {
-                            checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getKinofilm().getGenre(), localGenreList);  // TODO: Genrecheck effizienter?
+                            checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getKinofilm().getGenre(), localGenreList);
                         }
                     }
                 }
             }
             return spielplan;
-        }
+        } // TODO: Genrecheck effizienter?
 
     /**
      * Berechnet die zu erwartenden Einnahmen aus Ticketverkäufen und Werbung einer Vorstellung
@@ -256,13 +257,20 @@ public class Planer
         else {return zeitUndTagesUndWiederholungsabhaengigerAndrang;}
         //endregion
     }
+
     /**
-     * Berechnet die zu erwartenden Ausgaben für einen Spielplan
+     * Berechnet die durch den Spielplan entstehenden Kosten
+     * @return die Kosten für den Spielplan
      */
     private int spielplanAusgaben() {
 
         //Die Betrachtung findet zunächst wochenweise statt.
-        int[] kosten = {0, 0, 0};
+        int kosten = 0;
+
+        Set<Kinofilm> filmeWoche0 = new HashSet<>();
+        Set<Kinofilm> filmeWoche1 = new HashSet<>();
+        Set<Kinofilm> filmeWoche2 = new HashSet<>();
+
         for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++) {
             ArrayList<Vorstellung> wochenVorstellungen;
 
@@ -276,47 +284,52 @@ public class Planer
                 case 2:
                     wochenVorstellungen = woche2;
                     break;
-                default: wochenVorstellungen = null;
+                default:
+                    wochenVorstellungen = null;
                     break;
             }
 
-//            // Alle vorstellungen einer Woche werden in einer Liste zusammengefasst.
-//            for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
-//                for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
-//                    for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
-//                        wochenVorstellungen.add(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex]);
-//                    }
-//                }
-//            }
-
-            //Erstellung aller einzigartigen Kinofilme einer Woche.
-            Set<Kinofilm> wochenKinofilme = new HashSet<>();
+            //Ermittlung der Kinofilme einer Woche (ohne Dopplung)
             for (Vorstellung vorstellung : wochenVorstellungen) {
-                wochenKinofilme.add(vorstellung.getKinofilm());
+                switch(wochenIndex){
+                    case 0: filmeWoche0.add(vorstellung.getKinofilm());
+                        break;
+                    case 1: filmeWoche1.add(vorstellung.getKinofilm());
+                        break;
+                    case 2: filmeWoche2.add(vorstellung.getKinofilm());
+                        break;
+                }
             }
-
-            // Berechnung der Leihgebühren
-            for (Kinofilm film : wochenKinofilme) {
-                kosten[wochenIndex] += film.getVerleihpreisProWoche();
-            }
-
-            Vorstellung[] wochenVorstellungArray = new Vorstellung[wochenVorstellungen.size()];
-            wochenVorstellungArray = wochenVorstellungen.toArray(wochenVorstellungArray);
 
             // Überprüfung ob Filme parallel am gleichen Tag laufen. Wenn ja, einbezug der Kosten
             for (int vorstellungsIndexProTag = 0; vorstellungsIndexProTag < 4 * anzahlSaele; vorstellungsIndexProTag++) {
                 for (Vorstellung vorstellung : wochenVorstellungen) {
-                    if (vorstellung.getKinofilm() == wochenVorstellungArray[vorstellungsIndexProTag].getKinofilm() &&
-                            vorstellung.getSpielzeiten() == wochenVorstellungArray[vorstellungsIndexProTag].getSpielzeiten() &&
-                            vorstellung.getSaal() != wochenVorstellungArray[vorstellungsIndexProTag].getSaal()) {
-
-                        kosten[wochenIndex] += vorstellung.getKinofilm().getVerleihpreisProWoche();
+                    if (vorstellung.getKinofilm() == wochenVorstellungen.get(vorstellungsIndexProTag).getKinofilm() &&
+                            vorstellung.getSpielzeiten() == wochenVorstellungen.get(vorstellungsIndexProTag).getSpielzeiten() &&
+                            vorstellung.getSaal() != wochenVorstellungen.get(vorstellungsIndexProTag).getSaal()) {
+                        kosten += vorstellung.getKinofilm().getVerleihpreisProWoche();
                     }
                 }
             }
         }
-        return IntStream.of(kosten).sum();
-    } // TODO: Wird ein Film alle drei Wochen geliehen gibts es 10% rabatt auf den Leihpreis
+
+        // Zusammenfassung aller Kinofilme der drei Wochen (mit doppelterfassung, wenn Filme in mehreren Wochen vorkommen)
+        ArrayList<Kinofilm> alleFilme = new ArrayList<>();
+        alleFilme.addAll(filmeWoche0);
+        alleFilme.addAll(filmeWoche1);
+        alleFilme.addAll(filmeWoche2);
+
+        for (Kinofilm kinofilm : alleFilme){
+            kosten += kinofilm.getVerleihpreisProWoche();
+        }
+
+        // Erstellung eines Set's, dass nur die dreifach gezeigten Filme enthält.
+        Set<Kinofilm> alleFilmeDreifach = new HashSet<>(alleFilme);
+        for (Kinofilm film : alleFilmeDreifach){
+            kosten -= film.getVerleihpreisProWoche() * 0.1;
+        }
+        return kosten;
+    }
 
     /**
      * Sucht den größten und den zweitgrößten Saal.
