@@ -32,7 +32,7 @@ public class Main {
         long startTime = System.currentTimeMillis();
 
             Planer planer = new Planer();
-            int durchläufe = 1000;
+            int durchläufe = 10000;
             for (int i = 0; i < durchläufe; i++)
 
             {

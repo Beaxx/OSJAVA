@@ -1,6 +1,5 @@
 package Gruppe7.Logic;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -25,7 +24,7 @@ public class Planer
     private int spielplanAusgaben = 0;
     private int spielplanGewinn = 0;
     private int spielplanWerbungsEinnahmen = 0;
-    private int[] plaetzteInGroestemUndZweitgroeßtemSaal = plaetzteInGroestemUndZweitgroeßtemSaal();
+    private int[] plaetzteInGroestemUndZweitgroestemSaal = plaetzteInGroestemUndZweitgroeßtemSaal();
     private ArrayList<Vorstellung> woche0 = new ArrayList<>();
     private ArrayList<Vorstellung> woche1 = new ArrayList<>();
     private ArrayList<Vorstellung> woche2 = new ArrayList<>();
@@ -45,14 +44,40 @@ public class Planer
         ArrayList<Genre> localGenreList = new ArrayList<>();
             localGenreList.addAll(genreList);
 
-        while (checkGenre == false)
+        while (!checkGenre)
             spielplan = CreateRandomSpielplan(localGenreList);
 
-        if (checkGenre == true) {
+
+        if (checkGenre) {
+            spielplanAufspaltung();
             spielplanAusgaben = spielplanAusgaben(spielplan);
             spielplanEinnahmenAusKartenverkaeufen = spielplanEinnahmen(spielplan)[0];
             spielplanWerbungsEinnahmen = spielplanEinnahmen(spielplan)[1];
             spielplanGewinn = spielplanEinnahmenAusKartenverkaeufen - spielplanAusgaben + spielplanWerbungsEinnahmen;
+        }
+    }
+
+    private void spielplanAufspaltung(){
+        // Alle vorstellungen jeder Woche werden in je einer Liste zusammengefasst.
+        for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++) {
+            for (int tagesIndex = 0; tagesIndex < 7; tagesIndex++) {
+                for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
+                    for (int vorstellungsIndex = 0; vorstellungsIndex < 4; vorstellungsIndex++) {
+
+                        switch (wochenIndex) {
+                            case 0:
+                                woche0.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            case 1:
+                                woche1.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            case 2:
+                                woche2.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -143,16 +168,30 @@ public class Planer
         //Die Betrachtung findet zunächst wochenweise statt.
         int[] kosten = {0, 0, 0};
         for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++) {
-            ArrayList<Vorstellung> wochenVorstellungen = new ArrayList<>();
+            ArrayList<Vorstellung> wochenVorstellungen;
 
-            // Alle vorstellungen einer Woche werden in einer Liste zusammengefasst.
-            for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
-                for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
-                    for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
-                        wochenVorstellungen.add(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex]);
-                    }
-                }
+            switch (wochenIndex) {
+                case 0:
+                    wochenVorstellungen = woche0;
+                    break;
+                case 1:
+                    wochenVorstellungen = woche1;
+                    break;
+                case 2:
+                    wochenVorstellungen = woche2;
+                    break;
+                default: wochenVorstellungen = null;
+                    break;
             }
+
+//            // Alle vorstellungen einer Woche werden in einer Liste zusammengefasst.
+//            for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
+//                for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
+//                    for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
+//                        wochenVorstellungen.add(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex]);
+//                    }
+//                }
+//            }
 
             //Erstellung aller einzigartigen Kinofilme einer Woche.
             Set<Kinofilm> wochenKinofilme = new HashSet<>();
@@ -222,32 +261,10 @@ public class Planer
 
     private int andrang(Vorstellung vorstellung, int in_tagIndex, int in_vorstellungIndex, int in_wochenIndex, Vorstellung[][][][] spielplan) {
 
-        // Alle vorstellungen jeder Woche werden in je einer Liste zusammengefasst.
-        for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++) {
-            for (int tagesIndex = 0; tagesIndex < 7; tagesIndex++) {
-                for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
-                    for (int vorstellungsIndex = 0; vorstellungsIndex < 4; vorstellungsIndex++) {
-
-                        switch (wochenIndex) {
-                            case 0:
-                                woche0.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-                                break;
-                            case 1:
-                                woche1.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-                                break;
-                            case 2:
-                                woche2.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-                                break;
-                        }
-                    }
-                }
-            }
-        }
-
         /*
         Berechnung des Basisandrangs über die größe der beiden größten Säle.
          */
-        int basisandrang = (int) Math.round((plaetzteInGroestemUndZweitgroeßtemSaal[0] + plaetzteInGroestemUndZweitgroeßtemSaal[1]) *
+        int basisandrang = (int) Math.round((plaetzteInGroestemUndZweitgroestemSaal[0] + plaetzteInGroestemUndZweitgroestemSaal[1]) *
                 ((double) (vorstellung.getKinofilm().getBeliebtheit()) / 85));
 
 
