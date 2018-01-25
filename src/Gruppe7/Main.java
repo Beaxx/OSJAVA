@@ -20,8 +20,9 @@ public class Main {
         new SaalImporter("C:/import/saele.csv");
         new KinofilmImporter("C:/import/filme.csv");
 
-        //Werbeplan sortieren
+        //Werbeplan sortieren und Standard 20 Minunten Block festlegen
         WerbefilmVerwaltung.werbeplanSortieren();
+        WerbefilmVerwaltung.standardWerbeblock();
         // TODO: Totalen zuschauerandrang berechnen zur Überprüfung ob Einnahmen stimmen.
 
         // Saal sortieren

@@ -7,10 +7,11 @@ import java.util.Collections;
 public class WerbefilmVerwaltung
 {
     static private ArrayList<Werbefilm> werbefilme = new ArrayList<>();
+    static private ArrayList<Werbefilm> werbefilme20MinutenStandard = new ArrayList<>();
 
     //Getter
-    public static ArrayList<Werbefilm> getWerbefilme() { return werbefilme; }
-    public static int getSize() { return werbefilme.size(); }
+    static ArrayList<Werbefilm> getWerbefilme() { return werbefilme; }
+    static ArrayList<Werbefilm> getWerbefilme20MinutenStandard() {return werbefilme20MinutenStandard; }
 
     //Setter
     public static void setWerbefilm(Werbefilm in_werbefilm) {werbefilme.add(in_werbefilm);}
@@ -31,5 +32,20 @@ public class WerbefilmVerwaltung
             }
             return 0;
         });
+    }
+
+    /**
+     * Die besten spots, die in einem 20Minuten Werbeblock passen werden separat abgespeichert.
+     */
+    public static void  standardWerbeblock(){
+        int werbedauerSoll = 20;
+        int werbedauerIst = 0;
+
+        for(Werbefilm werbung: werbefilme){
+            if ((werbedauerIst <= werbedauerSoll) && ((werbedauerIst + werbung.getLaufzeit()) <= werbedauerSoll)){
+                werbefilme20MinutenStandard.add(werbung);
+                werbedauerIst += werbung.getLaufzeit();
+            }
+        }
     }
 }

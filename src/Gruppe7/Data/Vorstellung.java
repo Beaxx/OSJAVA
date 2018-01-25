@@ -32,7 +32,7 @@ public class Vorstellung {
         vorstellungsFilm =  iter.next();
 
         //Werbung hinzufügen
-        werbungen = werbungAnhaengen(); // TODO: Wenn Werbeblock 20min Standard Werbeblock anhängen.
+        werbungen = werbungAnhaengen();
     }
     //Werbung anhängen
     /**
@@ -42,21 +42,24 @@ public class Vorstellung {
      */
     private ArrayList<Werbefilm> werbungAnhaengen(){
         int werbeDauerSoll = vorstellungsTimeslot.getSlotDuration() - vorstellungsFilm.getLaufzeit();
-            if (werbeDauerSoll > 20) { werbeDauerSoll = 20;}
 
-        int werbeDauerIst = 0;
-
-        ArrayList<Werbefilm> output = new ArrayList<>();
-
-        for (Werbefilm werbung : WerbefilmVerwaltung.getWerbefilme()){
-            if ((werbeDauerIst + werbung.getLaufzeit()) <= werbeDauerSoll){
-                output.add(werbung);
-                werbeDauerIst += werbung.getLaufzeit();
-            }
+        if (werbeDauerSoll >= 20) {
+            return WerbefilmVerwaltung.getWerbefilme20MinutenStandard();
         }
-        return output;
-    }
+        else {
+            int werbeDauerIst = 0; // TODO: Subtraktionsansatz, solange vom 20Min standard subtrahieren bis es passt.
 
+            ArrayList<Werbefilm> output = new ArrayList<>();
+
+            for (Werbefilm werbung : WerbefilmVerwaltung.getWerbefilme()){
+                if ((werbeDauerIst + werbung.getLaufzeit()) <= werbeDauerSoll){
+                    output.add(werbung);
+                    werbeDauerIst += werbung.getLaufzeit();
+                }
+            }
+            return output;
+        }
+    }
 
    //alte Check Methoden
 //    //Check 3D
