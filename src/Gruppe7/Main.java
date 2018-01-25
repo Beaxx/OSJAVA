@@ -1,17 +1,15 @@
 package Gruppe7;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-
 import Gruppe7.Data.*;
 import Gruppe7.Logic.*;
 import Gruppe7.Importer.*;
 
+/**
+ * Zentraler Programeinstieg
+ * @author Lennart Völler, Nicole Diestler, Fabian Ueberle
+ */
 public class Main {
     public static void main(String[] args) throws IOException {
 

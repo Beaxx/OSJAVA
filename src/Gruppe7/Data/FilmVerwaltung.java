@@ -6,7 +6,28 @@ import java.util.*;
 /**
  * @author Lennart Völler
  * @date 25.01.2018
- * Importdauer mit diesem Verfahren 79 Millisekunden.
+ *
+ * Die Worte "Set" und "ArrayList" werden im folgenden synomym verwendet, da sie sich im folgenden Zusammenhang
+ * nicht unterscheiden.
+ *
+ * Es gibt für Kinofilme drei Kriterien, die entscheiden, ob sie zu einer bestimmten Zeit in einem bestimmten
+ * Saal laufen dürfen: die 3D-Technik des Films, die FSK-Einstufung des Films und die Laufzeit des Films.
+ * Die Menge der möglichen Sets an Filmen ergibt sich somit durch die Menge der Merkmalsausprägungen:
+ *
+ * 3D: 0 und 1 -> 2
+ * FSK: 0, 12, 16, 18 -> 4
+ * Laufzeit: <150 oder <180 -> 2
+ *
+ * Die Menge der möglichen Sets ist smot beschränkt auf 2 * 4 * 2 = 16 sets.
+ *
+ * Diese Menge wird reduziert durch gewisse Kombinationen die auszuschließen sind. So z. B. das set film3D_150_2000, da
+ * da ein Set für Filme um 20.00 Uhr immer auch den einzigen Timeslot mit einer Spieldauer von 180 Minuten erhält.
+ *
+ * Alternativ zu diesem Vorgehen ist die erstellung von (im Java Sinne) Set's währen der Erstellung der Spielpläne. Hier
+ * müssen die einzelnen Set's jedoch immer wieder neu erstellt werden. Dies ist angesichts der begrenzen Zahl an
+ * möglichen Set nicht sinnvoll. Die Importdauer mit dem hier angewandten Verfahren beträgt 79 Millisekunden. Dadurch
+ * wird eine verbesserung der Performance um den Faktor 6 erreicht. (Performance misst sich an den erstellten
+ * gültigen Spielplänen pro Sekunde.)
  */
 public class FilmVerwaltung
 {
