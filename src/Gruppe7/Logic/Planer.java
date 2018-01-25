@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 import Gruppe7.Data.*;
+import Gruppe7.Main;
 
 /**
  * @author Lennart Völler
@@ -20,11 +21,13 @@ public class Planer
 
     //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
     private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4];
+
     private int spielplanEinnahmenAusKartenverkaeufen = 0;
     private int spielplanAusgaben = 0;
     private int spielplanGewinn = 0;
     private int spielplanWerbungsEinnahmen = 0;
-    private int[] plaetzteInGroestemUndZweitgroestemSaal = plaetzteInGroestemUndZweitgroeßtemSaal();
+    private int[] plaetzteInGroestemUndZweitgroestemSaal = plaetzteInGroestemUndZweitgroestemSaal();
+
     private ArrayList<Vorstellung> woche0 = new ArrayList<>();
     private ArrayList<Vorstellung> woche1 = new ArrayList<>();
     private ArrayList<Vorstellung> woche2 = new ArrayList<>();
@@ -44,11 +47,11 @@ public class Planer
             localGenreList.addAll(genreList);
 
         while (!checkGenre)
-            spielplan = CreateRandomSpielplan(localGenreList);
+            spielplan = createRandomSpielplan(localGenreList);
 
         if (checkGenre) {
             spielplanAufspaltung();
-            spielplanAusgaben = spielplanAusgaben(spielplan);
+            spielplanAusgaben = spielplanAusgaben();
             spielplanEinnahmenAusKartenverkaeufen = spielplanEinnahmen(spielplan)[0];
             spielplanWerbungsEinnahmen = spielplanEinnahmen(spielplan)[1];
             spielplanGewinn = spielplanEinnahmenAusKartenverkaeufen - spielplanAusgaben + spielplanWerbungsEinnahmen;
@@ -97,14 +100,15 @@ public class Planer
      * Erstellt einen zufälligen Spielplan
      * @return Ein zufälliger Spielplan
      */
-    public Vorstellung[][][][] CreateRandomSpielplan(ArrayList<Genre> localGenreList) {
+    private Vorstellung[][][][] createRandomSpielplan(ArrayList<Genre> localGenreList) {
         for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++)
             for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
                 for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
+
                         spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex] = new Vorstellung(saalIndex, vorstellungIndex);
-                        if (!checkGenre){
-                            checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getKinofilm().getGenre(), localGenreList);
+                        if (!checkGenre) {
+                            checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getKinofilm().getGenre(), localGenreList);  // TODO: Genrecheck effizienter?
                         }
                     }
                 }
@@ -124,8 +128,9 @@ public class Planer
                 for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
 
-                        int eintrittspreis = spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getEintrittspreis();
-                        int andrang = andrang(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex], tagIndex, vorstellungIndex, wochenIndex, spielplan);
+                        Vorstellung vorstellung = spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex];
+                        int eintrittspreis = vorstellung.getEintrittspreis();
+                        int andrang = andrang(vorstellung, tagIndex, vorstellungIndex, wochenIndex, eintrittspreis);
                         int andrangLoge;
                         int andrangParkett;
 
@@ -148,7 +153,7 @@ public class Planer
                         localSpielplaneinnahmen[0] += ticketverkaeufeLoge + ticketverkaeufeParkett;
 
                         //Einnahmen aus Werbung
-                        for (Werbefilm werbung : spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getWerbefilme()) {
+                        for (Werbefilm werbung : vorstellung.getWerbefilme()) {
                             localSpielplaneinnahmen[1] += werbung.getUmsatzProZuschauer() * (andrangLoge + andrangParkett);
                         }
                     }
@@ -157,11 +162,104 @@ public class Planer
         return localSpielplaneinnahmen;
     }
 
+    private int andrang(Vorstellung vorstellung, int in_tagIndex, int in_vorstellungIndex, int in_wochenIndex, int eintrittspreis) {
 
+        //Berechnung des Basisandrangs über die größe der beiden größten Säle.
+        int basisandrang = (int) Math.round((plaetzteInGroestemUndZweitgroestemSaal[0] + plaetzteInGroestemUndZweitgroestemSaal[1]) *
+                ((double) (vorstellung.getKinofilm().getBeliebtheit()) / 85));
+
+
+        //region Einfluss der Uhrzeit auf den Andrang
+        int zeitabhaengigerAndrang;
+        switch (in_vorstellungIndex){
+            //15 Uhr Vorstellung 90%
+            case 0: {zeitabhaengigerAndrang = (int) Math.round(basisandrang * .9);
+                break;}
+
+            //17:30 Uhr Vorstellung 95%
+            case 1: {zeitabhaengigerAndrang = (int) Math.round(basisandrang * .95);
+                break;}
+
+            //23 Uhr Vorstellung 85%
+            case 3: {zeitabhaengigerAndrang = (int) Math.round(basisandrang * .85);
+                break;}
+
+            //20 Uhr und Catch-All 100%
+            default: zeitabhaengigerAndrang = basisandrang;
+        }
+        //endregion
+
+        //region Einfluss des Wochentages auf den Andrang
+        int zeitUndTagesabhaengigerAndrang;
+        //Dienstag, Mittwoch, Donnerstag 60%
+        if ((in_tagIndex > 0 && in_tagIndex < 4) || (in_tagIndex > 7 && in_tagIndex < 11) || (in_tagIndex > 14 && in_tagIndex < 18)) {
+            zeitUndTagesabhaengigerAndrang = (int) Math.round(zeitabhaengigerAndrang * .6);
+        }
+
+        //Freitag, Samstag, Sonntag 80%
+        else if ((in_tagIndex > 3 && in_tagIndex < 7) || (in_tagIndex > 10 && in_tagIndex < 14) || (in_tagIndex > 17 && in_tagIndex < 21)) {
+            zeitUndTagesabhaengigerAndrang = (int) Math.round(zeitabhaengigerAndrang * .8);
+        }
+
+        //Montag und Catch-All 100%
+        else {
+            zeitUndTagesabhaengigerAndrang = zeitabhaengigerAndrang;
+        }
+        //endregion
+
+        //region Einfluss der Wiederholung von Filmen auf den Andrang
+        /*
+         * Einbezug der anderen Wochen:
+         * In Woche 0 kann es keine Abzüge geben, da die Filme zum ersten Mal gezeigt werden.
+         * In Woche 1 kommt es zu abzügen, wenn der Film bereits in Woche 0 gezeigt wurde.
+         * In Woche 2 kommt es zu den selben Abzügen wie in Woche 1, wenn der Film in Woche 1 ODER in Woche 0
+         *  gezeigt wurde. Wenn der Film sowohl in Woche 0 als auch Woche 1 gezeigt wurde kommt es zu stärkeren
+         *  abzügen.
+         */
+
+        int zeitUndTagesUndWiederholungsabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
+        switch (in_wochenIndex) {
+
+            case 1: {
+                if (woche0.contains(vorstellung.getKinofilm())) {
+                    zeitUndTagesabhaengigerAndrang =  (int) Math.round(zeitUndTagesabhaengigerAndrang * 0.8);
+                } else {
+                    zeitUndTagesUndWiederholungsabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
+                }
+                break;
+            }
+
+
+            case 2: {
+                if ((woche0.contains(vorstellung.getKinofilm()) && !woche1.contains(vorstellung.getKinofilm())) ||
+                        (!woche0.contains(vorstellung.getKinofilm()) && woche1.contains((vorstellung.getKinofilm())))) {
+                    zeitUndTagesUndWiederholungsabhaengigerAndrang = (int) Math.round(zeitUndTagesabhaengigerAndrang * 0.8);
+                } else if (woche0.contains(vorstellung.getKinofilm()) && woche1.contains(vorstellung.getKinofilm())) {
+                    zeitUndTagesUndWiederholungsabhaengigerAndrang = (int) Math.round(zeitUndTagesabhaengigerAndrang * 0.5);
+                } else {
+                    zeitUndTagesUndWiederholungsabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
+                }
+                break;
+            }
+            default: zeitUndTagesUndWiederholungsabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
+            break;
+        }
+        //endregion
+
+        //region Einfluss des Preises auf den Andrang
+        if (eintrittspreis > 7){
+            return (int)Math.round(zeitUndTagesUndWiederholungsabhaengigerAndrang * (1 - (eintrittspreis - 7) * 0.05));
+        }
+        else if (eintrittspreis < 7){
+            return (int)Math.round(zeitUndTagesUndWiederholungsabhaengigerAndrang * (1 + (7 - eintrittspreis) * 0.02));
+        }
+        else {return zeitUndTagesUndWiederholungsabhaengigerAndrang;}
+        //endregion
+    }
     /**
      * Berechnet die zu erwartenden Ausgaben für einen Spielplan
      */
-    private int spielplanAusgaben(Vorstellung[][][][] spielplan) {
+    private int spielplanAusgaben() {
 
         //Die Betrachtung findet zunächst wochenweise statt.
         int[] kosten = {0, 0, 0};
@@ -224,7 +322,7 @@ public class Planer
      * Sucht den größten und den zweitgrößten Saal.
      * @return [PlätzeImGrößtenSaal,PlätzeImZweitgrößtenSaal]
      */
-    private static int[] plaetzteInGroestemUndZweitgroeßtemSaal(){
+    private static int[] plaetzteInGroestemUndZweitgroestemSaal(){
         int plaetzeLoge = 0;
         int plaetzeParkett = 0;
 
@@ -252,92 +350,7 @@ public class Planer
                 }
                 plaetzeZweitgroesterSaal = plaetzeLoge + plaetzeParkett;
             }
-
-        int[] outputarray = {plaetzeGroesterSaal, plaetzeZweitgroesterSaal};
-        return outputarray;
-    }
-
-    private int andrang(Vorstellung vorstellung, int in_tagIndex, int in_vorstellungIndex, int in_wochenIndex, Vorstellung[][][][] spielplan) {
-
-        /*
-        Berechnung des Basisandrangs über die größe der beiden größten Säle.
-         */
-        int basisandrang = (int) Math.round((plaetzteInGroestemUndZweitgroestemSaal[0] + plaetzteInGroestemUndZweitgroestemSaal[1]) *
-                ((double) (vorstellung.getKinofilm().getBeliebtheit()) / 85));
-
-
-        //region Einfluss der Uhrzeit auf den Andrang
-        int vorstellungsabhaengigerAndrang;
-        switch (in_vorstellungIndex){
-            //15 Uhr Vorstellung 90%
-            case 0: {vorstellungsabhaengigerAndrang = (int) Math.round(basisandrang * .9);
-                        break;}
-
-            //17:30 Uhr Vorstellung 95%
-            case 1: {vorstellungsabhaengigerAndrang = (int) Math.round(basisandrang * .95);
-                        break;}
-
-            //23 Uhr Vorstellung 85%
-            case 3: {vorstellungsabhaengigerAndrang = (int) Math.round(basisandrang * .85);
-                        break;}
-
-            //20 Uhr und Catch-All 100%
-            default: vorstellungsabhaengigerAndrang = basisandrang;
-        }
-        //endregion
-
-        //region Einfluss des Wochentages auf den Andrang.
-        int vorstellungsUndTagesabhaengigerAndrang;
-        //Dienstag, Mittwoch, Donnerstag 60%
-        if ((in_tagIndex > 0 && in_tagIndex < 4) || (in_tagIndex > 7 && in_tagIndex < 11) || (in_tagIndex > 14 && in_tagIndex < 18)) {
-            vorstellungsUndTagesabhaengigerAndrang = (int) Math.round(vorstellungsabhaengigerAndrang * .6);
-        }
-
-        //Freitag, Samstag, Sonntag 80%
-        else if ((in_tagIndex > 3 && in_tagIndex < 7) || (in_tagIndex > 10 && in_tagIndex < 14) || (in_tagIndex > 17 && in_tagIndex < 21)) {
-            vorstellungsUndTagesabhaengigerAndrang = (int) Math.round(vorstellungsabhaengigerAndrang * .8);
-        }
-
-        //Montag und Catch-All 100%
-        else {
-            vorstellungsUndTagesabhaengigerAndrang = vorstellungsabhaengigerAndrang;
-        }
-        //endregion
-
-        //region Einfluss der Wiederholung von Filmen
-        /*
-         * Einbezug der anderen Wochen:
-         * In Woche 0 kann es keine Abzüge geben, da die Filme zum ersten Mal gezeigt werden.
-         * In Woche 1 kommt es zu abzügen, wenn der Film bereits in Woche 0 gezeigt wurde.
-         * In Woche 2 kommt es zu den selben Abzügen wie in Woche 1, wenn der Film in Woche 1 ODER in Woche 0
-         *  gezeigt wurde. Wenn der Film sowohl in Woche 0 als auch Woche 1 gezeigt wurde kommt es zu stärkeren
-         *  abzügen.
-         */
-        switch (in_wochenIndex) {
-
-            case 1: {
-                if (woche0.contains(vorstellung)) {
-                    return (int) Math.round(vorstellungsUndTagesabhaengigerAndrang * 0.8);
-                } else {
-                    return vorstellungsUndTagesabhaengigerAndrang;
-                }
-            }
-
-            case 2: {
-                if ((woche0.contains(vorstellung.getKinofilm()) && !woche1.contains(vorstellung.getKinofilm())) ||
-                        (!woche0.contains(vorstellung.getKinofilm()) && woche1.contains((vorstellung.getKinofilm())))) {
-                    return (int) Math.round(vorstellungsUndTagesabhaengigerAndrang * 0.8);
-                } else if (woche0.contains(vorstellung.getKinofilm()) && woche1.contains(vorstellung.getKinofilm())) {
-                    return (int) Math.round(vorstellungsUndTagesabhaengigerAndrang * 0.5);
-                } else {
-                    return vorstellungsUndTagesabhaengigerAndrang;
-                }
-            }
-
-            default: return vorstellungsUndTagesabhaengigerAndrang;
-            //TODO: Der Normalpreis (Parkett) beträgt 7 Euro. Für jeden Euro, den der Preis erhöht wird, sinkt der Zuschauerandrang um 5%. Für jeden Euro, den der Preis gesenkt wird, steigt der Besucherandrang um 2%.
-        }
-        //endregion
+        return new int[]{plaetzeGroesterSaal, plaetzeZweitgroesterSaal};
     }
 
     //Getter

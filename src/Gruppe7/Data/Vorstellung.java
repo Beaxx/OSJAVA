@@ -39,6 +39,11 @@ public class Vorstellung {
         // Zufälligen Film aus dem Set auswählen.
         vorstellungsFilm = (Kinofilm)filmSet.toArray()[ThreadLocalRandom.current().nextInt(0, filmSet.size() - 1)];
 
+        /* Der Andrang wird bei einem Eintrittspreis von >=27 --> 0 (obergrenze)
+         * Die Kinosäle sind bei einem Eintrittspres von <=7 nah an der maximalen Kapazität (untergrenze)
+         */
+        eintrittspreis = ThreadLocalRandom.current().nextInt(7, 26);
+
         //Werbung hinzufügen
         werbungen = werbungAnhaengen();
     }

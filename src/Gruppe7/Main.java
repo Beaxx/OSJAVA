@@ -1,8 +1,11 @@
 package Gruppe7;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 
 import Gruppe7.Data.Saal;
 import Gruppe7.Data.SaalVerwaltung;
@@ -12,9 +15,8 @@ import Gruppe7.Logic.*;
 import Gruppe7.Importer.*;
 
 public class Main {
-
-
     public static void main(String[] args) throws IOException {
+
         //Datenimport
         new WerbefilmImporter("C:/import/werbespots.csv");
         new SaalImporter("C:/import/saele.csv");
@@ -23,7 +25,6 @@ public class Main {
         //Werbeplan sortieren und Standard 20 Minunten Block festlegen
         WerbefilmVerwaltung.werbeplanSortieren();
         WerbefilmVerwaltung.standardWerbeblock();
-        // TODO: Totalen zuschauerandrang berechnen zur Überprüfung ob Einnahmen stimmen.
 
         // Saal sortieren
         SaalVerwaltung.saalplanSortieren();
@@ -40,10 +41,11 @@ public class Main {
 
                 if (tempPlaner.getSpielplanGewinn() > planer.getSpielplanGewinn()) {
                     planer = tempPlaner;
-                    System.out.println("Einnahmen: " + planer.getSpielplanEinnahmenAusKartenverkaeufen() + "\n" +
+                    System.out.println("Ticket Einnahmen: " + planer.getSpielplanEinnahmenAusKartenverkaeufen() + "\n" +
                                         "Werbungs Einnahmen: " + planer.getSpielplanWerbungsEinnahmen() + "\n" +
                                         "Ausgaben: " + planer.getSpielplanAusgaben() + "\n" +
                                         "Gewinn:" + planer.getSpielplanGewinn() + "\n" +
+
                                         "--------------------------------");
                 }
             }
