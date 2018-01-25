@@ -27,14 +27,6 @@ public class Vorstellung {
         //Für Saal und Timeslot gültige Kinofilme werden in ein Set gejoint, aus dem dann zufällig ausgewählt wird.
         Set<Kinofilm> filmSet = FilmVerwaltung.getFilmSet(vorstellungsSaal.getThreeD(), vorstellungsTimeslot);
 
-        // TODO: Möglichkeit zur Effizienten Filmauswahl, schafft es aber nicht durch den GenreCheck
-//        for (Kinofilm film: filmSet){
-//            if ((double)film.getBeliebtheit() / (double)film.getVerleihpreisProWoche() >
-//                    ((double)vorstellungsFilm.getBeliebtheit() / (double)vorstellungsFilm.getVerleihpreisProWoche())){
-//                vorstellungsFilm = film;
-//            }
-//        }
-
         // TODO: Was ist mit der Sprache?
         // Zufälligen Film aus dem Set auswählen.
         vorstellungsFilm = (Kinofilm)filmSet.toArray()[ThreadLocalRandom.current().nextInt(0, filmSet.size() - 1)];
@@ -42,7 +34,7 @@ public class Vorstellung {
         /* Der Andrang wird bei einem Eintrittspreis von >=27 --> 0 (obergrenze)
          * Die Kinosäle sind bei einem Eintrittspres von <=7 nah an der maximalen Kapazität (untergrenze)
          */
-        eintrittspreis = ThreadLocalRandom.current().nextInt(10, 18);
+        eintrittspreis = ThreadLocalRandom.current().nextInt(10, 20);
 
         //Werbung hinzufügen
         werbungen = werbungAnhaengen();
@@ -84,22 +76,19 @@ public class Vorstellung {
     @Override
     public String toString() {
         String output = "";
-        // Saal
-        output += "Saal: " + vorstellungsSaal.getSaalNummer() + "\n";
-
-        //Uhrzeit
-        output += "Uhrzeit: " + vorstellungsTimeslot + "\n";
+        // Saal +  Uhrzeit
+        output += "Saal: " + vorstellungsSaal.getSaalNummer() + " um "+ vorstellungsTimeslot + "\n";
 
         // Film
-        output += "Titel: " + vorstellungsFilm.getTitel()+ "\n" +
-                  "Regisseur: " + vorstellungsFilm.getRegisseur()+ "\n" +
-                  "Laufzeit: " + vorstellungsFilm.getLaufzeit()+ "\n" +
-                  "FSK: " + vorstellungsFilm.getFsk()+ "\n" +
-                  "Genre: " + vorstellungsFilm.getGenre()+ "\n" +
-                  "Sprache: " + vorstellungsFilm.getSprache()+ "\n" +
-                  "Land: " + vorstellungsFilm.getLaufzeit()+ "\n";
+        output += "Titel: " + vorstellungsFilm.getTitel() + "\n" +
+                  "Regisseur: " + vorstellungsFilm.getRegisseur() + "\n" +
+                  "Laufzeit: " + vorstellungsFilm.getLaufzeit() + "\n" +
+                  "FSK: " + vorstellungsFilm.getFsk( )+ "\n" +
+                  "Genre: " + vorstellungsFilm.getGenre() + "\n" +
+                  "Sprache: " + vorstellungsFilm.getSprache() + "\n" +
+                  "Land: " + vorstellungsFilm.getLaufzeit() + "\n";
 
-        //Financials
+        // Financials
         output += "Beliebtheit: " + vorstellungsFilm.getBeliebtheit() + "\n"+
                   "Verleihpreis: " + vorstellungsFilm.getVerleihpreisProWoche() + "\n";
 

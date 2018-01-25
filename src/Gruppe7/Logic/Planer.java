@@ -96,7 +96,6 @@ public class Planer {
 
         for (Genre vorstellungsgenre : in_vorstellungsGenres) {
             in_localGenreList.remove(vorstellungsgenre);
-            in_localGenreList.remove(Genre.DRAMA); // TODO: BUG Wenn nur noch das Genre Drama übrig ist werden nur noch Vorstellungen anderer Genres erzeugt.
         }
         if (in_localGenreList.isEmpty()) {
             checkGenre = true;
