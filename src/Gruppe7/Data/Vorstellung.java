@@ -2,7 +2,9 @@ package Gruppe7.Data;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.Iterator;
 
 public class Vorstellung {
 
@@ -17,37 +19,25 @@ public class Vorstellung {
     private static final int werbezeitMax = 20;
 
     //Constructor
-    public Vorstellung()
+    public Vorstellung(int in_saalIndex, int in_vorstellungsTimeslotIndex)
     {
-        //Boolean Check Variablen
-        boolean threeD = false;
-        boolean FSK = false;
-        boolean filmLaufzeit = false;
+        vorstellungsSaal = SaalVerwaltung.getSaele().get(in_saalIndex);
+        vorstellungsTimeslot = Spielzeiten.values()[in_vorstellungsTimeslotIndex];
 
-        // Solange Vorstellungen erstellen, bis gültig
-        while (!FSK || !filmLaufzeit) {
+        //Für Saal und Timeslot gültige Kinofilme werden in ein Set gejoint, aus dem dann zufällig ausgewählt wird.
+        Set<Kinofilm> filmSet = FilmVerwaltung.getFilmSet(vorstellungsSaal.getThreeD(), vorstellungsTimeslot);
 
-            //Random Index für Vorstellungserstellung
-            int saalIndex;
-            int vorstellungsTimeslotIndex = ThreadLocalRandom.current().nextInt(0, 3); //TODO Auswahl gemäß FSK
-
-            int kinofilmIndex = ThreadLocalRandom.current().nextInt(0, FilmVerwaltung.getSize());
-            vorstellungsFilm = FilmVerwaltung.getFilme().get(kinofilmIndex);
-
-            if(vorstellungsFilm.getThreeD()){
-                saalIndex = ThreadLocalRandom.current().nextInt(0, SaalVerwaltung.getAnzahl3D()-1);
-            }
-            else {saalIndex = ThreadLocalRandom.current().nextInt(0, SaalVerwaltung.getSize()-1);}
-
-            vorstellungsSaal = SaalVerwaltung.getSaele().get(saalIndex);
-            vorstellungsTimeslot = Spielzeiten.values()[vorstellungsTimeslotIndex];
-
-            FSK = checkFSK(vorstellungsTimeslot, vorstellungsFilm);
-            filmLaufzeit = checkLaufzeiten(vorstellungsFilm, vorstellungsTimeslot);
+        int randomIndex = ThreadLocalRandom.current().nextInt(0, filmSet.size()-1);
+        Iterator<Kinofilm> iter = filmSet.iterator();
+        for (int i = 0; i < randomIndex; i++) {
+            iter.next();
         }
+        vorstellungsFilm =  iter.next();
+
+        //filmLaufzeit = checkLaufzeiten(vorstellungsFilm, vorstellungsTimeslot);
 
         //Wenn Vorstellung fertig, Werbung anhängen
-        werbungen = werbungAnhaengen();
+        werbungen = werbungAnhaengen(); // TODO: Wenn Werbeblock 20min Standard Werbeblock anhängen.
     }
     //Werbung anhängen
 

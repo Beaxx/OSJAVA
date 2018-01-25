@@ -1,7 +1,11 @@
 package Gruppe7.Data;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/**
+ * @author Lennart Völler
+ * @date 25.01.2018
+ *
+ */
 public class Kinofilm extends Film
 {
     private  boolean threeD;

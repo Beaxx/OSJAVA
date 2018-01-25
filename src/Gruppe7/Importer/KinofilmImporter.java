@@ -141,19 +141,75 @@ public class KinofilmImporter extends Datei {
             importKinofilmErscheinungsjahr=Integer.valueOf(arrayKinofilm[9]);
             importThreeD=Boolean.valueOf(arrayKinofilm[10]);
 
+
             Kinofilm tempKinofilm = new Kinofilm (importKinofilmTitel, importKinofilmLaufzeit, importThreeD, importKinofilmSprache, importKinofilmRegisseur, importKinofilmErscheinungsjahr, importKinofilmErscheinungsland, importKinofilmBeliebtheit, importKinofilmMietpreis, importKinofilmFSK, importKinofilmGenres);
-            KinofilmFilter(95, tempKinofilm); // TODO: Filterung auslagern und von der Main-Methode zugägnlich machen
+
+            int beliebtheitsFilter = 95;     // TODO: Filterung auslagern und von der Main-Methode zugägnlich machen
+            KinofilmVerteiler3D2D(KinofilmFilter(beliebtheitsFilter, tempKinofilm));
+            KinofilmVerteilerTimeslot((KinofilmFilter(beliebtheitsFilter, tempKinofilm)));
         }
     }
 
     /**
      * Fügt einen Kinofilm der Sammlung hinzu, wenn dessen Beliebtheitswert den Schwellenwert überschreitet
-     * @param in_schwellenwert Beliebtheitswert zwischen 0 und 100
-     * @param film ein Kinofilm
+     * @param in_beliebtheitsSchwellenwert Beliebtheitswert zwischen 0 und 100
+     * @param in_film ein Kinofilm
      */
-    private void KinofilmFilter(int in_schwellenwert, Kinofilm film){
-        if (film.getBeliebtheit() >= in_schwellenwert){
-            FilmVerwaltung.setFilme(film);
+    private Kinofilm KinofilmFilter(int in_beliebtheitsSchwellenwert, Kinofilm in_film) {
+        if (in_film.getBeliebtheit() >= in_beliebtheitsSchwellenwert) {
+            return in_film;
+        }
+        return null;
+    }
+
+    /**
+     * Fügt einen Film entsprechend seiner 3D-eigenschaft zu den Kinofilmlisten hinzu.
+     * Entscheidungskriterium ist, ob ein Film im entsprechenden Saal gezeigt werden kann.
+     * Ein 2D-Film kann sowohl in 3D-Sälen als auch in 2D-Sälen gezeigt werden.
+     *
+     * Ein 2D-Film wird also zur Liste der 3D-Filme hinzugefügt, da er in 3D-Sälen auch gezeigt werden kann
+     * @param in_film ein Kinofilm
+     */
+    private void KinofilmVerteiler3D2D(Kinofilm in_film){
+        if (in_film != null) {
+            if (in_film.getThreeD()) {
+                FilmVerwaltung.setFilme3D(in_film);
+            }
+            else {
+                FilmVerwaltung.setFilme2D(in_film);
+                FilmVerwaltung.setFilme3D(in_film);
+            }
+        }
+    }
+
+    /**
+     * Fügt einen Film entsprechend seiner FSK-Eigenschaften zu den Kinofilmlisten hinzu.
+     * Entscheidungskriterium ist, ob ein Film zum entsprechenden Timeslot gezeigt werden darf.
+     * Ein FSK0 kann also zu jeder Tageszeit, auch um 23:00 gezeigt werden.
+     * @param in_film ein Kinofilm
+     */
+    private void KinofilmVerteilerTimeslot(Kinofilm in_film){
+        if (in_film != null){
+            switch (in_film.getFsk()){
+                case FSK_0:
+                case FSK_6:
+                case FSK_12:{
+                    FilmVerwaltung.setFilme1500(in_film);
+                    FilmVerwaltung.setFilme1730(in_film);
+                    FilmVerwaltung.setFilme2000(in_film);
+                    FilmVerwaltung.setFilme2300(in_film);
+                    break;
+                }
+                case FSK_16:{
+                    FilmVerwaltung.setFilme2000(in_film);
+                    FilmVerwaltung.setFilme2300(in_film);
+                    break;
+                }
+                case FSK_18:{
+                    FilmVerwaltung.setFilme2300(in_film);
+                    break;
+                }
+            }
         }
     }
 }
