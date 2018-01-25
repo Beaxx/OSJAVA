@@ -32,9 +32,8 @@ public class Planer
     private boolean checkGenre = false;
 
     /**
-     * Erstellung eines zufälligen Spielplans durch Iteration durch das leere Vorstellungs-Array
-     *
-     * @return Ein dreidimensionales Vorstellungsarray [tag][saal][timeslot]
+     * Erstellung eines zufälligen Spielplans bei Iteration durch das leere Vorstellungs-Array
+     * @return Ein vierdimensionales Vorstellungsarray [woche][tag][saal][timeslot]
      */
     public Planer(){
         // Liste aus Enum
@@ -46,7 +45,6 @@ public class Planer
 
         while (!checkGenre)
             spielplan = CreateRandomSpielplan(localGenreList);
-
 
         if (checkGenre) {
             spielplanAufspaltung();
@@ -96,7 +94,7 @@ public class Planer
     }
 
     /**
-     * Erstellteinen zufälligen Spielplan
+     * Erstellt einen zufälligen Spielplan
      * @return Ein zufälliger Spielplan
      */
     public Vorstellung[][][][] CreateRandomSpielplan(ArrayList<Genre> localGenreList) {
@@ -115,7 +113,7 @@ public class Planer
         }
 
     /**
-     * Berechnet die zu erwartenden Einnahmen aus Ticketverkäufen und Werbung einer Vorstellung und fügt sie den Spielplaneinnahmen hinzu
+     * Berechnet die zu erwartenden Einnahmen aus Ticketverkäufen und Werbung einer Vorstellung
      * @param spielplan der Spielplan für den die Einnahmen zu berechnen sind
      * @return ein Array mit [Einnahmen durch Kartenverkäufe][Einnahmen durch Werbung]
      */
@@ -128,30 +126,30 @@ public class Planer
 
                         int eintrittspreis = spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getEintrittspreis();
                         int andrang = andrang(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex], tagIndex, vorstellungIndex, wochenIndex, spielplan);
+                        int andrangLoge;
+                        int andrangParkett;
 
-                        int ticketverkaeufeLoge;
-                        int ticketverkaeufeParkett;
-
-                        //Einnahmen aus Ticketverkäufen
+                        // Andrang in der Loge
                         if (andrang * 0.5 > SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeLoge()){
-                            ticketverkaeufeLoge = (eintrittspreis + 2) * SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeLoge();
+                            andrangLoge = SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeLoge();
                         }
-                        else{
-                            ticketverkaeufeLoge = (eintrittspreis + 2) * (int)Math.round((double)andrang * 0.5);
-                        }
+                        else { andrangLoge = (int)Math.round((double)andrang * 0.5); }
 
+                        //Andrang im Parkett
                         if (andrang * 0.5 > SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett()){
-                            ticketverkaeufeParkett = eintrittspreis * SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett();
+                            andrangParkett = SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett();
                         }
-                        else{
-                            ticketverkaeufeParkett = eintrittspreis * (int)Math.round((double)andrang * 0.5);
-                        }
+                        else { andrangParkett = (int)Math.round((double)andrang * 0.5); }
+
+                        //Einnahmen durch Ticketsverkäufe
+                        int ticketverkaeufeLoge = (eintrittspreis + 2) * andrangLoge;
+                        int ticketverkaeufeParkett = eintrittspreis * andrangParkett;
 
                         localSpielplaneinnahmen[0] += ticketverkaeufeLoge + ticketverkaeufeParkett;
 
-                         //Einnahmen aus Werbung
+                        //Einnahmen aus Werbung
                         for (Werbefilm werbung : spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getWerbefilme()) {
-                        localSpielplaneinnahmen[1] += werbung.getUmsatzProZuschauer() * andrang;
+                            localSpielplaneinnahmen[1] += werbung.getUmsatzProZuschauer() * (andrangLoge + andrangParkett);
                         }
                     }
                 }

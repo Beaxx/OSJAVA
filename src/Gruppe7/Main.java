@@ -41,18 +41,19 @@ public class Main {
                 if (tempPlaner.getSpielplanGewinn() > planer.getSpielplanGewinn()) {
                     planer = tempPlaner;
                     System.out.println("Einnahmen: " + planer.getSpielplanEinnahmenAusKartenverkaeufen() + "\n" +
-                            "Werbungs Einnahmen: " + planer.getSpielplanWerbungsEinnahmen() + "\n" +
-                            "Ausgaben: " + planer.getSpielplanAusgaben() + "\n" +
-                            "Gewinn:" + planer.getSpielplanGewinn() + "\n" +
-                            "--------------------------------");
+                                        "Werbungs Einnahmen: " + planer.getSpielplanWerbungsEinnahmen() + "\n" +
+                                        "Ausgaben: " + planer.getSpielplanAusgaben() + "\n" +
+                                        "Gewinn:" + planer.getSpielplanGewinn() + "\n" +
+                                        "--------------------------------");
                 }
             }
 
         // Performance Messung
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
-        System.out.println(totalTime / 1000 + " Sekunden für " + durchläufe + " Durchläufe" + "\n" +
-                (double)durchläufe/(double)totalTime/1000.0 + " pro Sekunde");
+        long totalTimeS = totalTime/1000;
+        System.out.println(totalTimeS + " Sekunden für " + durchläufe + " Durchläufe" + "\n" +
+                (double)durchläufe/totalTimeS + " pro Sekunde");
     }
 
 
