@@ -5,14 +5,7 @@ import java.util.ArrayList;
 
 public class KinofilmImporter extends Datei {
 
-    private Datei importFileKinofilme;
-    private String importString;
-    private int importKinofilmFskInt;
     private Fsk importKinofilmFSK;
-
-    private String importKinofilmGemresString;
-    private ArrayList<Genre> importKinofilmGenres;
-
     private int minBeliebtheit;
 
     /**
@@ -26,13 +19,13 @@ public class KinofilmImporter extends Datei {
 
         minBeliebtheit = in_minBeliebtheit;
 
-        importFileKinofilme = new Datei(in_name);
+        Datei importFileKinofilme = new Datei(in_name);
         importFileKinofilme.openInFile_FS();
 
         while (true) {
 
             //Jede Zeile wird in importString eingelesen, es sei denn, in der letzten Zeile steht nichts drin.
-            importString = importFileKinofilme.readLine_FS();
+            String importString = importFileKinofilme.readLine_FS();
 
             // Schleifen Abbruch statement
             if (importString == null) {
@@ -45,7 +38,7 @@ public class KinofilmImporter extends Datei {
             arrayKinofilm = importString.split(";");
 
             //region FSK des aktuellen Films
-            importKinofilmFskInt = Integer.valueOf(arrayKinofilm[2]);
+            int importKinofilmFskInt = Integer.valueOf(arrayKinofilm[2]);
             if (importKinofilmFskInt == 18) {
                 importKinofilmFSK = Fsk.FSK_18;
             }
@@ -66,10 +59,10 @@ public class KinofilmImporter extends Datei {
             /*Genres Auslesen und Zuweisen
             Für jeden Durchgang muss eine neue Liste erstellt werden.
             Es wird eine ArrayList benötigt, da ein Film mehrere Genres haben kann.*/
-            importKinofilmGenres = new ArrayList<>();
+            ArrayList<Genre> importKinofilmGenres = new ArrayList<>();
 
             //Erstellung eines String mit allen Genres
-            importKinofilmGemresString = String.valueOf(arrayKinofilm[3]);
+            String importKinofilmGemresString = String.valueOf(arrayKinofilm[3]);
 
             String arrayGenre[] = importKinofilmGemresString.split(",");
             for (int i = 0; i < arrayGenre.length; i++) {
@@ -134,10 +127,7 @@ public class KinofilmImporter extends Datei {
      * Ermittelt, ob ein Film die mindest Beliebtheit erfüllt.
      */
     private boolean KinofilmFilter(Kinofilm in_film) {
-        if (in_film.getBeliebtheit() >= minBeliebtheit) {
-            return true;
-        }
-        return false;
+        return in_film.getBeliebtheit() >= minBeliebtheit;
     }
 
     /**
@@ -202,7 +192,7 @@ public class KinofilmImporter extends Datei {
         }
 
         else if (in_film.getLaufzeit() > 150) {
-            FilmVerwaltung.setFilme180min(in_film);;
+            FilmVerwaltung.setFilme180min(in_film);
         }
     }
 }
