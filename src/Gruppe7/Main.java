@@ -49,7 +49,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         /* SETTINGS */
-        int plaeneZuErstellen = 1000; // Max Geschwindigkeit: 3700 pro Sekunde (ohne Optimierung)
+        int plaeneZuErstellen = 100000; // Max Geschwindigkeit: 3700 pro Sekunde (ohne Optimierung)
         OptimierungSwitch = false;
         int mindestPreisVorstellung = 16;
         int maximalPreisVorstellung = 19;
