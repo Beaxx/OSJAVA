@@ -29,12 +29,13 @@ public class Main {
         SaalVerwaltung.saalplanSortieren();
         SaalVerwaltung.plaetzteInGroestemUndZweitgroestemSaal();
 
-        //Performance Wrapper
+        //Performance Wrapper start
         long startTime = System.currentTimeMillis();
 
+            //Algorithmusdurchläufe
             Planer planer = new Planer();
-            int durchläufe = 100000;
-            for (int i = 0; i < durchläufe; i++)
+            int durchlaeufe = 100000; // Geschwindigkeit: 2750 pro Sekunde
+            for (int i = 0; i < durchlaeufe; i++)
 
             {
                 Planer tempPlaner = new Planer();
@@ -45,22 +46,19 @@ public class Main {
                                         "Werbungs Einnahmen: " + planer.getSpielplanWerbungsEinnahmen() + "\n" +
                                         "Ausgaben: " + planer.getSpielplanAusgaben() + "\n" +
                                         "Gewinn:" + planer.getSpielplanGewinn() + "\n" +
-
                                         "--------------------------------");
                 }
             }
 
-        // Performance Messung
+        //Performance Wrapper ende
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
         long totalTimeS = totalTime/1000;
 
         // Ausgabe
-        System.out.println(Arrays.deepToString(planer.getSpielplan()));
+        System.out.println(Arrays.deepToString(planer.getSpielplan())); //Bester Spielplan
 
-        System.out.println(totalTimeS + " Sekunden für " + durchläufe + " Durchläufe" + "\n" +
-                (double)durchläufe/totalTimeS + " pro Sekunde");
+        System.out.println(totalTimeS + " Sekunden für " + durchlaeufe + " Durchläufe" + "\n" + //Performance Auswertung
+                (double)durchlaeufe/totalTimeS + " pro Sekunde");
     }
-
-
 }
