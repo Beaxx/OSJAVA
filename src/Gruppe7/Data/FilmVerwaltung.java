@@ -27,233 +27,226 @@ import java.util.*;
  * möglichen Set nicht sinnvoll. Die Importdauer mit dem hier angewandten Verfahren beträgt 79 Millisekunden. Dadurch
  * wird eine verbesserung der Performance um den Faktor 6 erreicht. (Performance misst sich an den erstellten
  * gültigen Spielplänen pro Sekunde.)
+ *
+ * ###### ..> Da die maximale Dauer die ein Fil haben darf direkt vom Zeitslot abhängt ist dieser nicht zu überprüfen
  */
-public class FilmVerwaltung
-{
-    static private ArrayList<Kinofilm> filme3D = new ArrayList<>();
-    static private ArrayList<Kinofilm> filme2D = new ArrayList<>();
+public class FilmVerwaltung {
+    static private ArrayList<Kinofilm> filmeFuer3DSaele = new ArrayList<>();
+    static private ArrayList<Kinofilm> filmeFuer2DSaele = new ArrayList<>();
 
-    static private ArrayList<Kinofilm> filme1500 = new ArrayList<>();
-    static private ArrayList<Kinofilm> filme1730 = new ArrayList<>();
-    static private ArrayList<Kinofilm> filme2000 = new ArrayList<>();
-    static private ArrayList<Kinofilm> filme2300 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filmeFuer1500Uhr_1730Uhr = new ArrayList<>();
+    static private ArrayList<Kinofilm> filmeFuer2000Uhr = new ArrayList<>();
+    static private ArrayList<Kinofilm> filmeFuer2300Uhr = new ArrayList<>();
 
-    static private ArrayList<Kinofilm> filme150min = new ArrayList<>();
-    static private ArrayList<Kinofilm> filme180min = new ArrayList<>();
+    static private ArrayList<Kinofilm> filmeFuer150minSlotlaenge = new ArrayList<>();
+    static private ArrayList<Kinofilm> filmeFuer180minSlotlaenge = new ArrayList<>();
 
-    static private ArrayList<Kinofilm> filme3D_150_1500 = new ArrayList<>();
-    static private ArrayList<Kinofilm> filme3D_150_1730 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme3D_150_1500_1730 = new ArrayList<>();
     static private ArrayList<Kinofilm> filme3D_150_2300 = new ArrayList<>();
-
     static private ArrayList<Kinofilm> filme3D_180_2000 = new ArrayList<>();
 
-    static private ArrayList<Kinofilm> filme2D_150_1500 = new ArrayList<>();
-    static private ArrayList<Kinofilm> filme2D_150_1730 = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme2D_150_1500_1730 = new ArrayList<>();
     static private ArrayList<Kinofilm> filme2D_150_2300 = new ArrayList<>();
-
     static private ArrayList<Kinofilm> filme2D_180_2000 = new ArrayList<>();
 
-    public static void FilmArraysHelper(){
-        for (int threeD = 0; threeD < 2; threeD++) {
-            for (Spielzeiten timeslot : Spielzeiten.values()) {
-                setFilmArrays(threeD, timeslot);
+    /** Debugged
+     * Hilfsmethode die die Iteration der setFilmArrays() übernimmt.
+     * Da die Filme für die 15:00 und 17:30 Vorstellung das Selbe FSK-Siegel tragen und
+     * dementsprechend die gleiche Charakteristiken aufweisen wird die Abfrage des 15:00 Uhr Slots
+     * übersprungen um redundanten Schreibaufwand zu sparen.
+     */
+    public static void FilmArraysHelper() {
+
+        for (int saal3Dfaehig = 0; saal3Dfaehig < 2; saal3Dfaehig++) {
+            for (Spielzeiten uhrzeit : Spielzeiten.values()) {
+                if (!(uhrzeit == Spielzeiten.SLOT_1500)) {
+                    setFilmArrays(saal3Dfaehig, uhrzeit);
+                }
             }
         }
     }
 
-    private static void setFilmArrays(int in_threeD, Spielzeiten in_timeslot) {
+    private static void setFilmArrays(int in_saal3Dfaehig, Spielzeiten in_uhrzeit) {
 
-        // Switch arbeitet nicht mit boolean, also Übersetzung
-        int switchSlotDuration;
-        if (in_timeslot.getSlotDuration() == 150) {
-            switchSlotDuration = 150;
-        } else {
-            switchSlotDuration = 180;
-        }
+        switch (in_saal3Dfaehig) {
 
-        switch (in_threeD) {
-
-            // 3D Film
+            //region  3D-Faehiger Saal
             case 1: {
-                switch (switchSlotDuration) {
-
-                    case 150: {
-                        switch (in_timeslot) {
-                            case SLOT_1500: {
-                                filme3D_150_1500 = new ArrayList<>(filme3D);
-                                filme3D_150_1500.retainAll(filme1500);
-                                filme3D_150_1500.retainAll(filme150min);
-                                break;
-                            }
-                            case SLOT_1730: {
-                                filme3D_150_1730 = new ArrayList<>(filme3D);
-                                filme3D_150_1730.retainAll(filme1730);
-                                filme3D_150_1730.retainAll(filme150min);
-                                break;
-                            }
-                            case SLOT_2300: {
-                                filme3D_150_2300 = new ArrayList<>(filme3D);
-                                filme3D_150_2300.retainAll(filme2300);
-                                filme3D_150_2300.retainAll(filme150min);
-                                break;
-                            }
-                        }
+                switch (in_uhrzeit) {
+                    case SLOT_1500:
+                    case SLOT_1730: {
+                        filme3D_150_1500_1730 = new ArrayList<>(filmeFuer3DSaele);
+                        filme3D_150_1500_1730.retainAll(filmeFuer1500Uhr_1730Uhr);
+                        filme3D_150_1500_1730.retainAll(filmeFuer150minSlotlaenge);
+                        break;
                     }
-                    break;
 
-                    case 180: {
-                        switch (in_timeslot) {
-                            case SLOT_2000: {
-                                filme3D_180_2000 = new ArrayList<>(filme3D);
-                                filme3D_180_2000.retainAll(filme2000);
-                                break;
-                            }
-                        }
+                    case SLOT_2000: {
+                        filme3D_180_2000 = new ArrayList<>(filmeFuer3DSaele);
+                        filme3D_180_2000.retainAll(filmeFuer2000Uhr);
+                        filme3D_180_2000.retainAll(filmeFuer180minSlotlaenge);
+                        break;
                     }
-                    break;
+
+                    case SLOT_2300: {
+                        filme3D_150_2300 = new ArrayList<>(filmeFuer3DSaele);
+                        filme3D_150_2300.retainAll(filmeFuer2300Uhr);
+                        filme3D_150_2300.retainAll(filmeFuer150minSlotlaenge);
+                        break;
+                    }
                 }
             }
             break;
+            //endregion
 
-            // 2D Film
+            //region 2D-Faehiger Saal
             case 0: {
-                switch (switchSlotDuration) {
-
-                    case 150: {
-                        switch (in_timeslot) {
-                            case SLOT_1500: {
-                                filme2D_150_1500 = new ArrayList<>(filme2D);
-                                filme2D_150_1500.retainAll(filme1500);
-                                filme2D_150_1500.retainAll(filme150min);
-                                break;
-                            }
-                            case SLOT_1730: {
-                                filme2D_150_1730 = new ArrayList<>(filme2D);
-                                filme2D_150_1730.retainAll(filme1730);
-                                filme2D_150_1730.retainAll(filme150min);
-                                break;
-                            }
-                            case SLOT_2300: {
-                                filme2D_150_2300 = new ArrayList<>(filme2D);
-                                filme2D_150_2300.retainAll(filme2300);
-                                filme2D_150_2300.retainAll(filme150min);
-                                break;
-                            }
-                        }
+                switch (in_uhrzeit) {
+                    case SLOT_1500:
+                    case SLOT_1730: {
+                        filme2D_150_1500_1730 = new ArrayList<>(filmeFuer2DSaele);
+                        filme2D_150_1500_1730.retainAll(filmeFuer1500Uhr_1730Uhr);
+                        filme2D_150_1500_1730.retainAll(filmeFuer150minSlotlaenge);
+                        break;
                     }
-                    break;
 
-                    case 180: {
-                        switch (in_timeslot) {
-                            case SLOT_2000: {
-                                filme2D_180_2000 = new ArrayList<>(filme2D);
-                                filme2D_180_2000.retainAll(filme2000);
-                                break;
-                            }
-                        }
+                    case SLOT_2000: {
+                        filme2D_180_2000 = new ArrayList<>(filmeFuer2DSaele);
+                        filme2D_180_2000.retainAll(filmeFuer2000Uhr);
+                        filme2D_180_2000.retainAll(filmeFuer180minSlotlaenge);
+                        break;
                     }
-                    break;
+                    case SLOT_2300: {
+                        filme2D_150_2300 = new ArrayList<>(filmeFuer2DSaele);
+                        filme2D_150_2300.retainAll(filmeFuer2300Uhr);
+                        filme2D_150_2300.retainAll(filmeFuer150minSlotlaenge);
+                        break;
+                    }
                 }
             }
             break;
+            //endregion
         }
     }
 
     // Setter
-    public static void setFilme3D(Kinofilm in_film) {filme3D.add(in_film);}
-    public static void setFilme2D(Kinofilm in_film) {filme2D.add(in_film);}
+    public static void setFilmeFuer3DSaele(Kinofilm in_film) {
+        filmeFuer3DSaele.add(in_film);
+    }
 
-    public static void setFilme1500(Kinofilm in_film) {filme1500.add(in_film);}
-    public static void setFilme1730(Kinofilm in_film) {filme1730.add(in_film);}
-    public static void setFilme2000(Kinofilm in_film) {filme2000.add(in_film);}
-    public static void setFilme2300(Kinofilm in_film) {filme2300.add(in_film);}
+    public static void setFilmeFuer2DSaele(Kinofilm in_film) {
+        filmeFuer2DSaele.add(in_film);
+    }
 
-    public static void setFilme150min(Kinofilm in_film) {filme150min.add(in_film);}
-    public static void setFilme180min(Kinofilm in_film) {filme180min.add(in_film);}
+    public static void setFilmeFuer1500Uhr_1730Uhr(Kinofilm in_film) {
+        filmeFuer1500Uhr_1730Uhr.add(in_film);
+    }
+
+    public static void setFilmeFuer2000Uhr(Kinofilm in_film) {
+        filmeFuer2000Uhr.add(in_film);
+    }
+
+    public static void setFilmeFuer2300Uhr(Kinofilm in_film) {
+        filmeFuer2300Uhr.add(in_film);
+    }
+
+    public static void setFilmeFuer150minSlotlaenge(Kinofilm in_film) {
+        filmeFuer150minSlotlaenge.add(in_film);
+    }
+
+    public static void setFilmeFuer180minSlotlaenge(Kinofilm in_film) {
+        filmeFuer180minSlotlaenge.add(in_film);
+    }
 
     // Getter
-    public static ArrayList<Kinofilm> getFilme(boolean in_ThreeD, Spielzeiten in_timeslot){
-        int switchSlotDuration;
-        if (in_timeslot.getSlotDuration() == 150) {
-            switchSlotDuration = 150;
-        } else {
-            switchSlotDuration = 180;
-        }
-
-        int switchThreeD;
-        if (in_ThreeD) { switchThreeD = 1; }
-            else { switchThreeD = 0; }
-
-        switch (switchThreeD) {
-
-            // 3D Film
-            case 1: {
-                switch (switchSlotDuration) {
-
-                    case 150: {
-                        switch (in_timeslot) {
-                            case SLOT_1500: {
-                                return filme3D_150_1500;
-                            }
-                            case SLOT_1730: {
-                                return filme3D_150_1730;
-                            }
-                            case SLOT_2300: {
-                                return filme3D_150_2300;
-                            }
-                        }
-                    }
-                    break;
-
-                    case 180: {
-                        switch (in_timeslot) {
-                            case SLOT_2000: {
-                                return filme3D_180_2000;
-                            }
-                        }
-                    }
-                    break;
-
-                    default: return null;
-                }
-            }
-            break;
-
-            // 2D Film
-            case 0: {
-                switch (switchSlotDuration) {
-
-                    case 150: {
-                        switch (in_timeslot) {
-                            case SLOT_1500: {
-                                return filme2D_150_1500;
-                            }
-                            case SLOT_1730: {
-                                return filme2D_150_1730;
-                            }
-                            case SLOT_2300: {
-                                return filme2D_150_2300;
-                            }
-                        }
-                    }
-                    break;
-
-                    case 180: {
-                        switch (in_timeslot) {
-                            case SLOT_2000: {
-                                return filme2D_180_2000;
-                            }
-                        }
-                    }
-                    break;
-
-                    default: return null;
-                }
-            }
-            break;
-
-            default: return null;
-        }
-        return null;
-    }
+//    public static ArrayList<Kinofilm> getFilme(boolean in_ThreeD, Spielzeiten in_timeslot) {
+//        int switchSlotDuration;
+//        if (in_timeslot.getSlotDuration() == 150) {
+//            switchSlotDuration = 150;
+//        } else {
+//            switchSlotDuration = 180;
+//        }
+//
+//        int switchThreeD;
+//        if (in_ThreeD) {
+//            switchThreeD = 1;
+//        } else {
+//            switchThreeD = 0;
+//        }
+//
+//        switch (switchThreeD) {
+//
+//            // 3D Film
+//            case 1: {
+//                switch (switchSlotDuration) {
+//
+//                    case 150: {
+//                        switch (in_timeslot) {
+//                            case SLOT_1500: {
+//                                return filme3D_150_1500_1730;
+//                            }
+//                            case SLOT_1730: {
+//                                return filme3D_150_1730;
+//                            }
+//                            case SLOT_2300: {
+//                                return filme3D_150_2300;
+//                            }
+//                        }
+//                    }
+//                    break;
+//
+//                    case 180: {
+//                        switch (in_timeslot) {
+//                            case SLOT_2000: {
+//                                return filme3D_180_2000;
+//                            }
+//                        }
+//                    }
+//                    break;
+//
+//                    default:
+//                        return null;
+//                }
+//            }
+//            break;
+//
+//            // 2D Film
+//            case 0: {
+//                switch (switchSlotDuration) {
+//
+//                    case 150: {
+//                        switch (in_timeslot) {
+//                            case SLOT_1500: {
+//                                return filme2D_150_1500_1730;
+//                            }
+//                            case SLOT_1730: {
+//                                return filme2D_150_1730;
+//                            }
+//                            case SLOT_2300: {
+//                                return filme2D_150_2300;
+//                            }
+//                        }
+//                    }
+//                    break;
+//
+//                    case 180: {
+//                        switch (in_timeslot) {
+//                            case SLOT_2000: {
+//                                return filme2D_180_2000;
+//                            }
+//                        }
+//                    }
+//                    break;
+//
+//                    default:
+//                        return null;
+//                }
+//            }
+//            break;
+//
+//            default:
+//                return null;
+//        }
+//        return null;
+//    }
 }

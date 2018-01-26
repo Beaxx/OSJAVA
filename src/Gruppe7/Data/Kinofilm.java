@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 /**
  * @author Lennart Völler
- * @date 25.01.2018
+ * @version  25.01.2018
  *
  */
 public class Kinofilm extends Film {
@@ -68,5 +68,9 @@ public class Kinofilm extends Film {
 
     public ArrayList<Genre> getGenre() {
         return genre;
+    }
+
+    public String getErscheinungsland() {
+        return erscheinungsland;
     }
 }

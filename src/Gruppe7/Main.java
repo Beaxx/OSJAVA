@@ -18,7 +18,7 @@ public class Main {
         int durchlaeufe = 100000; // Geschwindigkeit: 2900 pro Sekunde
         int mindestPreisVorstellung = 17;
         int maximalPreisVorstellung = 17;
-        int mindestBeliebtheit = 0;
+        int mindestBeliebtheit = 95;
         /* SETTINGS */
 
         //Datenimport
@@ -66,7 +66,8 @@ public class Main {
         // Ausgabe
         System.out.println(Arrays.deepToString(planer.getSpielplan())); //Bester Spielplan
 
-        System.out.println(totalTimeS + " Sekunden für " + durchlaeufe + " Durchläufe" + "\n" + //Performance Auswertung
+            //Performance Auswertung
+        System.out.println(totalTimeS + " Sekunden für " + durchlaeufe + " Durchläufe" + "\n" +
                 (double)durchlaeufe/totalTimeS + " pro Sekunde");
     }
 }

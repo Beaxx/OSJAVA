@@ -3,7 +3,9 @@ package Gruppe7.Data;
 import java.util.ArrayList;
 import java.util.Collections;
 
-// Auf die Verwaltungsklassen muss aus dem gesamten Kode zugegriffen werden
+/**
+ * @author Lennart Völler
+ */
 public class SaalVerwaltung
 {
     static private ArrayList<Saal> saele = new ArrayList<>();
@@ -24,6 +26,7 @@ public class SaalVerwaltung
     public static void setSaele(Saal in_saal) {saele.add(in_saal);}
 
     /**Sortiert Säle nach 3D
+     * Debugged
      */
     public static void saalplanSortieren() {
         Collections.sort(saele, (s1, s2) -> {
@@ -35,6 +38,7 @@ public class SaalVerwaltung
     }
 
     /**Speichert größen und zweitgrößten Saal ab
+     * Debugged
      */
     public static void plaetzteInGroestemUndZweitgroestemSaal() {
         int localPlaetzeGroesterSaal = 0;

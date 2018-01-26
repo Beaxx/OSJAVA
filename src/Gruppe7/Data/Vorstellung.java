@@ -23,10 +23,10 @@ public class Vorstellung {
         vorstellungsSaal = SaalVerwaltung.getSaele().get(in_saalIndex);
         vorstellungsTimeslot = Spielzeiten.values()[in_vorstellungsTimeslotIndex];
 
-        ArrayList<Kinofilm> filmSet = FilmVerwaltung.getFilme(vorstellungsSaal.getThreeD(), vorstellungsTimeslot);
+//        ArrayList<Kinofilm> filmSet = FilmVerwaltung.getFilme(vorstellungsSaal.getThreeD(), vorstellungsTimeslot);
 
         // Zufälligen Film aus dem Set auswählen.
-        vorstellungsFilm = (Kinofilm)filmSet.toArray()[ThreadLocalRandom.current().nextInt(0, filmSet.size() - 1)];
+//        vorstellungsFilm = (Kinofilm)filmSet.toArray()[ThreadLocalRandom.current().nextInt(0, filmSet.size() - 1)];
 
         eintrittspreis = ThreadLocalRandom.current().nextInt(8, 23);
 

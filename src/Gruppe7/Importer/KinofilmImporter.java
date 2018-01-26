@@ -140,10 +140,10 @@ public class KinofilmImporter extends Datei {
      */
     private void KinofilmVerteiler3D2D(Kinofilm in_film) {
             if (in_film.getThreeD()) {
-                FilmVerwaltung.setFilme3D(in_film);
+                FilmVerwaltung.setFilmeFuer3DSaele(in_film);
             } else {
-                FilmVerwaltung.setFilme2D(in_film);
-                FilmVerwaltung.setFilme3D(in_film);
+                FilmVerwaltung.setFilmeFuer2DSaele(in_film);
+                FilmVerwaltung.setFilmeFuer3DSaele(in_film);
             }
     }
 
@@ -159,19 +159,18 @@ public class KinofilmImporter extends Datei {
                 case FSK_0:
                 case FSK_6:
                 case FSK_12: {
-                    FilmVerwaltung.setFilme1500(in_film);
-                    FilmVerwaltung.setFilme1730(in_film);
-                    FilmVerwaltung.setFilme2000(in_film);
-                    FilmVerwaltung.setFilme2300(in_film);
+                    FilmVerwaltung.setFilmeFuer1500Uhr_1730Uhr(in_film);
+                    FilmVerwaltung.setFilmeFuer2000Uhr(in_film);
+                    FilmVerwaltung.setFilmeFuer2300Uhr(in_film);
                     break;
                 }
                 case FSK_16: {
-                    FilmVerwaltung.setFilme2000(in_film);
-                    FilmVerwaltung.setFilme2300(in_film);
+                    FilmVerwaltung.setFilmeFuer2000Uhr(in_film);
+                    FilmVerwaltung.setFilmeFuer2300Uhr(in_film);
                     break;
                 }
                 case FSK_18: {
-                    FilmVerwaltung.setFilme2300(in_film);
+                    FilmVerwaltung.setFilmeFuer2300Uhr(in_film);
                     break;
                 }
                 default: break;
@@ -187,12 +186,12 @@ public class KinofilmImporter extends Datei {
     private void KinofilmVerteilerLaufzeit(Kinofilm in_film) {
 
         if (in_film.getLaufzeit() <= 150) {
-            FilmVerwaltung.setFilme150min(in_film);
-            FilmVerwaltung.setFilme180min(in_film);
+            FilmVerwaltung.setFilmeFuer150minSlotlaenge(in_film);
+            FilmVerwaltung.setFilmeFuer180minSlotlaenge(in_film);
         }
 
         else if (in_film.getLaufzeit() > 150) {
-            FilmVerwaltung.setFilme180min(in_film);
+            FilmVerwaltung.setFilmeFuer180minSlotlaenge(in_film);
         }
     }
 }
