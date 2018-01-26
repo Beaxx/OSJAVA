@@ -8,16 +8,51 @@ import Gruppe7.Importer.*;
 
 /**
  * Zentraler Programeinstieg
+ *
+ * SETTINGS:
+ * /plaeneZuErstellen/
+ * Wie viele gültige Spielpläne sollen erstellt werden? Diese Zahl bestimmt über die Dauer des Programmablaufs.
+ * Wird die Optimierung der Pläne (OptimierungSwitch = false) ausgeschaltet sind Geschwindigkeiten von
+ * 3700 Plänen / Sekunde möglich.
+ *
+ * /mindestPreisVorstellung/
+ * Der niedrigste Preis, den eine Vorstellung haben darf. Wird für die Optimierung verwendet. Ist die
+ * Optimierung abgeschaltet -> Kein effekt
+ *
+ * /maximalPreisVorstellung/
+ * Der höchste Preis, den eine Vorstellung haben darf. Wird für die Optimierung verwendet. Ist die
+ * Optimierung abgeschaltet -> Keinen Effekt. Sollte nicht größer als 26 gesetzt werden, da der Andrang
+ * für einen Kinofilm bei >26€ Eintrittspreis negativ wird.
+ *
+ * WICHTIG: Die Differenz zwischen Mindest- und Max-Eintrittspreis entscheided über Geschwindigkeit des programs
+ * da jede Wert von MAx -> Min ausprobiert werden muss. Hier ein paar Beispielwerte über die Performance:
+ *
+ * Zufällige Erstellung ohne Optimierung: 3700 Pläne / Sekunde
+ * Delta = 0: 9 Pläne / Sekunde (z. B. Min: 17, Max: 17)
+ * Delta = 1: 4 Pläne / Sekunde (z. B. Min: 17, Max: 18)
+ * Delta = 2: 3.2 Pläne / Sekunde (z. B. Min: 16, Max: 18)
+ * Delta = 3: 2.2 Pläne / Sekunde (z. B. Min: 16, Max: 19)
+ *
+ * /mindestBeliebtheit/
+ * Setzt den Schwellenwert für die Beliebtheit eines Films. Filme mit niedrigerer Beliebtheit werden nciht importiert.
+ * Hat keinen Einfluss auf die Performanz, aber auf das Endergebnis
+ *
  * @author Lennart Völler, Nicole Diestler, Fabian Ueberle
  */
+
+
 public class Main {
+
+    public static boolean OptimierungSwitch;
+
     public static void main(String[] args) throws IOException {
 
         /* SETTINGS */
-        int plaeneZuErstellen = 1000; // Max Geschwindigkeit: 2900 pro Sekunde (ohne Optimierung)
-        int mindestPreisVorstellung = 15;
-        int maximalPreisVorstellung = 20;
-        int mindestBeliebtheit = 90;
+        int plaeneZuErstellen = 1000; // Max Geschwindigkeit: 3700 pro Sekunde (ohne Optimierung)
+        OptimierungSwitch = true;
+        int mindestPreisVorstellung = 16;
+        int maximalPreisVorstellung = 19;
+        int mindestBeliebtheit = 95;
         /* SETTINGS */
 
         //Datenimport
@@ -40,37 +75,36 @@ public class Main {
         //Performance Wrapper start
         long startTime = System.currentTimeMillis();
 
-            //Algorithmus
+        //Algorithmus
 
-            Planer planer = new Planer(mindestPreisVorstellung, maximalPreisVorstellung);
-            for (int i = 0; i < plaeneZuErstellen; i++)
+        Planer planer = new Planer(mindestPreisVorstellung, maximalPreisVorstellung);
+        for (int i = 0; i < plaeneZuErstellen; i++)
 
-            {
-                Planer tempPlaner = new Planer(mindestPreisVorstellung, maximalPreisVorstellung);
+        {
+            Planer tempPlaner = new Planer(mindestPreisVorstellung, maximalPreisVorstellung);
 
-                if (tempPlaner.getSpielplanGewinn() > planer.getSpielplanGewinn()) {
-                    planer = tempPlaner;
-                    System.out.println("Ticket Einnahmen: " + planer.getSpielplanEinnahmenAusKartenverkaeufen() + "\n" +
-                                        "Werbungs Einnahmen: " + planer.getSpielplanWerbungsEinnahmen() + "\n" +
-                                        "Ausgaben: " + planer.getSpielplanAusgaben() + "\n" +
-                                        "Gewinn:" + planer.getSpielplanGewinn() + "\n" +
-                                        "--------------------------------");
-                }
-                if (i % 100 == 0){
-                    System.out.println("Durchlauf" + i);
-                }
+            if (tempPlaner.getSpielplanGewinn() > planer.getSpielplanGewinn()) {
+                planer = tempPlaner;
+                System.out.println("Ticket Einnahmen: " + planer.getSpielplanEinnahmenAusKartenverkaeufen() + "\n" +
+                        "Werbungs Einnahmen: " + planer.getSpielplanWerbungsEinnahmen() + "\n" +
+                        "Ausgaben: " + planer.getSpielplanAusgaben() + "\n" +
+                        "Gewinn:" + planer.getSpielplanGewinn() + "\n" +
+                        "--------------------------------");
+                java.awt.Toolkit.getDefaultToolkit().beep();
             }
+
+        }
 
         //Performance Wrapper ende
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
-        long totalTimeS = totalTime/1000;
+        long totalTimeS = totalTime / 1000;
 
         // Ausgabe
         System.out.println(Arrays.deepToString(planer.getSpielplan())); //Bester Spielplan
 
-            //Performance Auswertung
+        //Performance Auswertung
         System.out.println(totalTimeS + " Sekunden für " + plaeneZuErstellen + " Durchläufe" + "\n" +
-                (double)plaeneZuErstellen/totalTimeS + " pro Sekunde");
+                (double) plaeneZuErstellen / totalTimeS + " pro Sekunde");
     }
 }

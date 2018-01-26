@@ -2,6 +2,7 @@ package Gruppe7.Logic;
 
 import java.util.*;
 import Gruppe7.Data.*;
+import Gruppe7.Main;
 
 /**
  * @author Lennart Völler
@@ -49,8 +50,10 @@ public class Planer {
             spielplan = createRandomSpielplan(localGenreList);
         }
 
-        // Optimierung des Vorstellungspreises jeder Vorstellung
-        spielplanEinnahmenOptimierung(in_minPreisFuerVorstellung, in_maxPreisfuerVorstellung);
+        // Optimierung des Vorstellungspreises jeder Vorstellung (Switch True/ false)
+        if(Main.OptimierungSwitch){
+            spielplanEinnahmenOptimierung(in_minPreisFuerVorstellung, in_maxPreisfuerVorstellung);
+        }
 
         // Aufspaltung der Vorstellungen in drei 1-D Arrays zur weiteren Verarbeitung
         spielplanAufspaltung();
@@ -176,10 +179,8 @@ public class Planer {
     /**Debugged
      * Geht für jede Vorstellung durch den Spielplan unv sucht den Eintrittspreis, mit dem sich der Gewinn für
      * diese Vorstellung optimieren lässt nutzt dafür den überladenen Konstruktor von Vorstellung
-     * @param in_spielplan
      * @param in_minPreisFuerVorstellung
      * @param in_maxPreisFuerVorstellung
-     * @return
      */
     private void spielplanEinnahmenOptimierung(int in_minPreisFuerVorstellung, int in_maxPreisFuerVorstellung) {
         Vorstellung[][][][] tempSpielplan = spielplan;
@@ -271,18 +272,17 @@ public class Planer {
          *  abzügen.
          */
 
-        int zeitUndTagesUndWiederholungsabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
+        int zeitUndTagesUndWiederholungsabhaengigerAndrang;
         switch (in_wochenIndex) {
 
             case 1: {
                 if (woche0.contains(vorstellung.getKinofilm())) {
-                    zeitUndTagesabhaengigerAndrang = (int) Math.round(zeitUndTagesabhaengigerAndrang * 0.8);
+                    zeitUndTagesUndWiederholungsabhaengigerAndrang = (int)Math.round(zeitUndTagesabhaengigerAndrang * 0.8);
                 } else {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
                 }
                 break;
             }
-
 
             case 2: {
                 if ((woche0.contains(vorstellung.getKinofilm()) && !woche1.contains(vorstellung.getKinofilm())) ||
