@@ -285,7 +285,7 @@ public class Planer {
 
                         spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex] = new Vorstellung(saalIndex, vorstellungIndex);
 
-                        boolean breakstatement = false;
+                        boolean breakstatement;
 
                         if (!checkGenre) {
                             breakstatement = checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getKinofilm().getGenre(),
@@ -468,7 +468,6 @@ public class Planer {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = (int) Math.round(zeitUndTagesabhaengigerAndrang * 0.8);
                 } else if (filmeWoche0.contains(vorstellung.getKinofilm()) && filmeWoche1.contains(vorstellung.getKinofilm())) {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = (int) Math.round(zeitUndTagesabhaengigerAndrang * 0.5);
-                    // TODO: Hier den Rabatt für einen alle drei Wochen gezeigten Film erfassen.
                 } else {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
                 }
@@ -542,7 +541,7 @@ public class Planer {
             }
         }
 
-        // TODO: Siehe oben.
+
         //Zusammenfassung aller Kinofilme der drei Wochen (mit doppelterfassung, wenn Filme in mehreren Wochen vorkommen)
         ArrayList<Kinofilm> alleFilme = new ArrayList<>();
         alleFilme.addAll(filmeWoche0);
@@ -553,11 +552,21 @@ public class Planer {
             kosten += kinofilm.getVerleihpreisProWoche();
         }
 
-        // TODO: Retain statt Hashset, sodass nur Filme die drei Wochena am Stück gezeigt werden verbleiben.
-        // Erstellung eines Set's, dass nur die dreifach gezeigten Filme enthält.
-        Set<Kinofilm> alleFilmeDreifach = new HashSet<>(alleFilme);
-        for (Kinofilm film : alleFilmeDreifach) {
-            kosten -= film.getVerleihpreisProWoche() * 0.1;
+        // Identifizieren der Filme die alle drei wochen Gespielt werden.
+        HashMap<Kinofilm, Integer> dreifachFilme = new HashMap<Kinofilm, Integer>();
+        for (Kinofilm film : alleFilme) {
+            if (dreifachFilme.containsKey(film)) {
+                dreifachFilme.put(film, dreifachFilme.get(film) + 1);
+            } else {
+                dreifachFilme.put(film, 1);
+            }
+        }
+
+        // Geht durch die Hashmap und sicht ide Filme die drei mal vorkommen. Entsprechende rabattverrechnung
+        for(Map.Entry<Kinofilm, Integer> film: dreifachFilme.entrySet()){
+            if (film.getValue() == 3){
+                kosten -= film.getKey().getVerleihpreisProWoche() * 0.1;
+            }
         }
         return kosten;
     }
