@@ -15,8 +15,6 @@ public class Vorstellung {
     private Spielzeiten vorstellungsTimeslot;
     private int eintrittspreis = 7; // Ausgangswert
 
-    // TODO: Beliebtheit random iterieren
-
     /**
      * Basis-Konstruktor, erstellt eine zufällige Vorstellung aus der Menge der möglichen, an dieser Stelle
      * erlaubten Vorstellungen
