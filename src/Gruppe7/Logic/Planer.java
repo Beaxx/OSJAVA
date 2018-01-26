@@ -82,12 +82,15 @@ public class Planer {
 //        vorstellungTage.add(vorstellungen0, vorstellungen1)
 
         // Genre-Liste wird kopiert
-        ArrayList<Genre> localGenreList = new ArrayList<>();
-        localGenreList.addAll(genreList);
+        ArrayList<Genre> localGenreListWoche0 = new ArrayList<>();
+        ArrayList<Genre> localGenreListWoche1 = new ArrayList<>();
+        ArrayList<Genre> localGenreListWoche2 = new ArrayList<>();
+        localGenreListWoche0.addAll(genreList);
+        localGenreListWoche1.addAll(genreList);
+        localGenreListWoche2.addAll(genreList);
 
-            // TODO: Genrecheck muss wöchentlich laufen.
         while (!checkGenre) {
-            spielplan = createRandomSpielplan(localGenreList);
+            spielplan = createRandomSpielplan(localGenreListWoche0, localGenreListWoche1, localGenreListWoche2);
         }
 
         // Aufspaltung der Vorstellungen in drei 1-D Arrays zur weiteren Verarbeitung
@@ -236,19 +239,45 @@ public class Planer {
 
     /**Debugged
      */
-    private void checkGenre(ArrayList<Genre> in_vorstellungsGenres, ArrayList<Genre> in_localGenreList) {
+    private boolean checkGenre(
+            ArrayList<Genre> in_vorstellungsGenres,
+            ArrayList<Genre> in_localGenreListWoche0,
+            ArrayList<Genre> in_localGenreListWoche1,
+            ArrayList<Genre> in_localGenreListWoche2,
+            int in_wochenindex) {
 
-        for (Genre vorstellungsgenre : in_vorstellungsGenres) {
-            in_localGenreList.remove(vorstellungsgenre);
+        switch (in_wochenindex){
+            case 0:{
+                in_localGenreListWoche0.removeAll(in_vorstellungsGenres);
+                break;
+            }
+            case 1:{
+                if (!in_localGenreListWoche0.isEmpty())
+                {return true; }
+                in_localGenreListWoche1.removeAll(in_vorstellungsGenres);
+                break;
+            }
+            case 2:{
+                if (!in_localGenreListWoche1.isEmpty())
+                {return true; }
+                in_localGenreListWoche2.removeAll(in_vorstellungsGenres);
+                break;
+            }
         }
-        if (in_localGenreList.isEmpty()) {
+
+        if (in_localGenreListWoche2.isEmpty()) {
             checkGenre = true;
         }
+        else {return false;}
+
+        return false;// Catch all
     }
 
     /**Debugged
      */
-    private Vorstellung[][][][] createRandomSpielplan(ArrayList<Genre> localGenreList) {
+    private Vorstellung[][][][] createRandomSpielplan(ArrayList<Genre> in_localGenreListWoche0,
+                                                      ArrayList<Genre> in_localGenreListWoche1,
+                                                      ArrayList<Genre> in_localGenreListWoche2) {
         for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++)
             for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
                 for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
@@ -256,8 +285,15 @@ public class Planer {
 
                         spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex] = new Vorstellung(saalIndex, vorstellungIndex);
 
+                        boolean breakstatement = false;
+
                         if (!checkGenre) {
-                            checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getKinofilm().getGenre(), localGenreList);
+                            breakstatement = checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getKinofilm().getGenre(),
+                                    in_localGenreListWoche0, in_localGenreListWoche1, in_localGenreListWoche2, wochenIndex);
+
+                            if (breakstatement) {
+                                break;
+                            }
                         }
                     }
                 }
