@@ -24,6 +24,18 @@ public class Exporter extends Datei
         export.closeOutFile_FS();
         export.eof();
 
+        test1();
+
+
+    }
+
+    public void test1() {
+        System.out.println("Methode Test 1");
+
+        for (int i=0;i<10;i++){
+
+
+        }
     }
 
     public void ExportKinoProgramm()
