@@ -3,6 +3,7 @@ package Gruppe7;
 import java.io.IOException;
 import java.util.Arrays;
 import Gruppe7.Data.*;
+import Gruppe7.Exporter.Exporter;
 import Gruppe7.Logic.*;
 import Gruppe7.Importer.*;
 
@@ -55,6 +56,9 @@ public class Main {
         int mindestBeliebtheit = 93;
         /* SETTINGS */
 
+
+
+
         //Datenimport
         new WerbefilmImporter("C:/import/werbespots.csv");
         new SaalImporter("C:/import/saele.csv");
@@ -102,5 +106,9 @@ public class Main {
         //Performance Auswertung
         System.out.println(totalTimeS + " Sekunden für " + plaeneZuErstellen + " Durchläufe" + "\n" +
                 (double) plaeneZuErstellen / totalTimeS + " pro Sekunde");
+
+
+        Exporter exporter = new Exporter("C:/import/export.txt", "Hello");
+
     }
 }
