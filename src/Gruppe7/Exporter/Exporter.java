@@ -5,38 +5,38 @@ import Gruppe7.Importer.Datei;
 public class Exporter extends Datei
 {
 
+    Datei export;
     String exportString;
 
-    public Exporter(String in_name, String in_exportString)
-    {
+    public Exporter(String in_name, String in_exportString) {
         super(in_name);
-
-        exportString = in_exportString;
         Datei export = new Datei(in_name);
+        exportString = in_exportString;
 
-        export.openOutFile_FS();
+
+        //export.openOutFile_FS();
 
         //String readLine = export.readLine_FS();
 
         //System.out.println(readLine);
 
-        export.writeLine_FS(exportString);
+        /*export.writeLine_FS(exportString);
         export.closeOutFile_FS();
-        export.eof();
+        export.eof();*/
 
-        test1();
+        //test1();
+        export.openOutFile_FS();
 
-
-    }
-
-    public void test1() {
-        System.out.println("Methode Test 1");
-
-        for (int i=0;i<10;i++){
+        for (int i = 0; i < 10; i++) {
+            export.writeLine_FS(exportString);
+            export.writeLine_FS("\r");
 
 
         }
+        export.closeOutFile_FS();
+        export.eof();
     }
+
 
     public void ExportKinoProgramm()
     {
