@@ -29,7 +29,6 @@ public class KinofilmImporter extends Datei {
         importFileKinofilme = new Datei(in_name);
         importFileKinofilme.openInFile_FS();
 
-        //Schleife läuft bis zum Ende der Datei.
         while (true) {
 
             //Jede Zeile wird in importString eingelesen, es sei denn, in der letzten Zeile steht nichts drin.
@@ -45,10 +44,7 @@ public class KinofilmImporter extends Datei {
             //Zerlegt den Import String (Zeile der Datei) und erstellt ein Array.
             arrayKinofilm = importString.split(";");
 
-            //Die einzelnen Array Positionen werden nachfolgend Variablen der Klasse zugewiesen.
-
-            //FSK des aktuellen Films
-            //Hier wird der int Wert der FSK ausgewertet und dafür eine Enumeration gesetzt.
+            //region FSK des aktuellen Films
             importKinofilmFskInt = Integer.valueOf(arrayKinofilm[2]);
             if (importKinofilmFskInt == 18) {
                 importKinofilmFSK = Fsk.FSK_18;
@@ -65,7 +61,7 @@ public class KinofilmImporter extends Datei {
             if (importKinofilmFskInt == 0) {
                 importKinofilmFSK = Fsk.FSK_0;
             }
-            //Test ob FSK Zusweisung erfolgreich war.
+            //endregion
 
             //Genres Auslesen und Zuweisen
             //Für jeden Durchgang muss eine neue Liste erstellt werden.
@@ -75,14 +71,12 @@ public class KinofilmImporter extends Datei {
             //Erstellung eines String mit allen Genres
             importKinofilmGemresString = String.valueOf(arrayKinofilm[3]);
 
-            //Der String wird aufgeteilt
             String arrayGenre[] = importKinofilmGemresString.split(",");
             for (int i = 0; i < arrayGenre.length; i++) {
-                //Leerzeichen entfernen
                 arrayGenre[i] = arrayGenre[i].trim();
             }
 
-            //Die ausgelesenen Genres werden gepfrüft und eindeutigen Enums zugewiesen.
+            //region Die ausgelesenen Genres werden gepfrüft und eindeutigen Enums zugewiesen.
             for (String inputGenre : arrayGenre) {
                 if (inputGenre.trim().equals("Action")) {
                     importKinofilmGenres.add(Genre.ACTION);
@@ -111,8 +105,8 @@ public class KinofilmImporter extends Datei {
                 if (inputGenre.trim().equals("Thriller")) {
                     importKinofilmGenres.add(Genre.THRILLER);
                 }
-
             }
+            //endregion
 
             Kinofilm tempKinofilm = new Kinofilm(
                     String.valueOf(arrayKinofilm[0]),
