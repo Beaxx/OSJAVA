@@ -13,10 +13,18 @@ import Gruppe7.Importer.*;
 public class Main {
     public static void main(String[] args) throws IOException {
 
+
+        /* SETTINGS */
+        int durchlaeufe = 100000; // Geschwindigkeit: 2750 pro Sekunde
+        int mindestPreisVorstellung = 5;
+        int maximalPreisVorstellung = 26;
+        int mindestBeliebtheit = 95;
+        /* SETTINGS */
+
         //Datenimport
         new WerbefilmImporter("C:/import/werbespots.csv");
         new SaalImporter("C:/import/saele.csv");
-        new KinofilmImporter("C:/import/filme.csv");
+        new KinofilmImporter("C:/import/filme.csv", mindestBeliebtheit);
 
         //FilmArrays erstellen
         FilmVerwaltung.FilmArraysHelper();
@@ -32,13 +40,13 @@ public class Main {
         //Performance Wrapper start
         long startTime = System.currentTimeMillis();
 
-            //Algorithmusdurchläufe
-            Planer planer = new Planer();
-            int durchlaeufe = 100000; // Geschwindigkeit: 2750 pro Sekunde
+            //Algorithmus
+
+            Planer planer = new Planer(mindestPreisVorstellung, maximalPreisVorstellung, mindestBeliebtheit);
             for (int i = 0; i < durchlaeufe; i++)
 
             {
-                Planer tempPlaner = new Planer();
+                Planer tempPlaner = new Planer(mindestPreisVorstellung, maximalPreisVorstellung, mindestBeliebtheit);
 
                 if (tempPlaner.getSpielplanGewinn() > planer.getSpielplanGewinn()) {
                     planer = tempPlaner;

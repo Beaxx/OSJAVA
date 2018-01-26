@@ -33,8 +33,10 @@ public class KinofilmImporter extends Datei {
      *
      * @param in_name (String): Dateiname der benutzt werden soll.
      */
-    public KinofilmImporter(String in_name) {
+    public KinofilmImporter(String in_name, int in_minBeliebtheit) {
         super(in_name);
+
+        minBeliebtheit = in_minBeliebtheit;
 
         importFileKinofilme = new Datei(in_name);
         importFileKinofilme.openInFile_FS();
@@ -45,12 +47,12 @@ public class KinofilmImporter extends Datei {
             //Jede Zeile wird in importString eingelesen, es sei denn, in der letzten Zeile steht nichts drin.
             importString = importFileKinofilme.readLine_FS();
 
+            // Schleifen Abbruch statement
             if (importString == null) {
                 break;
             }
 
             String[] arrayKinofilm;
-//                System.out.println("Import String: " + importString + "\naus Importdatei " + in_name);
 
             //Zerlegt den Import String (Zeile der Datei) und erstellt ein Array.
             arrayKinofilm = importString.split(";");
@@ -81,8 +83,6 @@ public class KinofilmImporter extends Datei {
                 importKinofilmFSK = Fsk.FSK_0;
             }
             //Test ob FSK Zusweisung erfolgreich war.
-//                System.out.println("FSK: " + importKinofilmFSK);
-
 
             //Genres Auslesen und Zuweisen
             //Für jeden Durchgang muss eine neue Liste erstellt werden.
@@ -91,10 +91,6 @@ public class KinofilmImporter extends Datei {
 
             //Erstellung eines String mit allen Genres
             importKinofilmGemresString = String.valueOf(arrayKinofilm[3]);
-
-            //Ausgabe des Strings
-//                System.out.println("String Genres:" + importKinofilmGemresString);
-//                System.out.println("--------------------------");
 
             //Der String wird aufgeteilt
             String arrayGenre[] = importKinofilmGemresString.split(",");
@@ -142,11 +138,20 @@ public class KinofilmImporter extends Datei {
             importKinofilmErscheinungsjahr = Integer.valueOf(arrayKinofilm[9]);
             importThreeD = Boolean.valueOf(arrayKinofilm[10]);
 
+            Kinofilm tempKinofilm = new Kinofilm(
+                    importKinofilmTitel,
+                    importKinofilmLaufzeit,
+                    importThreeD,
+                    importKinofilmSprache,
+                    importKinofilmRegisseur,
+                    importKinofilmErscheinungsjahr,
+                    importKinofilmErscheinungsland,
+                    importKinofilmBeliebtheit,
+                    importKinofilmMietpreis,
+                    importKinofilmFSK,
+                    importKinofilmGenres);
 
-            Kinofilm tempKinofilm = new Kinofilm(importKinofilmTitel, importKinofilmLaufzeit, importThreeD, importKinofilmSprache, importKinofilmRegisseur, importKinofilmErscheinungsjahr, importKinofilmErscheinungsland, importKinofilmBeliebtheit, importKinofilmMietpreis, importKinofilmFSK, importKinofilmGenres);
-            int beliebtheitsFilter = 95;     // TODO: Filterung auslagern und von der Main-Methode zugägnlich machen
-
-            Kinofilm tempKinofilmNachBeliebtheitsfilter = (KinofilmFilter(beliebtheitsFilter, tempKinofilm));
+            Kinofilm tempKinofilmNachBeliebtheitsfilter = (KinofilmFilter(minBeliebtheit, tempKinofilm));
 
             KinofilmVerteiler3D2D(tempKinofilmNachBeliebtheitsfilter);
             KinofilmVerteilerTimeslot(tempKinofilmNachBeliebtheitsfilter);

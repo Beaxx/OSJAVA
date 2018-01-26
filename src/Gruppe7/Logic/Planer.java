@@ -1,7 +1,6 @@
 package Gruppe7.Logic;
 
 import java.util.*;
-
 import Gruppe7.Data.*;
 
 /**
@@ -14,33 +13,34 @@ import Gruppe7.Data.*;
  * Spielplan zurück.
  */
 public class Planer {
+    // Saaldaten
+    private int plaetzeGroesterSaal = SaalVerwaltung.getPlaetzeGroesterSaal();
+    private int plaetzeZweitgroesterSaal = SaalVerwaltung.getPlaetzeZweitgroesterSaal();
     private int anzahlSaele = SaalVerwaltung.getSize();
 
-    //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
-    private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4];
-
+    // Finanzdaten
     private int spielplanEinnahmenAusKartenverkaeufen = 0;
     private int spielplanAusgaben = 0;
     private int spielplanGewinn = 0;
     private int spielplanWerbungsEinnahmen = 0;
-    private int plaetzeGroesterSaal = SaalVerwaltung.getPlaetzeGroesterSaal();
-    private int plaetzeZweitgroesterSaal = SaalVerwaltung.getPlaetzeZweitgroesterSaal();
 
-    private ArrayList<Vorstellung> woche0 = new ArrayList<>();
+    // Spielplandaten
+    private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4]; //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
+    private ArrayList<Vorstellung> woche0 = new ArrayList<>(); // Flaches 1-D Array für alle Vorstellungen einer Woche
     private ArrayList<Vorstellung> woche1 = new ArrayList<>();
     private ArrayList<Vorstellung> woche2 = new ArrayList<>();
 
-    // Generiert eine Genre-List aus dem Genre Enum unabhängig vom Objekt
-    private static List<Genre> genreList = Arrays.asList(Genre.values());
+    // Genredaten
+    private static List<Genre> genreList = Arrays.asList(Genre.values()); // Generiert eine Genre-List aus dem Genre Enum unabhängig vom Objekt
     private boolean checkGenre = false;
 
     /**
      * Erstellung eines zufälligen Spielplans bei Iteration durch das leere Vorstellungs-Array
      * @return Ein vierdimensionales Vorstellungsarray [woche][tag][saal][timeslot]
      */
-    public Planer() {
+    public Planer(int in_minPreisFuerVorstellung, int in_maxPreisfuerVorstellung, int in_minBeliebtheit) {
 
-        // GenreListe wird kopiert der Liste
+        // GenreListe wird kopiert
         ArrayList<Genre> localGenreList = new ArrayList<>();
         localGenreList.addAll(genreList);
 
@@ -48,7 +48,7 @@ public class Planer {
             spielplan = createRandomSpielplan(localGenreList);
         }
 
-        spielplan = spielplanEinnahmenOptimierung(spielplan, 15, 18);
+        spielplan = spielplanEinnahmenOptimierung(spielplan, in_minPreisFuerVorstellung, in_maxPreisfuerVorstellung);
         spielplanAufspaltung();
         spielplanAusgaben = spielplanAusgaben();
         spielplanEinnahmenAusKartenverkaeufen = spielplanEinnahmen(spielplan)[0];
