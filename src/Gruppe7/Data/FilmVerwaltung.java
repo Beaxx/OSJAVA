@@ -30,6 +30,9 @@ import java.util.*;
  *
  * Am ende werden nur noch 6 Sets gebruacht.
  *
+ * Der Startup-Prozess des Programs beträgt im schnitt etwa 250 Millisekunden, durch die Auslagerung der Filterung
+ * werden große Effizeinzvorteile erzielt.
+ *
  * ###### ..> Da die maximale Dauer die ein Fil haben darf direkt vom Zeitslot abhängt ist dieser nicht zu überprüfen
  */
 public class FilmVerwaltung {

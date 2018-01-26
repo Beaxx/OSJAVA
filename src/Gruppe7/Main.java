@@ -13,7 +13,6 @@ import Gruppe7.Importer.*;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-
         /* SETTINGS */
         int durchlaeufe = 100000; // Geschwindigkeit: 2900 pro Sekunde
         int mindestPreisVorstellung = 17;
