@@ -38,7 +38,7 @@ public class Planer {
      * Erstellung eines zufälligen Spielplans bei Iteration durch das leere Vorstellungs-Array
      * @return Ein vierdimensionales Vorstellungsarray [woche][tag][saal][timeslot]
      */
-    public Planer(int in_minPreisFuerVorstellung, int in_maxPreisfuerVorstellung, int in_minBeliebtheit) {
+    public Planer(int in_minPreisFuerVorstellung, int in_maxPreisfuerVorstellung) {
 
         // GenreListe wird kopiert
         ArrayList<Genre> localGenreList = new ArrayList<>();

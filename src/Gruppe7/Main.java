@@ -16,8 +16,8 @@ public class Main {
 
         /* SETTINGS */
         int durchlaeufe = 100000; // Geschwindigkeit: 2750 pro Sekunde
-        int mindestPreisVorstellung = 5;
-        int maximalPreisVorstellung = 26;
+        int mindestPreisVorstellung = 17;
+        int maximalPreisVorstellung = 17;
         int mindestBeliebtheit = 95;
         /* SETTINGS */
 
@@ -42,11 +42,11 @@ public class Main {
 
             //Algorithmus
 
-            Planer planer = new Planer(mindestPreisVorstellung, maximalPreisVorstellung, mindestBeliebtheit);
+            Planer planer = new Planer(mindestPreisVorstellung, maximalPreisVorstellung);
             for (int i = 0; i < durchlaeufe; i++)
 
             {
-                Planer tempPlaner = new Planer(mindestPreisVorstellung, maximalPreisVorstellung, mindestBeliebtheit);
+                Planer tempPlaner = new Planer(mindestPreisVorstellung, maximalPreisVorstellung);
 
                 if (tempPlaner.getSpielplanGewinn() > planer.getSpielplanGewinn()) {
                     planer = tempPlaner;

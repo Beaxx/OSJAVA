@@ -7,25 +7,13 @@ public class KinofilmImporter extends Datei {
 
     private Datei importFileKinofilme;
     private String importString;
-    private String importKinofilmTitel;
-    private String importKinofilmRegisseur;
-
     private int importKinofilmFskInt;
     private Fsk importKinofilmFSK;
 
     private String importKinofilmGemresString;
     private ArrayList<Genre> importKinofilmGenres;
 
-    private int importKinofilmMietpreis;
-    private int importKinofilmBeliebtheit;
-    private int importKinofilmLaufzeit;
-    private String importKinofilmSprache;
-    private String importKinofilmErscheinungsland;
-    private int importKinofilmErscheinungsjahr;
-    private boolean importThreeD;
-
     private int minBeliebtheit;
-
 
     /**
      * Konstruktor fuer Objekte der Klasse Datei
@@ -58,11 +46,6 @@ public class KinofilmImporter extends Datei {
             arrayKinofilm = importString.split(";");
 
             //Die einzelnen Array Positionen werden nachfolgend Variablen der Klasse zugewiesen.
-
-            //Filmtitel
-            importKinofilmTitel = String.valueOf(arrayKinofilm[0]);
-            //Regieseuer
-            importKinofilmRegisseur = String.valueOf(arrayKinofilm[1]);
 
             //FSK des aktuellen Films
             //Hier wird der int Wert der FSK ausgewertet und dafür eine Enumeration gesetzt.
@@ -130,24 +113,17 @@ public class KinofilmImporter extends Datei {
                 }
 
             }
-            importKinofilmMietpreis = Integer.valueOf(arrayKinofilm[4]);
-            importKinofilmBeliebtheit = Integer.valueOf(arrayKinofilm[5]);
-            importKinofilmLaufzeit = Integer.valueOf(arrayKinofilm[6]);
-            importKinofilmSprache = String.valueOf(arrayKinofilm[7]);
-            importKinofilmErscheinungsland = String.valueOf(arrayKinofilm[8]);
-            importKinofilmErscheinungsjahr = Integer.valueOf(arrayKinofilm[9]);
-            importThreeD = Boolean.valueOf(arrayKinofilm[10]);
 
             Kinofilm tempKinofilm = new Kinofilm(
-                    importKinofilmTitel,
-                    importKinofilmLaufzeit,
-                    importThreeD,
-                    importKinofilmSprache,
-                    importKinofilmRegisseur,
-                    importKinofilmErscheinungsjahr,
-                    importKinofilmErscheinungsland,
-                    importKinofilmBeliebtheit,
-                    importKinofilmMietpreis,
+                    String.valueOf(arrayKinofilm[0]),
+                    Integer.valueOf(arrayKinofilm[6]),
+                    Boolean.valueOf(arrayKinofilm[10]),
+                    String.valueOf(arrayKinofilm[7]),
+                    String.valueOf(arrayKinofilm[1]),
+                    Integer.valueOf(arrayKinofilm[9]),
+                    String.valueOf(arrayKinofilm[8]),
+                    Integer.valueOf(arrayKinofilm[5]),
+                    Integer.valueOf(arrayKinofilm[4]),
                     importKinofilmFSK,
                     importKinofilmGenres);
 
