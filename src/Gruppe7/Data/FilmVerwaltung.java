@@ -88,21 +88,21 @@ public class FilmVerwaltung {
                 switch (in_uhrzeit) {
                     case SLOT_1500:
                     case SLOT_1730: {
-                        filme3D_150_1500_1730 = new ArrayList<>(filmeFuer3DSaele);
+                        filme3D_150_1500_1730 = filmeFuer3DSaele;
                         filme3D_150_1500_1730.retainAll(filmeFuer1500Uhr_1730Uhr);
                         filme3D_150_1500_1730.retainAll(filmeFuer150minSlotlaenge);
                         break;
                     }
 
                     case SLOT_2000: {
-                        filme3D_180_2000 = new ArrayList<>(filmeFuer3DSaele);
+                        filme3D_180_2000 = filmeFuer3DSaele;
                         filme3D_180_2000.retainAll(filmeFuer2000Uhr);
                         filme3D_180_2000.retainAll(filmeFuer180minSlotlaenge);
                         break;
                     }
 
                     case SLOT_2300: {
-                        filme3D_150_2300 = new ArrayList<>(filmeFuer3DSaele);
+                        filme3D_150_2300 = filmeFuer3DSaele;
                         filme3D_150_2300.retainAll(filmeFuer2300Uhr);
                         filme3D_150_2300.retainAll(filmeFuer150minSlotlaenge);
                         break;
@@ -117,20 +117,20 @@ public class FilmVerwaltung {
                 switch (in_uhrzeit) {
                     case SLOT_1500:
                     case SLOT_1730: {
-                        filme2D_150_1500_1730 = new ArrayList<>(filmeFuer2DSaele);
+                        filme2D_150_1500_1730 = filmeFuer2DSaele;
                         filme2D_150_1500_1730.retainAll(filmeFuer1500Uhr_1730Uhr);
                         filme2D_150_1500_1730.retainAll(filmeFuer150minSlotlaenge);
                         break;
                     }
 
                     case SLOT_2000: {
-                        filme2D_180_2000 = new ArrayList<>(filmeFuer2DSaele);
+                        filme2D_180_2000 = filmeFuer2DSaele;
                         filme2D_180_2000.retainAll(filmeFuer2000Uhr);
                         filme2D_180_2000.retainAll(filmeFuer180minSlotlaenge);
                         break;
                     }
                     case SLOT_2300: {
-                        filme2D_150_2300 = new ArrayList<>(filmeFuer2DSaele);
+                        filme2D_150_2300 = filmeFuer2DSaele;
                         filme2D_150_2300.retainAll(filmeFuer2300Uhr);
                         filme2D_150_2300.retainAll(filmeFuer150minSlotlaenge);
                         break;

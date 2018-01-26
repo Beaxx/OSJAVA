@@ -13,7 +13,7 @@ public class Vorstellung {
     private ArrayList<Werbefilm> werbungen = new ArrayList<>();
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
-    private int eintrittspreis = 17; // Ausgangswert
+    private int eintrittspreis = 7; // Ausgangswert
 
     // TODO: Beliebtheit random iterieren
 

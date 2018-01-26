@@ -48,7 +48,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         /* SETTINGS */
-        int plaeneZuErstellen = 100000; // Max Geschwindigkeit: 3700 pro Sekunde (ohne Optimierung)
+        int plaeneZuErstellen = 1000; // Max Geschwindigkeit: 3700 pro Sekunde (ohne Optimierung)
         OptimierungSwitch = false;
         int mindestPreisVorstellung = 16;
         int maximalPreisVorstellung = 19;
@@ -67,7 +67,6 @@ public class Main {
         WerbefilmVerwaltung.werbeplanSortieren();
         WerbefilmVerwaltung.standardWerbeblock();
 
-
         // Saele sortieren
         SaalVerwaltung.saalplanSortieren();
         SaalVerwaltung.plaetzteInGroestemUndZweitgroestemSaal();
@@ -76,7 +75,6 @@ public class Main {
         long startTime = System.currentTimeMillis();
 
         //Algorithmus
-
         Planer planer = new Planer(mindestPreisVorstellung, maximalPreisVorstellung);
         for (int i = 0; i < plaeneZuErstellen; i++)
 
