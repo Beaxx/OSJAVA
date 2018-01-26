@@ -15,8 +15,8 @@ public class Main {
 
         /* SETTINGS */
         int durchlaeufe = 100000; // Geschwindigkeit: 2900 pro Sekunde
-        int mindestPreisVorstellung = 17;
-        int maximalPreisVorstellung = 17;
+        int mindestPreisVorstellung = 15;
+        int maximalPreisVorstellung = 20;
         int mindestBeliebtheit = 30;
         /* SETTINGS */
 

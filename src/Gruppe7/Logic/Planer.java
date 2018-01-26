@@ -114,7 +114,11 @@ public class Planer {
         return spielplan;
     }
 
-    /**
+    /**Debugged
+     * Errechnet die durch einen Spielplan entstehenden Einnahmen. Greift dabei auf die Optimierung
+     * dees Vorstellungspreises zu
+     * @param spielplan
+     * @return array [Einnahmen aus Ticketverkauf][Einnahmen aus Werbung]
      */
     private int[] spielplanEinnahmen(Vorstellung[][][][] spielplan) {
         int[] localSpielplaneinnahmen = {0, 0};
@@ -123,35 +127,38 @@ public class Planer {
                 for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
 
+                        // Wählt die aktuelle Vorstellung
                         Vorstellung vorstellung = spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex];
                         int eintrittspreis = vorstellung.GetEintrittspreis();
-                        int andrang = andrang(vorstellung, tagIndex, vorstellungIndex, wochenIndex, eintrittspreis);
-                        int andrangLoge;
-                        int andrangParkett;
 
-                        // Andrang in der Loge
+                        // Berechnet den Andrang für die aktuelle Vorstellung
+                        int andrang = andrang(vorstellung, tagIndex, vorstellungIndex, wochenIndex, eintrittspreis);
+                        int zuschauerLoge;
+                        int zuschauerParkett;
+
+                        // Andrang in der Loge, wenn Andrang > Plätze = Plätze
                         if (andrang * 0.5 > SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeLoge()) {
-                            andrangLoge = SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeLoge();
+                            zuschauerLoge = SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeLoge();
                         } else {
-                            andrangLoge = (int) Math.round((double) andrang * 0.5);
+                            zuschauerLoge = (int) Math.round((double) andrang * 0.5);
                         }
 
-                        //Andrang im Parkett
+                        //Andrang im Parkett, wenn Andrang > Plätze = Plätze
                         if (andrang * 0.5 > SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett()) {
-                            andrangParkett = SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett();
+                            zuschauerParkett = SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett();
                         } else {
-                            andrangParkett = (int) Math.round((double) andrang * 0.5);
+                            zuschauerParkett = (int) Math.round((double) andrang * 0.5);
                         }
 
                         //Einnahmen durch Ticketsverkäufe
-                        int ticketverkaeufeLoge = (eintrittspreis + 2) * andrangLoge;
-                        int ticketverkaeufeParkett = eintrittspreis * andrangParkett;
+                        int ticketverkaeufeLoge = (eintrittspreis + 2) * zuschauerLoge;
+                        int ticketverkaeufeParkett = eintrittspreis * zuschauerParkett;
 
                         localSpielplaneinnahmen[0] += ticketverkaeufeLoge + ticketverkaeufeParkett;
 
                         //Einnahmen aus Werbung
                         for (Werbefilm werbung : vorstellung.getWerbefilme()) {
-                            localSpielplaneinnahmen[1] += werbung.getUmsatzProZuschauer() * (andrangLoge + andrangParkett);
+                            localSpielplaneinnahmen[1] += werbung.getUmsatzProZuschauer() * (zuschauerLoge + zuschauerParkett);
                         }
                     }
                 }
