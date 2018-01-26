@@ -51,7 +51,8 @@ public class FilmVerwaltung {
     static private ArrayList<Kinofilm> filme2D_150_2300 = new ArrayList<>();
     static private ArrayList<Kinofilm> filme2D_180_2000 = new ArrayList<>();
 
-    /** Debugged
+    /**
+     * Debugged
      * Hilfsmethode die die Iteration der setFilmArrays() übernimmt.
      * Da die Filme für die 15:00 und 17:30 Vorstellung das Selbe FSK-Siegel tragen und
      * dementsprechend die gleiche Charakteristiken aufweisen wird die Abfrage des 15:00 Uhr Slots
@@ -68,8 +69,10 @@ public class FilmVerwaltung {
         }
     }
 
-    /** Debugged
+    /**
+     * Debugged
      * Erstellung der vordefinierten Sets aus allen Filmen. Nur 6 Sets werden für alle Filme benötigt
+     *
      * @param in_saal3Dfaehig
      * @param in_uhrzeit
      */
@@ -165,95 +168,66 @@ public class FilmVerwaltung {
         filmeFuer180minSlotlaenge.add(in_film);
     }
 
-    // Getter
-//    public static ArrayList<Kinofilm> getFilme(boolean in_ThreeD, Spielzeiten in_timeslot) {
-//        int switchSlotDuration;
-//        if (in_timeslot.getSlotDuration() == 150) {
-//            switchSlotDuration = 150;
-//        } else {
-//            switchSlotDuration = 180;
-//        }
-//
-//        int switchThreeD;
-//        if (in_ThreeD) {
-//            switchThreeD = 1;
-//        } else {
-//            switchThreeD = 0;
-//        }
-//
-//        switch (switchThreeD) {
-//
-//            // 3D Film
-//            case 1: {
-//                switch (switchSlotDuration) {
-//
-//                    case 150: {
-//                        switch (in_timeslot) {
-//                            case SLOT_1500: {
-//                                return filme3D_150_1500_1730;
-//                            }
-//                            case SLOT_1730: {
-//                                return filme3D_150_1730;
-//                            }
-//                            case SLOT_2300: {
-//                                return filme3D_150_2300;
-//                            }
-//                        }
-//                    }
-//                    break;
-//
-//                    case 180: {
-//                        switch (in_timeslot) {
-//                            case SLOT_2000: {
-//                                return filme3D_180_2000;
-//                            }
-//                        }
-//                    }
-//                    break;
-//
-//                    default:
-//                        return null;
-//                }
-//            }
-//            break;
-//
-//            // 2D Film
-//            case 0: {
-//                switch (switchSlotDuration) {
-//
-//                    case 150: {
-//                        switch (in_timeslot) {
-//                            case SLOT_1500: {
-//                                return filme2D_150_1500_1730;
-//                            }
-//                            case SLOT_1730: {
-//                                return filme2D_150_1730;
-//                            }
-//                            case SLOT_2300: {
-//                                return filme2D_150_2300;
-//                            }
-//                        }
-//                    }
-//                    break;
-//
-//                    case 180: {
-//                        switch (in_timeslot) {
-//                            case SLOT_2000: {
-//                                return filme2D_180_2000;
-//                            }
-//                        }
-//                    }
-//                    break;
-//
-//                    default:
-//                        return null;
-//                }
-//            }
-//            break;
-//
-//            default:
-//                return null;
-//        }
-//        return null;
-//    }
+    //Getter
+
+    /** Debugged
+     * Der Getter funktioniert ähnlich dem Setter, anhand von 3D-Fähigkeit des Saals und dem Timeslot wird
+     * das passemde Filmset ausgewählt und zurückgegeben
+     * @param in_saal3Dfaehig
+     * @param in_uhrzeit
+     * @return
+     */
+    public static ArrayList<Kinofilm> getFilme(boolean in_saal3Dfaehig, Spielzeiten in_uhrzeit) {
+
+        // Übersetzung von Boolean in Int für switch
+        int switch3D;
+        if (in_saal3Dfaehig) {
+            switch3D = 1;
+        } else {
+            switch3D = 0;
+        }
+
+        switch (switch3D) {
+
+            //region  3D-Faehiger Saal
+            case 1: {
+                switch (in_uhrzeit) {
+                    case SLOT_1500:
+                    case SLOT_1730: {
+                        return filme3D_150_1500_1730;
+                    }
+
+                    case SLOT_2000: {
+                        return filme3D_180_2000;
+                    }
+
+                    case SLOT_2300: {
+                        return filme3D_150_2300;
+                    }
+                }
+            }
+            //endregion
+
+            //region 2D-Faehiger Saal
+            case 0: {
+                switch (in_uhrzeit) {
+                    case SLOT_1500:
+                    case SLOT_1730: {
+                        return filme2D_150_1500_1730;
+                    }
+
+                    case SLOT_2000: {
+                        return filme2D_180_2000;
+                    }
+
+                    case SLOT_2300: {
+                        return filme2D_150_2300;
+                    }
+                }
+            }
+            default:
+                return null;
+            //endregion
+        }
+    }
 }

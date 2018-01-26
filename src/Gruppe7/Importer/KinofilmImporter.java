@@ -123,14 +123,14 @@ public class KinofilmImporter extends Datei {
         }
     }
 
-    /**
+    /** Debugged
      * Ermittelt, ob ein Film die mindest Beliebtheit erfüllt.
      */
     private boolean KinofilmFilter(Kinofilm in_film) {
         return in_film.getBeliebtheit() >= minBeliebtheit;
     }
 
-    /**
+    /** Debugged
      * Fügt einen Film entsprechend seiner 3D-eigenschaft zu den Kinofilmlisten hinzu.
      * Entscheidungskriterium ist, ob ein Film im entsprechenden Saal gezeigt werden könnte.
      * Ein 2D-Film kann sowohl in 3D-Sälen als auch in 2D-Sälen gezeigt werden.
@@ -147,7 +147,7 @@ public class KinofilmImporter extends Datei {
             }
     }
 
-    /**
+    /** Debugged
      * Fügt einen Film entsprechend seiner FSK-Eigenschaften zu den Kinofilmlisten hinzu.
      * Entscheidungskriterium ist, ob ein Film zum entsprechenden Timeslot gezeigt werden darf.
      * Ein FSK0 kann also zu jeder Tageszeit, auch um 23:00 gezeigt werden.
@@ -177,7 +177,7 @@ public class KinofilmImporter extends Datei {
         }
     }
 
-    /**
+    /** Debugged
      * Fügt einen Film entsprechend seiner Spieldauer zu den Kinofilmlisten hinzu.
      * Entscheidungskriterium ist, ob ein Film in den entsprechenden Timeslot passt.
      * Ein 150 Minuten langer film kann also auch in einem 180 Minuten timeslot laufen.
