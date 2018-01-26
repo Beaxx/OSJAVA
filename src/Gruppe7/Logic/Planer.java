@@ -27,9 +27,10 @@ public class Planer {
     private int spielplanAusgaben = 0;
     private int spielplanGewinn = 0;
 
-
     // Spielplandaten
     private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4]; //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
+
+    //TODO: Wochen überflüssig?
     private ArrayList<Vorstellung> woche0 = new ArrayList<>(); // Flaches 1-D Array für alle Vorstellungen einer Woche
     private ArrayList<Vorstellung> woche1 = new ArrayList<>();
     private ArrayList<Vorstellung> woche2 = new ArrayList<>();
@@ -37,7 +38,6 @@ public class Planer {
     private Set<Kinofilm> filmeWoche0 = new HashSet<>();
     private Set<Kinofilm> filmeWoche1 = new HashSet<>();
     private Set<Kinofilm> filmeWoche2 = new HashSet<>();
-
 
     private Set<Vorstellung> vorstellungen0 = new HashSet<>();
     private Set<Vorstellung> vorstellungen1 = new HashSet<>();
@@ -61,8 +61,9 @@ public class Planer {
     private Set<Vorstellung> vorstellungen19 = new HashSet<>();
     private Set<Vorstellung> vorstellungen20 = new HashSet<>();
 
+
     private ArrayList<Set<Vorstellung>> vorstellungTage =
-            new ArrayList<Set<Vorstellung>>(Arrays.asList(
+            new ArrayList<>(Arrays.asList(
                     vorstellungen0, vorstellungen1, vorstellungen2, vorstellungen3, vorstellungen4,
                     vorstellungen5, vorstellungen6, vorstellungen7, vorstellungen8, vorstellungen9,
                     vorstellungen10, vorstellungen11, vorstellungen12, vorstellungen13, vorstellungen14,
@@ -84,6 +85,7 @@ public class Planer {
         ArrayList<Genre> localGenreList = new ArrayList<>();
         localGenreList.addAll(genreList);
 
+            // TODO: Genrecheck muss wöchentlich laufen.
         while (!checkGenre) {
             spielplan = createRandomSpielplan(localGenreList);
         }
@@ -515,6 +517,7 @@ public class Planer {
             kosten += kinofilm.getVerleihpreisProWoche();
         }
 
+        // TODO: Retain statt Hashset, sodass nur Filme die drei Wochena am Stück gezeigt werden verbleiben.
         // Erstellung eines Set's, dass nur die dreifach gezeigten Filme enthält.
         Set<Kinofilm> alleFilmeDreifach = new HashSet<>(alleFilme);
         for (Kinofilm film : alleFilmeDreifach) {
