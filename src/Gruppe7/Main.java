@@ -27,12 +27,13 @@ public class Main {
 
         // Saele sortieren
         SaalVerwaltung.saalplanSortieren();
+        SaalVerwaltung.plaetzteInGroestemUndZweitgroestemSaal();
 
         //Performance Wrapper
         long startTime = System.currentTimeMillis();
 
             Planer planer = new Planer();
-            int durchläufe = 1000000;
+            int durchläufe = 100000;
             for (int i = 0; i < durchläufe; i++)
 
             {

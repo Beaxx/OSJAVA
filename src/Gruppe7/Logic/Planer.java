@@ -1,11 +1,8 @@
 package Gruppe7.Logic;
 
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.stream.IntStream;
 
 import Gruppe7.Data.*;
-import Gruppe7.Main;
 
 /**
  * @author Lennart Völler
@@ -26,24 +23,24 @@ public class Planer {
     private int spielplanAusgaben = 0;
     private int spielplanGewinn = 0;
     private int spielplanWerbungsEinnahmen = 0;
-    private int[] plaetzteInGroestemUndZweitgroestemSaal = plaetzteInGroestemUndZweitgroestemSaal();
+    private int plaetzeGroesterSaal = SaalVerwaltung.getPlaetzeGroesterSaal();
+    private int plaetzeZweitgroesterSaal = SaalVerwaltung.getPlaetzeZweitgroesterSaal();
 
     private ArrayList<Vorstellung> woche0 = new ArrayList<>();
     private ArrayList<Vorstellung> woche1 = new ArrayList<>();
     private ArrayList<Vorstellung> woche2 = new ArrayList<>();
 
+    // Generiert eine Genre-List aus dem Genre Enum unabhängig vom Objekt
+    private static List<Genre> genreList = Arrays.asList(Genre.values());
     private boolean checkGenre = false;
 
     /**
      * Erstellung eines zufälligen Spielplans bei Iteration durch das leere Vorstellungs-Array
-     *
      * @return Ein vierdimensionales Vorstellungsarray [woche][tag][saal][timeslot]
      */
     public Planer() {
-        // Liste aus Enum
-        List<Genre> genreList = Arrays.asList(Genre.values());
 
-        // Kopie der Liste
+        // GenreListe wird kopiert der Liste
         ArrayList<Genre> localGenreList = new ArrayList<>();
         localGenreList.addAll(genreList);
 
@@ -51,6 +48,7 @@ public class Planer {
             spielplan = createRandomSpielplan(localGenreList);
         }
 
+        spielplan = spielplanEinnahmenOptimierung(spielplan, 15, 18);
         spielplanAufspaltung();
         spielplanAusgaben = spielplanAusgaben();
         spielplanEinnahmenAusKartenverkaeufen = spielplanEinnahmen(spielplan)[0];
@@ -85,10 +83,7 @@ public class Planer {
         }
     }
 
-    /**
-     *
-     * @param in_vorstellungsGenres
-     * @param in_localGenreList
+    /**FERTIG
      */
     private void checkGenre(ArrayList<Genre> in_vorstellungsGenres, ArrayList<Genre> in_localGenreList) {
 
@@ -100,10 +95,7 @@ public class Planer {
         }
     }
 
-    /**
-     * Erstellt einen zufälligen Spielplan
-     *
-     * @return Ein zufälliger Spielplan
+    /**FERTIG
      */
     private Vorstellung[][][][] createRandomSpielplan(ArrayList<Genre> localGenreList) {
         for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++)
@@ -120,23 +112,19 @@ public class Planer {
                 }
             }
         return spielplan;
-    } // TODO: Genrecheck effizienter?
+    }
 
     /**
-     * Berechnet die zu erwartenden Einnahmen aus Ticketverkäufen und Werbung einer Vorstellung
-     *
-     * @param spielplan der Spielplan für den die Einnahmen zu berechnen sind
-     * @return ein Array mit [Einnahmen durch Kartenverkäufe][Einnahmen durch Werbung]
      */
     private int[] spielplanEinnahmen(Vorstellung[][][][] spielplan) {
         int[] localSpielplaneinnahmen = {0, 0};
-        for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++)
+        for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++) {
             for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
                 for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
 
                         Vorstellung vorstellung = spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex];
-                        int eintrittspreis = vorstellung.getEintrittspreis();
+                        int eintrittspreis = vorstellung.GetEintrittspreis();
                         int andrang = andrang(vorstellung, tagIndex, vorstellungIndex, wochenIndex, eintrittspreis);
                         int andrangLoge;
                         int andrangParkett;
@@ -168,24 +156,45 @@ public class Planer {
                     }
                 }
             }
+        }
         return localSpielplaneinnahmen;
     }
 
     /**
-     *
-     * @param vorstellung
-     * @param in_tagIndex
-     * @param in_vorstellungIndex
-     * @param in_wochenIndex
-     * @param eintrittspreis
-     * @return
+     */
+    private Vorstellung[][][][] spielplanEinnahmenOptimierung(Vorstellung[][][][] in_spielplan, int in_minPreisFuerVorstellung, int in_maxPreisFuerVorstellung) {
+        Vorstellung[][][][] spielplanBeste = in_spielplan;
+        Vorstellung[][][][] spielplanTemp = spielplanBeste;
+
+        for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++) {
+            for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
+                for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
+                    for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
+                        for (int eintrittsPreis = in_minPreisFuerVorstellung; eintrittsPreis <= in_maxPreisFuerVorstellung; eintrittsPreis++) {
+
+                            //Neuer Vorstellungspreis wird in spielPlanTemp getestet
+                            spielplanTemp[wochenIndex][tagIndex][saalIndex][vorstellungIndex].SetEintrittspreis(eintrittsPreis);
+
+                            //Wenn sich die Einnahmen verbesser, wird der temporäre plan zum besten Plan
+                            if ((spielplanEinnahmen(spielplanTemp)[0] + spielplanEinnahmen(spielplanTemp)[1]) > (spielplanEinnahmen(spielplanBeste)[0] + spielplanEinnahmen(spielplanBeste)[1])){
+                                spielplanBeste = spielplanTemp;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println(Arrays.toString(spielplanEinnahmen(spielplanBeste)));
+        return spielplanBeste;
+    }
+
+    /**
      */
     private int andrang(Vorstellung vorstellung, int in_tagIndex, int in_vorstellungIndex, int in_wochenIndex, int eintrittspreis) {
 
         //Berechnung des Basisandrangs über die größe der beiden größten Säle.
-        int basisandrang = (int) Math.round((plaetzteInGroestemUndZweitgroestemSaal[0] + plaetzteInGroestemUndZweitgroestemSaal[1]) *
-                ((double) (vorstellung.getKinofilm().getBeliebtheit()) / 85));
-
+        int basisandrang = (int) Math.round((plaetzeGroesterSaal + plaetzeZweitgroesterSaal) *
+                ((double)(vorstellung.getKinofilm().getBeliebtheit()) / 85));
 
         //region Einfluss der Uhrzeit auf den Andrang
         int zeitabhaengigerAndrang;
@@ -284,9 +293,6 @@ public class Planer {
     }
 
     /**
-     * Berechnet die durch den Spielplan entstehenden Kosten
-     *
-     * @return die Kosten für den Spielplan
      */
     private int spielplanAusgaben() {
 
@@ -358,40 +364,6 @@ public class Planer {
             kosten -= film.getVerleihpreisProWoche() * 0.1;
         }
         return kosten;
-    }
-
-    /**
-     * Sucht den größten und den zweitgrößten Saal.
-     *
-     * @return [PlätzeImGrößtenSaal, PlätzeImZweitgrößtenSaal]
-     */
-    private static int[] plaetzteInGroestemUndZweitgroestemSaal() {
-        int plaetzeLoge = 0;
-        int plaetzeParkett = 0;
-
-        int plaetzeGroesterSaal = 0;
-        int plaetzeZweitgroesterSaal = 0;
-
-        for (Saal saal : SaalVerwaltung.getSaele()) {
-            if ((plaetzeLoge + plaetzeParkett) < saal.getPlaetzeLoge() + saal.getPlaetzeParkett()) {
-                plaetzeLoge = saal.getPlaetzeLoge();
-                plaetzeParkett = saal.getPlaetzeParkett();
-            }
-        }
-        plaetzeGroesterSaal = plaetzeLoge + plaetzeParkett;
-
-        plaetzeLoge = 0;
-        plaetzeParkett = 0;
-
-        for (Saal saal : SaalVerwaltung.getSaele()) {
-            if (((plaetzeLoge + plaetzeParkett) < (saal.getPlaetzeLoge() + saal.getPlaetzeParkett())) &&
-                    ((saal.getPlaetzeLoge() + saal.getPlaetzeParkett()) < plaetzeGroesterSaal)) {
-                plaetzeLoge = saal.getPlaetzeLoge();
-                plaetzeParkett = saal.getPlaetzeParkett();
-            }
-            plaetzeZweitgroesterSaal = plaetzeLoge + plaetzeParkett;
-        }
-        return new int[]{plaetzeGroesterSaal, plaetzeZweitgroesterSaal};
     }
 
     //Getter

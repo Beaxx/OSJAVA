@@ -240,7 +240,6 @@ public class KinofilmImporter extends Datei {
 
                 case 180: {
                     FilmVerwaltung.setFilme150min(in_film);
-                    FilmVerwaltung.setFilme180min(in_film);
                     break;
                 }
 

@@ -32,10 +32,25 @@ public class Vorstellung {
         // Zufälligen Film aus dem Set auswählen.
         vorstellungsFilm = (Kinofilm)filmSet.toArray()[ThreadLocalRandom.current().nextInt(0, filmSet.size() - 1)];
 
-        /* Der Andrang wird bei einem Eintrittspreis von >=27 --> 0 (obergrenze)
-         * Die Kinosäle sind bei einem Eintrittspres von <=7 nah an der maximalen Kapazität (untergrenze)
-         */
-        eintrittspreis = ThreadLocalRandom.current().nextInt(10, 20);
+        eintrittspreis = ThreadLocalRandom.current().nextInt(8, 23);
+
+        //Werbung hinzufügen
+        werbungen = werbungAnhaengen();
+    }
+
+    /**
+     * Konstruktor überladung bei der Eintrittspreis eingabeparameter ist
+     * @param in_saalIndex
+     * @param in_vorstellungsTimeslotIndex
+     * @param in_eintrittspreis
+     */
+    public Vorstellung(int in_saalIndex, int in_vorstellungsTimeslotIndex, int in_eintrittspreis, Kinofilm in_film) {
+        vorstellungsSaal = SaalVerwaltung.getSaele().get(in_saalIndex);
+        vorstellungsTimeslot = Spielzeiten.values()[in_vorstellungsTimeslotIndex];
+        eintrittspreis = in_eintrittspreis;
+
+        // Zufälligen Film aus dem Set auswählen.
+        vorstellungsFilm = in_film;
 
         //Werbung hinzufügen
         werbungen = werbungAnhaengen();
@@ -72,7 +87,10 @@ public class Vorstellung {
     public Saal getSaal(){ return vorstellungsSaal; }
     public Spielzeiten getSpielzeiten(){ return vorstellungsTimeslot; }
     public ArrayList<Werbefilm> getWerbefilme(){ return werbungen; }
-    public int getEintrittspreis() { return eintrittspreis; }
+    public int GetEintrittspreis() { return eintrittspreis; }
+
+    //Setter
+    public void SetEintrittspreis(int in_eintrittspreis) { eintrittspreis = in_eintrittspreis; }
 
     @Override
     public String toString() {

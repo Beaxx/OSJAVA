@@ -3,7 +3,7 @@ package Gruppe7.Data;
 import java.util.ArrayList;
 import java.util.Collections;
 
-// Auf die Verwaltungsklassen muss aus dem gesamten Kode zugegriffen werden
+// Auf die Verwaltungsklassen muss aus dem gesamten Code zugegriffen werden
 public class WerbefilmVerwaltung
 {
     static private ArrayList<Werbefilm> werbefilme = new ArrayList<>();
@@ -36,8 +36,11 @@ public class WerbefilmVerwaltung
 
     /**
      * Die besten spots, die in einem 20Minuten Werbeblock passen werden separat abgespeichert.
+     * So muss der Werbeblock nur in Fällen, in denen Filme im 150min Spielblock über 130min lang sind und
+     * in denen Filme im 180min spielblock über 160 min lang sind dynamisch erstellt werden. In alen anderen Fällen
+     * kann der profitablste 20min-Block gechaltet werden.
      */
-    public static void  standardWerbeblock(){
+    public static void standardWerbeblock(){
         int werbedauerSoll = 20;
         int werbedauerIst = 0;
 

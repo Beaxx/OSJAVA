@@ -6,15 +6,10 @@ import java.util.ArrayList;
  * @date 25.01.2018
  *
  */
-public class Kinofilm extends Film
-{
-    private  boolean threeD;
-    private String sprache;
-    private String regisseur;
-    private int erscheinungsjahr;
-    private String erscheinungsland;
-    private int beliebtheit;
-    private int verleihpreisProWoche;
+public class Kinofilm extends Film {
+    private boolean threeD;
+    private String sprache, regisseur, erscheinungsland;
+    private int erscheinungsjahr, beliebtheit, verleihpreisProWoche;
     private Fsk fsk;
     private ArrayList<Genre> genre = new ArrayList<>();
 
@@ -29,8 +24,7 @@ public class Kinofilm extends Film
             int in_beliebtheit,
             int in_verleipreis,
             Fsk in_fsk,
-            ArrayList<Genre> in_genre)
-    {
+            ArrayList<Genre> in_genre) {
         super(in_titel, in_laufzeit);
         threeD = in_threeD;
         sprache = in_sprache;
@@ -44,43 +38,35 @@ public class Kinofilm extends Film
     }
 
     // Getter
-    public boolean getThreeD()
-    {
+    public boolean getThreeD() {
         return threeD;
     }
 
-    public String getSprache()
-    {
+    public String getSprache() {
         return sprache;
     }
 
-    public String getRegisseur()
-    {
+    public String getRegisseur() {
         return regisseur;
     }
 
-    public int getErscheinungsjahr()
-    {
+    public int getErscheinungsjahr() {
         return erscheinungsjahr;
     }
 
-    public int getBeliebtheit()
-    {
+    public int getBeliebtheit() {
         return beliebtheit;
     }
 
-    public int getVerleihpreisProWoche()
-    {
+    public int getVerleihpreisProWoche() {
         return verleihpreisProWoche;
     }
 
-    public Fsk getFsk()
-    {
-      return fsk;
+    public Fsk getFsk() {
+        return fsk;
     }
 
-    public ArrayList<Genre> getGenre()
-    {
-       return genre;
+    public ArrayList<Genre> getGenre() {
+        return genre;
     }
 }

@@ -7,30 +7,23 @@ import java.util.Collections;
 public class SaalVerwaltung
 {
     static private ArrayList<Saal> saele = new ArrayList<>();
-    static private int anzahl3D = 0;
-    static private int anzahl2D = 0;
+    private static int plaetzeGroesterSaal;
+    private static int plaetzeZweitgroesterSaal;
 
     // Getter
     public static ArrayList<Saal> getSaele() { return saele; }
     public static int getSize(){return saele.size();}
-    public static int getAnzahl2D() {
-        return anzahl2D;
+    public static int getPlaetzeGroesterSaal() {
+        return plaetzeGroesterSaal;
     }
-    public static int getAnzahl3D() {
-        return anzahl3D;
+    public static int getPlaetzeZweitgroesterSaal() {
+        return plaetzeZweitgroesterSaal;
     }
 
     //Setter
     public static void setSaele(Saal in_saal) {saele.add(in_saal);}
-    public static void setAnzahl2D(int in_anzahl2D) {
-        anzahl2D = in_anzahl2D;
-    }
-    public static void setAnzahl3D(int in_anzahl3D) {
-        anzahl3D = in_anzahl3D;
-    }
 
-    /**
-     * Sortiert die Saele nach ihrer 3D-Fäigkeit
+    /**Sortiert Säle nach 3D
      */
     public static void saalplanSortieren() {
         Collections.sort(saele, (s1, s2) -> {
@@ -39,5 +32,28 @@ public class SaalVerwaltung
             }
             else {return 1;}
         });
+    }
+
+    /**Speichert größen und zweitgrößten Saal ab
+     */
+    public static void plaetzteInGroestemUndZweitgroestemSaal() {
+        int localPlaetzeGroesterSaal = 0;
+        int localPlaetzeZweitgroesterSaal = 0;
+
+        for (Saal saal : saele) {
+            if (localPlaetzeGroesterSaal < (saal.getPlaetzeLoge() + saal.getPlaetzeParkett())) {
+                localPlaetzeGroesterSaal = saal.getPlaetzeLoge() + saal.getPlaetzeParkett();
+            }
+        }
+
+        for (Saal saal : saele) {
+            if ((localPlaetzeZweitgroesterSaal < (saal.getPlaetzeLoge() + saal.getPlaetzeParkett())) &&
+                    ((saal.getPlaetzeLoge() + saal.getPlaetzeParkett()) < localPlaetzeGroesterSaal)) {
+                localPlaetzeZweitgroesterSaal = saal.getPlaetzeLoge() + saal.getPlaetzeParkett();
+            }
+        }
+
+        plaetzeGroesterSaal = localPlaetzeGroesterSaal;
+        plaetzeZweitgroesterSaal = localPlaetzeZweitgroesterSaal;
     }
 }
