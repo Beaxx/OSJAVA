@@ -13,7 +13,7 @@ public class Vorstellung {
     private ArrayList<Werbefilm> werbungen = new ArrayList<>();
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
-    private int eintrittspreis = 7; // Ausgangswert
+    private int eintrittspreis = 17; // Ausgangswert
 
     // TODO: Beliebtheit random iterieren
 
@@ -116,4 +116,20 @@ public class Vorstellung {
         output += "-----------------------------\n";
         return output;
     }
+
+//    @Override
+//    public boolean equals(Object in_Vorstellung) {
+//        Vorstellung castIn_Vorstellung;
+//        if (in_Vorstellung.getClass().getName() == this.getClass().getName()) {
+//            castIn_Vorstellung = (Vorstellung) in_Vorstellung;
+//        } else {
+//            return false;
+//        }
+//
+//        if (castIn_Vorstellung.getKinofilm() == getKinofilm()) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 }

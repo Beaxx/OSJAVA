@@ -1,6 +1,8 @@
 package Gruppe7.Logic;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import Gruppe7.Data.*;
 import Gruppe7.Main;
 
@@ -32,15 +34,51 @@ public class Planer {
     private ArrayList<Vorstellung> woche1 = new ArrayList<>();
     private ArrayList<Vorstellung> woche2 = new ArrayList<>();
 
+    private Set<Kinofilm> filmeWoche0 = new HashSet<>();
+    private Set<Kinofilm> filmeWoche1 = new HashSet<>();
+    private Set<Kinofilm> filmeWoche2 = new HashSet<>();
+
+
+    private Set<Vorstellung> vorstellungen0 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen1 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen2 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen3 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen4 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen5 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen6 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen7 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen8 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen9 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen10 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen11 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen12 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen13 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen14 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen15 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen16 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen17 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen18 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen19 = new HashSet<>();
+    private Set<Vorstellung> vorstellungen20 = new HashSet<>();
+
+    private ArrayList<Set<Vorstellung>> vorstellungTage =
+            new ArrayList<Set<Vorstellung>>(Arrays.asList(
+                    vorstellungen0, vorstellungen1, vorstellungen2, vorstellungen3, vorstellungen4,
+                    vorstellungen5, vorstellungen6, vorstellungen7, vorstellungen8, vorstellungen9,
+                    vorstellungen10, vorstellungen11, vorstellungen12, vorstellungen13, vorstellungen14,
+                    vorstellungen15, vorstellungen15, vorstellungen16, vorstellungen17, vorstellungen18,
+                    vorstellungen19, vorstellungen20));
+
     // Genredaten
     private static List<Genre> genreList = Arrays.asList(Genre.values()); // Generiert eine Genre-List aus dem Genre Enum unabhängig vom Objekt
     private boolean checkGenre = false;
 
     /**Debugged
      * Erstellung eines zufälligen Spielplans bei Iteration durch das leere Vorstellungs-Array
-     * @return Ein vierdimensionales Vorstellungsarray [woche][tag][saal][timeslot]
+     * Erstellt:  Ein vierdimensionales Vorstellungsarray [woche][tag][saal][timeslot]
      */
     public Planer(int in_minPreisFuerVorstellung, int in_maxPreisfuerVorstellung) {
+//        vorstellungTage.add(vorstellungen0, vorstellungen1)
 
         // Genre-Liste wird kopiert
         ArrayList<Genre> localGenreList = new ArrayList<>();
@@ -50,13 +88,13 @@ public class Planer {
             spielplan = createRandomSpielplan(localGenreList);
         }
 
+        // Aufspaltung der Vorstellungen in drei 1-D Arrays zur weiteren Verarbeitung
+        spielplanAufspaltung();
+
         // Optimierung des Vorstellungspreises jeder Vorstellung (Switch True/ false)
         if(Main.OptimierungSwitch){
             spielplanEinnahmenOptimierung(in_minPreisFuerVorstellung, in_maxPreisfuerVorstellung);
         }
-
-        // Aufspaltung der Vorstellungen in drei 1-D Arrays zur weiteren Verarbeitung
-        spielplanAufspaltung();
 
         spielplanAusgaben = spielplanAusgaben();
         int[] spielplanEinnahmen = spielplanEinnahmen(spielplan);
@@ -65,8 +103,8 @@ public class Planer {
         spielplanGewinn = spielplanEinnahmenAusKartenverkaeufen - spielplanAusgaben + spielplanWerbungsEinnahmen;
     }
 
-    /**Debugged
-     *
+    /**
+     * Aufspaltung des Spielplans in Vorstellungen und Kinofilme
      */
     private void spielplanAufspaltung() {
         // Alle vorstellungen jeder Woche werden in je einer Liste zusammengefasst.
@@ -76,15 +114,117 @@ public class Planer {
                     for (int vorstellungsIndex = 0; vorstellungsIndex < 4; vorstellungsIndex++) {
 
                         switch (wochenIndex) {
-                            case 0:
+                            case 0:{
                                 woche0.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                filmeWoche0.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex].getKinofilm());
                                 break;
-                            case 1:
+                            }
+
+                            case 1:{
                                 woche1.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                filmeWoche1.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex].getKinofilm());
                                 break;
-                            case 2:
+                            }
+
+                            case 2:{
                                 woche2.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                filmeWoche2.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex].getKinofilm());
                                 break;
+                            }
+
+                        }
+
+                        int wochenIndexAddition = 0;
+                        if(wochenIndex == 1)
+                            wochenIndexAddition += 7;
+                        else if (wochenIndex == 2)
+                            wochenIndexAddition += 14;
+
+                        switch ((tagesIndex + wochenIndexAddition)) {
+                            case 0: {
+                                vorstellungen0.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 1: {
+                                vorstellungen1.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 2: {
+                                vorstellungen2.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 3: {
+                                vorstellungen3.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 4: {
+                                vorstellungen4.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 5: {
+                                vorstellungen5.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 6: {
+                                vorstellungen6.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 7: {
+                                vorstellungen7.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 8: {
+                                vorstellungen8.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 9: {
+                                vorstellungen9.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 10: {
+                                vorstellungen10.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 11: {
+                                vorstellungen11.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 12: {
+                                vorstellungen12.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 13: {
+                                vorstellungen13.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 14: {
+                                vorstellungen14.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 15: {
+                                vorstellungen15.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 16: {
+                                vorstellungen16.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 17: {
+                                vorstellungen17.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 18: {
+                                vorstellungen18.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 19: {
+                                vorstellungen19.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
+                            case 20: {
+                                vorstellungen20.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
+                                break;
+                            }
                         }
                     }
                 }
@@ -208,7 +348,7 @@ public class Planer {
         }
     }
 
-    /**
+    /**Debugged
      * Berechnet den Andrang, der für eine Vorstellung zu erwartetn ist.
      */
     private int andrang(Vorstellung vorstellung, int in_tagIndex, int in_vorstellungIndex, int in_wochenIndex, int eintrittspreis) {
@@ -276,7 +416,7 @@ public class Planer {
         switch (in_wochenIndex) {
 
             case 1: {
-                if (woche0.contains(vorstellung.getKinofilm())) {
+                if (filmeWoche0.contains(vorstellung.getKinofilm())) {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = (int)Math.round(zeitUndTagesabhaengigerAndrang * 0.8);
                 } else {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
@@ -285,11 +425,12 @@ public class Planer {
             }
 
             case 2: {
-                if ((woche0.contains(vorstellung.getKinofilm()) && !woche1.contains(vorstellung.getKinofilm())) ||
-                        (!woche0.contains(vorstellung.getKinofilm()) && woche1.contains((vorstellung.getKinofilm())))) {
+                if ((filmeWoche0.contains(vorstellung.getKinofilm()) && !filmeWoche1.contains(vorstellung.getKinofilm())) ||
+                        (!filmeWoche0.contains(vorstellung.getKinofilm())) && filmeWoche1.contains((vorstellung.getKinofilm()))) {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = (int) Math.round(zeitUndTagesabhaengigerAndrang * 0.8);
-                } else if (woche0.contains(vorstellung.getKinofilm()) && woche1.contains(vorstellung.getKinofilm())) {
+                } else if (filmeWoche0.contains(vorstellung.getKinofilm()) && filmeWoche1.contains(vorstellung.getKinofilm())) {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = (int) Math.round(zeitUndTagesabhaengigerAndrang * 0.5);
+                    // TODO: Hier den Rabatt für einen alle drei Wochen gezeigten Film erfassen.
                 } else {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
                 }
@@ -312,63 +453,59 @@ public class Planer {
         //endregion
     }
 
-    /**
+    /**Wochenweise Errechnung der Spielplankosten
      */
     private int spielplanAusgaben() {
 
-        //Die Betrachtung findet zunächst wochenweise statt.
         int kosten = 0;
 
-        Set<Kinofilm> filmeWoche0 = new HashSet<>();
-        Set<Kinofilm> filmeWoche1 = new HashSet<>();
-        Set<Kinofilm> filmeWoche2 = new HashSet<>();
+        // Filme, die zur gleichen Zeit in unterschiedlichen Sälen gezeigt werdend doppelt buchen.
+        for (Set<Vorstellung> vorStellungsTag : vorstellungTage) {
+            Set<Kinofilm> slot1500 = new HashSet<>();
+            Set<Kinofilm> slot1730 = new HashSet<>();
+            Set<Kinofilm> slot2000 = new HashSet<>();
+            Set<Kinofilm> slot2300 = new HashSet<>();
 
-        for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++) {
-            ArrayList<Vorstellung> wochenVorstellungen;
-
-            switch (wochenIndex) {
-                case 0:
-                    wochenVorstellungen = woche0;
-                    break;
-                case 1:
-                    wochenVorstellungen = woche1;
-                    break;
-                case 2:
-                    wochenVorstellungen = woche2;
-                    break;
-                default:
-                    wochenVorstellungen = null;
-                    break;
-            }
-
-            //Ermittlung der Kinofilme einer Woche (ohne Dopplung)
-            for (Vorstellung vorstellung : wochenVorstellungen) {
-                switch (wochenIndex) {
-                    case 0:
-                        filmeWoche0.add(vorstellung.getKinofilm());
+            for (Vorstellung vorstellung : vorStellungsTag) {
+                switch (vorstellung.getSpielzeiten()) {
+                    case SLOT_1500: {
+                        int presize = slot1500.size();
+                        slot1500.add(vorstellung.getKinofilm());
+                        if (slot1500.size() == presize) {
+                            kosten += vorstellung.getKinofilm().getVerleihpreisProWoche();
+                        }
                         break;
-                    case 1:
-                        filmeWoche1.add(vorstellung.getKinofilm());
+                    }
+                    case SLOT_1730: {
+                        int presize = slot1730.size();
+                        slot1730.add(vorstellung.getKinofilm());
+                        if (slot1730.size() == presize) {
+                            kosten += vorstellung.getKinofilm().getVerleihpreisProWoche();
+                        }
                         break;
-                    case 2:
-                        filmeWoche2.add(vorstellung.getKinofilm());
+                    }
+                    case SLOT_2000: {
+                        int presize = slot2000.size();
+                        slot2000.add(vorstellung.getKinofilm());
+                        if (slot2000.size() == presize) {
+                            kosten += vorstellung.getKinofilm().getVerleihpreisProWoche();
+                        }
                         break;
-                }
-            }
-
-            // Überprüfung ob Filme parallel am gleichen Tag laufen. Wenn ja, einbezug der Kosten
-            for (int vorstellungsIndexProTag = 0; vorstellungsIndexProTag < 4 * anzahlSaele; vorstellungsIndexProTag++) {
-                for (Vorstellung vorstellung : wochenVorstellungen) {
-                    if (vorstellung.getKinofilm() == wochenVorstellungen.get(vorstellungsIndexProTag).getKinofilm() &&
-                            vorstellung.getSpielzeiten() == wochenVorstellungen.get(vorstellungsIndexProTag).getSpielzeiten() &&
-                            vorstellung.getSaal() != wochenVorstellungen.get(vorstellungsIndexProTag).getSaal()) {
-                        kosten += vorstellung.getKinofilm().getVerleihpreisProWoche();
+                    }
+                    case SLOT_2300: {
+                        int presize = slot2300.size();
+                        slot2300.add(vorstellung.getKinofilm());
+                        if (slot2300.size() == presize) {
+                            kosten += vorstellung.getKinofilm().getVerleihpreisProWoche();
+                        }
+                        break;
                     }
                 }
             }
         }
 
-        // Zusammenfassung aller Kinofilme der drei Wochen (mit doppelterfassung, wenn Filme in mehreren Wochen vorkommen)
+        // TODO: Siehe oben.
+        //Zusammenfassung aller Kinofilme der drei Wochen (mit doppelterfassung, wenn Filme in mehreren Wochen vorkommen)
         ArrayList<Kinofilm> alleFilme = new ArrayList<>();
         alleFilme.addAll(filmeWoche0);
         alleFilme.addAll(filmeWoche1);

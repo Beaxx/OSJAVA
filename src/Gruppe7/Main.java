@@ -13,7 +13,7 @@ import Gruppe7.Importer.*;
  * /plaeneZuErstellen/
  * Wie viele gültige Spielpläne sollen erstellt werden? Diese Zahl bestimmt über die Dauer des Programmablaufs.
  * Wird die Optimierung der Pläne (OptimierungSwitch = false) ausgeschaltet sind Geschwindigkeiten von
- * 3700 Plänen / Sekunde möglich.
+ * 2000 Plänen / Sekunde möglich.
  *
  * /mindestPreisVorstellung/
  * Der niedrigste Preis, den eine Vorstellung haben darf. Wird für die Optimierung verwendet. Ist die
@@ -27,11 +27,11 @@ import Gruppe7.Importer.*;
  * WICHTIG: Die Differenz zwischen Mindest- und Max-Eintrittspreis entscheided über Geschwindigkeit des programs
  * da jede Wert von MAx -> Min ausprobiert werden muss. Hier ein paar Beispielwerte über die Performance:
  *
- * Zufällige Erstellung ohne Optimierung: 3700 Pläne / Sekunde
- * Delta = 0: 9 Pläne / Sekunde (z. B. Min: 17, Max: 17)
- * Delta = 1: 4 Pläne / Sekunde (z. B. Min: 17, Max: 18)
- * Delta = 2: 3.2 Pläne / Sekunde (z. B. Min: 16, Max: 18)
- * Delta = 3: 2.2 Pläne / Sekunde (z. B. Min: 16, Max: 19)
+ * Zufällige Erstellung ohne Optimierung: 2000 Pläne / Sekunde
+ * Delta = 0: 9 Pläne / Sekunde (z. B. Min: 17, Max: 17) outdated
+ * Delta = 1: 4 Pläne / Sekunde (z. B. Min: 17, Max: 18) outdated
+ * Delta = 2: 3.2 Pläne / Sekunde (z. B. Min: 16, Max: 18) outdated
+ * Delta = 3: 2.2 Pläne / Sekunde (z. B. Min: 16, Max: 19) outdated
  *
  * /mindestBeliebtheit/
  * Setzt den Schwellenwert für die Beliebtheit eines Films. Filme mit niedrigerer Beliebtheit werden nciht importiert.
@@ -48,11 +48,11 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         /* SETTINGS */
-        int plaeneZuErstellen = 1000; // Max Geschwindigkeit: 3700 pro Sekunde (ohne Optimierung)
-        OptimierungSwitch = true;
+        int plaeneZuErstellen = 100000; // Max Geschwindigkeit: 3700 pro Sekunde (ohne Optimierung)
+        OptimierungSwitch = false;
         int mindestPreisVorstellung = 16;
         int maximalPreisVorstellung = 19;
-        int mindestBeliebtheit = 95;
+        int mindestBeliebtheit = 93;
         /* SETTINGS */
 
         //Datenimport
@@ -90,9 +90,7 @@ public class Main {
                         "Ausgaben: " + planer.getSpielplanAusgaben() + "\n" +
                         "Gewinn:" + planer.getSpielplanGewinn() + "\n" +
                         "--------------------------------");
-                java.awt.Toolkit.getDefaultToolkit().beep();
             }
-
         }
 
         //Performance Wrapper ende
