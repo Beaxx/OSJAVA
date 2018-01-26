@@ -14,10 +14,10 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         /* SETTINGS */
-        int durchlaeufe = 100000; // Geschwindigkeit: 2900 pro Sekunde
+        int plaeneZuErstellen = 1000; // Max Geschwindigkeit: 2900 pro Sekunde (ohne Optimierung)
         int mindestPreisVorstellung = 15;
         int maximalPreisVorstellung = 20;
-        int mindestBeliebtheit = 30;
+        int mindestBeliebtheit = 90;
         /* SETTINGS */
 
         //Datenimport
@@ -43,7 +43,7 @@ public class Main {
             //Algorithmus
 
             Planer planer = new Planer(mindestPreisVorstellung, maximalPreisVorstellung);
-            for (int i = 0; i < durchlaeufe; i++)
+            for (int i = 0; i < plaeneZuErstellen; i++)
 
             {
                 Planer tempPlaner = new Planer(mindestPreisVorstellung, maximalPreisVorstellung);
@@ -56,6 +56,9 @@ public class Main {
                                         "Gewinn:" + planer.getSpielplanGewinn() + "\n" +
                                         "--------------------------------");
                 }
+                if (i % 100 == 0){
+                    System.out.println("Durchlauf" + i);
+                }
             }
 
         //Performance Wrapper ende
@@ -67,7 +70,7 @@ public class Main {
         System.out.println(Arrays.deepToString(planer.getSpielplan())); //Bester Spielplan
 
             //Performance Auswertung
-        System.out.println(totalTimeS + " Sekunden für " + durchlaeufe + " Durchläufe" + "\n" +
-                (double)durchlaeufe/totalTimeS + " pro Sekunde");
+        System.out.println(totalTimeS + " Sekunden für " + plaeneZuErstellen + " Durchläufe" + "\n" +
+                (double)plaeneZuErstellen/totalTimeS + " pro Sekunde");
     }
 }

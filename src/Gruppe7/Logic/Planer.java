@@ -20,9 +20,10 @@ public class Planer {
 
     // Finanzdaten
     private int spielplanEinnahmenAusKartenverkaeufen = 0;
+    private int spielplanWerbungsEinnahmen = 0;
     private int spielplanAusgaben = 0;
     private int spielplanGewinn = 0;
-    private int spielplanWerbungsEinnahmen = 0;
+
 
     // Spielplandaten
     private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4]; //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
@@ -34,7 +35,7 @@ public class Planer {
     private static List<Genre> genreList = Arrays.asList(Genre.values()); // Generiert eine Genre-List aus dem Genre Enum unabhängig vom Objekt
     private boolean checkGenre = false;
 
-    /**
+    /**Debugged
      * Erstellung eines zufälligen Spielplans bei Iteration durch das leere Vorstellungs-Array
      * @return Ein vierdimensionales Vorstellungsarray [woche][tag][saal][timeslot]
      */
@@ -48,15 +49,20 @@ public class Planer {
             spielplan = createRandomSpielplan(localGenreList);
         }
 
-        spielplan = spielplanEinnahmenOptimierung(spielplan, in_minPreisFuerVorstellung, in_maxPreisfuerVorstellung);
+        // Optimierung des Vorstellungspreises jeder Vorstellung
+        spielplanEinnahmenOptimierung(in_minPreisFuerVorstellung, in_maxPreisfuerVorstellung);
+
+        // Aufspaltung der Vorstellungen in drei 1-D Arrays zur weiteren Verarbeitung
         spielplanAufspaltung();
+
         spielplanAusgaben = spielplanAusgaben();
-        spielplanEinnahmenAusKartenverkaeufen = spielplanEinnahmen(spielplan)[0];
-        spielplanWerbungsEinnahmen = spielplanEinnahmen(spielplan)[1];
+        int[] spielplanEinnahmen = spielplanEinnahmen(spielplan);
+        spielplanEinnahmenAusKartenverkaeufen = spielplanEinnahmen[0];
+        spielplanWerbungsEinnahmen = spielplanEinnahmen[1];
         spielplanGewinn = spielplanEinnahmenAusKartenverkaeufen - spielplanAusgaben + spielplanWerbungsEinnahmen;
     }
 
-    /**
+    /**Debugged
      *
      */
     private void spielplanAufspaltung() {
@@ -167,35 +173,42 @@ public class Planer {
         return localSpielplaneinnahmen;
     }
 
-    /**
+    /**Debugged
+     * Geht für jede Vorstellung durch den Spielplan unv sucht den Eintrittspreis, mit dem sich der Gewinn für
+     * diese Vorstellung optimieren lässt nutzt dafür den überladenen Konstruktor von Vorstellung
+     * @param in_spielplan
+     * @param in_minPreisFuerVorstellung
+     * @param in_maxPreisFuerVorstellung
+     * @return
      */
-    private Vorstellung[][][][] spielplanEinnahmenOptimierung(Vorstellung[][][][] in_spielplan, int in_minPreisFuerVorstellung, int in_maxPreisFuerVorstellung) {
-        Vorstellung[][][][] spielplanBeste = in_spielplan;
-        Vorstellung[][][][] spielplanTemp = spielplanBeste;
+    private void spielplanEinnahmenOptimierung(int in_minPreisFuerVorstellung, int in_maxPreisFuerVorstellung) {
+        Vorstellung[][][][] tempSpielplan = spielplan;
 
         for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++) {
             for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
                 for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
+
+                        // Für jede Vorstellung werden alle Eintrittspreise innerhalb der Range ausprobiert, um den besten zu finden.
                         for (int eintrittsPreis = in_minPreisFuerVorstellung; eintrittsPreis <= in_maxPreisFuerVorstellung; eintrittsPreis++) {
 
-                            //Neuer Vorstellungspreis wird in spielPlanTemp getestet
-                            spielplanTemp[wochenIndex][tagIndex][saalIndex][vorstellungIndex].SetEintrittspreis(eintrittsPreis);
+                            //Neuer Vorstellungspreis wird gesetzt.
+                            tempSpielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].SetEintrittspreis(eintrittsPreis);
 
-                            //Wenn sich die Einnahmen verbesser, wird der temporäre plan zum besten Plan
-                            if ((spielplanEinnahmen(spielplanTemp)[0] + spielplanEinnahmen(spielplanTemp)[1]) > (spielplanEinnahmen(spielplanBeste)[0] + spielplanEinnahmen(spielplanBeste)[1])){
-                                spielplanBeste = spielplanTemp;
+                            //Wenn sich die Einnahmen des Spielplans durch die Vorstellung verbessern, wird der temporäre plan zum besten Plan.
+                            if ((spielplanEinnahmen(tempSpielplan)[0] + spielplanEinnahmen(tempSpielplan)[1]) >
+                                    (spielplanEinnahmen(spielplan)[0] + spielplanEinnahmen(spielplan)[1])) {
+                                spielplan = tempSpielplan;
                             }
                         }
                     }
                 }
             }
         }
-        System.out.println(Arrays.toString(spielplanEinnahmen(spielplanBeste)));
-        return spielplanBeste;
     }
 
     /**
+     * Berechnet den Andrang, der für eine Vorstellung zu erwartetn ist.
      */
     private int andrang(Vorstellung vorstellung, int in_tagIndex, int in_vorstellungIndex, int in_wochenIndex, int eintrittspreis) {
 
