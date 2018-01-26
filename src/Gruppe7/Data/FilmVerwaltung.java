@@ -28,6 +28,8 @@ import java.util.*;
  * wird eine verbesserung der Performance um den Faktor 6 erreicht. (Performance misst sich an den erstellten
  * gültigen Spielplänen pro Sekunde.)
  *
+ * Am ende werden nur noch 6 Sets gebruacht.
+ *
  * ###### ..> Da die maximale Dauer die ein Fil haben darf direkt vom Zeitslot abhängt ist dieser nicht zu überprüfen
  */
 public class FilmVerwaltung {
@@ -66,6 +68,11 @@ public class FilmVerwaltung {
         }
     }
 
+    /** Debugged
+     * Erstellung der vordefinierten Sets aus allen Filmen. Nur 6 Sets werden für alle Filme benötigt
+     * @param in_saal3Dfaehig
+     * @param in_uhrzeit
+     */
     private static void setFilmArrays(int in_saal3Dfaehig, Spielzeiten in_uhrzeit) {
 
         switch (in_saal3Dfaehig) {
