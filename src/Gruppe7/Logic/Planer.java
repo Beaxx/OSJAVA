@@ -40,7 +40,7 @@ public class Planer {
      */
     public Planer(int in_minPreisFuerVorstellung, int in_maxPreisfuerVorstellung) {
 
-        // GenreListe wird kopiert
+        // Genre-Liste wird kopiert
         ArrayList<Genre> localGenreList = new ArrayList<>();
         localGenreList.addAll(genreList);
 
@@ -48,7 +48,7 @@ public class Planer {
             spielplan = createRandomSpielplan(localGenreList);
         }
 
-        //spielplan = spielplanEinnahmenOptimierung(spielplan, in_minPreisFuerVorstellung, in_maxPreisfuerVorstellung);
+        spielplan = spielplanEinnahmenOptimierung(spielplan, in_minPreisFuerVorstellung, in_maxPreisfuerVorstellung);
         spielplanAufspaltung();
         spielplanAusgaben = spielplanAusgaben();
         spielplanEinnahmenAusKartenverkaeufen = spielplanEinnahmen(spielplan)[0];
@@ -83,7 +83,7 @@ public class Planer {
         }
     }
 
-    /**FERTIG
+    /**Debugged
      */
     private void checkGenre(ArrayList<Genre> in_vorstellungsGenres, ArrayList<Genre> in_localGenreList) {
 
@@ -95,7 +95,7 @@ public class Planer {
         }
     }
 
-    /**FERTIG
+    /**Debugged
      */
     private Vorstellung[][][][] createRandomSpielplan(ArrayList<Genre> localGenreList) {
         for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++)

@@ -8,15 +8,19 @@ public class WerbefilmVerwaltung
 {
     static private ArrayList<Werbefilm> werbefilme = new ArrayList<>();
     static private ArrayList<Werbefilm> werbefilme20MinutenStandard = new ArrayList<>();
+    static private int werbefilme20MinutenStandardDauer = 0;
 
     //Getter
     static ArrayList<Werbefilm> getWerbefilme() { return werbefilme; }
     static ArrayList<Werbefilm> getWerbefilme20MinutenStandard() {return werbefilme20MinutenStandard; }
+    public static int getWerbefilme20MinutenStandardDauer() {
+        return werbefilme20MinutenStandardDauer;
+    }
 
     //Setter
     public static void setWerbefilm(Werbefilm in_werbefilm) {werbefilme.add(in_werbefilm);}
 
-    /**
+    /**Debugged
      * Sortiert die Werbespots nach ihrer Profitabilität.
      * Profitabilität = UmsatzProZuschauer/Laufzeit
      */
@@ -34,7 +38,7 @@ public class WerbefilmVerwaltung
         });
     }
 
-    /**
+    /**Debugged
      * Die besten spots, die in einem 20Minuten Werbeblock passen werden separat abgespeichert.
      * So muss der Werbeblock nur in Fällen, in denen Filme im 150min Spielblock über 130min lang sind und
      * in denen Filme im 180min spielblock über 160 min lang sind dynamisch erstellt werden. In alen anderen Fällen
@@ -50,5 +54,6 @@ public class WerbefilmVerwaltung
                 werbedauerIst += werbung.getLaufzeit();
             }
         }
+        werbefilme20MinutenStandardDauer = werbedauerIst;
     }
 }

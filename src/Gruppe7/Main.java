@@ -17,7 +17,7 @@ public class Main {
         int durchlaeufe = 100000; // Geschwindigkeit: 2900 pro Sekunde
         int mindestPreisVorstellung = 17;
         int maximalPreisVorstellung = 17;
-        int mindestBeliebtheit = 95;
+        int mindestBeliebtheit = 30;
         /* SETTINGS */
 
         //Datenimport
@@ -31,6 +31,7 @@ public class Main {
         //Werbeplan sortieren und Standard 20 Minunten Block festlegen
         WerbefilmVerwaltung.werbeplanSortieren();
         WerbefilmVerwaltung.standardWerbeblock();
+
 
         // Saele sortieren
         SaalVerwaltung.saalplanSortieren();

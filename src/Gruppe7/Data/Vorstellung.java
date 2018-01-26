@@ -5,37 +5,42 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Lennart Völler
- * @date 25.01.2018
+ * @@version  25.01.2018
  */
 public class Vorstellung {
 
-    //Attribute
     private Kinofilm vorstellungsFilm;
     private ArrayList<Werbefilm> werbungen = new ArrayList<>();
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
-    private int eintrittspreis;
+    private int eintrittspreis = 7; // Ausgangswert
 
     // TODO: Beliebtheit random iterieren
-    // TODO: Was ist mit der Sprache?
 
+    /**
+     * Basis-Konstruktor, erstellt eine zufällige Vorstellung aus der Menge der möglichen, an dieser Stelle
+     * erlaubten Vorstellungen
+     * @param in_saalIndex
+     * @param in_vorstellungsTimeslotIndex
+     */
     public Vorstellung(int in_saalIndex, int in_vorstellungsTimeslotIndex) {
         vorstellungsSaal = SaalVerwaltung.getSaele().get(in_saalIndex);
         vorstellungsTimeslot = Spielzeiten.values()[in_vorstellungsTimeslotIndex];
 
+        // Aus der Filmverwaltung wird ein FilmSet geholt, dessen Filme die Kriterien hinsichtlich Technik und Timeslot erfüllt
         ArrayList<Kinofilm> filmSet = FilmVerwaltung.getFilme(vorstellungsSaal.getThreeD(), vorstellungsTimeslot);
 
         // Zufälligen Film aus dem Set auswählen.
         vorstellungsFilm = (Kinofilm)filmSet.toArray()[ThreadLocalRandom.current().nextInt(0, filmSet.size() - 1)];
 
-        eintrittspreis = ThreadLocalRandom.current().nextInt(8, 23);
-
         //Werbung hinzufügen
         werbungen = werbungAnhaengen();
     }
 
-    /**
-     * Konstruktor überladung bei der Eintrittspreis eingabeparameter ist
+    /** Debugged
+     * Konstruktor Überladung bei der der Eintrittspresi der Vorstellung niht zufällig ist, sondern mit übergeben
+     * wird. Der Film ist nicht zufällig sondern steht ebenfalls schon fest. Dieser Konstruktor findet bei der
+     * inkrementellen Verbesserung von Vorstellungen anwendung.
      * @param in_saalIndex
      * @param in_vorstellungsTimeslotIndex
      * @param in_eintrittspreis
@@ -52,7 +57,7 @@ public class Vorstellung {
         werbungen = werbungAnhaengen();
     }
 
-    /**
+    /** Debugged
      * Je nach verbleibender Zeit zum Zeigen von Werbung wird eine Liste mit den besten Profitabilitätswerten
      * (UmsatzProZuschauer/Laufzeit) erstellt. Die Zeit zum Zeigen von Werbung ist auf 20 Minuten begrenzt. Für
      * den Fall, dass 20 Minuten Werbung gezeigt werden können wird ein Standard-Werbeblock verwendet.
@@ -63,18 +68,19 @@ public class Vorstellung {
 
         if (werbeDauerSoll >= 20) {
             return WerbefilmVerwaltung.getWerbefilme20MinutenStandard();
-        } else {
-            int werbeDauerIst = 0; // TODO: Subtraktionsansatz, solange vom 20Min standard subtrahieren bis es passt.
+        }
+        else {
+            int werbeDauerIst = WerbefilmVerwaltung.getWerbefilme20MinutenStandardDauer();
 
-            ArrayList<Werbefilm> output = new ArrayList<>();
+            ArrayList<Werbefilm> output = WerbefilmVerwaltung.getWerbefilme20MinutenStandard();
 
-            for (Werbefilm werbung : WerbefilmVerwaltung.getWerbefilme()) {
-                if ((werbeDauerIst + werbung.getLaufzeit()) <= werbeDauerSoll) {
-                    output.add(werbung);
-                    werbeDauerIst += werbung.getLaufzeit();
+            for (Werbefilm werbung : output) {
+                if ((werbeDauerIst - werbung.getLaufzeit()) <= werbeDauerSoll) {
+                    output.remove(werbung);
+                    werbeDauerIst -= werbung.getLaufzeit();
                 }
             }
-            return output;
+            return output; // TODO: Case noch nicht getestet, kommt quasi nie vor.
         }
     }
 
