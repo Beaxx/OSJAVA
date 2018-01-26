@@ -28,7 +28,6 @@ public class SaalImporter extends Datei {
         while (!importFileSaele.eof()){
             importString = importFileSaele.readLine_FS();
             if (importString != null){
-//                System.out.println("Import String:"  +importString+ "\naus Importdatei " +in_name );
 
                 String array[] = importString.split(";");
 
@@ -38,8 +37,8 @@ public class SaalImporter extends Datei {
                 importThreeD = Boolean.valueOf(array[3]);
 
                 SaalVerwaltung.setSaele(new Saal(importPlaetzeLoge, importPlaetzeParkett, importThreeD, importSaalNr));
-
             }
         }
+        SaalVerwaltung.saalplanSortieren();
     }
 }

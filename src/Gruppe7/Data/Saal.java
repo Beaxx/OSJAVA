@@ -1,7 +1,6 @@
 package Gruppe7.Data;
 
 public class Saal {
-    //Attribute
     private int plaetzeLoge;
     private int plaetzeParkett;
     private boolean threeD;
@@ -14,18 +13,9 @@ public class Saal {
         plaetzeParkett = in_PlaetzeParkett;
         threeD = in_3D;
         saalNummer = in_getSaalNummer;
-
-//        System.out.println("  Klasse Saal: Saal Instanz erzeugt!");
-//        System.out.println("  Klasse Saal Nr: "+saalNummer);
-//        System.out.println("  Klasse Saal Platze Parkett: "+plaetzeParkett);
-//        System.out.println("  Klasse Saal Plätze Loge: "+plaetzeLoge);
-//        System.out.println("  Klasse Saal 3D Fähig: "+ threeD);
-//
-//        System.out.println("--------------------------------------");
     }
 
-            //Getter & Setter
-
+    //Getter
     public int getPlaetzeLoge() {
         return plaetzeLoge;
     }
@@ -34,7 +24,7 @@ public class Saal {
         return plaetzeParkett;
     }
 
-    boolean getThreeD() { // TODO: wurde packacge exclusive gemacht, exception?
+    public boolean getThreeD() {
         return threeD;
     }
 

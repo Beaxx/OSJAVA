@@ -15,4 +15,15 @@ public enum Spielzeiten {
     public int getSlotDuration(){
         return this.slotDuration;
     }
+
+    @Override
+    public String toString() {
+        switch(this){
+            case SLOT_1500: return "15:00 Uhr";
+            case SLOT_1730: return "17:30 Uhr";
+            case SLOT_2000: return "20:00 Uhr";
+            case SLOT_2300: return "23:00 Uhr";
+            default: return "--:-- Uhr";
+        }
+    }
 }

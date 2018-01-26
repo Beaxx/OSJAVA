@@ -18,6 +18,7 @@ public enum Genre {
     Genre(String genreName){
         this.genereName = genreName;
     }
+
     public String getGenereName(){
         return this.genereName;
     }

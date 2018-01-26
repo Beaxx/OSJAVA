@@ -1,6 +1,5 @@
 package Gruppe7.Importer;
 
-import Gruppe7.Importer.Datei;
 import Gruppe7.Data.*;
 
 public class WerbefilmImporter extends Datei {
@@ -26,7 +25,6 @@ public class WerbefilmImporter extends Datei {
         while (!importFileWerbespots.eof()){
             importString = importFileWerbespots.readLine_FS();
             if (importString != null){
-                //System.out.println("Import String:"  +importString+ "\naus Importdatei " +in_name );
 
                 String arrayWerbung[] = importString.split(";");
 
@@ -34,9 +32,10 @@ public class WerbefilmImporter extends Datei {
                 importWerbespotEinnahmenen = Integer.valueOf(arrayWerbung[1]);
                 importWerbespotLaufzeit = Integer.valueOf(arrayWerbung[2]);
 
-
-                WerbefilmVerwaltung.setWerbefilme(new Werbefilm(importWerbespotBezeichnung, importWerbespotLaufzeit, importWerbespotEinnahmenen));
+                WerbefilmVerwaltung.setWerbefilm(new Werbefilm(importWerbespotBezeichnung, importWerbespotLaufzeit, importWerbespotEinnahmenen));
             }
         }
+        WerbefilmVerwaltung.werbeplanSortieren();
     }
+
 }

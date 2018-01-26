@@ -1,132 +1,135 @@
 package Gruppe7.Data;
 
-import java.util.stream.IntStream;
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * @author Lennart Völler
+ * @@version  25.01.2018
+ */
 public class Vorstellung {
 
-    //Attribute
     private Kinofilm vorstellungsFilm;
-    private Werbefilm[] werbungen = new Werbefilm[1]; // TODO: Anzhal der Werbefilme über ihre Länge geregelt
+    private ArrayList<Werbefilm> werbungen = new ArrayList<>();
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
-    private int eintrittspreis = 7; // TODO: Hardcoded
+    private int eintrittspreis = 17; // Ausgangswert
 
-    // Constant
-    private static final int werbezeitMax = 20;
+    // TODO: Beliebtheit random iterieren
 
-    //Constructor
-    Vorstellung()
-    {
-        //Boolean Check Variablen
-        boolean threeD = false;
-        boolean FSK = false;
-        boolean laufzeiten = false;
-        boolean werbefilme = false;
+    /**
+     * Basis-Konstruktor, erstellt eine zufällige Vorstellung aus der Menge der möglichen, an dieser Stelle
+     * erlaubten Vorstellungen
+     * @param in_saalIndex
+     * @param in_vorstellungsTimeslotIndex
+     */
+    public Vorstellung(int in_saalIndex, int in_vorstellungsTimeslotIndex) {
+        vorstellungsSaal = SaalVerwaltung.getSaele().get(in_saalIndex);
+        vorstellungsTimeslot = Spielzeiten.values()[in_vorstellungsTimeslotIndex];
 
-        // Solange Vorstellungen erstellen, bis gültig
-        while (!threeD || !FSK || !laufzeiten || !werbefilme) {
+        // Aus der Filmverwaltung wird ein FilmSet geholt, dessen Filme die Kriterien hinsichtlich Technik und Timeslot erfüllt
+        ArrayList<Kinofilm> filmSet = FilmVerwaltung.getFilme(vorstellungsSaal.getThreeD(), vorstellungsTimeslot);
 
-            //Random Index für Vorstellungserstellung
-            int kinofilmIndex = ThreadLocalRandom.current().nextInt(0, FilmVerwaltung.getSize());
-            int werbefilmIndex = ThreadLocalRandom.current().nextInt(0, WerbefilmVerwaltung.getSize());
-            int saalIndex = ThreadLocalRandom.current().nextInt(0, SaalVerwaltung.getSize());
-            int vorstellungsTimeslotIndex = ThreadLocalRandom.current().nextInt(0, 3);
+        // Zufälligen Film aus dem Set auswählen.
+        vorstellungsFilm = (Kinofilm)filmSet.toArray()[ThreadLocalRandom.current().nextInt(0, filmSet.size() - 1)];
 
-            vorstellungsFilm = FilmVerwaltung.getFilme().get(kinofilmIndex);
-            werbungen[0]= WerbefilmVerwaltung.getWerbefilme().get(werbefilmIndex);
-            vorstellungsSaal = SaalVerwaltung.getSaele().get(saalIndex);
-            vorstellungsTimeslot = Spielzeiten.values()[vorstellungsTimeslotIndex];
+        //Werbung hinzufügen
+        werbungen = werbungAnhaengen();
+    }
 
-            threeD = check3D(vorstellungsFilm, vorstellungsSaal);
-            FSK = checkFSK(vorstellungsTimeslot, vorstellungsFilm);
-            laufzeiten = checkLaufzeiten(vorstellungsFilm, vorstellungsTimeslot);
-            werbefilme = checkWerbefilmeLaufzeit(vorstellungsTimeslot, vorstellungsFilm, werbungen, werbezeitMax);
+    /** Debugged
+     * Konstruktor Überladung bei der der Eintrittspresi der Vorstellung niht zufällig ist, sondern mit übergeben
+     * wird. Der Film ist nicht zufällig sondern steht ebenfalls schon fest. Dieser Konstruktor findet bei der
+     * inkrementellen Verbesserung von Vorstellungen anwendung.
+     * @param in_saalIndex
+     * @param in_vorstellungsTimeslotIndex
+     * @param in_eintrittspreis
+     */
+    public Vorstellung(int in_saalIndex, int in_vorstellungsTimeslotIndex, int in_eintrittspreis, Kinofilm in_film) {
+        vorstellungsSaal = SaalVerwaltung.getSaele().get(in_saalIndex);
+        vorstellungsTimeslot = Spielzeiten.values()[in_vorstellungsTimeslotIndex];
+        eintrittspreis = in_eintrittspreis;
+
+        // Zufälligen Film aus dem Set auswählen.
+        vorstellungsFilm = in_film;
+
+        //Werbung hinzufügen
+        werbungen = werbungAnhaengen();
+    }
+
+    /** Debugged
+     * Je nach verbleibender Zeit zum Zeigen von Werbung wird eine Liste mit den besten Profitabilitätswerten
+     * (UmsatzProZuschauer/Laufzeit) erstellt. Die Zeit zum Zeigen von Werbung ist auf 20 Minuten begrenzt. Für
+     * den Fall, dass 20 Minuten Werbung gezeigt werden können wird ein Standard-Werbeblock verwendet.
+     * @return Eine ArrayList der Werbung einer Vorstellung
+     */
+    private ArrayList<Werbefilm> werbungAnhaengen() {
+        int werbeDauerSoll = vorstellungsTimeslot.getSlotDuration() - vorstellungsFilm.getLaufzeit();
+
+        if (werbeDauerSoll >= 20) {
+            return WerbefilmVerwaltung.getWerbefilme20MinutenStandard();
         }
-    }
+        else {
+            int werbeDauerIst = WerbefilmVerwaltung.getWerbefilme20MinutenStandardDauer();
 
-    //Check Methoden
-    private boolean check3D(Kinofilm vorstellungsFilm, Saal vorstellungsSaal) {
+            ArrayList<Werbefilm> output = WerbefilmVerwaltung.getWerbefilme20MinutenStandard();
 
-        //Wenn der Saal 3D-Fähig ist, immer True
-        if (vorstellungsSaal.getThreeD())
-            return true;
-
-        //Wenn Saal 2D und der Film auch
-        return !vorstellungsFilm.getThreeD() && !vorstellungsSaal.getThreeD();
-    }
-
-    //Check FSK
-    private boolean checkFSK(Spielzeiten vorstellungsTimeslot, Kinofilm vorstellungsFilm) {
-
-        // Um 15 Uhr und um 17:30 dürfen keine FSK16 und FSK18 Filme gezeigt werden
-        if ((vorstellungsTimeslot == Spielzeiten.SLOT_1500 || vorstellungsTimeslot == Spielzeiten.SLOT_1730) &&
-                (vorstellungsFilm.getFsk() == Fsk.FSK_16 || vorstellungsFilm.getFsk() == Fsk.FSK_18)){
-            return false;}
-
-        // Um 20:00 dürfen keine FSK18 Filme gezeigt werden
-        else return vorstellungsTimeslot != Spielzeiten.SLOT_2000 || vorstellungsFilm.getFsk() != Fsk.FSK_18;
-    }
-
-    //Check Laufzeiten
-    private boolean checkLaufzeiten(Kinofilm vorstellungsFilm, Spielzeiten vorstellungsTimeslot) {
-        return vorstellungsTimeslot.getSlotDuration() >= vorstellungsFilm.getLaufzeit();
-    }
-
-    //Check Werbefilme // TODO: Werbefilme so sortieren, dass zuerst die Kombinationen mit dem Höchstern Betrag / Zuschauer gewählt werden.
-    private boolean checkWerbefilmeLaufzeit(Spielzeiten vorstellungsTimeslot,
-                                            Kinofilm vorstellungsFilm,
-                                            Werbefilm[] werbungen,
-                                            int werbezeitMax){
-
-        int sumWerbungDuration = 0;
-        for (Werbefilm w: werbungen) { // TODO: Über Intstream?
-            sumWerbungDuration += w.getLaufzeit();
+            for (Werbefilm werbung : output) {
+                if ((werbeDauerIst - werbung.getLaufzeit()) <= werbeDauerSoll) {
+                    output.remove(werbung);
+                    werbeDauerIst -= werbung.getLaufzeit();
+                }
+            }
+            return output; // TODO: Case noch nicht getestet, kommt quasi nie vor.
         }
-
-        /* Wenn die Summe der Werbezeiten größer ist, als die verbleibende Zeit im Timeslot abzüglich des Hauptfilms
-            oder der Werbeblock länger als 20min ist return: false*/
-        return (sumWerbungDuration <= (vorstellungsTimeslot.getSlotDuration() - vorstellungsFilm.getLaufzeit())) &&
-                (sumWerbungDuration <= werbezeitMax);
     }
 
     //Getter
-    Kinofilm getKinofilm(){
-        return vorstellungsFilm;
-    }
-    public Saal getSaal(){
-        return vorstellungsSaal;
-    }
-    public Spielzeiten getSpielzeiten(){
-        return vorstellungsTimeslot;
-    }
-    public Werbefilm[] getWerbefilme(){
-        return werbungen;
-    } // TODO: Festlegung der Anzahl der Webefilmelemente wo?
+    public Kinofilm getKinofilm(){ return vorstellungsFilm; }
+    public Saal getSaal(){ return vorstellungsSaal; }
+    public Spielzeiten getSpielzeiten(){ return vorstellungsTimeslot; }
+    public ArrayList<Werbefilm> getWerbefilme(){ return werbungen; }
+    public int GetEintrittspreis() { return eintrittspreis; }
+
+    //Setter
+    public void SetEintrittspreis(int in_eintrittspreis) { eintrittspreis = in_eintrittspreis; }
 
     @Override
     public String toString() {
         String output = "";
-        // Saal
-        output += "Saal: " + vorstellungsSaal.getSaalNummer() + "\n";
-
-        //Uhrzeit
-        output += "Uhrzeit: " + vorstellungsTimeslot + "\n";
+        // Saal +  Uhrzeit
+        output += "Saal: " + vorstellungsSaal.getSaalNummer() + " um "+ vorstellungsTimeslot + "\n";
 
         // Film
-        output += "Titel: " + vorstellungsFilm.getTitel()+ "\n" +
-                  "Regisseur: " + vorstellungsFilm.getRegisseur()+ "\n" +
-                  "Laufzeit: " + vorstellungsFilm.getLaufzeit()+ "\n" +
-                  "FSK: " + vorstellungsFilm.getFsk()+ "\n" +
-                  "Genre: " + vorstellungsFilm.getGenre()+ "\n" +
-                  "Sprache: " + vorstellungsFilm.getSprache()+ "\n" +
-                  "Land: " + vorstellungsFilm.getLaufzeit()+ "\n";
+        output += "Titel: " + vorstellungsFilm.getTitel() + "\n" +
+                  "Regisseur: " + vorstellungsFilm.getRegisseur() + "\n" +
+                  "Laufzeit: " + vorstellungsFilm.getLaufzeit() + "\n" +
+                  "FSK: " + vorstellungsFilm.getFsk( )+ "\n" +
+                  "Genre: " + vorstellungsFilm.getGenre() + "\n" +
+                  "Sprache: " + vorstellungsFilm.getSprache() + "\n" +
+                  "Land: " + vorstellungsFilm.getLaufzeit() + "\n";
 
-        //Financials
+        // Financials
         output += "Beliebtheit: " + vorstellungsFilm.getBeliebtheit() + "\n"+
                   "Verleihpreis: " + vorstellungsFilm.getVerleihpreisProWoche() + "\n";
 
         output += "-----------------------------\n";
         return output;
     }
+
+//    @Override
+//    public boolean equals(Object in_Vorstellung) {
+//        Vorstellung castIn_Vorstellung;
+//        if (in_Vorstellung.getClass().getName() == this.getClass().getName()) {
+//            castIn_Vorstellung = (Vorstellung) in_Vorstellung;
+//        } else {
+//            return false;
+//        }
+//
+//        if (castIn_Vorstellung.getKinofilm() == getKinofilm()) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 }
