@@ -39,6 +39,7 @@ public class FilmVerwaltung
     static private ArrayList<Kinofilm> filme2300 = new ArrayList<>();
 
     static private ArrayList<Kinofilm> filme150min = new ArrayList<>();
+    static private ArrayList<Kinofilm> filme180min = new ArrayList<>();
 
     static private ArrayList<Kinofilm> filme3D_150_1500 = new ArrayList<>();
     static private ArrayList<Kinofilm> filme3D_150_1730 = new ArrayList<>();
@@ -168,6 +169,7 @@ public class FilmVerwaltung
     public static void setFilme2300(Kinofilm in_film) {filme2300.add(in_film);}
 
     public static void setFilme150min(Kinofilm in_film) {filme150min.add(in_film);}
+    public static void setFilme180min(Kinofilm in_film) {filme180min.add(in_film);}
 
     // Getter
     public static ArrayList<Kinofilm> getFilme(boolean in_ThreeD, Spielzeiten in_timeslot){

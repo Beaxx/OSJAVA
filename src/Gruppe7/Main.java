@@ -15,10 +15,10 @@ public class Main {
 
 
         /* SETTINGS */
-        int durchlaeufe = 100000; // Geschwindigkeit: 2750 pro Sekunde
+        int durchlaeufe = 100000; // Geschwindigkeit: 2900 pro Sekunde
         int mindestPreisVorstellung = 17;
         int maximalPreisVorstellung = 17;
-        int mindestBeliebtheit = 95;
+        int mindestBeliebtheit = 0;
         /* SETTINGS */
 
         //Datenimport

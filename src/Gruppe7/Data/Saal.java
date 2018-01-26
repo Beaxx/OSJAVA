@@ -24,7 +24,7 @@ public class Saal {
         return plaetzeParkett;
     }
 
-    public boolean getThreeD() { // TODO: wurde packacge exclusive gemacht, exception?
+    public boolean getThreeD() {
         return threeD;
     }
 

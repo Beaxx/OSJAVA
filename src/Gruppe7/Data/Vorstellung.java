@@ -1,10 +1,7 @@
 package Gruppe7.Data;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.Iterator;
 
 /**
  * @author Lennart Völler
@@ -22,7 +19,6 @@ public class Vorstellung {
     // TODO: Beliebtheit random iterieren
     // TODO: Was ist mit der Sprache?
 
-    //Constructor
     public Vorstellung(int in_saalIndex, int in_vorstellungsTimeslotIndex) {
         vorstellungsSaal = SaalVerwaltung.getSaele().get(in_saalIndex);
         vorstellungsTimeslot = Spielzeiten.values()[in_vorstellungsTimeslotIndex];

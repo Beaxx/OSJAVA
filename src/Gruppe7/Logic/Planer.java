@@ -48,7 +48,7 @@ public class Planer {
             spielplan = createRandomSpielplan(localGenreList);
         }
 
-        spielplan = spielplanEinnahmenOptimierung(spielplan, in_minPreisFuerVorstellung, in_maxPreisfuerVorstellung);
+        //spielplan = spielplanEinnahmenOptimierung(spielplan, in_minPreisFuerVorstellung, in_maxPreisfuerVorstellung);
         spielplanAufspaltung();
         spielplanAusgaben = spielplanAusgaben();
         spielplanEinnahmenAusKartenverkaeufen = spielplanEinnahmen(spielplan)[0];

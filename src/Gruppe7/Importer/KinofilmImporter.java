@@ -63,9 +63,9 @@ public class KinofilmImporter extends Datei {
             }
             //endregion
 
-            //Genres Auslesen und Zuweisen
-            //Für jeden Durchgang muss eine neue Liste erstellt werden.
-            //Es wird eine ArrayList benötigt, da ein Film mehrere Genres haben kann.
+            /*Genres Auslesen und Zuweisen
+            Für jeden Durchgang muss eine neue Liste erstellt werden.
+            Es wird eine ArrayList benötigt, da ein Film mehrere Genres haben kann.*/
             importKinofilmGenres = new ArrayList<>();
 
             //Erstellung eines String mit allen Genres
@@ -121,45 +121,40 @@ public class KinofilmImporter extends Datei {
                     importKinofilmFSK,
                     importKinofilmGenres);
 
-            Kinofilm tempKinofilmNachBeliebtheitsfilter = (KinofilmFilter(minBeliebtheit, tempKinofilm));
+            if(KinofilmFilter(tempKinofilm)){
+                KinofilmVerteiler3D2D(tempKinofilm);
+                KinofilmVerteilerTimeslot(tempKinofilm);
+                KinofilmVerteilerLaufzeit(tempKinofilm);
+            }
 
-            KinofilmVerteiler3D2D(tempKinofilmNachBeliebtheitsfilter);
-            KinofilmVerteilerTimeslot(tempKinofilmNachBeliebtheitsfilter);
-            KinofilmVerteilerLaufzeit(tempKinofilmNachBeliebtheitsfilter);
         }
     }
 
     /**
-     * Fügt einen Kinofilm der Sammlung hinzu, wenn dessen Beliebtheitswert den Schwellenwert überschreitet
-     *
-     * @param in_beliebtheitsSchwellenwert Beliebtheitswert zwischen 0 und 100
-     * @param in_film                      ein Kinofilm
+     * Ermittelt, ob ein Film die mindest Beliebtheit erfüllt.
      */
-    private Kinofilm KinofilmFilter(int in_beliebtheitsSchwellenwert, Kinofilm in_film) {
-        if (in_film.getBeliebtheit() >= in_beliebtheitsSchwellenwert) {
-            return in_film;
+    private boolean KinofilmFilter(Kinofilm in_film) {
+        if (in_film.getBeliebtheit() >= minBeliebtheit) {
+            return true;
         }
-        return null;
+        return false;
     }
 
     /**
      * Fügt einen Film entsprechend seiner 3D-eigenschaft zu den Kinofilmlisten hinzu.
-     * Entscheidungskriterium ist, ob ein Film im entsprechenden Saal gezeigt werden kann.
+     * Entscheidungskriterium ist, ob ein Film im entsprechenden Saal gezeigt werden könnte.
      * Ein 2D-Film kann sowohl in 3D-Sälen als auch in 2D-Sälen gezeigt werden.
-     * <p>
-     * Ein 2D-Film wird also zur Liste der 3D-Filme hinzugefügt, da er in 3D-Sälen auch gezeigt werden kann
+     * Ein 2D-Film wird daher zur Liste der 3D-Filme hinzugefügt, da er in 3D-Sälen auch gezeigt werden kann
      *
      * @param in_film ein Kinofilm
      */
     private void KinofilmVerteiler3D2D(Kinofilm in_film) {
-        if (in_film != null) {
             if (in_film.getThreeD()) {
                 FilmVerwaltung.setFilme3D(in_film);
             } else {
                 FilmVerwaltung.setFilme2D(in_film);
                 FilmVerwaltung.setFilme3D(in_film);
             }
-        }
     }
 
     /**
@@ -170,7 +165,6 @@ public class KinofilmImporter extends Datei {
      * @param in_film ein Kinofilm
      */
     private void KinofilmVerteilerTimeslot(Kinofilm in_film) {
-        if (in_film != null) {
             switch (in_film.getFsk()) {
                 case FSK_0:
                 case FSK_6:
@@ -191,36 +185,24 @@ public class KinofilmImporter extends Datei {
                     break;
                 }
                 default: break;
-            }
         }
     }
 
+    /**
+     * Fügt einen Film entsprechend seiner Spieldauer zu den Kinofilmlisten hinzu.
+     * Entscheidungskriterium ist, ob ein Film in den entsprechenden Timeslot passt.
+     * Ein 150 Minuten langer film kann also auch in einem 180 Minuten timeslot laufen.
+     * @param in_film ein Kinofilm
+     */
     private void KinofilmVerteilerLaufzeit(Kinofilm in_film) {
-        // Switch arbeitet nicht mit komplexen typen, also Übersetzung
-        if (in_film != null) {
-            int switchIntLaufzeit;
-            if (in_film.getLaufzeit() <= 150) {
-                switchIntLaufzeit = 150;
-            }
-            else if (in_film.getLaufzeit() <= 180) {
-                switchIntLaufzeit = 180;
-            }
-            else { switchIntLaufzeit = 150; }
 
-            switch (switchIntLaufzeit) {
-                case 150: {
-                    FilmVerwaltung.setFilme150min(in_film);
-                    break;
-                }
+        if (in_film.getLaufzeit() <= 150) {
+            FilmVerwaltung.setFilme150min(in_film);
+            FilmVerwaltung.setFilme180min(in_film);
+        }
 
-                case 180: {
-                    FilmVerwaltung.setFilme150min(in_film);
-                    break;
-                }
-
-                default:
-                    break;
-            }
+        else if (in_film.getLaufzeit() > 150) {
+            FilmVerwaltung.setFilme180min(in_film);;
         }
     }
 }
