@@ -14,7 +14,7 @@ public class Kinofilm extends Film {
     private int erscheinungsjahr, beliebtheit, verleihpreisProWoche;
     private Fsk fsk;
     private ArrayList<Genre> genre = new ArrayList<>();
-
+    // TODO: Kostenattribut für die Verleihkosten des films auf den gesamten Spielplan
     /**
      * Konstruktor
      *

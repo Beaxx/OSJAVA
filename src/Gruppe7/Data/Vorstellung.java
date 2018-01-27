@@ -14,7 +14,7 @@ public class Vorstellung {
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
     private int eintrittspreis = 11; // Ausgangswert
-
+    // TODO: Vorstellung braucht Andrangsfeld
     /**
      * Basis-Konstruktor, erstellt eine zufällige Vorstellung aus der Menge der möglichen, an dieser Stelle
      * erlaubten Vorstellungen
