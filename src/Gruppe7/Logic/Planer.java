@@ -322,10 +322,14 @@ public class Planer {
                         int andrang = andrang(vorstellung, tagIndex, vorstellungIndex, wochenIndex, eintrittspreis);
                         int zuschauerLoge;
                         int zuschauerParkett;
+                        int ueberhang = 0;
 
                         // Andrang in der Loge, wenn Andrang > Plätze = Plätze
                         if (andrang * 0.5 > SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeLoge()) {
                             zuschauerLoge = SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeLoge();
+
+                            ueberhang = (int)Math.round((andrang * 0.5))- SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeLoge();
+
                         } else {
                             zuschauerLoge = (int) Math.round((double) andrang * 0.5);
                         }
@@ -335,6 +339,14 @@ public class Planer {
                             zuschauerParkett = SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett();
                         } else {
                             zuschauerParkett = (int) Math.round((double) andrang * 0.5);
+                            int freiePlaetze= ((SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett() - zuschauerParkett));
+
+                            if(freiePlaetze<=ueberhang) {
+                                zuschauerParkett = zuschauerParkett + freiePlaetze;
+                            }else{
+                                zuschauerParkett=zuschauerParkett+ueberhang;
+                            }
+
                         }
 
                         //Einnahmen durch Ticketsverkäufe

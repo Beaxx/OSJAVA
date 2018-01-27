@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Kinofilm extends Film {
     private boolean threeD;
     private String sprache, regisseur, erscheinungsland;
-    private int erscheinungsjahr, beliebtheit, verleihpreisProWoche, kostenGesamt;
+    private int erscheinungsjahr, beliebtheit, verleihpreisProWoche, kostenGesamt, andrang;
     private Fsk fsk;
     private ArrayList<Genre> genre = new ArrayList<>();
 
@@ -76,12 +76,19 @@ public class Kinofilm extends Film {
         return erscheinungsland;
     }
 
-    public int getKostenGesamt() {return  kostenGesamt;}
+    public int getKostenGesamt() {return  kostenGesamt;} //-Fabian
+
+    public int getAndrang() {return andrang;} //Fabian
 
 
-    //Setter
+    //Setter - Fabian
     public int setKostenGesamt(int in_kosten){
         kostenGesamt=in_kosten;
         return kostenGesamt;
+    }
+
+    public int setAndrang(int in_andrang){
+        andrang=in_andrang;
+        return andrang;
     }
 }

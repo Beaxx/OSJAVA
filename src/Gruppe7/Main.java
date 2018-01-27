@@ -57,11 +57,11 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         /* SETTINGS */
-        int plaeneZuErstellen = 1000; // Max Geschwindigkeit: 3700 pro Sekunde (ohne Optimierung)
+        int plaeneZuErstellen = 120000; // Max Geschwindigkeit: 3700 pro Sekunde (ohne Optimierung)
         OptimierungSwitch = false;
-        int mindestPreisVorstellung = 16;
-        int maximalPreisVorstellung = 18;
-        int mindestBeliebtheit = 95;
+        int mindestPreisVorstellung = 17;
+        int maximalPreisVorstellung = 17;
+        int mindestBeliebtheit = 96;
         /* SETTINGS */
 
         //Datenimport
@@ -134,7 +134,7 @@ public class Main {
 
     //    ExportRaumplanung exportRaumPlan = new ExportRaumplanung(Vorstellung[][][][], String );
 
-        new ExportRaumplanung(planer.getSpielplan(), "C:/import/raumplan.txt");
+       // new ExportRaumplanung(planer.getSpielplan(), "C:/import/raumplan.txt");
 
     }
 
