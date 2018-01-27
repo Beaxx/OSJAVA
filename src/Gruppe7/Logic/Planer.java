@@ -16,6 +16,9 @@ import Gruppe7.Main;
  * Spielplan zurück.
  */
 public class Planer {
+
+    // TODO: Doku für Saalverwaltung, Exporter, Datei, Importer,Kinofilmimporter,Saalimporter, Werbefilmimporter, Vorstellung und Planer
+
     // Saaldaten
     private int plaetzeGroesterSaal = SaalVerwaltung.getPlaetzeGroesterSaal();
     private int plaetzeZweitgroesterSaal = SaalVerwaltung.getPlaetzeZweitgroesterSaal();
