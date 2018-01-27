@@ -4,6 +4,7 @@ import Gruppe7.Data.FilmVerwaltung;
 import Gruppe7.Data.SaalVerwaltung;
 import Gruppe7.Data.Vorstellung;
 import Gruppe7.Data.WerbefilmVerwaltung;
+import Gruppe7.Exporter.ExportRaumplanung;
 import Gruppe7.Importer.KinofilmImporter;
 import Gruppe7.Importer.SaalImporter;
 import Gruppe7.Importer.WerbefilmImporter;
@@ -127,68 +128,13 @@ public class Main {
         System.out.println(spielPlanObj[0][0][0].length); //Spielzeit*/
         //System.out.println("Get: "+spielPlanObj[0][0][0][0].getSaal().getSaalNummer()); //Spielzeit
 
-        Vorstellung[][][][] spielPlanObj;
-        spielPlanObj = planer.getSpielplan();
 
-
-        String exportStringRaumplan;
-        exportStringRaumplan = "";
-
-        exportStringRaumplan= "Raumplanung \n";
-        for(int iWoche = 0; iWoche <= spielPlanObj.length-1; iWoche ++){
-            System.out.println("Woche: " + (iWoche+1));
-
-            exportStringRaumplan += "\n\nWoche: " + (iWoche+1) + "\n";
-
-            for(int iTag = 0; iTag <= spielPlanObj[iWoche].length-1; iTag ++) {
-
-                    String wochenTag=null;
-                    switch (iTag+1) {
-                        case 1 : wochenTag = "Montag";
-                            break;
-                        case 2:  wochenTag = "Dienstag";
-                            break;
-                        case 3:  wochenTag = "Mittwoch";
-                            break;
-                        case 4:  wochenTag = "Donnerstag";
-                            break;
-                        case 5:  wochenTag = "Freitag";
-                            break;
-                        case 6:  wochenTag = "Samstag";
-                            break;
-                        case 7:  wochenTag = "Sonntag";
-                            break;
-
-                        default: wochenTag = "Invalid Day";
-                            break;
-                    }
-                System.out.println("Tag: " + (iTag + 1) + " " + wochenTag);
-
-                exportStringRaumplan += "\nTag: " + (iTag + 1) + " " + wochenTag + "\n";
-
-                    for(int iSaal = 0; iSaal <= spielPlanObj[iWoche][iTag].length-1; iSaal++){
-                        System.out.println("Saal Nummer: " + spielPlanObj[iWoche][iTag][iSaal][0].getSaal().getSaalNummer());
-
-                        exportStringRaumplan += "Saal Nummer: " + spielPlanObj[iWoche][iTag][iSaal][0].getSaal().getSaalNummer() + "\n";
-
-                        for (int iSpielzeit=0; iSpielzeit <= spielPlanObj[iWoche][iTag][iSaal].length-1; iSpielzeit++){
-                            System.out.println(spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].getSpielzeiten().toString()+": "+ spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].getKinofilm().getTitel());
-
-                            exportStringRaumplan += spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].getSpielzeiten().toString()+": "+ spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].getKinofilm().getTitel()+ "\n";
-
-                        }
-
-                    }
-
-            }
-
-            System.out.println(exportStringRaumplan);
-        }
         //endregion
 
 
+    //    ExportRaumplanung exportRaumPlan = new ExportRaumplanung(Vorstellung[][][][], String );
 
-
+        new ExportRaumplanung(planer.getSpielplan(), "C:/import/raumplan.txt");
 
     }
 

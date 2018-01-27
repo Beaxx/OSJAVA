@@ -37,7 +37,7 @@ public class Exporter extends Datei
 
 
         }
-        export.writeLine_FS(output);
+
         export.closeOutFile_FS();
         export.eof();
 
