@@ -5,7 +5,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Lennart Völler
- * @@version  25.01.2018
  */
 public class Vorstellung {
 
@@ -13,8 +12,8 @@ public class Vorstellung {
     private ArrayList<Werbefilm> werbungen = new ArrayList<>();
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
-    private int eintrittspreis = 11; // Ausgangswert
-    // TODO: Vorstellung braucht Andrangsfeld
+    private int eintrittspreis = 17; // Ausgangswert
+    private int andrang = 0;
 
     /**
      * Basis-Konstruktor, erstellt eine zufällige Vorstellung aus der Menge der möglichen, an dieser Stelle
@@ -137,6 +136,14 @@ public class Vorstellung {
 
         output += "-----------------------------\n";
         return output;
+    }
+
+    public int GetAndrang() {
+        return andrang;
+    }
+
+    public void SetAndrang(int andrang) {
+        this.andrang = andrang;
     }
 
 //    @Override
