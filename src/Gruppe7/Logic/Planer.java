@@ -30,11 +30,6 @@ public class Planer {
     // Spielplandaten
     private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4]; //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
 
-    //TODO: Wochen überflüssig?
-    private ArrayList<Vorstellung> woche0 = new ArrayList<>(); // Flaches 1-D Array für alle Vorstellungen einer Woche
-    private ArrayList<Vorstellung> woche1 = new ArrayList<>();
-    private ArrayList<Vorstellung> woche2 = new ArrayList<>();
-
     private Set<Kinofilm> filmeWoche0 = new HashSet<>();
     private Set<Kinofilm> filmeWoche1 = new HashSet<>();
     private Set<Kinofilm> filmeWoche2 = new HashSet<>();
@@ -120,23 +115,19 @@ public class Planer {
 
                         switch (wochenIndex) {
                             case 0:{
-                                woche0.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
                                 filmeWoche0.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex].getKinofilm());
                                 break;
                             }
 
                             case 1:{
-                                woche1.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
                                 filmeWoche1.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex].getKinofilm());
                                 break;
                             }
 
                             case 2:{
-                                woche2.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
                                 filmeWoche2.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex].getKinofilm());
                                 break;
                             }
-
                         }
 
                         int wochenIndexAddition = 0;
@@ -278,6 +269,7 @@ public class Planer {
     private Vorstellung[][][][] createRandomSpielplan(ArrayList<Genre> in_localGenreListWoche0,
                                                       ArrayList<Genre> in_localGenreListWoche1,
                                                       ArrayList<Genre> in_localGenreListWoche2) {
+
         for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++)
             for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
                 for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
