@@ -60,8 +60,6 @@ public class Main {
         /* SETTINGS */
 
 
-
-
         //Datenimport
         new WerbefilmImporter("C:/import/werbespots.csv");
         new SaalImporter("C:/import/saele.csv");
@@ -120,7 +118,6 @@ public class Main {
         System.out.println(stream.toArray());
 
 
-
         //[WOCHE][TAG][SAAL][SPIELZEIT]
         System.out.println(spielPlanObj.length); //Wochen 0-2
         System.out.println(spielPlanObj[0].length); //Tage 0-6
@@ -129,68 +126,57 @@ public class Main {
         //System.out.println("Get: "+spielPlanObj[0][0][0][0].getSaal().getSaalNummer()); //Spielzeit
 
 
-        for(int iWoche = 0; iWoche <= spielPlanObj.length-1; iWoche ++){
-            System.out.println("Woche: " + (iWoche+1));
+        for (int iWoche = 0; iWoche <= spielPlanObj.length - 1; iWoche++) {
+            System.out.println("Woche: " + (iWoche + 1));
 
-            for(int iTag = 0; iTag <= spielPlanObj[iWoche].length-1; iTag ++) {
+            for (int iTag = 0; iTag <= spielPlanObj[iWoche].length - 1; iTag++) {
 
-                    String wochenTag=null;
-                    switch (iTag+1) {
-                        case 1 : wochenTag = "Montag";
-                            break;
-                        case 2:  wochenTag = "Dienstag";
-                            break;
-                        case 3:  wochenTag = "Mittwoch";
-                            break;
-                        case 4:  wochenTag = "Donnerstag";
-                            break;
-                        case 5:  wochenTag = "Freitag";
-                            break;
-                        case 6:  wochenTag = "Samstag";
-                            break;
-                        case 7:  wochenTag = "Sonntag";
-                            break;
+                String wochenTag = null;
+                switch (iTag + 1) {
+                    case 1:
+                        wochenTag = "Montag";
+                        break;
+                    case 2:
+                        wochenTag = "Dienstag";
+                        break;
+                    case 3:
+                        wochenTag = "Mittwoch";
+                        break;
+                    case 4:
+                        wochenTag = "Donnerstag";
+                        break;
+                    case 5:
+                        wochenTag = "Freitag";
+                        break;
+                    case 6:
+                        wochenTag = "Samstag";
+                        break;
+                    case 7:
+                        wochenTag = "Sonntag";
+                        break;
 
-                        default: wochenTag = "Invalid Day";
-                            break;
-                    }
+                    default:
+                        wochenTag = "Invalid Day";
+                        break;
+                }
                 System.out.println("Tag: " + (iTag + 1) + " " + wochenTag);
 
-                    for(int iSaal = 0; iSaal <= spielPlanObj[iWoche][iTag].length-1; iSaal++){
-                        System.out.println("Saal Nummer: " + spielPlanObj[iWoche][iTag][iSaal][0].getSaal().getSaalNummer());
+                for (int iSaal = 0; iSaal <= spielPlanObj[iWoche][iTag].length - 1; iSaal++) {
+                    System.out.println("Saal Nummer: " + spielPlanObj[iWoche][iTag][iSaal][0].getSaal().getSaalNummer());
 
-                        for (int iSpielzeit=0; iSpielzeit <= spielPlanObj[iWoche][iTag][iSaal].length-1; iSpielzeit++){
-                            System.out.println(spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].getSpielzeiten().toString()+": "+ spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].getKinofilm().getTitel());
-                        }
-
+                    for (int iSpielzeit = 0; iSpielzeit <= spielPlanObj[iWoche][iTag][iSaal].length - 1; iSpielzeit++) {
+                        System.out.println(spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].getSpielzeiten().toString() + ": " + spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].getKinofilm().getTitel());
                     }
+
+                }
 
             }
         }
 
 
-
-
-
-        //Raumplan
-       /* System.out.println("Raumplan");
-        System.out.println("Saal: "+spielPlanObj[0][0][0][0].getSaal().getSaalNummer());
-        System.out.println("Tag 1");
-        System.out.println("Spielzeit: "+spielPlanObj[0][0][0][0].getSpielzeiten());
-        System.out.println("Film: "+spielPlanObj[0][0][0][0].getKinofilm().getTitel());
-
-        System.out.println("--- --- --- ---");
-
-        System.out.println("Raumplan");
-        System.out.println("Saal: "+spielPlanObj[0][0][0][0].getSaal().getSaalNummer());
-        System.out.println("Tag 1");
-        System.out.println("Spielzeit: "+spielPlanObj[0][0][0][1].getSpielzeiten());
-        System.out.println("Film: "+spielPlanObj[0][0][0][1].getKinofilm().getTitel());
-
-        System.out.println("--- --- --- ---");
-
-        Exporter exporter = new Exporter("C:/import/export.txt", "Bacon");
-
-
     }
 }
+
+
+
+
