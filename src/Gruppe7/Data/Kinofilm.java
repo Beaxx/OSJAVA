@@ -3,8 +3,10 @@ import java.util.ArrayList;
 
 /**
  * @author Lennart Völler
- * @version  25.01.2018
+ * Erbt von Film.
  *
+ * Ein Kinofilm ist ein von der Vorstellung losgelöstes Objekt. Kinofilme sind austauschbare Einheiten, die
+ * unabhängig vom Spielplan sind. Sie sind eine der Komponenten zur Erstellung von Spielplänen.
  */
 public class Kinofilm extends Film {
     private boolean threeD;
@@ -13,6 +15,21 @@ public class Kinofilm extends Film {
     private Fsk fsk;
     private ArrayList<Genre> genre = new ArrayList<>();
 
+    /**
+     * Konstruktor
+     *
+     * @param in_titel            der Titel des Films.
+     * @param in_laufzeit         die Laufzeit des Films in Minuten.
+     * @param in_threeD           die 3D-Eigenschaft eines Films.
+     * @param in_sprache          die Sprache des Films.
+     * @param in_Regisseur        der Name des Regisseurs des Filmes.
+     * @param in_erscheinungsjahr das Erscheinungsjahr des Filmes.
+     * @param in_erscheinungsland das Erscheinungsland des Filmes.
+     * @param in_beliebtheit      der Beliebtheitswert des Filmes (0-100).
+     * @param in_verleipreis      der Verleihpreis des Filmes in ganzzahligen Euro.
+     * @param in_fsk              das FSK-Rating des Filmes als Element des FSK-Enums.
+     * @param in_genre            das Genre des Filmes als Emenet des Genre-Enums.
+     */
     public Kinofilm(
             String in_titel,
             int in_laufzeit,
@@ -38,38 +55,84 @@ public class Kinofilm extends Film {
     }
 
     // Getter
+
+    /**
+     * Gettermethode für die 3D-Eigenschaft des Films.
+     *
+     * @return True/False basierend auf der 3d-Eigenschaft.
+     */
     public boolean getThreeD() {
         return threeD;
     }
 
+    /**
+     * Getmethode für die Sprache des Filmes.
+     *
+     * @return Sprache des Films.
+     */
     public String getSprache() {
         return sprache;
     }
 
+    /**
+     * Getmethode für den Namen des Regisseurs des Filmes.
+     *
+     * @return Name des Regisseurs.
+     */
     public String getRegisseur() {
         return regisseur;
     }
 
+    /**
+     * Getmethode für das erscheinungsjahr des Filmes.
+     *
+     * @return Erscheinungsjahr des Filmes.
+     */
     public int getErscheinungsjahr() {
         return erscheinungsjahr;
     }
 
+    /**
+     * Getmethode für die Beliebtheit des Filmes.
+     *
+     * @return Beliebtheitswert des Filmes (0-100)
+     */
     public int getBeliebtheit() {
         return beliebtheit;
     }
 
+    /**
+     * Getmethode für den Verleihpreis des Filmes pro Woche.
+     *
+     * @return Verleihpreis des Filmes pro woche als Ganzzahl.
+     */
     public int getVerleihpreisProWoche() {
         return verleihpreisProWoche;
     }
 
+    /**
+     * Getmethode für das FSK-Siegel des Filmes.
+     *
+     * @return FSK-Siegel des Filmes als Element des FSK-Enums
+     */
     public Fsk getFsk() {
         return fsk;
     }
 
+    /**
+     * Getmethode für das Genre des Filmes.
+     *
+     * @return Genre des Films als Element des Genre Enums.
+     */
     public ArrayList<Genre> getGenre() {
         return genre;
     }
 
+    /**
+     * Getmehoden für das Erscheinungsjahr des Films
+     *
+     * @return Erscheinungsjahr als Ganzzahl
+     */
     public String getErscheinungsland() {
         return erscheinungsland;
     }
