@@ -1,23 +1,24 @@
 package Gruppe7.Logic;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import Gruppe7.Data.*;
 import Gruppe7.Main;
 
 /**
  * @author Lennart Völler
- * @date 24.01.2018
  *
  * Die Planerklasse stellt die zentrale Logik des Programs dar. Jedes Objekt der Klasse Planer beinhaltet ein
- * 4-dimensionales Array vom Typ Vorstellung. Nach der Erstellung eines zufälligen Spielplans wird dieser lokal
- * optimiert. Ist der Optimierungsprozess abgeschlossen beendes der Planer den Konstruktor und gibt den optimierten
- * Spielplan zurück.
+ * 4-dimensionales Array vom Typ Vorstellung. Dieses Array stellt den Spielplan dar.
+ *
+ * Nach der Erstellung eines zufälligen Spielplans kann der Spielplan durch die spielplanEinnahmenOptimierung-Methode
+ * optimiert werden. Ist der Optimierungsprozess abgeschlossen beendet der Planer den Konstruktor und bietet so den
+ * Spielplan zum Abruf an.
+ *
+ * Der Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle * 4(Spielzeiten)
  */
 public class Planer {
 
-    // TODO: Doku für Saalverwaltung, Exporter, Datei, Importer,Kinofilmimporter,Saalimporter, Werbefilmimporter, Vorstellung und Planer
+    // TODO: Doku für Exporter, Datei, Importer, Kinofilmimporter, Saalimporter, Werbefilmimporter, Vorstellung
 
     // Saaldaten
     private int plaetzeGroesterSaal = SaalVerwaltung.getPlaetzeGroesterSaal();
@@ -30,8 +31,8 @@ public class Planer {
     private int spielplanAusgaben = 0;
     private int spielplanGewinn = 0;
 
-    // Spielplandaten
-    private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4]; //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
+    //region Spielplandaten
+    private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4];
 
     private Set<Kinofilm> filmeWoche0 = new HashSet<>();
     private Set<Kinofilm> filmeWoche1 = new HashSet<>();
@@ -67,17 +68,19 @@ public class Planer {
                     vorstellungen10, vorstellungen11, vorstellungen12, vorstellungen13, vorstellungen14,
                     vorstellungen15, vorstellungen15, vorstellungen16, vorstellungen17, vorstellungen18,
                     vorstellungen19, vorstellungen20));
+    //endregion
 
     // Genredaten
     private static List<Genre> genreList = Arrays.asList(Genre.values()); // Generiert eine Genre-List aus dem Genre Enum unabhängig vom Objekt
     private boolean checkGenre = false;
 
-    /**Debugged
-     * Erstellung eines zufälligen Spielplans bei Iteration durch das leere Vorstellungs-Array
+    /**
+     * Erstellung eines zufälligen Spielplans bei Iteration durch das leere Vorstellungs-Array.
      * Erstellt:  Ein vierdimensionales Vorstellungsarray [woche][tag][saal][timeslot]
+     * @param in_minPreisFuerVorstellung der Mindestpreis einer Vorstellung für die Vorstellungs-optimierung.
+     * @param in_maxPreisfuerVorstellung der Maximalpreis einer Vorstellung für die Vorstellungs-optimierung.
      */
     public Planer(int in_minPreisFuerVorstellung, int in_maxPreisfuerVorstellung) {
-//        vorstellungTage.add(vorstellungen0, vorstellungen1)
 
         // Genre-Liste wird kopiert
         ArrayList<Genre> localGenreListWoche0 = new ArrayList<>();
@@ -95,7 +98,7 @@ public class Planer {
         spielplanAufspaltung();
 
         // Optimierung des Vorstellungspreises jeder Vorstellung (Switch True/ false)
-        if(Main.OptimierungSwitch){
+        if (Main.OptimierungSwitch) {
             spielplanEinnahmenOptimierung(in_minPreisFuerVorstellung, in_maxPreisfuerVorstellung);
         }
 
