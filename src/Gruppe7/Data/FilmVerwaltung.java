@@ -5,6 +5,11 @@ import java.util.*;
 /**
  * @author Lennart Völler
  *
+ * Die FilmVerwaltung und all ihre Felder sind statisch, damit von allen Stellen des Programs einfach auf sie
+ * zugegriffen werden kann. Weiterhin ergibt sich der Vorteil, dass für die Verwendung nicht bei jedem Durchlauf des
+ * Programs neue Objekte angelegt werden müssen. Die Objekte liegen nur ein mal im Speicher und werden von den Klassen
+ * die sie verwenden auf unterscchiedliche weise referenziert.
+ *
  * Es gibt für Kinofilme drei Kriterien, die entscheiden, ob sie zu einer bestimmten Zeit in einem bestimmten
  * Saal gezeigt werden können: die 3D-Technik, die FSK-Einstufung des Films und die Spieldauer des Films.
  * Die Menge der möglichen Sets an Filmen ergibt sich somit durch die Menge der Merkmalsausprägungen:
