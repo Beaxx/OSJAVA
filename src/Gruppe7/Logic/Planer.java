@@ -1,7 +1,6 @@
 package Gruppe7.Logic;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import Gruppe7.Data.*;
 import Gruppe7.Main;
@@ -339,7 +338,7 @@ public class Planer {
                             zuschauerParkett = SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett();
                         } else {
                             zuschauerParkett = (int) Math.round((double) andrang * 0.5);
-                            int freiePlaetze= ((SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett() - zuschauerParkett));//@TODO: Überhang optimierung möchte sich Lennart noch einmal ansehen
+                            int freiePlaetze= ((SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett() - zuschauerParkett));//@TODO: Überhang optimierung möchte sich LennHARD noch einmal ansehen
 
                             if(freiePlaetze<=ueberhang) {
                                 zuschauerParkett = zuschauerParkett + freiePlaetze;
@@ -352,6 +351,13 @@ public class Planer {
                         //Einnahmen durch Ticketsverkäufe
                         int ticketverkaeufeLoge = (eintrittspreis + 2) * zuschauerLoge;
                         int ticketverkaeufeParkett = eintrittspreis * zuschauerParkett;
+
+                        //Nicole und Fabian haben hier auch rum gemurkst #HÄCKER from da BLOCK @TODO NICO & FAB: Einnachmen für eine Vorstellung in die Vorstellung schreiben| CEHCK
+                        vorstellung.SetVorstellungsEinnahmenTickets((ticketverkaeufeLoge+ticketverkaeufeParkett));
+
+                        vorstellung.SetZuschauerLoge(zuschauerLoge);
+                        vorstellung.SetZuschauerParkett(zuschauerParkett);
+
 
                         localSpielplaneinnahmen[0] += ticketverkaeufeLoge + ticketverkaeufeParkett;
 

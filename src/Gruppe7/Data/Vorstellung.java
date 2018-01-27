@@ -13,7 +13,13 @@ public class Vorstellung {
     private ArrayList<Werbefilm> werbungen = new ArrayList<>();
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
-    private int eintrittspreis = 17; // Ausgangswert
+    private int eintrittspreis = 13; // Ausgangswert
+    private int vorstellungsEinnahmenTickets = 0;
+    private int zuschauerLoge = 0;
+    private int zuschauerParkett = 0;
+    private int zuschauerGesamt = zuschauerLoge + zuschauerParkett;
+
+
 
     /**
      * Basis-Konstruktor, erstellt eine zufällige Vorstellung aus der Menge der möglichen, an dieser Stelle
@@ -80,6 +86,14 @@ public class Vorstellung {
             }
             return output; // TODO: Case noch nicht getestet, kommt quasi nie vor.
         }
+
+
+
+        for (int iWerbespot = 0; iWerbespot < werbungen.size(); iWerbespot++) {
+        Werbefilm Nicole = werbungen.get(iWerbespot);
+        System.out.println(iWerbespot);}
+
+
     }
 
     //Getter
@@ -89,8 +103,21 @@ public class Vorstellung {
     public ArrayList<Werbefilm> getWerbefilme(){ return werbungen; }
     public int GetEintrittspreis() { return eintrittspreis; }
 
+    public int GetVorstellungsEinnahmenTickets() { return vorstellungsEinnahmenTickets; }
+    public int GetZuschauerLoge() {return zuschauerLoge; }
+    public int GetZuschauerParkett() {return zuschauerParkett; }
+    public int GetZuschauerGesamt() {return zuschauerGesamt; }
+
     //Setter
     public void SetEintrittspreis(int in_eintrittspreis) { eintrittspreis = in_eintrittspreis; }
+
+    public void SetVorstellungsEinnahmenTickets(int in_vorstellungsEinnahmenTickets) { vorstellungsEinnahmenTickets = in_vorstellungsEinnahmenTickets; }
+
+    public void SetZuschauerLoge(int in_zuschauerLoge) {zuschauerLoge = in_zuschauerLoge;
+    zuschauerGesamt = zuschauerLoge + zuschauerParkett; }
+    public void SetZuschauerParkett(int in_zuschauerParkett) {zuschauerParkett = in_zuschauerParkett;
+    zuschauerGesamt = zuschauerLoge + zuschauerParkett; }
+
 
     @Override
     public String toString() {
@@ -109,7 +136,11 @@ public class Vorstellung {
 
         // Financials
         output += "Beliebtheit: " + vorstellungsFilm.getBeliebtheit() + "\n"+
-                  "Verleihpreis: " + vorstellungsFilm.getVerleihpreisProWoche() + "\n";
+                  "Verleihpreis: " + vorstellungsFilm.getVerleihpreisProWoche() + "\n" +
+                  "Vorstellungseinnahme aus Tickets: " + vorstellungsEinnahmenTickets + "\n" +
+                  "Zuschauer Loge: " + zuschauerLoge + "\n" +
+                  "Zuschauer Parkett: " + zuschauerParkett + "\n" +
+                  "Zuschauer Gesamt: " + zuschauerGesamt + "\n";
 
         output += "-----------------------------\n";
         return output;

@@ -82,13 +82,7 @@ public class Kinofilm extends Film {
 
 
     //Setter - Fabian
-    public int setKostenGesamt(int in_kosten){
-        kostenGesamt=in_kosten;
-        return kostenGesamt;
-    }
+    public void setKostenGesamt(int in_kosten){kostenGesamt=in_kosten;}
 
-    public int setAndrang(int in_andrang){
-        andrang=in_andrang;
-        return andrang;
-    }
+    public void setAndrang(int in_andrang){andrang=in_andrang;}
 }

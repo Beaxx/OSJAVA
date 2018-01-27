@@ -11,7 +11,6 @@ import Gruppe7.Importer.WerbefilmImporter;
 import Gruppe7.Logic.Planer;
 
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -132,9 +131,15 @@ public class Main {
         //endregion
 
 
-    //    ExportRaumplanung exportRaumPlan = new ExportRaumplanung(Vorstellung[][][][], String );
+       // ExportRaumplanung exportRaumPlan = new ExportRaumplanung(Vorstellung[][][][], String );
 
-       // new ExportRaumplanung(planer.getSpielplan(), "C:/import/raumplan.txt");
+        new ExportRaumplanung(planer.getSpielplan(), "C:/import/raumplan.txt");
+
+        Vorstellung[][][][] spielPlanObj;
+        spielPlanObj = planer.getSpielplan();
+
+        spielPlanObj[0][0][0][0].getKinofilm().getTitel();
+        spielPlanObj[0][0][0][0].GetVorstellungsEinnahmenTickets();
 
     }
 
