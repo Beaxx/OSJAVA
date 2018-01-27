@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Kinofilm extends Film {
     private boolean threeD;
     private String sprache, regisseur, erscheinungsland;
-    private int erscheinungsjahr, beliebtheit, verleihpreisProWoche;
+    private int erscheinungsjahr, beliebtheit, verleihpreisProWoche, kostenGesamt;
     private Fsk fsk;
     private ArrayList<Genre> genre = new ArrayList<>();
     // TODO: Kostenattribut für die Verleihkosten des films auf den gesamten Spielplan
@@ -52,7 +52,11 @@ public class Kinofilm extends Film {
         verleihpreisProWoche = in_verleipreis;
         fsk = in_fsk;
         genre = in_genre;
+
+        kostenGesamt= 0;
     }
+
+
 
     // Getter
 
@@ -135,5 +139,14 @@ public class Kinofilm extends Film {
      */
     public String getErscheinungsland() {
         return erscheinungsland;
+    }
+
+    public int getKostenGesamt() {return  kostenGesamt;}
+
+
+    //Setter
+    public int setKostenGesamt(int in_kosten){
+        kostenGesamt=in_kosten;
+        return kostenGesamt;
     }
 }
