@@ -29,11 +29,7 @@ public class Planer {
     // Spielplandaten
     private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4]; //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
 
-    //TODO: Wochen überflüssig?
-    private ArrayList<Vorstellung> woche0 = new ArrayList<>(); // Flaches 1-D Array für alle Vorstellungen einer Woche
-    private ArrayList<Vorstellung> woche1 = new ArrayList<>();
-    private ArrayList<Vorstellung> woche2 = new ArrayList<>();
-
+    //region Vorstellungen
     private Set<Kinofilm> filmeWoche0 = new HashSet<>();
     private Set<Kinofilm> filmeWoche1 = new HashSet<>();
     private Set<Kinofilm> filmeWoche2 = new HashSet<>();
@@ -68,6 +64,7 @@ public class Planer {
                     vorstellungen10, vorstellungen11, vorstellungen12, vorstellungen13, vorstellungen14,
                     vorstellungen15, vorstellungen15, vorstellungen16, vorstellungen17, vorstellungen18,
                     vorstellungen19, vorstellungen20));
+    //endregion
 
     // Genredaten
     private static List<Genre> genreList = Arrays.asList(Genre.values()); // Generiert eine Genre-List aus dem Genre Enum unabhängig vom Objekt
@@ -300,7 +297,7 @@ public class Planer {
 
     /**Debugged
      * Errechnet die durch einen Spielplan entstehenden Einnahmen. Greift dabei auf die Optimierung
-     * dees Vorstellungspreises zu
+     * dees Vorstellungspreises zu. Überhängende plätze in der Loge gehen ins Parkett
      * @param spielplan
      * @return array [Einnahmen aus Ticketverkauf][Einnahmen aus Werbung]
      */
@@ -322,7 +319,7 @@ public class Planer {
                         int zuschauerParkett;
                         int ueberhang = 0;
 
-                        // Andrang in der Loge, wenn Andrang > Plätze = Plätze + Überhang
+                        // Andrang in der Loge. Wenn Andrang > Plätze: Andrang = Plätze + Überhang
                         if (andrang50p > SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeLoge()) {
                             zuschauerLoge = SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeLoge();
 
@@ -332,7 +329,7 @@ public class Planer {
                             zuschauerLoge = andrang50p;
                         }
 
-                        //Andrang im Parkett, wenn Andrang > Plätze = Plätze
+                        //Andrang im Parkett. Wenn Andrang < Plätze: Plätze = Andrang + Überhang
                         if (andrang50p > SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeParkett()) {
                             zuschauerParkett = SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeParkett();
                         } else {
@@ -340,38 +337,28 @@ public class Planer {
 
                             int freiePlaetze = ((SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeParkett() - zuschauerParkett));
 
-                            if(freiePlaetze <= ueberhang) {
-                                zuschauerParkett = zuschauerParkett + freiePlaetze;
-                            }else {
-                                zuschauerParkett = zuschauerParkett + ueberhang;
+                            if (freiePlaetze <= ueberhang) {
+                                zuschauerParkett += freiePlaetze;
+                            } else {
+                                zuschauerParkett += ueberhang;
                             }
-                            // TODO berechnene sich die Werbepreise auf der tatsächlichen saalauslastung?
-
                         }
 
                         //Einnahmen durch Ticketsverkäufe
                         int ticketverkaeufeLoge = (eintrittspreis + 2) * zuschauerLoge;
                         int ticketverkaeufeParkett = eintrittspreis * zuschauerParkett;
 
-                        //Nicole und Fabian haben hier auch rum gemurkst #HÄCKER from da BLOCK @TODO
-                        vorstellung.SetVorstellungsEinnahmenTickets((ticketverkaeufeLoge+ticketverkaeufeParkett));
-
-                        vorstellung.SetZuschauerLoge(zuschauerLoge);
-                        vorstellung.SetZuschauerParkett(zuschauerParkett);
-
-
                         localSpielplaneinnahmen[0] += ticketverkaeufeLoge + ticketverkaeufeParkett;
 
-
-                        //@TODO for Schleife über die länge der WerbeListe
-                        /**@author  Nicole & Fabian
-                           Hier werden die Einnahmen je Werbespot pro Vorstellung ermittelt und ins Objekt Werbefilm gespeichert.
-                           Wird für den Finanzplan benötigt.
-                         */
-                        for(int iWerbung = 0; iWerbung<=vorstellung.GetWerbefilme().size()-1; iWerbung++){
-                        vorstellung.GetWerbefilme().get(iWerbung).setEinnahmenProWerbeSpot((vorstellung.GetZuschauerGesamt()*vorstellung.getWerbefilme().get(iWerbung).getUmsatzProZuschauer()));
-                        }
-
+//                        //@TODO for Schleife über die länge der WerbeListe
+//                        /**@author  Nicole & Fabian
+//                           Hier werden die Einnahmen je Werbespot pro Vorstellung ermittelt und ins Objekt Werbefilm gespeichert.
+//                           Wird für den Finanzplan benötigt.
+//                         */
+//                        for(Werbung werbung : vorstellung.GetWerbefilme()){
+//                        vorstellung.GetWerbefilme().get(iWerbung).setEinnahmenProWerbeSpot((vorstellung.GetZuschauerGesamt()*vorstellung.getWerbefilme().get(iWerbung).getUmsatzProZuschauer()));
+//                        }
+//
                         //Einnahmen aus Werbung
                         for (Werbefilm werbung : vorstellung.GetWerbefilme()) {
                             localSpielplaneinnahmen[1] += werbung.getUmsatzProZuschauer() * (zuschauerLoge + zuschauerParkett);
@@ -422,7 +409,7 @@ public class Planer {
 
         //Berechnung des Basisandrangs über die größe der beiden größten Säle.
         int basisandrang = (int) Math.round((plaetzeGroesterSaal + plaetzeZweitgroesterSaal) *
-                ((double)(vorstellung.GetKinofilm().GetBeliebtheit()) / 85));
+                ((double) (vorstellung.GetKinofilm().GetBeliebtheit()) / 85));
 
         //region Einfluss der Uhrzeit auf den Andrang
         int zeitabhaengigerAndrang;
@@ -484,7 +471,7 @@ public class Planer {
 
             case 1: {
                 if (filmeWoche0.contains(vorstellung.GetKinofilm())) {
-                    zeitUndTagesUndWiederholungsabhaengigerAndrang = (int)Math.round(zeitUndTagesabhaengigerAndrang * 0.8);
+                    zeitUndTagesUndWiederholungsabhaengigerAndrang = (int) Math.round(zeitUndTagesabhaengigerAndrang * 0.8);
                 } else {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
                 }
@@ -508,14 +495,18 @@ public class Planer {
         }
         //endregion
 
+        int zeitUndTagesUndWiederholungsUndPreisabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
+
         //region Einfluss des Preises auf den Andrang
         if (eintrittspreis > 7) {
-            return (int) Math.round(zeitUndTagesUndWiederholungsabhaengigerAndrang * (1 - (eintrittspreis - 7) * 0.05));
+            zeitUndTagesUndWiederholungsUndPreisabhaengigerAndrang =
+                    (int) Math.round(zeitUndTagesUndWiederholungsabhaengigerAndrang * (1 - (eintrittspreis - 7) * 0.05));
         } else if (eintrittspreis < 7) {
-            return (int) Math.round(zeitUndTagesUndWiederholungsabhaengigerAndrang * (1 + (7 - eintrittspreis) * 0.02));
-        } else {
-            return zeitUndTagesUndWiederholungsabhaengigerAndrang;
+            zeitUndTagesUndWiederholungsUndPreisabhaengigerAndrang =
+                    (int) Math.round(zeitUndTagesUndWiederholungsabhaengigerAndrang * (1 + (7 - eintrittspreis) * 0.02));
         }
+        vorstellung.SetAndrang(zeitUndTagesUndWiederholungsUndPreisabhaengigerAndrang);
+        return zeitUndTagesUndWiederholungsUndPreisabhaengigerAndrang;
         //endregion
     }
 
