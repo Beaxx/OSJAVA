@@ -1,6 +1,8 @@
 package Gruppe7.Data;
 
-//Define enum
+/**
+ * @author Fabian Ueberle
+ */
 public enum Genre {
 
     ACTION("Action"),
