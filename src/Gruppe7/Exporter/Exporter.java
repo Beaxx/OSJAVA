@@ -1,5 +1,6 @@
 package Gruppe7.Exporter;
 
+import Gruppe7.Data.Vorstellung;
 import Gruppe7.Importer.Datei;
 
 public class Exporter extends Datei
@@ -7,11 +8,14 @@ public class Exporter extends Datei
 
     Datei export;
     String exportString;
+    String output;
+
 
     public Exporter(String in_name, String in_exportString) {
         super(in_name);
         Datei export = new Datei(in_name);
         exportString = in_exportString;
+
 
 
         //export.openOutFile_FS();
@@ -33,9 +37,24 @@ public class Exporter extends Datei
 
 
         }
+        export.writeLine_FS(output);
         export.closeOutFile_FS();
         export.eof();
+
+
+
+
     }
+
+    public String toString() {
+        output = "";
+        output += "Heute: " + "Lasagne" + "\n" +
+                "Morgen: " + output + "\n" +
+                "Übermorgen: " + output + "\n";
+        return output;
+
+    }
+
 
 
     public void ExportKinoProgramm()
