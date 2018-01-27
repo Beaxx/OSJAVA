@@ -339,7 +339,7 @@ public class Planer {
                             zuschauerParkett = SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett();
                         } else {
                             zuschauerParkett = (int) Math.round((double) andrang * 0.5);
-                            int freiePlaetze= ((SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett() - zuschauerParkett));
+                            int freiePlaetze= ((SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett() - zuschauerParkett));//@TODO: Überhang optimierung möchte sich Lennart noch einmal ansehen
 
                             if(freiePlaetze<=ueberhang) {
                                 zuschauerParkett = zuschauerParkett + freiePlaetze;
