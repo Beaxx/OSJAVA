@@ -27,15 +27,15 @@ public class SaalVerwaltung {
         int localPlaetzeZweitgroesterSaal = 0;
 
         for (Saal saal : saele) {
-            if (localPlaetzeGroesterSaal < (saal.getPlaetzeLoge() + saal.getPlaetzeParkett())) {
-                localPlaetzeGroesterSaal = saal.getPlaetzeLoge() + saal.getPlaetzeParkett();
+            if (localPlaetzeGroesterSaal < (saal.GetPlaetzeLoge() + saal.GetPlaetzeParkett())) {
+                localPlaetzeGroesterSaal = saal.GetPlaetzeLoge() + saal.GetPlaetzeParkett();
             }
         }
 
         for (Saal saal : saele) {
-            if ((localPlaetzeZweitgroesterSaal < (saal.getPlaetzeLoge() + saal.getPlaetzeParkett())) &&
-                    ((saal.getPlaetzeLoge() + saal.getPlaetzeParkett()) < localPlaetzeGroesterSaal)) {
-                localPlaetzeZweitgroesterSaal = saal.getPlaetzeLoge() + saal.getPlaetzeParkett();
+            if ((localPlaetzeZweitgroesterSaal < (saal.GetPlaetzeLoge() + saal.GetPlaetzeParkett())) &&
+                    ((saal.GetPlaetzeLoge() + saal.GetPlaetzeParkett()) < localPlaetzeGroesterSaal)) {
+                localPlaetzeZweitgroesterSaal = saal.GetPlaetzeLoge() + saal.GetPlaetzeParkett();
             }
         }
 
@@ -98,7 +98,7 @@ public class SaalVerwaltung {
      */
     public static void saalplanSortieren() {
         Collections.sort(saele, (s1, s2) -> {
-            if (s1.getThreeD()) {
+            if (s1.GetThreeD()) {
                 return -1;
             } else {
                 return 1;

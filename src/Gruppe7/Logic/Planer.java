@@ -121,17 +121,17 @@ public class Planer {
 
                         switch (wochenIndex) {
                             case 0:{
-                                filmeWoche0.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex].getKinofilm());
+                                filmeWoche0.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex].GetKinofilm());
                                 break;
                             }
 
                             case 1:{
-                                filmeWoche1.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex].getKinofilm());
+                                filmeWoche1.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex].GetKinofilm());
                                 break;
                             }
 
                             case 2:{
-                                filmeWoche2.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex].getKinofilm());
+                                filmeWoche2.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex].GetKinofilm());
                                 break;
                             }
                         }
@@ -286,7 +286,7 @@ public class Planer {
                         boolean breakstatement;
 
                         if (!checkGenre) {
-                            breakstatement = checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].getKinofilm().getGenre(),
+                            breakstatement = checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].GetKinofilm().GetGenre(),
                                     in_localGenreListWoche0, in_localGenreListWoche1, in_localGenreListWoche2, wochenIndex);
 
                             if (breakstatement) {
@@ -322,15 +322,15 @@ public class Planer {
                         int zuschauerParkett;
 
                         // Andrang in der Loge, wenn Andrang > Plätze = Plätze
-                        if (andrang * 0.5 > SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeLoge()) {
-                            zuschauerLoge = SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeLoge();
+                        if (andrang * 0.5 > SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeLoge()) {
+                            zuschauerLoge = SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeLoge();
                         } else {
                             zuschauerLoge = (int) Math.round((double) andrang * 0.5);
                         }
 
                         //Andrang im Parkett, wenn Andrang > Plätze = Plätze
-                        if (andrang * 0.5 > SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett()) {
-                            zuschauerParkett = SaalVerwaltung.getSaele().get(saalIndex).getPlaetzeParkett();
+                        if (andrang * 0.5 > SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeParkett()) {
+                            zuschauerParkett = SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeParkett();
                         } else {
                             zuschauerParkett = (int) Math.round((double) andrang * 0.5);
                         }
@@ -342,7 +342,7 @@ public class Planer {
                         localSpielplaneinnahmen[0] += ticketverkaeufeLoge + ticketverkaeufeParkett;
 
                         //Einnahmen aus Werbung
-                        for (Werbefilm werbung : vorstellung.getWerbefilme()) {
+                        for (Werbefilm werbung : vorstellung.GetWerbefilme()) {
                             localSpielplaneinnahmen[1] += werbung.getUmsatzProZuschauer() * (zuschauerLoge + zuschauerParkett);
                         }
                     }
@@ -391,7 +391,7 @@ public class Planer {
 
         //Berechnung des Basisandrangs über die größe der beiden größten Säle.
         int basisandrang = (int) Math.round((plaetzeGroesterSaal + plaetzeZweitgroesterSaal) *
-                ((double)(vorstellung.getKinofilm().getBeliebtheit()) / 85));
+                ((double)(vorstellung.GetKinofilm().GetBeliebtheit()) / 85));
 
         //region Einfluss der Uhrzeit auf den Andrang
         int zeitabhaengigerAndrang;
@@ -452,7 +452,7 @@ public class Planer {
         switch (in_wochenIndex) {
 
             case 1: {
-                if (filmeWoche0.contains(vorstellung.getKinofilm())) {
+                if (filmeWoche0.contains(vorstellung.GetKinofilm())) {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = (int)Math.round(zeitUndTagesabhaengigerAndrang * 0.8);
                 } else {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
@@ -461,10 +461,10 @@ public class Planer {
             }
 
             case 2: {
-                if ((filmeWoche0.contains(vorstellung.getKinofilm()) && !filmeWoche1.contains(vorstellung.getKinofilm())) ||
-                        (!filmeWoche0.contains(vorstellung.getKinofilm())) && filmeWoche1.contains((vorstellung.getKinofilm()))) {
+                if ((filmeWoche0.contains(vorstellung.GetKinofilm()) && !filmeWoche1.contains(vorstellung.GetKinofilm())) ||
+                        (!filmeWoche0.contains(vorstellung.GetKinofilm())) && filmeWoche1.contains((vorstellung.GetKinofilm()))) {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = (int) Math.round(zeitUndTagesabhaengigerAndrang * 0.8);
-                } else if (filmeWoche0.contains(vorstellung.getKinofilm()) && filmeWoche1.contains(vorstellung.getKinofilm())) {
+                } else if (filmeWoche0.contains(vorstellung.GetKinofilm()) && filmeWoche1.contains(vorstellung.GetKinofilm())) {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = (int) Math.round(zeitUndTagesabhaengigerAndrang * 0.5);
                 } else {
                     zeitUndTagesUndWiederholungsabhaengigerAndrang = zeitUndTagesabhaengigerAndrang;
@@ -502,36 +502,36 @@ public class Planer {
             Set<Kinofilm> slot2300 = new HashSet<>();
 
             for (Vorstellung vorstellung : vorStellungsTag) {
-                switch (vorstellung.getSpielzeiten()) {
+                switch (vorstellung.GetSpielzeiten()) {
                     case SLOT_1500: {
                         int presize = slot1500.size();
-                        slot1500.add(vorstellung.getKinofilm());
+                        slot1500.add(vorstellung.GetKinofilm());
                         if (slot1500.size() == presize) {
-                            kosten += vorstellung.getKinofilm().getVerleihpreisProWoche();
+                            kosten += vorstellung.GetKinofilm().GetVerleihpreisProWoche();
                         }
                         break;
                     }
                     case SLOT_1730: {
                         int presize = slot1730.size();
-                        slot1730.add(vorstellung.getKinofilm());
+                        slot1730.add(vorstellung.GetKinofilm());
                         if (slot1730.size() == presize) {
-                            kosten += vorstellung.getKinofilm().getVerleihpreisProWoche();
+                            kosten += vorstellung.GetKinofilm().GetVerleihpreisProWoche();
                         }
                         break;
                     }
                     case SLOT_2000: {
                         int presize = slot2000.size();
-                        slot2000.add(vorstellung.getKinofilm());
+                        slot2000.add(vorstellung.GetKinofilm());
                         if (slot2000.size() == presize) {
-                            kosten += vorstellung.getKinofilm().getVerleihpreisProWoche();
+                            kosten += vorstellung.GetKinofilm().GetVerleihpreisProWoche();
                         }
                         break;
                     }
                     case SLOT_2300: {
                         int presize = slot2300.size();
-                        slot2300.add(vorstellung.getKinofilm());
+                        slot2300.add(vorstellung.GetKinofilm());
                         if (slot2300.size() == presize) {
-                            kosten += vorstellung.getKinofilm().getVerleihpreisProWoche();
+                            kosten += vorstellung.GetKinofilm().GetVerleihpreisProWoche();
                         }
                         break;
                     }
@@ -547,7 +547,7 @@ public class Planer {
         alleFilme.addAll(filmeWoche2);
 
         for (Kinofilm kinofilm : alleFilme) {
-            kosten += kinofilm.getVerleihpreisProWoche();
+            kosten += kinofilm.GetVerleihpreisProWoche();
         }
 
         // Identifizieren der Filme die alle drei wochen Gespielt werden.
@@ -563,7 +563,7 @@ public class Planer {
         // Geht durch die Hashmap und sicht ide Filme die drei mal vorkommen. Entsprechende rabattverrechnung
         for(Map.Entry<Kinofilm, Integer> film: dreifachFilme.entrySet()){
             if (film.getValue() == 3){
-                kosten -= film.getKey().getVerleihpreisProWoche() * 0.1;
+                kosten -= film.getKey().GetVerleihpreisProWoche() * 0.1;
             }
         }
         return kosten;

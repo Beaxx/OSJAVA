@@ -11,10 +11,10 @@ import java.util.ArrayList;
 public class Kinofilm extends Film {
     private boolean threeD;
     private String sprache, regisseur, erscheinungsland;
-    private int erscheinungsjahr, beliebtheit, verleihpreisProWoche, kostenGesamt;
+    private int erscheinungsjahr, beliebtheit, verleihpreisProWoche, kostenFuerFilmInSpielplan;
     private Fsk fsk;
     private ArrayList<Genre> genre = new ArrayList<>();
-    // TODO: Kostenattribut für die Verleihkosten des films auf den gesamten Spielplan
+
     /**
      * Konstruktor
      *
@@ -52,11 +52,8 @@ public class Kinofilm extends Film {
         verleihpreisProWoche = in_verleipreis;
         fsk = in_fsk;
         genre = in_genre;
-
-        kostenGesamt= 0;
+        kostenFuerFilmInSpielplan = 0;
     }
-
-
 
     // Getter
 
@@ -65,7 +62,7 @@ public class Kinofilm extends Film {
      *
      * @return True/False basierend auf der 3d-Eigenschaft.
      */
-    public boolean getThreeD() {
+    public boolean GetThreeD() {
         return threeD;
     }
 
@@ -74,7 +71,7 @@ public class Kinofilm extends Film {
      *
      * @return Sprache des Films.
      */
-    public String getSprache() {
+    public String GetSprache() {
         return sprache;
     }
 
@@ -83,7 +80,7 @@ public class Kinofilm extends Film {
      *
      * @return Name des Regisseurs.
      */
-    public String getRegisseur() {
+    public String GetRegisseur() {
         return regisseur;
     }
 
@@ -92,7 +89,7 @@ public class Kinofilm extends Film {
      *
      * @return Erscheinungsjahr des Filmes.
      */
-    public int getErscheinungsjahr() {
+    public int GetErscheinungsjahr() {
         return erscheinungsjahr;
     }
 
@@ -101,25 +98,23 @@ public class Kinofilm extends Film {
      *
      * @return Beliebtheitswert des Filmes (0-100)
      */
-    public int getBeliebtheit() {
+    public int GetBeliebtheit() {
         return beliebtheit;
     }
 
     /**
      * Getmethode für den Verleihpreis des Filmes pro Woche.
-     *
      * @return Verleihpreis des Filmes pro woche als Ganzzahl.
      */
-    public int getVerleihpreisProWoche() {
+    public int GetVerleihpreisProWoche() {
         return verleihpreisProWoche;
     }
 
     /**
      * Getmethode für das FSK-Siegel des Filmes.
-     *
      * @return FSK-Siegel des Filmes als Element des FSK-Enums
      */
-    public Fsk getFsk() {
+    public Fsk GetFsk() {
         return fsk;
     }
 
@@ -128,7 +123,7 @@ public class Kinofilm extends Film {
      *
      * @return Genre des Films als Element des Genre Enums.
      */
-    public ArrayList<Genre> getGenre() {
+    public ArrayList<Genre> GetGenre() {
         return genre;
     }
 
@@ -137,16 +132,27 @@ public class Kinofilm extends Film {
      *
      * @return Erscheinungsjahr als Ganzzahl
      */
-    public String getErscheinungsland() {
+    public String GetErscheinungsland() {
         return erscheinungsland;
     }
 
-    public int getKostenGesamt() {return  kostenGesamt;}
-
+    /**
+     *
+     * @return
+     */
+    public int GetKostenFuerFilmInSpielplan() {
+        return kostenFuerFilmInSpielplan;
+    }
 
     //Setter
-    public int setKostenGesamt(int in_kosten){
-        kostenGesamt=in_kosten;
-        return kostenGesamt;
+
+    /**
+     *
+     * @param in_kosten
+     * @return
+     */
+    public int SetKostenFuerFilmInSpielplan(int in_kosten) {
+        kostenFuerFilmInSpielplan = in_kosten;
+        return kostenFuerFilmInSpielplan;
     }
 }

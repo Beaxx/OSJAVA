@@ -30,7 +30,7 @@ public class Saal {
      *
      * @return die Anzahl der Plätze im Parkett des Saals
      */
-    public int getPlaetzeLoge() {
+    public int GetPlaetzeLoge() {
         return plaetzeLoge;
     }
 
@@ -38,7 +38,7 @@ public class Saal {
      *
      * @return die Anzahl der Plätze in der Loge des Saals
      */
-    public int getPlaetzeParkett() {
+    public int GetPlaetzeParkett() {
         return plaetzeParkett;
     }
 
@@ -46,7 +46,7 @@ public class Saal {
      *
      * @return die Fähigkeit des Saals 3D-Filme abzuspielen
      */
-    boolean getThreeD() {
+    public boolean GetThreeD() {
         return threeD;
     }
 
@@ -54,7 +54,7 @@ public class Saal {
      *
      * @return die Nummer des Saals
      */
-    int getSaalNummer() {
+    public int GetSaalNummer() {
         return saalNummer;
     }
 }

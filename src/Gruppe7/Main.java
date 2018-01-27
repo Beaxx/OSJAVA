@@ -1,7 +1,7 @@
 package Gruppe7;
 
 import java.io.IOException;
-import java.util.Arrays;
+
 import Gruppe7.Data.*;
 import Gruppe7.Logic.*;
 import Gruppe7.Importer.*;
@@ -55,10 +55,10 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         /* SETTINGS */
-        int plaeneZuErstellen = 10000;
+        int plaeneZuErstellen = 100000;
         OptimierungSwitch = false;
-        int mindestPreisVorstellung = 12;
-        int maximalPreisVorstellung = 14;
+        int mindestPreisVorstellung = 16;
+        int maximalPreisVorstellung = 18;
         int mindestBeliebtheit = 96;
         /* /SETTINGS */
 
@@ -103,11 +103,67 @@ public class Main {
         long totalTime = endTime - startTime;
         long totalTimeS = totalTime / 1000;
 
-        // Ausgabe bester Spielplan
-        System.out.println(Arrays.deepToString(planer.getSpielplan()));
-
         // Ausgabe Laufdauer und Geschwindigkeit
         System.out.println(totalTimeS + " Sekunden für " + plaeneZuErstellen + " Durchläufe" + "\n" +
                 (double) plaeneZuErstellen / totalTimeS + " pro Sekunde");
+
+
+        Vorstellung[][][][] spielPlanObj;
+        spielPlanObj = planer.getSpielplan();
+
+        // TODO: Broken @ fabian / nicole
+//        System.out.println("Spielplan: " + spielPlanObj);
+//        final Stream<Vorstellung[][][]> stream = Arrays.stream(spielPlanObj);
+//        System.out.println(stream.toArray());
+
+//        //region Ausgabe
+//
+//        //[WOCHE][TAG][SAAL][SPIELZEIT]
+//        System.out.println(spielPlanObj.length); //Wochen 0-2
+//        System.out.println(spielPlanObj[0].length); //Tage 0-6
+//        System.out.println(spielPlanObj[0][0].length); //Kinosaal
+//        System.out.println(spielPlanObj[0][0][0].length); //Spielzeit
+//        //System.out.println("Get: "+spielPlanObj[0][0][0][0].GetSaal().getSaalNummer()); //Spielzeit
+//
+//        //Raumplan
+//        System.out.println("Raumplan");
+//        System.out.println("Saal: "+spielPlanObj[0][0][0][0].GetSaal().GetSaalNummer());
+//        System.out.println("Tag 1");
+//        System.out.println("Spielzeit: "+spielPlanObj[0][0][0][0].GetSpielzeiten());
+//        System.out.println("Film: "+spielPlanObj[0][0][0][0].GetKinofilm().GetTitel());
+//
+//        System.out.println("--- --- --- ---");
+//
+//        System.out.println("Raumplan");
+//        System.out.println("Saal: "+spielPlanObj[0][0][0][0].GetSaal().GetSaalNummer());
+//        System.out.println("Tag 1");
+//        System.out.println("Spielzeit: "+spielPlanObj[0][0][0][1].GetSpielzeiten());
+//        System.out.println("Film: "+spielPlanObj[0][0][0][1].GetKinofilm().GetTitel());
+//
+//        System.out.println("--- --- --- ---");
+//
+//        System.out.println("Raumplan");
+//        System.out.println("Saal: "+spielPlanObj[0][0][0][0].GetSaal().GetSaalNummer());
+//        System.out.println("Tag 1");
+//        System.out.println("Spielzeit: "+spielPlanObj[0][0][0][2].GetSpielzeiten());
+//        System.out.println("Film: "+spielPlanObj[0][0][0][2].GetKinofilm().GetTitel());
+//
+//        System.out.println("--- --- --- ---");
+//
+//        System.out.println("Raumplan");
+//        System.out.println("Saal: "+spielPlanObj[0][0][0][0].GetSaal().GetSaalNummer());
+//        System.out.println("Tag 1");
+//        System.out.println("Spielzeit: "+spielPlanObj[0][0][0][3].GetSpielzeiten());
+//        System.out.println("Film: "+spielPlanObj[0][0][0][3].GetKinofilm().GetTitel());
+//
+//        System.out.println("--- --- --- ---");
+//
+//        System.out.println("Raumplan");
+//        System.out.println("Saal: "+spielPlanObj[0][1][0][0].GetSaal().GetSaalNummer());
+//        System.out.println("Tag 2");
+//        System.out.println("Spielzeit: "+spielPlanObj[0][1][0][0].GetSpielzeiten());
+//        System.out.println("Film: "+spielPlanObj[0][1][0][0].GetKinofilm().GetTitel());
+//
+//        //endregion
     }
 }

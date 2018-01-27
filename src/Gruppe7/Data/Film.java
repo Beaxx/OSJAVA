@@ -18,7 +18,7 @@ public abstract class Film {
      * Getter für Filmtitel
      * @return Filmtitel
      */
-    String getTitel() {
+    public String GetTitel() {
         return titel;
     }
 
@@ -26,7 +26,7 @@ public abstract class Film {
      * Getter für Filmlaufzeit
      * @return Filmlaufzeit in Minuten
      */
-    public int getLaufzeit() {
+    public int GetLaufzeit() {
         return laufzeit;
     }
 }
