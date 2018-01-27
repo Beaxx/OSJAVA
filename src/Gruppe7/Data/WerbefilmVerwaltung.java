@@ -68,12 +68,12 @@ public class WerbefilmVerwaltung {
      */
     public static void werbeplanSortieren() {
         Collections.sort(werbefilme, (w1, w2) -> {
-            if (((double) w1.getUmsatzProZuschauer() / (double) w1.getLaufzeit()) <
-                    (double) w2.getUmsatzProZuschauer() / (double) w2.getLaufzeit()) {
+            if (((double) w1.getUmsatzProZuschauer() / (double) w1.GetLaufzeit()) <
+                    (double) w2.getUmsatzProZuschauer() / (double) w2.GetLaufzeit()) {
                 return 1;
             }
-            if (((double) w1.getUmsatzProZuschauer() / (double) w1.getLaufzeit()) >
-                    (double) w2.getUmsatzProZuschauer() / (double) w2.getLaufzeit()) {
+            if (((double) w1.getUmsatzProZuschauer() / (double) w1.GetLaufzeit()) >
+                    (double) w2.getUmsatzProZuschauer() / (double) w2.GetLaufzeit()) {
                 return -1;
             }
             return 0;
@@ -91,9 +91,9 @@ public class WerbefilmVerwaltung {
         int werbedauerIst = 0;
 
         for (Werbefilm werbung : werbefilme) {
-            if ((werbedauerIst <= werbedauerSoll) && ((werbedauerIst + werbung.getLaufzeit()) <= werbedauerSoll)) {
+            if ((werbedauerIst <= werbedauerSoll) && ((werbedauerIst + werbung.GetLaufzeit()) <= werbedauerSoll)) {
                 werbefilme20MinutenStandard.add(werbung);
-                werbedauerIst += werbung.getLaufzeit();
+                werbedauerIst += werbung.GetLaufzeit();
             }
         }
         werbefilme20MinutenStandardDauer = werbedauerIst;
