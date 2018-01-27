@@ -1,5 +1,8 @@
 package Gruppe7.Data;
 
+/**
+ * @author Fabian Ueberle
+ */
 public enum Fsk {
 
     FSK_0("0"),
