@@ -8,7 +8,6 @@ public class Exporter extends Datei
 
     Datei export;
     String exportString;
-    String output;
 
 
     public Exporter(String in_name, String in_exportString) {
@@ -42,19 +41,7 @@ public class Exporter extends Datei
         export.eof();
 
 
-
-
     }
-
-    public String toString() {
-        output = "";
-        output += "Heute: " + "Lasagne" + "\n" +
-                "Morgen: " + output + "\n" +
-                "Übermorgen: " + output + "\n";
-        return output;
-
-    }
-
 
 
     public void ExportKinoProgramm()
