@@ -17,11 +17,19 @@ public enum Genre {
 
     private String genereName;
 
-    Genre(String genreName){
+    /**
+     * @param genreName der Name eines Genres.
+     */
+    Genre(String genreName) {
         this.genereName = genreName;
     }
 
-    public String getGenereName(){
+    /**
+     * Die Getmethode für den Namen eines Genres.
+     *
+     * @return den Genrenamen.
+     */
+    public String getGenereName() {
         return this.genereName;
     }
 }
