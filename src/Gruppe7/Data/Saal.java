@@ -1,12 +1,14 @@
 package Gruppe7.Data;
 
+/**
+ * @author Fabian Ueberle
+ */
 public class Saal {
     private int plaetzeLoge;
     private int plaetzeParkett;
     private boolean threeD;
     private int saalNummer;
 
-    //Constructor
     public Saal(int in_PlaetzeLoge, int in_PlaetzeParkett, boolean in_3D, int in_getSaalNummer) {
 
         plaetzeLoge = in_PlaetzeLoge;
@@ -24,11 +26,11 @@ public class Saal {
         return plaetzeParkett;
     }
 
-    public boolean getThreeD() {
+    boolean getThreeD() {
         return threeD;
     }
 
-    public int getSaalNummer() {
+    int getSaalNummer() {
         return saalNummer;
     }
 }
