@@ -86,6 +86,7 @@ public class Vorstellung {
         }
     }
 
+
     //Getter
     public Kinofilm GetKinofilm() {
         return vorstellungsFilm;

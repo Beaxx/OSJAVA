@@ -115,7 +115,7 @@ public class Main {
 
         new ExportRaumplanung(spielPlanObj,"C:/import/raumplan.txt");
 
-        new ExportKinoprogramm(spielPlanObj, "C:/import/kinoprogramm.txt");
+        new ExportKinoprogramm(spielPlanObj, "C:/import/kinoprogramm.txt", planer);
 //
     }
 }

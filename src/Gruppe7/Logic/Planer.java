@@ -26,7 +26,9 @@ public class Planer {
     private int spielplanAusgaben = 0;
     private int spielplanGewinn = 0;
 
-    // Spielplandaten
+    public ArrayList<Kinofilm> alleFilme; //Nicole und Fabian
+
+    // Spielplandaten @TODO: Vorstellungsarray kann nicht mit festen Werten Erstellt werden, da sich die Importdateien verändern können.
     private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4]; //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
 
     //region Vorstellungen
@@ -563,7 +565,8 @@ public class Planer {
 
 
         //Zusammenfassung aller Kinofilme der drei Wochen (mit doppelterfassung, wenn Filme in mehreren Wochen vorkommen)
-        ArrayList<Kinofilm> alleFilme = new ArrayList<>();
+        ArrayList<Kinofilm> alleFilme;
+        alleFilme = new ArrayList<>();
         alleFilme.addAll(filmeWoche0);
         alleFilme.addAll(filmeWoche1);
         alleFilme.addAll(filmeWoche2);

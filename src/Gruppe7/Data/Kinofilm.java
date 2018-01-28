@@ -15,6 +15,9 @@ public class Kinofilm extends Film {
     private Fsk fsk;
     private ArrayList<Genre> genre = new ArrayList<>();
 
+    private ArrayList<String> idVorstellung = new ArrayList<String>();
+
+
     /**
      * Konstruktor
      *
@@ -154,5 +157,16 @@ public class Kinofilm extends Film {
     public int SetKostenFuerFilmInSpielplan(int in_kosten) {
         kostenFuerFilmInSpielplan = in_kosten;
         return kostenFuerFilmInSpielplan;
+    }
+
+    public ArrayList<String> GetIdVorstellung() {
+        return idVorstellung;
+    }
+
+    public void SetIdVorstellung(String in_idVorstellung) {
+
+        idVorstellung.add(in_idVorstellung);
+
+
     }
 }
