@@ -39,6 +39,7 @@ public class Vorstellung {
 
         //Werbung hinzufügen
         werbungen = werbungAnhaengen();
+
     }
 
     /** Debugged
@@ -59,6 +60,9 @@ public class Vorstellung {
 
         //Werbung hinzufügen
         werbungen = werbungAnhaengen();
+
+
+
     }
 
     /** Debugged
@@ -89,9 +93,8 @@ public class Vorstellung {
 
 
 
-        for (int iWerbespot = 0; iWerbespot < werbungen.size(); iWerbespot++) {
-        Werbefilm Nicole = werbungen.get(iWerbespot);
-        System.out.println(iWerbespot);}
+
+
 
 
     }

@@ -352,7 +352,7 @@ public class Planer {
                         int ticketverkaeufeLoge = (eintrittspreis + 2) * zuschauerLoge;
                         int ticketverkaeufeParkett = eintrittspreis * zuschauerParkett;
 
-                        //Nicole und Fabian haben hier auch rum gemurkst #HÄCKER from da BLOCK @TODO NICO & FAB: Einnachmen für eine Vorstellung in die Vorstellung schreiben| CEHCK
+                        //Nicole und Fabian haben hier auch rum gemurkst #HÄCKER from da BLOCK @TODO
                         vorstellung.SetVorstellungsEinnahmenTickets((ticketverkaeufeLoge+ticketverkaeufeParkett));
 
                         vorstellung.SetZuschauerLoge(zuschauerLoge);
@@ -360,6 +360,15 @@ public class Planer {
 
 
                         localSpielplaneinnahmen[0] += ticketverkaeufeLoge + ticketverkaeufeParkett;
+
+                        //System.out.println("Anzahl Werbespots in der Vorstellung: " + vorstellung.getWerbefilme().size());
+                        int zwischenergebnis;
+
+
+                        //@TODO for Schleife über die länge der WerbeListe
+                        vorstellung.getWerbefilme().get(vorstellungIndex).setEinnahmenProWerbeSpot((vorstellung.GetZuschauerGesamt()*vorstellung.getWerbefilme().get(vorstellungIndex).getUmsatzProZuschauer()));
+
+                        System.out.println(vorstellung.getWerbefilme().get(vorstellungIndex).getUmsatzProZuschauer());
 
                         //Einnahmen aus Werbung
                         for (Werbefilm werbung : vorstellung.getWerbefilme()) {
