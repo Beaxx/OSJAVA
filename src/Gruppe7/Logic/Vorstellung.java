@@ -15,7 +15,14 @@ public class Vorstellung {
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
     private int eintrittspreis = 13; // Ausgangswert
+
     private int andrang = 0;
+
+    private int zuschauerLoge;
+    private int zuschauerParkett;
+    private int zuschauerGesamt;
+
+
 
     /**
      * Basis-Konstruktor, erstellt eine zufällige Vorstellung aus der Menge der möglichen, an dieser Stelle
@@ -115,6 +122,44 @@ public class Vorstellung {
         eintrittspreis = in_eintrittspreis;
 
     }
+
+
+
+
+
+    //Getter & Setter - Nicole und Fabian
+
+
+    public int GetZuschauerLoge() {
+        return zuschauerLoge;
+    }
+
+    public void SetZuschauerLoge(int in_ZuschauerLoge) {
+        zuschauerLoge = in_ZuschauerLoge;
+        zuschauerGesamt = zuschauerGesamt+zuschauerLoge;
+
+    }
+
+    public int GetZuschauerParkett() {
+        return zuschauerParkett;
+    }
+
+    public void SetZuschauerParkett(int in_ZuschauerParkett) {
+        zuschauerParkett = in_ZuschauerParkett;
+        zuschauerGesamt=zuschauerGesamt+zuschauerParkett;
+    }
+
+    public int GetZuschauerGesamt(){
+        return zuschauerGesamt;
+    }
+
+
+
+
+
+
+
+
 
     @Override
     public String toString() {

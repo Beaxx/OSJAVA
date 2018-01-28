@@ -3,6 +3,7 @@ package Gruppe7;
 import java.io.IOException;
 
 import Gruppe7.Data.*;
+import Gruppe7.Exporter.ExportFinanzplan;
 import Gruppe7.Exporter.ExportKinoprogramm;
 import Gruppe7.Exporter.ExportRaumplanung;
 import Gruppe7.Logic.*;
@@ -59,8 +60,8 @@ public class Main {
         /* SETTINGS */
         int plaeneZuErstellen = 1000;
         OptimierungSwitch = false;
-        int mindestPreisVorstellung = 17;
-        int maximalPreisVorstellung = 18;
+        int mindestPreisVorstellung = 12;
+        int maximalPreisVorstellung = 15;
         int mindestBeliebtheit = 96;
         /* /SETTINGS */
 
@@ -100,14 +101,6 @@ public class Main {
                 }
             }
 
-        // Performance Wrapper ende
-        long endTime = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        long totalTimeS = totalTime / 1000;
-
-        // Ausgabe Laufdauer und Geschwindigkeit
-        System.out.println(totalTimeS + " Sekunden für " + plaeneZuErstellen + " Durchläufe" + "\n" +
-                (double) plaeneZuErstellen / totalTimeS + " pro Sekunde");
 
 
         Vorstellung[][][][] spielPlanObj;
@@ -116,6 +109,20 @@ public class Main {
         new ExportRaumplanung(spielPlanObj,"C:/import/raumplan.txt");
 
         new ExportKinoprogramm(spielPlanObj, "C:/import/kinoprogramm.csv", planer);
+
+        new ExportFinanzplan(spielPlanObj, "C:/import/finanzplan.csv", planer);
+
+
+
+        // Performance Wrapper ende
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        long totalTimeS = totalTime/1000;
+
+        // Ausgabe Laufdauer und Geschwindigkeit
+        System.out.println(totalTimeS + " Sekunden für " + plaeneZuErstellen + " Durchläufe" + "\n" +
+                (double) plaeneZuErstellen / totalTimeS + " pro Sekunde");
+
 //
     }
 }

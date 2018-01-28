@@ -344,23 +344,30 @@ public class Planer {
                             } else {
                                 zuschauerParkett += ueberhang;
                             }
+
+
                         }
 
                         //Einnahmen durch Ticketsverkäufe
                         int ticketverkaeufeLoge = (eintrittspreis + 2) * zuschauerLoge;
                         int ticketverkaeufeParkett = eintrittspreis * zuschauerParkett;
 
+                        //Zuschauerzahlen  - Werden für den Finanzplan benötit - Nicole & Fabian
+                        vorstellung.SetZuschauerLoge(zuschauerLoge);
+                        vorstellung.SetZuschauerParkett(zuschauerParkett);
+
+
                         localSpielplaneinnahmen[0] += ticketverkaeufeLoge + ticketverkaeufeParkett;
 
-//                        //@TODO for Schleife über die länge der WerbeListe
-//                        /**@author  Nicole & Fabian
-//                           Hier werden die Einnahmen je Werbespot pro Vorstellung ermittelt und ins Objekt Werbefilm gespeichert.
-//                           Wird für den Finanzplan benötigt.
-//                         */
-//                        for(Werbung werbung : vorstellung.GetWerbefilme()){
-//                        vorstellung.GetWerbefilme().get(iWerbung).setEinnahmenProWerbeSpot((vorstellung.GetZuschauerGesamt()*vorstellung.getWerbefilme().get(iWerbung).getUmsatzProZuschauer()));
-//                        }
-//
+                        //@TODO for Schleife über die länge der WerbeListe
+                        /**@author  Nicole & Fabian
+                         Hier werden die Einnahmen je Werbespot pro Vorstellung ermittelt und ins Objekt Werbefilm gespeichert.
+                          Wird für den Finanzplan benötigt.
+                         */
+                        for(int iWerbung = 0; iWerbung<=vorstellung.GetWerbefilme().size()-1; iWerbung++){
+                            vorstellung.GetWerbefilme().get(iWerbung).setEinnahmenProWerbeSpot((vorstellung.GetZuschauerGesamt()*vorstellung.GetWerbefilme().get(iWerbung).getUmsatzProZuschauer()));
+                        }
+
                         //Einnahmen aus Werbung
                         for (Werbefilm werbung : vorstellung.GetWerbefilme()) {
                             localSpielplaneinnahmen[1] += werbung.getUmsatzProZuschauer() * (zuschauerLoge + zuschauerParkett);
@@ -371,6 +378,7 @@ public class Planer {
         }
         return localSpielplaneinnahmen;
     }
+    //TODO: @Lennart: Die Eintrittspreisoptimierung berücksichtig die Werbefilmeinnahmen nicht.
 
     /**Debugged
      * Geht für jede Vorstellung durch den Spielplan unv sucht den Eintrittspreis, mit dem sich der Gewinn für

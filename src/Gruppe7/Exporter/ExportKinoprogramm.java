@@ -4,6 +4,7 @@ import Gruppe7.Data.*;
 import Gruppe7.Importer.Datei;
 import Gruppe7.Importer.Importer;
 import Gruppe7.Logic.Planer;
+import Gruppe7.Logic.Vorstellung;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -54,6 +55,12 @@ public class ExportKinoprogramm extends Datei  {
        //System.out.println(spielPlanObj[0][0][0][0].GetKinofilm().GetIdVorstellung().size());
 
         //System.out.println("Anzahlfilme gesamt: "+planerObj.alleFilmeFinancials.size()); //Anzahl der Iterationen
+
+
+        String ueberschriftenString= "Kinofilm \t Vorführwoche\tWochentag\tKinosaal\tSpielzeit\tEintrittspreis (EUR)*";
+        System.out.println(ueberschriftenString);
+        exportKinoprogramm.writeLine_FS(ueberschriftenString);
+
         for(int iFilme = 0; iFilme <= planerObj.alleFilmeFinancials.size()-1; iFilme++){
             //System.out.println(planerObj.alleFilmeFinancials.get(iFilme).GetIdVorstellung());
             //TODO: Array zerlegen und schleife für jede Vorstellung(Eintrag)
@@ -82,15 +89,29 @@ public class ExportKinoprogramm extends Datei  {
 
 
 
-                    kPreis = "EUR "+ spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].GetEintrittspreis();
+                    kPreis = ""+spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].GetEintrittspreis();
 
                     kWoche = "Woche "+(iWoche+1);
 
+                    String kWochentag;
 
 
+                        if (iTag == 0){kWochentag="Montag";
+                           }else if (iTag == 1) {
+                            kWochentag = "Dienstag";
+                            }else if (iTag == 2) {
+                            kWochentag = "Mittwoch";
+                            }else if(iTag == 3) {
+                            kWochentag = "Donnerstag";
+                            }else if(iTag == 4) {
+                            kWochentag = "Freitag";
+                            }else if(iTag == 5) {
+                            kWochentag = "Samstag";
+                            }else if(iTag == 6) {
+                            kWochentag = "Sonntag";
+                            }else{ kWochentag="kein Wochentag";}
 
-
-                        kTag = "Tag " +(iTag+1);
+                    kTag = kWochentag;
 
                     kSaal = "Saal " + (iSaal+1);
 
@@ -102,7 +123,7 @@ public class ExportKinoprogramm extends Datei  {
 
 
                     exportKinoprogramm.writeLine_FS(exportString);
-                    //OutputStream os = new FileOutputStream("c:/temp/j.csv");
+
 
 
                 }else {
@@ -118,7 +139,9 @@ public class ExportKinoprogramm extends Datei  {
 
         }
 
-
+        String fusszeileString= "\r*Logenaufschlag 2,00 EUR.";
+        System.out.println(fusszeileString);
+        exportKinoprogramm.writeLine_FS(fusszeileString);
         exportKinoprogramm.closeOutFile_FS();
 
 
