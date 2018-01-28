@@ -179,7 +179,7 @@ public class FilmVerwaltung {
      * @param in_uhrzeit Elemnt der Enumeration Spielzeiten: 15:00, 17:30, 20:00 oder 23:00
      * @return eine Liste an Kinofilmen, die in dieser Vorstellung gezeigt werden dürfen.
      */
-    static ArrayList<Kinofilm> getFilme(boolean in_saal3Dfaehig, Spielzeiten in_uhrzeit) {
+    public static ArrayList<Kinofilm> getFilme(boolean in_saal3Dfaehig, Spielzeiten in_uhrzeit) {
 
         // Übersetzung von Boolean in Int für Switch
         int switch3D;

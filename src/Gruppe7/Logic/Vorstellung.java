@@ -1,4 +1,6 @@
-package Gruppe7.Data;
+package Gruppe7.Logic;
+
+import Gruppe7.Data.*;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;

@@ -1,6 +1,6 @@
 package Gruppe7.Exporter;
 
-import Gruppe7.Data.Vorstellung;
+import Gruppe7.Logic.Vorstellung;
 import Gruppe7.Importer.Datei;
 import java.lang.String;
 
