@@ -26,7 +26,7 @@ public class Kinofilm extends Film {
      * @param in_erscheinungsjahr das Erscheinungsjahr des Filmes.
      * @param in_erscheinungsland das Erscheinungsland des Filmes.
      * @param in_beliebtheit      der Beliebtheitswert des Filmes (0-100).
-     * @param in_verleipreis      der Verleihpreis des Filmes in ganzzahligen Euro.
+     * @param in_verleihpreis      der Verleihpreis des Filmes in ganzzahligen Euro.
      * @param in_fsk              das FSK-Rating des Filmes als Element des FSK-Enums.
      * @param in_genre            das Genre des Filmes als Emenet des Genre-Enums.
      */
@@ -39,7 +39,7 @@ public class Kinofilm extends Film {
             int in_erscheinungsjahr,
             String in_erscheinungsland,
             int in_beliebtheit,
-            int in_verleipreis,
+            int in_verleihpreis,
             Fsk in_fsk,
             ArrayList<Genre> in_genre) {
         super(in_titel, in_laufzeit);
@@ -49,7 +49,7 @@ public class Kinofilm extends Film {
         erscheinungsjahr = in_erscheinungsjahr;
         erscheinungsland = in_erscheinungsland;
         beliebtheit = in_beliebtheit;
-        verleihpreisProWoche = in_verleipreis;
+        verleihpreisProWoche = in_verleihpreis;
         fsk = in_fsk;
         genre = in_genre;
         kostenFuerFilmInSpielplan = 0;
