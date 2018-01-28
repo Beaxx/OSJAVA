@@ -18,12 +18,17 @@ public class ExportKinoprogramm extends Datei  {
     private Vorstellung[][][][] spielPlanObj;
     private Planer planerObj;
 
+
+    private String kFilm, kWoche, kTag, kSaal, kSpielzeit, kPreis;
+
+
     int iWoche = 0, iTag = 0, iSaal = 0, iSpielzeit = 0;
 
 
     public ExportKinoprogramm(Vorstellung[][][][] in_spielPlanObj, String in_name, Planer in_Planer) {
         super(in_name);
-
+        Datei exportKinoprogramm = new Datei(in_name);
+        exportKinoprogramm.openOutFile_FS();
 
         spielPlanObj = in_spielPlanObj;
         planerObj = in_Planer;
@@ -48,13 +53,13 @@ public class ExportKinoprogramm extends Datei  {
        //spielPlanObj[0][0][0][0].GetKinofilm().GetIdVorstellung().size();
        //System.out.println(spielPlanObj[0][0][0][0].GetKinofilm().GetIdVorstellung().size());
 
-        System.out.println(planerObj.alleFilmeFinancials.size()); //Anzahl der Iterationen
+        //System.out.println("Anzahlfilme gesamt: "+planerObj.alleFilmeFinancials.size()); //Anzahl der Iterationen
         for(int iFilme = 0; iFilme <= planerObj.alleFilmeFinancials.size()-1; iFilme++){
             //System.out.println(planerObj.alleFilmeFinancials.get(iFilme).GetIdVorstellung());
             //TODO: Array zerlegen und schleife für jede Vorstellung(Eintrag)
-            System.out.println(planerObj.alleFilmeFinancials.get(iFilme).GetIdVorstellung().size());//Anzahl Iterationen
+           // System.out.println("Anzahlvorstellungen: "+planerObj.alleFilmeFinancials.get(iFilme).GetIdVorstellung().size());//Anzahl Iterationen
 
-            System.out.println(planerObj.alleFilmeFinancials.get(iFilme).GetTitel());
+            kFilm = planerObj.alleFilmeFinancials.get(iFilme).GetTitel();
 
             for(int iVorstellungen = 0; iVorstellungen<= planerObj.alleFilmeFinancials.get(iFilme).GetIdVorstellung().size() -1; iVorstellungen++){
 
@@ -71,9 +76,34 @@ public class ExportKinoprogramm extends Datei  {
                     iSaal = Integer.valueOf(array[2]);
                     iSpielzeit = Integer.valueOf(array[3]);
 
-                    //System.out.println("Woche: "+ (iWoche+1));
+                    spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].GetEintrittspreis();
 
-                    System.out.println(spielPlanObj[iWoche][iTag][iSaal][iSpielzeit]);
+                    kSpielzeit=spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].GetSpielzeiten().toString();
+
+
+
+                    kPreis = "EUR "+ spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].GetEintrittspreis();
+
+                    kWoche = "Woche "+(iWoche+1);
+
+
+
+
+
+                        kTag = "Tag " +(iTag+1);
+
+                    kSaal = "Saal " + (iSaal+1);
+
+                    String exportString = "";
+
+                    exportString= kFilm+"\t"+kWoche+"\t"+kTag+"\t"+kSaal+"\t"+kSpielzeit+ "\t" +kPreis;
+
+                    System.out.println(exportString);
+
+
+                    exportKinoprogramm.writeLine_FS(exportString);
+                    //OutputStream os = new FileOutputStream("c:/temp/j.csv");
+
 
                 }else {
                     break;
@@ -85,33 +115,13 @@ public class ExportKinoprogramm extends Datei  {
             }
 
 
+
         }
 
 
-        //System.out.println(planerObj.alleFilmeFinancials.get(0).GetIdVorstellung());
-
-        planerObj.getSpielplan()[0][0][0][0].GetKinofilm().GetIdVorstellung();
+        exportKinoprogramm.closeOutFile_FS();
 
 
-
-
-       /* aldiSupplier.put( "Carbo, spanischer Sekt", "Freixenet" );
-        aldiSupplier.put( "ibu Stapelchips", "Bahlsen Chipsletten" );
-        aldiSupplier.put( "Ko-kra Katzenfutter", "felix Katzenfutter" );
-        aldiSupplier.put( "Küchenpapier", "Zewa" );
-        aldiSupplier.put( "Nuss-Nougat-Creme", "Zentis" );
-        aldiSupplier.put( "Pommes Frites", "McCaine" );
-       */
-
-          //  System.out.println(spielPlanObj[0][0][0][3].GetKinofilm().hashCode());
-
-
-            Datei exportKinoprogramm = new Datei(in_name);
-            exportKinoprogramm.openOutFile_FS();
-            exportKinoprogramm.writeLine_FS("Bacon");
-
-
-            exportKinoprogramm.closeOutFile_FS();
 
         }
     }
