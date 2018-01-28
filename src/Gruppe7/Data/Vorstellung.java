@@ -131,11 +131,11 @@ public class Vorstellung {
 
         // Financials
         output += "Beliebtheit: " + vorstellungsFilm.GetBeliebtheit() + "\n"+
-                  "Verleihpreis: " + vorstellungsFilm.GetVerleihpreisProWoche() + "\n" +
-                  "Vorstellungseinnahme aus Tickets: " + vorstellungsEinnahmenTickets + "\n" +
-                  "Zuschauer Loge: " + zuschauerLoge + "\n" +
-                  "Zuschauer Parkett: " + zuschauerParkett + "\n" +
-                  "Zuschauer Gesamt: " + zuschauerGesamt + "\n";
+                  "Verleihpreis: " + vorstellungsFilm.GetVerleihpreisProWoche() + "\n";
+//                  "Vorstellungseinnahme aus Tickets: " + vorstellungsEinnahmenTickets + "\n" +
+//                  "Zuschauer Loge: " + zuschauerLoge + "\n" +
+//                  "Zuschauer Parkett: " + zuschauerParkett + "\n" +
+//                  "Zuschauer Gesamt: " + zuschauerGesamt + "\n";
         output += "Beliebtheit: " + vorstellungsFilm.GetBeliebtheit() + "\n" +
                 "Verleihpreis: " + vorstellungsFilm.GetVerleihpreisProWoche() + "\n" +
                 "Eintrittspreis: " + GetEintrittspreis() + "\n"; // Fabian
