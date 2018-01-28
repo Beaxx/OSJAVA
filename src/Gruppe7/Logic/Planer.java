@@ -1,25 +1,20 @@
 package Gruppe7.Logic;
 
 import java.util.*;
+
 import Gruppe7.Data.*;
 import Gruppe7.Main;
 
 /**
  * @author Lennart Völler
+ * @date 24.01.2018
  *
  * Die Planerklasse stellt die zentrale Logik des Programs dar. Jedes Objekt der Klasse Planer beinhaltet ein
- * 4-dimensionales Array vom Typ Vorstellung. Dieses Array stellt den Spielplan dar.
- *
- * Nach der Erstellung eines zufälligen Spielplans kann der Spielplan durch die spielplanEinnahmenOptimierung-Methode
- * optimiert werden. Ist der Optimierungsprozess abgeschlossen beendet der Planer den Konstruktor und bietet so den
- * Spielplan zum Abruf an.
- *
- * Der Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle * 4(Spielzeiten)
+ * 4-dimensionales Array vom Typ Vorstellung. Nach der Erstellung eines zufälligen Spielplans wird dieser lokal
+ * optimiert. Ist der Optimierungsprozess abgeschlossen beendes der Planer den Konstruktor und gibt den optimierten
+ * Spielplan zurück.
  */
 public class Planer {
-
-    // TODO: Doku für Exporter, Datei, Importer, Kinofilmimporter, Saalimporter, Werbefilmimporter, Vorstellung
-
     // Saaldaten
     private int plaetzeGroesterSaal = SaalVerwaltung.getPlaetzeGroesterSaal();
     private int plaetzeZweitgroesterSaal = SaalVerwaltung.getPlaetzeZweitgroesterSaal();
@@ -31,8 +26,13 @@ public class Planer {
     private int spielplanAusgaben = 0;
     private int spielplanGewinn = 0;
 
-    //region Spielplandaten
-    private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4];
+    // Spielplandaten
+    private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4]; //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
+
+    //TODO: Wochen überflüssig?
+    private ArrayList<Vorstellung> woche0 = new ArrayList<>(); // Flaches 1-D Array für alle Vorstellungen einer Woche
+    private ArrayList<Vorstellung> woche1 = new ArrayList<>();
+    private ArrayList<Vorstellung> woche2 = new ArrayList<>();
 
     private Set<Kinofilm> filmeWoche0 = new HashSet<>();
     private Set<Kinofilm> filmeWoche1 = new HashSet<>();
@@ -68,7 +68,6 @@ public class Planer {
                     vorstellungen10, vorstellungen11, vorstellungen12, vorstellungen13, vorstellungen14,
                     vorstellungen15, vorstellungen15, vorstellungen16, vorstellungen17, vorstellungen18,
                     vorstellungen19, vorstellungen20));
-    //endregion
 
     // Genredaten
     private static List<Genre> genreList = Arrays.asList(Genre.values()); // Generiert eine Genre-List aus dem Genre Enum unabhängig vom Objekt
@@ -318,28 +317,60 @@ public class Planer {
 
                         // Berechnet den Andrang für die aktuelle Vorstellung
                         int andrang = andrang(vorstellung, tagIndex, vorstellungIndex, wochenIndex, eintrittspreis);
+                        int andrang50p = (int) Math.round((double) andrang * 0.5);
                         int zuschauerLoge;
                         int zuschauerParkett;
+                        int ueberhang = 0;
 
-                        // Andrang in der Loge, wenn Andrang > Plätze = Plätze
-                        if (andrang * 0.5 > SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeLoge()) {
+                        // Andrang in der Loge, wenn Andrang > Plätze = Plätze + Überhang
+                        if (andrang50p > SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeLoge()) {
                             zuschauerLoge = SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeLoge();
+
+                            ueberhang = andrang50p - zuschauerLoge;
+
                         } else {
-                            zuschauerLoge = (int) Math.round((double) andrang * 0.5);
+                            zuschauerLoge = andrang50p;
                         }
 
                         //Andrang im Parkett, wenn Andrang > Plätze = Plätze
-                        if (andrang * 0.5 > SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeParkett()) {
+                        if (andrang50p > SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeParkett()) {
                             zuschauerParkett = SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeParkett();
                         } else {
-                            zuschauerParkett = (int) Math.round((double) andrang * 0.5);
+                            zuschauerParkett = andrang50p;
+
+                            int freiePlaetze = ((SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeParkett() - zuschauerParkett));
+
+                            if(freiePlaetze <= ueberhang) {
+                                zuschauerParkett = zuschauerParkett + freiePlaetze;
+                            }else {
+                                zuschauerParkett = zuschauerParkett + ueberhang;
+                            }
+                            // TODO berechnene sich die Werbepreise auf der tatsächlichen saalauslastung?
+
                         }
 
                         //Einnahmen durch Ticketsverkäufe
                         int ticketverkaeufeLoge = (eintrittspreis + 2) * zuschauerLoge;
                         int ticketverkaeufeParkett = eintrittspreis * zuschauerParkett;
 
+                        //Nicole und Fabian haben hier auch rum gemurkst #HÄCKER from da BLOCK @TODO
+                        vorstellung.SetVorstellungsEinnahmenTickets((ticketverkaeufeLoge+ticketverkaeufeParkett));
+
+                        vorstellung.SetZuschauerLoge(zuschauerLoge);
+                        vorstellung.SetZuschauerParkett(zuschauerParkett);
+
+
                         localSpielplaneinnahmen[0] += ticketverkaeufeLoge + ticketverkaeufeParkett;
+
+
+                        //@TODO for Schleife über die länge der WerbeListe
+                        /**@author  Nicole & Fabian
+                           Hier werden die Einnahmen je Werbespot pro Vorstellung ermittelt und ins Objekt Werbefilm gespeichert.
+                           Wird für den Finanzplan benötigt.
+                         */
+                        for(int iWerbung = 0; iWerbung<=vorstellung.GetWerbefilme().size()-1; iWerbung++){
+                        vorstellung.GetWerbefilme().get(iWerbung).setEinnahmenProWerbeSpot((vorstellung.GetZuschauerGesamt()*vorstellung.getWerbefilme().get(iWerbung).getUmsatzProZuschauer()));
+                        }
 
                         //Einnahmen aus Werbung
                         for (Werbefilm werbung : vorstellung.GetWerbefilme()) {
