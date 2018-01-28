@@ -15,7 +15,7 @@ public class Kinofilm extends Film {
     private Fsk fsk;
     private ArrayList<Genre> genre = new ArrayList<>();
 
-    private ArrayList<String> idVorstellung = new ArrayList<String>();
+    private ArrayList<String> idVorstellung = new ArrayList<String>(); //Fabian und Nicole
 
 
     /**

@@ -5,6 +5,10 @@ import Gruppe7.Importer.Datei;
 import Gruppe7.Importer.Importer;
 import Gruppe7.Logic.Planer;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 
 public class ExportKinoprogramm extends Datei  {
 
@@ -31,7 +35,7 @@ public class ExportKinoprogramm extends Datei  {
                     for (int iSpielzeit = 0; iSpielzeit <= spielPlanObj[iWoche][iTag][iSaal].length - 1; iSpielzeit++) {
 
                         String idStringVorstellung = iWoche + "-" + iTag + "-" + iSaal + "-" + iSpielzeit;
-                        System.out.println(idStringVorstellung);
+                        //System.out.println(idStringVorstellung);
 
                         spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].GetKinofilm().SetIdVorstellung(idStringVorstellung);
                     }
@@ -39,11 +43,36 @@ public class ExportKinoprogramm extends Datei  {
             }
         }
 
-        spielPlanObj[0][0][0][0].GetKinofilm().GetIdVorstellung().size();
-       System.out.println(spielPlanObj[0][0][0][0].GetKinofilm().GetIdVorstellung().size());
+       //spielPlanObj[0][0][0][0].GetKinofilm().GetIdVorstellung().size();
+       //System.out.println(spielPlanObj[0][0][0][0].GetKinofilm().GetIdVorstellung().size());
 
         System.out.println(planerObj.alleFilmeFinancials.size()); //Anzahl der Iterationen
-        System.out.println(planerObj.alleFilmeFinancials.get(0).GetIdVorstellung());
+        for(int iFilme = 0; iFilme <= 0; iFilme++){
+            //System.out.println(planerObj.alleFilmeFinancials.get(iFilme).GetIdVorstellung());
+            //TODO: Array zerlegen und schleife für jede Vorstellung(Eintrag)
+            System.out.println(planerObj.alleFilmeFinancials.get(iFilme).GetIdVorstellung().size());//Anzahl Iterationen
+
+
+
+
+
+
+
+           // for(int iVorstellungen = 0; iVorstellungen<= planerObj.alleFilmeFinancials.get(iFilme).GetIdVorstellung().size() -1; iVorstellungen++){
+                //planerObj.alleFilmeFinancials.get(iFilme).GetIdVorstellung().indexOf(iVorstellungen);
+            for(int iVorstellungen = 0; iVorstellungen<= planerObj.alleFilmeFinancials.get(iFilme).GetIdVorstellung().size() -1; iVorstellungen++){
+
+
+                System.out.println(planerObj.alleFilmeFinancials.get(iFilme).GetIdVorstellung().get(iVorstellungen));
+
+
+            }
+
+
+        }
+
+
+        //System.out.println(planerObj.alleFilmeFinancials.get(0).GetIdVorstellung());
 
         planerObj.getSpielplan()[0][0][0][0].GetKinofilm().GetIdVorstellung();
 
