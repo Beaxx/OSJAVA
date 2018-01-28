@@ -4,38 +4,38 @@ import java.util.*;
 
 /**
  * @author Lennart Völler
- * @version 25.01.2018
  *
- * Die Worte "Set" und "ArrayList" werden im folgenden synomym verwendet, da sie sich im folgenden Zusammenhang
- * nicht unterscheiden.
+ * Die FilmVerwaltung und all ihre Felder sind statisch, damit von allen Stellen des Programs einfach auf sie
+ * zugegriffen werden kann. Weiterhin ergibt sich der Vorteil, dass für die Verwendung nicht bei jedem Durchlauf des
+ * Programs neue Objekte angelegt werden müssen. Die Objekte liegen nur ein mal im Speicher und werden von den Klassen
+ * die sie verwenden auf unterscchiedliche weise referenziert.
  *
  * Es gibt für Kinofilme drei Kriterien, die entscheiden, ob sie zu einer bestimmten Zeit in einem bestimmten
- * Saal laufen dürfen: die 3D-Technik des Films, die FSK-Einstufung des Films und die Laufzeit des Films.
+ * Saal gezeigt werden können: die 3D-Technik, die FSK-Einstufung des Films und die Spieldauer des Films.
  * Die Menge der möglichen Sets an Filmen ergibt sich somit durch die Menge der Merkmalsausprägungen:
  *
- * 3D: 0 und 1 -> 2
- * FSK: 0, 12, 16, 18 -> 4
- * Laufzeit: <150 oder <180 -> 2
+ * 3D: 0 und 1: 2 Ausprägungen
+ * FSK: 0, 12, 16, 18: 4 Ausprägungen
+ * Laufzeit: <=150 oder <=180: 2 Ausprägungen
  *
- * Die Menge der möglichen Sets ist smot beschränkt auf 2 * 4 * 2 = 16 sets.
+ * Die Menge der möglichen Kombinationen aus allen Merkmalen ist somit beschränkt auf 2 * 4 * 2 = 16 Kombinationen.
  *
- * Diese Menge wird reduziert durch gewisse Kombinationen die auszuschließen sind. So z. B. das set film3D_150_2000, da
- * da ein Set für Filme um 20.00 Uhr immer auch den einzigen Timeslot mit einer Spieldauer von 180 Minuten erhält.
+ * Diese Menge wird reduziert durch Kombinationen, die sich logisch ausschließen. Beispielsweise ist es nicht nötig
+ * das Set film3D_150_2000 zu erstellen, da zur Uhrzeit 20:00 Filme immer eine Länge von 180 Minuten haben können.
+ * Das Merkmal Laufzeit ist an das Merkmal Uhrzeit (FSK) gekoppelt. Es verbleiben so 6 kombinierte Listen, die alle
+ * Kombinationen an Merkmalsausprägungen enthalten, die bestimmen ob ein Film an einer Stelle im Spielplan gezeigt
+ * werden kann.
  *
- * Alternativ zu diesem Vorgehen ist die erstellung von (im Java Sinne) Set's währen der Erstellung der Spielpläne. Hier
- * müssen die einzelnen Set's jedoch immer wieder neu erstellt werden. Dies ist angesichts der begrenzen Zahl an
- * möglichen Set nicht sinnvoll. Die Importdauer mit dem hier angewandten Verfahren beträgt 79 Millisekunden. Dadurch
- * wird eine verbesserung der Performance um den Faktor 6 erreicht. (Performance misst sich an den erstellten
+ * Alternativ zu diesem Vorgehen ist die erstellung von Set's während der Erstellung der Spielpläne. Hier
+ * müssen die einzelnen Set's jedoch bei jedem Durchlauf neu erstellt werden. Dies ist angesichts der begrenzten Zahl an
+ * möglichen Set nicht sinnvoll. Die Importdauer mit dem hier angewandten Verfahren beträgt (wenn alle Filme importiert
+ * werden und kein Wert für die Mindestbeliebtheit gesetzt wird) im Mittel 250 Millisekunden. Dadurch wird eine
+ * Verbesserung der Performance um den Faktor 6-10 erreicht. (Performance misst sich an den erstellten
  * gültigen Spielplänen pro Sekunde.)
- *
- * Am ende werden nur noch 6 Sets gebruacht.
- *
- * Der Startup-Prozess des Programs beträgt im schnitt etwa 250 Millisekunden, durch die Auslagerung der Filterung
- * werden große Effizeinzvorteile erzielt.
- *
- * ###### ..> Da die maximale Dauer die ein Fil haben darf direkt vom Zeitslot abhängt ist dieser nicht zu überprüfen
  */
 public class FilmVerwaltung {
+
+    // Importierte Listen
     static private ArrayList<Kinofilm> filmeFuer3DSaele = new ArrayList<>();
     static private ArrayList<Kinofilm> filmeFuer2DSaele = new ArrayList<>();
 
@@ -46,6 +46,7 @@ public class FilmVerwaltung {
     static private ArrayList<Kinofilm> filmeFuer150minSlotlaenge = new ArrayList<>();
     static private ArrayList<Kinofilm> filmeFuer180minSlotlaenge = new ArrayList<>();
 
+    // Kombinierte Listen
     static private ArrayList<Kinofilm> filme3D_150_1500_1730 = new ArrayList<>();
     static private ArrayList<Kinofilm> filme3D_150_2300 = new ArrayList<>();
     static private ArrayList<Kinofilm> filme3D_180_2000 = new ArrayList<>();
@@ -55,10 +56,9 @@ public class FilmVerwaltung {
     static private ArrayList<Kinofilm> filme2D_180_2000 = new ArrayList<>();
 
     /**
-     * Debugged
-     * Hilfsmethode die die Iteration der setFilmArrays() übernimmt.
+     * Hilfsmethode, die die Iteration der setFilmArrays() übernimmt. Wird aus Main() aufgerufen.
      * Da die Filme für die 15:00 und 17:30 Vorstellung das Selbe FSK-Siegel tragen und
-     * dementsprechend die gleiche Charakteristiken aufweisen wird die Abfrage des 15:00 Uhr Slots
+     * dementsprechend die gleiche Charakteristiken aufweisen, wird die Abfrage des 15:00 Uhr Slots
      * übersprungen um redundanten Schreibaufwand zu sparen.
      */
     public static void FilmArraysHelper() {
@@ -73,11 +73,12 @@ public class FilmVerwaltung {
     }
 
     /**
-     * Debugged
-     * Erstellung der vordefinierten Sets aus allen Filmen. Nur 6 Sets werden für alle Filme benötigt
+     * Befüllung der 6 vordefinierten Sets aus allen Filmen.
+     * (s. Doku FilmVerwaltung Konstruktor)
      *
-     * @param in_saal3Dfaehig
-     * @param in_uhrzeit
+     * Die Metode bekommt ihre Parameter von FilmArraysHelper(), die die Iteration steuert.
+     * @param in_saal3Dfaehig 1 oder 0 | 1: Vorstellung kann 3D-Filme zeigen 2: Vorstellung kann nur 2D-Filme zeigen
+     * @param in_uhrzeit Elemnt der Enumeration Spielzeiten: 15:00, 17:30, 20:00 oder 23:00
      */
     private static void setFilmArrays(int in_saal3Dfaehig, Spielzeiten in_uhrzeit) {
 
@@ -142,7 +143,7 @@ public class FilmVerwaltung {
         }
     }
 
-    // Setter
+    // Setter (fügen Kinofilme zu Arraylisten hinzu)
     public static void setFilmeFuer3DSaele(Kinofilm in_film) {
         filmeFuer3DSaele.add(in_film);
     }
@@ -171,18 +172,16 @@ public class FilmVerwaltung {
         filmeFuer180minSlotlaenge.add(in_film);
     }
 
-    //Getter
-
-    /** Debugged
+    /**
      * Der Getter funktioniert ähnlich dem Setter, anhand von 3D-Fähigkeit des Saals und dem Timeslot wird
-     * das passemde Filmset ausgewählt und zurückgegeben
-     * @param in_saal3Dfaehig
-     * @param in_uhrzeit
-     * @return
+     * das passsende Filmset ausgewählt und zurückgegeben.
+     * @param in_saal3Dfaehig 1 oder 0 | 1: Vorstellung kann 3D-Filme zeigen 2: Vorstellung kann nur 2D-Filme zeigen
+     * @param in_uhrzeit Elemnt der Enumeration Spielzeiten: 15:00, 17:30, 20:00 oder 23:00
+     * @return eine Liste an Kinofilmen, die in dieser Vorstellung gezeigt werden dürfen.
      */
-    public static ArrayList<Kinofilm> getFilme(boolean in_saal3Dfaehig, Spielzeiten in_uhrzeit) {
+    static ArrayList<Kinofilm> getFilme(boolean in_saal3Dfaehig, Spielzeiten in_uhrzeit) {
 
-        // Übersetzung von Boolean in Int für switch
+        // Übersetzung von Boolean in Int für Switch
         int switch3D;
         if (in_saal3Dfaehig) {
             switch3D = 1;
