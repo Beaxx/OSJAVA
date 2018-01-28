@@ -82,7 +82,7 @@ public class Vorstellung {
                     werbeDauerIst -= werbung.GetLaufzeit();
                 }
             }
-            return output; // TODO: Case noch nicht getestet, kommt quasi nie vor.
+            return output;
         }
     }
 
