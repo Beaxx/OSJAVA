@@ -361,14 +361,19 @@ public class Planer {
 
                         localSpielplaneinnahmen[0] += ticketverkaeufeLoge + ticketverkaeufeParkett;
 
-                        //System.out.println("Anzahl Werbespots in der Vorstellung: " + vorstellung.getWerbefilme().size());
-                        int zwischenergebnis;
+
 
 
                         //@TODO for Schleife über die länge der WerbeListe
-                        vorstellung.getWerbefilme().get(vorstellungIndex).setEinnahmenProWerbeSpot((vorstellung.GetZuschauerGesamt()*vorstellung.getWerbefilme().get(vorstellungIndex).getUmsatzProZuschauer()));
+                        /*@author  Nicole & Fabian
+                           Hier werden die Einnahmen je Werbespot pro Vorstellung ermittelt und ins Objekt Werbefilm gespeichert.
+                           Wird für den Finanzplan benötigt.
+                         */
+                        for(int iWerbung = 0; iWerbung<=vorstellung.getWerbefilme().size()-1; iWerbung++){
+                        vorstellung.getWerbefilme().get(iWerbung).setEinnahmenProWerbeSpot((vorstellung.GetZuschauerGesamt()*vorstellung.getWerbefilme().get(iWerbung).getUmsatzProZuschauer()));
+                        }
 
-                        System.out.println(vorstellung.getWerbefilme().get(vorstellungIndex).getUmsatzProZuschauer());
+
 
                         //Einnahmen aus Werbung
                         for (Werbefilm werbung : vorstellung.getWerbefilme()) {
