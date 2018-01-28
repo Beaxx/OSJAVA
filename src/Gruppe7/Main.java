@@ -57,7 +57,7 @@ public class Main {
         /* SETTINGS */
         int plaeneZuErstellen = 100000;
         OptimierungSwitch = false;
-        int mindestPreisVorstellung = 16;
+        int mindestPreisVorstellung = 17;
         int maximalPreisVorstellung = 18;
         int mindestBeliebtheit = 96;
         /* /SETTINGS */
