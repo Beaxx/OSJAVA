@@ -5,7 +5,6 @@ import java.io.IOException;
 import Gruppe7.Data.*;
 import Gruppe7.Logic.*;
 import Gruppe7.Importer.*;
-import java.util.Arrays;
 
 /**
  * Zentraler Programeinstieg

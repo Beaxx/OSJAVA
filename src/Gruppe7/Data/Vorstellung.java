@@ -12,14 +12,7 @@ public class Vorstellung {
     private ArrayList<Werbefilm> werbungen = new ArrayList<>();
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
-    private int eintrittspreis = 13; // Ausgangswert
-    private int vorstellungsEinnahmenTickets = 0;
-    private int zuschauerLoge = 0;
-    private int zuschauerParkett = 0;
-    private int zuschauerGesamt = zuschauerLoge + zuschauerParkett;
-
-
-   
+    private int eintrittspreis = 17; // Ausgangswert
     private int andrang = 0;
 
     /**
@@ -114,24 +107,11 @@ public class Vorstellung {
         return eintrittspreis;
     }
 
-    public int GetVorstellungsEinnahmenTickets() { return vorstellungsEinnahmenTickets; }
-    public int GetZuschauerLoge() {return zuschauerLoge; }
-    public int GetZuschauerParkett() {return zuschauerParkett; }
-    public int GetZuschauerGesamt() {return zuschauerGesamt; }
-
     //Setter
     public void SetEintrittspreis(int in_eintrittspreis) {
         eintrittspreis = in_eintrittspreis;
 
     }
-
-    public void SetVorstellungsEinnahmenTickets(int in_vorstellungsEinnahmenTickets) { vorstellungsEinnahmenTickets = in_vorstellungsEinnahmenTickets; }
-
-    public void SetZuschauerLoge(int in_zuschauerLoge) {zuschauerLoge = in_zuschauerLoge;
-    zuschauerGesamt = zuschauerLoge + zuschauerParkett; }
-    public void SetZuschauerParkett(int in_zuschauerParkett) {zuschauerParkett = in_zuschauerParkett;
-    zuschauerGesamt = zuschauerLoge + zuschauerParkett; }
-
 
     @Override
     public String toString() {
@@ -151,11 +131,11 @@ public class Vorstellung {
 
         // Financials
         output += "Beliebtheit: " + vorstellungsFilm.GetBeliebtheit() + "\n"+
-                  "Verleihpreis: " + vorstellungsFilm.GetVerleihpreisProWoche() + "\n" +
-                  "Vorstellungseinnahme aus Tickets: " + vorstellungsEinnahmenTickets + "\n" +
-                  "Zuschauer Loge: " + zuschauerLoge + "\n" +
-                  "Zuschauer Parkett: " + zuschauerParkett + "\n" +
-                  "Zuschauer Gesamt: " + zuschauerGesamt + "\n";
+                  "Verleihpreis: " + vorstellungsFilm.GetVerleihpreisProWoche() + "\n";
+//                  "Vorstellungseinnahme aus Tickets: " + vorstellungsEinnahmenTickets + "\n" +
+//                  "Zuschauer Loge: " + zuschauerLoge + "\n" +
+//                  "Zuschauer Parkett: " + zuschauerParkett + "\n" +
+//                  "Zuschauer Gesamt: " + zuschauerGesamt + "\n";
         output += "Beliebtheit: " + vorstellungsFilm.GetBeliebtheit() + "\n" +
                 "Verleihpreis: " + vorstellungsFilm.GetVerleihpreisProWoche() + "\n" +
                 "Eintrittspreis: " + GetEintrittspreis() + "\n"; // Fabian
