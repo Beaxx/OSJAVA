@@ -3,16 +3,33 @@ import java.util.ArrayList;
 
 /**
  * @author Lennart Völler
- * @version  25.01.2018
+ * Erbt von Film.
  *
+ * Ein Kinofilm ist ein von der Vorstellung losgelöstes Objekt. Kinofilme sind austauschbare Einheiten, die
+ * unabhängig vom Spielplan sind. Sie sind eine der Komponenten zur Erstellung von Spielplänen.
  */
 public class Kinofilm extends Film {
     private boolean threeD;
     private String sprache, regisseur, erscheinungsland;
-    private int erscheinungsjahr, beliebtheit, verleihpreisProWoche;
+    private int erscheinungsjahr, beliebtheit, verleihpreisProWoche, kostenFuerFilmInSpielplan;
     private Fsk fsk;
     private ArrayList<Genre> genre = new ArrayList<>();
 
+    /**
+     * Konstruktor
+     *
+     * @param in_titel            der Titel des Films.
+     * @param in_laufzeit         die Laufzeit des Films in Minuten.
+     * @param in_threeD           die 3D-Eigenschaft eines Films.
+     * @param in_sprache          die Sprache des Films.
+     * @param in_Regisseur        der Name des Regisseurs des Filmes.
+     * @param in_erscheinungsjahr das Erscheinungsjahr des Filmes.
+     * @param in_erscheinungsland das Erscheinungsland des Filmes.
+     * @param in_beliebtheit      der Beliebtheitswert des Filmes (0-100).
+     * @param in_verleipreis      der Verleihpreis des Filmes in ganzzahligen Euro.
+     * @param in_fsk              das FSK-Rating des Filmes als Element des FSK-Enums.
+     * @param in_genre            das Genre des Filmes als Emenet des Genre-Enums.
+     */
     public Kinofilm(
             String in_titel,
             int in_laufzeit,
@@ -35,42 +52,107 @@ public class Kinofilm extends Film {
         verleihpreisProWoche = in_verleipreis;
         fsk = in_fsk;
         genre = in_genre;
+        kostenFuerFilmInSpielplan = 0;
     }
 
     // Getter
-    public boolean getThreeD() {
+
+    /**
+     * Gettermethode für die 3D-Eigenschaft des Films.
+     *
+     * @return True/False basierend auf der 3d-Eigenschaft.
+     */
+    public boolean GetThreeD() {
         return threeD;
     }
 
-    public String getSprache() {
+    /**
+     * Getmethode für die Sprache des Filmes.
+     *
+     * @return Sprache des Films.
+     */
+    public String GetSprache() {
         return sprache;
     }
 
-    public String getRegisseur() {
+    /**
+     * Getmethode für den Namen des Regisseurs des Filmes.
+     *
+     * @return Name des Regisseurs.
+     */
+    public String GetRegisseur() {
         return regisseur;
     }
 
-    public int getErscheinungsjahr() {
+    /**
+     * Getmethode für das erscheinungsjahr des Filmes.
+     *
+     * @return Erscheinungsjahr des Filmes.
+     */
+    public int GetErscheinungsjahr() {
         return erscheinungsjahr;
     }
 
-    public int getBeliebtheit() {
+    /**
+     * Getmethode für die Beliebtheit des Filmes.
+     *
+     * @return Beliebtheitswert des Filmes (0-100)
+     */
+    public int GetBeliebtheit() {
         return beliebtheit;
     }
 
-    public int getVerleihpreisProWoche() {
+    /**
+     * Getmethode für den Verleihpreis des Filmes pro Woche.
+     * @return Verleihpreis des Filmes pro woche als Ganzzahl.
+     */
+    public int GetVerleihpreisProWoche() {
         return verleihpreisProWoche;
     }
 
-    public Fsk getFsk() {
+    /**
+     * Getmethode für das FSK-Siegel des Filmes.
+     * @return FSK-Siegel des Filmes als Element des FSK-Enums
+     */
+    public Fsk GetFsk() {
         return fsk;
     }
 
-    public ArrayList<Genre> getGenre() {
+    /**
+     * Getmethode für das Genre des Filmes.
+     *
+     * @return Genre des Films als Element des Genre Enums.
+     */
+    public ArrayList<Genre> GetGenre() {
         return genre;
     }
 
-    public String getErscheinungsland() {
+    /**
+     * Getmehoden für das Erscheinungsjahr des Films
+     *
+     * @return Erscheinungsjahr als Ganzzahl
+     */
+    public String GetErscheinungsland() {
         return erscheinungsland;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int GetKostenFuerFilmInSpielplan() {
+        return kostenFuerFilmInSpielplan;
+    }
+
+    //Setter
+
+    /**
+     *
+     * @param in_kosten
+     * @return
+     */
+    public int SetKostenFuerFilmInSpielplan(int in_kosten) {
+        kostenFuerFilmInSpielplan = in_kosten;
+        return kostenFuerFilmInSpielplan;
     }
 }

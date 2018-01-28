@@ -127,7 +127,7 @@ public class KinofilmImporter extends Datei {
      * Ermittelt, ob ein Film die mindest Beliebtheit erfüllt.
      */
     private boolean KinofilmFilter(Kinofilm in_film) {
-        return in_film.getBeliebtheit() >= minBeliebtheit;
+        return in_film.GetBeliebtheit() >= minBeliebtheit;
     }
 
     /** Debugged
@@ -139,7 +139,7 @@ public class KinofilmImporter extends Datei {
      * @param in_film ein Kinofilm
      */
     private void KinofilmVerteiler3D2D(Kinofilm in_film) {
-            if (in_film.getThreeD()) {
+            if (in_film.GetThreeD()) {
                 FilmVerwaltung.setFilmeFuer3DSaele(in_film);
             } else {
                 FilmVerwaltung.setFilmeFuer2DSaele(in_film);
@@ -155,7 +155,7 @@ public class KinofilmImporter extends Datei {
      * @param in_film ein Kinofilm
      */
     private void KinofilmVerteilerTimeslot(Kinofilm in_film) {
-            switch (in_film.getFsk()) {
+            switch (in_film.GetFsk()) {
                 case FSK_0:
                 case FSK_6:
                 case FSK_12: {
@@ -185,12 +185,12 @@ public class KinofilmImporter extends Datei {
      */
     private void KinofilmVerteilerLaufzeit(Kinofilm in_film) {
 
-        if (in_film.getLaufzeit() <= 150) {
+        if (in_film.GetLaufzeit() <= 150) {
             FilmVerwaltung.setFilmeFuer150minSlotlaenge(in_film);
             FilmVerwaltung.setFilmeFuer180minSlotlaenge(in_film);
         }
 
-        else if (in_film.getLaufzeit() > 150) {
+        else if (in_film.GetLaufzeit() > 150) {
             FilmVerwaltung.setFilmeFuer180minSlotlaenge(in_film);
         }
     }
