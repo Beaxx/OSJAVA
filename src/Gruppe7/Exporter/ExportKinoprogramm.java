@@ -40,10 +40,12 @@ public class ExportKinoprogramm extends Datei  {
         }
 
         spielPlanObj[0][0][0][0].GetKinofilm().GetIdVorstellung().size();
-       // System.out.println(spielPlanObj[0][0][0][0].GetKinofilm().GetIdVorstellung().size());
+       System.out.println(spielPlanObj[0][0][0][0].GetKinofilm().GetIdVorstellung().size());
 
+        System.out.println(planerObj.alleFilmeFinancials.size()); //Anzahl der Iterationen
+        System.out.println(planerObj.alleFilmeFinancials.get(0).GetIdVorstellung());
 
-        System.out.println(planerObj.alleFilme.size());
+        planerObj.getSpielplan()[0][0][0][0].GetKinofilm().GetIdVorstellung();
 
 
 
