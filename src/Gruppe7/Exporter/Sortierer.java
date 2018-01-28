@@ -1,8 +1,6 @@
 package Gruppe7.Exporter;
 
-import Gruppe7.Data.Vorstellung;
-
-import java.util.*;
+import Gruppe7.Logic.Vorstellung;
 
 
 public class Sortierer {

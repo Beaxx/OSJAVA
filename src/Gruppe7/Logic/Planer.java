@@ -377,23 +377,24 @@ public class Planer {
      * @param in_maxPreisFuerVorstellung
      */
     private void spielplanEinnahmenOptimierung(int in_minPreisFuerVorstellung, int in_maxPreisFuerVorstellung) {
-        Vorstellung[][][][] tempSpielplan = spielplan;
 
         for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++) {
             for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
                 for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
 
+                        int besterVorstellungspreis = spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].GetEintrittspreis();
+                        int besteSpielplanEinnahmen= spielplanEinnahmen(spielplan)[0] + spielplanEinnahmen(spielplan)[1];
+
                         // Für jede Vorstellung werden alle Eintrittspreise innerhalb der Range ausprobiert, um den besten zu finden.
                         for (int eintrittsPreis = in_minPreisFuerVorstellung; eintrittsPreis <= in_maxPreisFuerVorstellung; eintrittsPreis++) {
 
                             //Neuer Vorstellungspreis wird gesetzt.
-                            tempSpielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].SetEintrittspreis(eintrittsPreis);
+                            spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].SetEintrittspreis(eintrittsPreis);
 
                             //Wenn sich die Einnahmen des Spielplans durch die Vorstellung verbessern, wird der temporäre plan zum besten Plan.
-                            if ((spielplanEinnahmen(tempSpielplan)[0] + spielplanEinnahmen(tempSpielplan)[1]) >
-                                    (spielplanEinnahmen(spielplan)[0] + spielplanEinnahmen(spielplan)[1])) {
-                                spielplan = tempSpielplan;
+                            if ((spielplanEinnahmen(spielplan)[0] + spielplanEinnahmen(spielplan)[1]) < besterVorstellungspreis){
+                                spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].SetEintrittspreis(besterVorstellungspreis);
                             }
                         }
                     }

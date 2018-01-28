@@ -1,6 +1,6 @@
 package Gruppe7.Exporter;
 
-import Gruppe7.Data.Vorstellung;
+import Gruppe7.Logic.Vorstellung;
 
 public class SpielplanToString {
 

@@ -38,7 +38,7 @@ public class WerbefilmVerwaltung {
      *
      * @return Liste mit Werbefilmen, die die Lauzeit von 20 Minuten nicht überschreiten.
      */
-    static ArrayList<Werbefilm> getWerbefilme20MinutenStandard() {
+    public static ArrayList<Werbefilm> getWerbefilme20MinutenStandard() {
         return werbefilme20MinutenStandard;
     }
 

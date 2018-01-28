@@ -1,4 +1,6 @@
-package Gruppe7.Data;
+package Gruppe7.Logic;
+
+import Gruppe7.Data.*;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
@@ -12,7 +14,7 @@ public class Vorstellung {
     private ArrayList<Werbefilm> werbungen = new ArrayList<>();
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
-    private int eintrittspreis = 17; // Ausgangswert
+    private int eintrittspreis = 13; // Ausgangswert
     private int andrang = 0;
 
     /**
