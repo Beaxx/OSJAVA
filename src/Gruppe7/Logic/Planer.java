@@ -7,7 +7,6 @@ import Gruppe7.Main;
 
 /**
  * @author Lennart Völler
- * @date 24.01.2018
  *
  * Die Planerklasse stellt die zentrale Logik des Programs dar. Jedes Objekt der Klasse Planer beinhaltet ein
  * 4-dimensionales Array vom Typ Vorstellung. Nach der Erstellung eines zufälligen Spielplans wird dieser lokal
@@ -29,6 +28,7 @@ public class Planer {
     // Spielplandaten
     private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4]; //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
 
+        // TODO: Ein Verschateltes Array verwenden.
     //region Vorstellungen
     private Set<Kinofilm> filmeWoche0 = new HashSet<>();
     private Set<Kinofilm> filmeWoche1 = new HashSet<>();
@@ -272,14 +272,14 @@ public class Planer {
                                                       ArrayList<Genre> in_localGenreListWoche1,
                                                       ArrayList<Genre> in_localGenreListWoche2) {
 
+        boolean breakstatement;
+
         for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++)
             for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
                 for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
 
                         spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex] = new Vorstellung(saalIndex, vorstellungIndex);
-
-                        boolean breakstatement;
 
                         if (!checkGenre) {
                             breakstatement = checkGenre(spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex].GetKinofilm().GetGenre(),
@@ -308,67 +308,17 @@ public class Planer {
                 for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
                     for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
 
-                        // Wählt die aktuelle Vorstellung
-                        Vorstellung vorstellung = spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex];
-                        int eintrittspreis = vorstellung.GetEintrittspreis();
-
-                        // Berechnet den Andrang für die aktuelle Vorstellung
-                        int andrang = andrang(vorstellung, tagIndex, vorstellungIndex, wochenIndex, eintrittspreis);
-                        int andrang50p = (int) Math.round((double) andrang * 0.5);
-                        int zuschauerLoge;
-                        int zuschauerParkett;
-                        int ueberhang = 0;
-
-                        // Andrang in der Loge. Wenn Andrang > Plätze: Andrang = Plätze + Überhang
-                        if (andrang50p > SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeLoge()) {
-                            zuschauerLoge = SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeLoge();
-
-                            ueberhang = andrang50p - zuschauerLoge;
-
-                        } else {
-                            zuschauerLoge = andrang50p;
-                        }
-
-                        //Andrang im Parkett. Wenn Andrang < Plätze: Plätze = Andrang + Überhang
-                        if (andrang50p > SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeParkett()) {
-                            zuschauerParkett = SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeParkett();
-                        } else {
-                            zuschauerParkett = andrang50p;
-
-                            int freiePlaetze = ((SaalVerwaltung.getSaele().get(saalIndex).GetPlaetzeParkett() - zuschauerParkett));
-
-                            if (freiePlaetze <= ueberhang) {
-                                zuschauerParkett += freiePlaetze;
-                            } else {
-                                zuschauerParkett += ueberhang;
-                            }
-                        }
-
-                        //Einnahmen durch Ticketsverkäufe
-                        int ticketverkaeufeLoge = (eintrittspreis + 2) * zuschauerLoge;
-                        int ticketverkaeufeParkett = eintrittspreis * zuschauerParkett;
-
-                        localSpielplaneinnahmen[0] += ticketverkaeufeLoge + ticketverkaeufeParkett;
-
-//                        //@TODO for Schleife über die länge der WerbeListe
-//                        /**@author  Nicole & Fabian
-//                           Hier werden die Einnahmen je Werbespot pro Vorstellung ermittelt und ins Objekt Werbefilm gespeichert.
-//                           Wird für den Finanzplan benötigt.
-//                         */
-//                        for(Werbung werbung : vorstellung.GetWerbefilme()){
-//                        vorstellung.GetWerbefilme().get(iWerbung).setEinnahmenProWerbeSpot((vorstellung.GetZuschauerGesamt()*vorstellung.getWerbefilme().get(iWerbung).getUmsatzProZuschauer()));
-//                        }
-//
-                        //Einnahmen aus Werbung
-                        for (Werbefilm werbung : vorstellung.GetWerbefilme()) {
-                            localSpielplaneinnahmen[1] += werbung.getUmsatzProZuschauer() * (zuschauerLoge + zuschauerParkett);
-                        }
+                        // TODO: Andrang für alle Vorstellungen errechnen. Dies kann theoretisch bei Erstellung
+                        /*
+                        der Vorstellung erfolgen, wenn betrachtete wird, ob der Film bereits in der Woche vorher lief
+                        Grundsätzlich kann die Berehnung jedoch auch abschließend erfolgen.
+                         */
                     }
                 }
             }
         }
-        return localSpielplaneinnahmen;
     }
+
 
     /**Debugged
      * Geht für jede Vorstellung durch den Spielplan unv sucht den Eintrittspreis, mit dem sich der Gewinn für

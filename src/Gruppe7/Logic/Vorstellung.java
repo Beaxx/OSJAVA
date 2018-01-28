@@ -19,6 +19,8 @@ public class Vorstellung {
     private Spielzeiten vorstellungsTimeslot;
     private int eintrittspreis = 13; // Ausgangswert
     private int andrang = 0;
+    private int vorstellungWerbeeinnahmen = 0;
+    private int[] vorstellungTicketeinnahmen = {0, 0};
 
     /**
      * Basis-Konstruktor, erstellt eine zufällige Vorstellung aus der Menge der möglichen, an dieser Stelle
@@ -69,31 +71,52 @@ public class Vorstellung {
         }
     }
 
-    //Getter
-    public Kinofilm GetKinofilm() {
-        return vorstellungsFilm;
+    public void VorstellungsTicketEinnahmen(Vorstellung this) {
+
+        int andrang50p = (int) Math.round((double) andrang * 0.5);
+        int zuschauerLoge;
+        int zuschauerParkett;
+        int ueberhang = 0;
+
+        // Andrang in der Loge. Wenn Andrang > Plätze: Andrang = Plätze + Überhang
+        if (andrang50p > vorstellungsSaal.GetPlaetzeLoge()) {
+            zuschauerLoge = vorstellungsSaal.GetPlaetzeLoge();
+
+            ueberhang = andrang50p - zuschauerLoge;
+
+        } else {
+            zuschauerLoge = andrang50p;
+        }
+
+        //Andrang im Parkett. Wenn Andrang < Plätze: Plätze = Andrang + Überhang
+        if (andrang50p > vorstellungsSaal.GetPlaetzeParkett()) {
+            zuschauerParkett = vorstellungsSaal.GetPlaetzeParkett();
+        } else {
+            zuschauerParkett = andrang50p;
+
+            int freiePlaetze = (vorstellungsSaal.GetPlaetzeParkett() - zuschauerParkett);
+
+            if (freiePlaetze <= ueberhang) {
+                zuschauerParkett += freiePlaetze;
+            } else {
+                zuschauerParkett += ueberhang;
+            }
+        }
+
+        //Einnahmen durch Ticketverkäufe
+        vorstellungTicketeinnahmen[0] = (eintrittspreis + 2) * zuschauerLoge;
+        vorstellungTicketeinnahmen[1] = eintrittspreis * zuschauerParkett;
     }
 
-    public Saal GetSaal() {
-        return vorstellungsSaal;
-    }
-
-    public Spielzeiten GetSpielzeiten() {
-        return vorstellungsTimeslot;
-    }
-
-    public ArrayList<Werbefilm> GetWerbefilme() {
-        return werbungen;
-    }
-
-    public int GetEintrittspreis() {
-        return eintrittspreis;
-    }
-
-    //Setter
-    public void SetEintrittspreis(int in_eintrittspreis) {
-        eintrittspreis = in_eintrittspreis;
-
+    public void VorstellungWerbeeinnahmen(Vorstellung this){
+        if(werbungen == WerbefilmVerwaltung.getWerbefilme20MinutenStandard()){
+            vorstellungWerbeeinnahmen = WerbefilmVerwaltung.GetWerbefilme20MinutenStandardUmsatzProZuschauer() * andrang;
+        }
+        else{
+            for (Werbefilm werbung : werbungen){
+                vorstellungWerbeeinnahmen += werbung.getUmsatzProZuschauer() * andrang;
+            }
+        }
     }
 
     @Override
@@ -126,6 +149,33 @@ public class Vorstellung {
         return output;
     }
 
+    //Getter
+    public Kinofilm GetKinofilm() {
+        return vorstellungsFilm;
+    }
+
+    public Saal GetSaal() {
+        return vorstellungsSaal;
+    }
+
+    public Spielzeiten GetSpielzeiten() {
+        return vorstellungsTimeslot;
+    }
+
+    public ArrayList<Werbefilm> GetWerbefilme() {
+        return werbungen;
+    }
+
+    public int GetEintrittspreis() {
+        return eintrittspreis;
+    }
+
+    //Setter
+    public void SetEintrittspreis(int in_eintrittspreis) {
+        eintrittspreis = in_eintrittspreis;
+
+    }
+
     public int GetAndrang() {
         return andrang;
     }
@@ -133,4 +183,21 @@ public class Vorstellung {
     public void SetAndrang(int andrang) {
         this.andrang = andrang;
     }
+
+    public int getVorstellungWerbeeinnahmen() {
+        return vorstellungWerbeeinnahmen;
+    }
+
+    public int getEintrittspreis() {
+        return eintrittspreis;
+    }
+
+    public void setVorstellungTicketeinnahmen(int[] vorstellungTicketeinnahmen) {
+        this.vorstellungTicketeinnahmen = vorstellungTicketeinnahmen;
+    }
+
+    public int[] getVorstellungTicketeinnahmen() {
+        return vorstellungTicketeinnahmen;
+    }
+
 }

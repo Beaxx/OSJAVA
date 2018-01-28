@@ -55,8 +55,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         /* SETTINGS */
-        int plaeneZuErstellen = 100;
-        OptimierungSwitch = true;
+        int plaeneZuErstellen = 100000;
+        OptimierungSwitch = false;
         int mindestPreisVorstellung = 14;
         int maximalPreisVorstellung = 15;
         int mindestBeliebtheit = 96;
