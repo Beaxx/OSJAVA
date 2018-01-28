@@ -85,18 +85,18 @@ public class ExportRaumplanung extends Datei{
                 exportRaumplan.writeLine_FS(exportStringRaumplan);
 
                 for (int iSaal = 0; iSaal <= spielPlanObj[iWoche][iTag].length - 1; iSaal++) {
-                    System.out.println("Saal Nummer: " + spielPlanObj[iWoche][iTag][iSaal][0].getSaal().getSaalNummer());
+                    System.out.println("Saal Nummer: " + spielPlanObj[iWoche][iTag][iSaal][0].GetSaal().GetSaalNummer());
 
-                    exportStringRaumplan += "Saal Nummer: " + spielPlanObj[iWoche][iTag][iSaal][0].getSaal().getSaalNummer();
+                    exportStringRaumplan += "Saal Nummer: " + spielPlanObj[iWoche][iTag][iSaal][0].GetSaal().GetSaalNummer();
                     exportRaumplan.writeLine_FS(exportStringRaumplan);
                     exportStringRaumplan = "\r";
                     exportRaumplan.writeLine_FS(exportStringRaumplan);
 
 
                     for (int iSpielzeit = 0; iSpielzeit <= spielPlanObj[iWoche][iTag][iSaal].length - 1; iSpielzeit++) {
-                        System.out.println(spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].getSpielzeiten().toString() + ": " + spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].getKinofilm().getTitel());
+                        System.out.println(spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].GetSpielzeiten().toString() + ": " + spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].GetKinofilm().GetTitel());
 
-                        exportStringRaumplan += spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].getSpielzeiten().toString() + ": " + spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].getKinofilm().getTitel();
+                        exportStringRaumplan += spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].GetSpielzeiten().toString() + ": " + spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].GetKinofilm().GetTitel();
                         exportRaumplan.writeLine_FS(exportStringRaumplan);
                         exportStringRaumplan = "\r";
                         exportRaumplan.writeLine_FS(exportStringRaumplan);

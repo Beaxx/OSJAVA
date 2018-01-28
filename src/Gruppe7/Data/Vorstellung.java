@@ -19,7 +19,7 @@ public class Vorstellung {
     private int zuschauerGesamt = zuschauerLoge + zuschauerParkett;
 
 
-    private int eintrittspreis = 17; // Ausgangswert
+   
     private int andrang = 0;
 
     /**
@@ -150,8 +150,8 @@ public class Vorstellung {
                 "Tag: " + "\n";
 
         // Financials
-        output += "Beliebtheit: " + vorstellungsFilm.getBeliebtheit() + "\n"+
-                  "Verleihpreis: " + vorstellungsFilm.getVerleihpreisProWoche() + "\n" +
+        output += "Beliebtheit: " + vorstellungsFilm.GetBeliebtheit() + "\n"+
+                  "Verleihpreis: " + vorstellungsFilm.GetVerleihpreisProWoche() + "\n" +
                   "Vorstellungseinnahme aus Tickets: " + vorstellungsEinnahmenTickets + "\n" +
                   "Zuschauer Loge: " + zuschauerLoge + "\n" +
                   "Zuschauer Parkett: " + zuschauerParkett + "\n" +
