@@ -2,6 +2,8 @@ package Gruppe7.Data;
 
 /**
  * @author Fabian Ueberle
+ *
+ * Enum zur Verwaltung von Spielzeiten und ihren Längen.
  */
 public enum Spielzeiten {
 
@@ -13,8 +15,6 @@ public enum Spielzeiten {
     private int slotDuration;
 
     /**
-     * Was macht diese Methode?
-     *
      * @param slotDuration Die Spieldauer eines Timeslots in Minuten
      */
     Spielzeiten(int slotDuration) {
