@@ -111,7 +111,7 @@ public class Main {
         Vorstellung[][][][] spielPlanObj;
         spielPlanObj = planer.GetSpielplan();
 
-        new ExportRaumplanung(spielPlanObj,"C:/import/export/raumplan.txt");
+        new ExportRaumplanung("C:/import/export/raumplan.txt", planer);
 
         new ExportKinoprogramm("C:/import/export/kinoprogramm.csv", planer);
 

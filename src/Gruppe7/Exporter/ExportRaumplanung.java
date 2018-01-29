@@ -1,134 +1,77 @@
 package Gruppe7.Exporter;
 
-import Gruppe7.Logic.Vorstellung;
+import Gruppe7.Logic.*;
 import Gruppe7.Importer.Datei;
 import java.lang.String;
 
+/**
+ * @author Fabian und Nicole
+ */
+public class ExportRaumplanung extends Datei {
+    public ExportRaumplanung(String in_name, Planer in_spielPlanObj) {
 
-public class ExportRaumplanung extends Datei{
-    Vorstellung[][][][] spielPlanObj;
-    String exportStringRaumplan;
-
-
-    public ExportRaumplanung(Vorstellung[][][][] in_spielPlanObj, String in_name) {
-
-            super(in_name);
-            Datei exportRaumplan = new Datei(in_name);
+        super(in_name);
+        Datei exportRaumplan = new Datei(in_name);
 
         exportRaumplan.openOutFile_FS();
+        Vorstellung[][][][] spielplan = in_spielPlanObj.GetSpielplan();
 
-        spielPlanObj = in_spielPlanObj;
+        String exportStringRaumplan = "Raumplanung" + "\r\r\n\n";
 
+        // WOCHEN
+        for (int iWoche = 0; iWoche < 3; iWoche++) {
 
-        exportStringRaumplan = "";
+            // TAGE
+            for (int iTag = 0; iTag < 7; iTag++) {
 
-        exportStringRaumplan = "Raumplanung";
-        exportRaumplan.writeLine_FS(exportStringRaumplan);
-        exportStringRaumplan = "\r";
-        exportRaumplan.writeLine_FS(exportStringRaumplan);
-        exportStringRaumplan = "\r";
-        exportRaumplan.writeLine_FS(exportStringRaumplan);
-
-        for (int iWoche = 0; iWoche <= spielPlanObj.length - 1; iWoche++) {
-            System.out.println("Woche: " + (iWoche + 1));
-            exportStringRaumplan = "\r";
-
-            exportStringRaumplan = "Woche: " + (iWoche + 1);
-
-            exportRaumplan.writeLine_FS(exportStringRaumplan);
-
-            exportStringRaumplan = "\r";
-            exportRaumplan.writeLine_FS(exportStringRaumplan);
-            exportStringRaumplan = "\r";
-            exportRaumplan.writeLine_FS(exportStringRaumplan);
-
-            for (int iTag = 0; iTag <= spielPlanObj[iWoche].length - 1; iTag++) {
-
-                String wochenTag = null;
-                switch (iTag + 1) {
-                    case 1:
+                String wochenTag;
+                switch (iTag) {
+                    case 0:
                         wochenTag = "Montag";
                         break;
-                    case 2:
+                    case 1:
                         wochenTag = "Dienstag";
                         break;
-                    case 3:
+                    case 2:
                         wochenTag = "Mittwoch";
                         break;
-                    case 4:
+                    case 3:
                         wochenTag = "Donnerstag";
                         break;
-                    case 5:
+                    case 4:
                         wochenTag = "Freitag";
                         break;
-                    case 6:
+                    case 5:
                         wochenTag = "Samstag";
                         break;
-                    case 7:
+                    case 6:
                         wochenTag = "Sonntag";
                         break;
-
                     default:
-                        wochenTag = "Invalid Day";
+                        wochenTag = "-----";
                         break;
                 }
-                System.out.println("Tag: " + (iTag + 1) + " " + wochenTag);
 
-                exportStringRaumplan += "Tag: " + (iTag + 1) + " " + wochenTag;
+                exportStringRaumplan += "Woche " + (iWoche + 1) + " | " + wochenTag + "\r\r\n\n";
 
-               exportRaumplan.writeLine_FS(exportStringRaumplan);
-                exportStringRaumplan = "\r";
-                exportRaumplan.writeLine_FS(exportStringRaumplan);
-                exportStringRaumplan = "\r";
+                // SÄLE
+                for (int iSaal = 0; iSaal < in_spielPlanObj.GetAnzahlSaele(); iSaal++) {
 
-                exportRaumplan.writeLine_FS(exportStringRaumplan);
+                    exportStringRaumplan += "Saal Nummer: " + (iSaal + 1) + "\r\r\n\n";
 
-                for (int iSaal = 0; iSaal <= spielPlanObj[iWoche][iTag].length - 1; iSaal++) {
-                    System.out.println("Saal Nummer: " + spielPlanObj[iWoche][iTag][iSaal][0].GetSaal().GetSaalNummer());
+                    // VORSTELLUNG
+                    for (int iSpielzeit = 0; iSpielzeit < 4; iSpielzeit++) {
 
-                    exportStringRaumplan += "Saal Nummer: " + spielPlanObj[iWoche][iTag][iSaal][0].GetSaal().GetSaalNummer();
-                    exportRaumplan.writeLine_FS(exportStringRaumplan);
-                    exportStringRaumplan = "\r";
-                    exportRaumplan.writeLine_FS(exportStringRaumplan);
-
-
-                    for (int iSpielzeit = 0; iSpielzeit <= spielPlanObj[iWoche][iTag][iSaal].length - 1; iSpielzeit++) {
-                        System.out.println(spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].GetSpielzeiten().toString() + ": " + spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].GetKinofilm().GetTitel());
-
-                        exportStringRaumplan += spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].GetSpielzeiten().toString() + ": " + spielPlanObj[iWoche][iTag][iSaal][iSpielzeit].GetKinofilm().GetTitel();
-                        exportRaumplan.writeLine_FS(exportStringRaumplan);
-                        exportStringRaumplan = "\r";
-                        exportRaumplan.writeLine_FS(exportStringRaumplan);
-
-
-
-
+                        exportStringRaumplan += spielplan[iWoche][iTag][iSaal][iSpielzeit].GetSpielzeiten().toString() +
+                                ": " + spielplan[iWoche][iTag][iSaal][iSpielzeit].GetKinofilm().GetTitel() + "\r\r\n\n";
                     }
-
-                    exportStringRaumplan = "\r";
-                    exportRaumplan.writeLine_FS(exportStringRaumplan);
-
-
-
+                    exportStringRaumplan += "\r\r\n\n";
                 }
-
-
-
-
             }
-
-
-            System.out.println(exportStringRaumplan);
-
-
-
-
-            }
-
-            exportRaumplan.closeOutFile_FS();
-            exportRaumplan.eof();
-
         }
+        System.out.println(exportStringRaumplan);
+        exportRaumplan.writeLine_FS(exportStringRaumplan);
+        exportRaumplan.closeOutFile_FS();
+        exportRaumplan.eof();
     }
-
-
+}

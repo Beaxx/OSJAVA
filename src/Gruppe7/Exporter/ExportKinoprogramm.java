@@ -4,14 +4,15 @@ import Gruppe7.Importer.Datei;
 import Gruppe7.Logic.Planer;
 import Gruppe7.Logic.Vorstellung;
 
+// TODO: DOKU!
 public class ExportKinoprogramm extends Datei {
 
-    public ExportKinoprogramm(String in_name, Planer in_Planer) {
-        super(in_name);
-        Datei exportKinoprogramm = new Datei(in_name);
+    public ExportKinoprogramm(String in_Name, Planer in_SpielplanObj) {
+        super(in_Name);
+        Datei exportKinoprogramm = new Datei(in_Name);
         exportKinoprogramm.openOutFile_FS();
 
-        Vorstellung[][][][] spielplan = in_Planer.GetSpielplan();
+        Vorstellung[][][][] spielplan = in_SpielplanObj.GetSpielplan();
 
         // Exportüberschrift
         String ueberschriftenString = "Kinofilm \t Vorführwoche\tWochentag\tKinosaal\tSpielzeit\tEintrittspreis (EUR)*";
@@ -19,7 +20,7 @@ public class ExportKinoprogramm extends Datei {
 
         for (int iWoche = 0; iWoche < 3; iWoche++) {
             for (int iTag = 0; iTag < 7; iTag++) {
-                for (int iSaal = 0; iSaal < in_Planer.GetAnzahlSaele(); iSaal++) {
+                for (int iSaal = 0; iSaal < in_SpielplanObj.GetAnzahlSaele(); iSaal++) {
                     for (int iSpielzeit = 0; iSpielzeit < 4; iSpielzeit++) {
 
                         Vorstellung aktuelleVorstellung = spielplan[iWoche][iTag][iSaal][iSpielzeit];

@@ -25,14 +25,6 @@ public class WerbefilmVerwaltung {
 
     //Getter
 
-    /**
-     * Getmethode für die Liste aller Werbefilme
-     *
-     * @return Liste mit allen (nach Qualität sortierten) Werbefilmen.
-     */
-    static ArrayList<Werbefilm> getWerbefilme() {
-        return werbefilme;
-    }
 
     /**
      * Getmethode für den bestmöglichen 20-Minuten Werbeblock
