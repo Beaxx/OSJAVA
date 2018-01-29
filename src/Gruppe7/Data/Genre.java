@@ -2,35 +2,26 @@ package Gruppe7.Data;
 
 /**
  * @author Fabian Ueberle
+ * Enum zur Verwaltung von Filmgenres.
  */
 public enum Genre {
 
-    ACTION("Action"),
-    DOKUMENTATION("Dokumentation"),
-    DRAMA("Drama"),
-    HORROR("Horror"),
-    KOMOEDIE("Komödie"),
-    KRIMI("Krimi"),
-    SCIENCE_FICTION("Science Fiction"),
-    ZEICHENTRICK("Zeichentrick"),
-    THRILLER("Thriller");
-
-    private String genereName;
+    ACTION("ACTION"),
+    DOKUMENTATION("DOKUMENTATION"),
+    DRAMA("DRAMA"),
+    HORROR("HORROR"),
+    KOMOEDIE("KOMOEDIE"),
+    KRIMI("KRIMI"),
+    SCIENCE_FICTION("SCIENCE_FICTION"),
+    ZEICHENTRICK("ZEICHENTRICK"),
+    THRILLER("THRILLER");
 
     /**
-     * @param genreName der Name eines Genres.
-     */
-    Genre(String genreName) {
-        this.genereName = genreName;
-    }
-
-    /**
-     * Die Getmethode für den Namen eines Genres.
+     * in_GenreName wird nicht genutzt, muss für enum-Definition jedoch verwendet werden.
      *
-     * @return den Genrenamen.
+     * @param in_GenreName Die Bezeichnung des Genres.
      */
-    public String getGenereName() {
-        return this.genereName;
+    Genre(String in_GenreName) {
     }
 }
 

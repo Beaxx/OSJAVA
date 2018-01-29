@@ -13,11 +13,10 @@ public enum Fsk {
     FSK_18("18");
 
     /**
-     * fskName wird nicht genutzt, muss für enum-Definition jedoch verwendet werden.
+     * in_FskName wird nicht genutzt, muss für enum-Definition jedoch verwendet werden.
      *
-     * @param in_fskName Die Bezeichnung der FSK Einstufung.
+     * @param in_FskName Die Bezeichnung der FSK Einstufung.
      */
-    Fsk(String in_fskName) {
-        String fskName = in_fskName;
+    Fsk(String in_FskName) {
     }
 }

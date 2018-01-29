@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 /**
  * @author Fabian Ueberle
- * nur noch doku
+ *
  *
  */
 public class KinofilmImporter extends Datei {
