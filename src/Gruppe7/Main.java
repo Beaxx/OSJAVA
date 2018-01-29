@@ -58,8 +58,30 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
+        // User Interaktion
+        System.out.println("Stellen Sie sicher, dass die Datensätze im Ordner dieser Java-Datei liegen.\n" +
+                "Wenn Sie die Datein im Entsprechenden Ordner abgelegt haben drücken Sie bitte ENTER");
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        reader.readLine();
+
+        System.out.println("Wie viele Optimierungsdurchläufe möchten Sie machen? \nMit steigender Anzahl der Optimierungen" +
+                " steigt die Qualität der generierten Spielpläne.\nWählen Sie eine Zahl zwischen 1.000 und 10.000.000\n\n" +
+                "Laufzeiten (ca.)\n" +
+                "1.000 Durchläufe: < 1 Sekunde\n" +
+                "10.000 Durchläufe: 2 Sekunden\n" +
+                "100.000 Durchläufe: 20 Sekunden\n" +
+                "1.000.000 Durchläufe: 2 Minuten\n" +
+                "10.000.000 Durchläufe: 37 Minuten\n");
+
+        int input = Integer.valueOf(reader.readLine());
+
+        int dauer = Math.round(input/4000/60);
+        System.out.println(input + " Durchläufe werden durchgeführt. Bitte warten Sie ca. " + dauer + "Minuten");
+        reader.close();
+
         /* SETTINGS */
-        int plaeneZuErstellen = 10000000;
+        int plaeneZuErstellen = input;
         int mindestBeliebtheit = 93;
         /* /SETTINGS */
 
