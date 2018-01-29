@@ -55,11 +55,10 @@ public class Planer {
             localGenreListWoche1.addAll(genreList);
             localGenreListWoche2.addAll(genreList);
 
-            spielplan = createRandomSpielplan(localGenreListWoche0, localGenreListWoche1, localGenreListWoche2);
-
             FilmVerwaltung.CleanUpGesamtkosten();
-        }
 
+            spielplan = createRandomSpielplan(localGenreListWoche0, localGenreListWoche1, localGenreListWoche2);
+        }
         spielplanGewinn = spielplanWerbeEinnahmen + spielplanTicketeinnahmen - spielplanAusgaben;
     }
 

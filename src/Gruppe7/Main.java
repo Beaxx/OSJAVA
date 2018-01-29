@@ -1,6 +1,6 @@
 package Gruppe7;
 
-import java.io.IOException;
+import java.io.*;
 
 import Gruppe7.Data.*;
 import Gruppe7.Exporter.ExportFinanzplan;
@@ -8,8 +8,14 @@ import Gruppe7.Exporter.ExportKinoprogramm;
 import Gruppe7.Exporter.ExportRaumplanung;
 import Gruppe7.Logic.*;
 import Gruppe7.Importer.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+
+import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
+import java.security.CodeSource;
+import java.util.InputMismatchException;
 
 
 /**
@@ -59,38 +65,79 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //region User Interaktion
-//        System.out.println("Stellen Sie sicher, dass die Datensätze im Ordner dieser Java-Datei liegen.\n" +
-//                "Wenn Sie die Datein im Entsprechenden Ordner abgelegt haben drücken Sie bitte ENTER");
-//
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//            reader.readLine();
-//
-//
-//        System.out.println("Wie viele Optimierungsdurchläufe möchten Sie machen? \nMit steigender Anzahl der Optimierungen" +
-//                " steigt die Qualität der generierten Spielpläne.\nWählen Sie eine Zahl zwischen 10.000 und 10.000.000\n\n" +
-//                "Laufzeiten (ca.)\n" +
-//                "10.000 Durchläufe:     2   Sekunden\n" +
-//                "100.000 Durchläufe:    20  Sekunden\n" +
-//                "1.000.000 Durchläufe:  2   Minuten\n" +
-//                "10.000.000 Durchläufe: 37  Minuten\n");
-//
-//        int input = Integer.valueOf(reader.readLine());
-//
-//        int dauer = Math.round(input/4000/60);
-//        System.out.println(input + " Durchläufe werden durchgeführt. Bitte warten Sie ca. " + dauer + "Minuten");
-//        reader.close();
-        //endregion
+        System.out.println("Bitte geben Sie den gesamten Verzeichnis-Pfad ihres Datensatzes an.\n" +
+                "Die Importdateien müssen wiefolgt benannt sein:\n\n" +
+                "Werbefilme:    werbespots.csv\n" +
+                "Säle:          saele.csv\n" +
+                "Werbespots:    werbespots.csv\n\n" +
+                "Das Standardverzeichnis ist: C:/import/Datensatz/...\n" +
+                "Wenn Ihr Datensatz dort liegt drücken Sie bitte 'ENTER'\n" +
+                "Ansonsten geben Sie bitte den Pfad an. (Ohne '/' am Ende)");
 
-        /* SETTINGS */
-        int plaeneZuErstellen = 150000;
-        int mindestBeliebtheit = 93;
-        /* /SETTINGS */
+        // Input Stream für Userinput öffnen
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        //Inputvalidierung Input-Pfad
+        String path = "C:/import/Datensatz";
+        boolean validInput = false;
+        do {
+            try {
+                String input = reader.readLine();
+                if (isValidPath(input) && !input.isEmpty()) {
+                    path = input;
+                    validInput = true;
+                } else if (isValidPath(input) && input.isEmpty()) {
+                    validInput = true;
+                } else {
+                    throw new IOException();
+                }
+            } catch (IOException ex) {
+                System.out.print("Dieser Pfad existiert nicht, haben Sie sich verschrieben?");
+            }
+        } while (!validInput);
+
+        System.out.println("Wie viele Optimierungsdurchläufe möchten Sie machen? \nMit steigender Anzahl der Optimierungen" +
+                " steigt die Qualität der generierten Spielpläne.\nWählen Sie eine Zahl zwischen 10.000 und 10.000.000\n\n" +
+                "Laufzeiten (ca.)\n" +
+                "10.000 Durchläufe:     2   Sekunden\n" +
+                "100.000 Durchläufe:    20  Sekunden\n" +
+                "1.000.000 Durchläufe:  2   Minuten\n" +
+                "10.000.000 Durchläufe: 37  Minuten\n\n" +
+                "Die Ausgabe erfolgt im Ordner 'export' in Ihrem Datensatz-Verzeichnis.");
+
+        // Erstellung des Exportordners falls noch nicht vorhanden.
+        new File(path + "/export").mkdirs();
+
+        // Inputvalidierung Durchläufe
+        validInput = false;
+        int checkedInput = 0;
+        do {
+            try {
+                String input = reader.readLine();
+                checkedInput = Integer.parseInt(input);
+
+                if (checkedInput < 10000 || checkedInput > 10000000) {
+                    throw new Exception();
+                }
+
+                validInput = true;
+            } catch (Exception e) {
+                System.out.print("Bitte geben Sie eine Zahl zwischen 10.000 und 10.000.000 ein.");
+            }
+        } while (!validInput);
+
+        // Wartezeit ausgeben
+        int dauer = Math.round(checkedInput / 4000 / 60);
+        System.out.println(checkedInput + " Durchläufe werden durchgeführt. Bitte warten Sie ca. " + dauer + "Minuten");
+        reader.close();
+        //endregion
 
         //region Start-Up
         // Datenimport
-        new WerbefilmImporter("C:/import/werbespots.csv");
-        new SaalImporter("C:/import/saele.csv");
-        new KinofilmImporter("C:/import/filme.csv", mindestBeliebtheit);
+        new WerbefilmImporter(path + "/werbespots.csv");
+        new SaalImporter(path + "/saele.csv");
+        int mindestBeliebtheit = 93;
+        new KinofilmImporter(path + "/filme.csv", mindestBeliebtheit);
 
         // FilmArrays erstellen
         FilmVerwaltung.FilmArraysHelper();
@@ -109,38 +156,52 @@ public class Main {
         // Performance Wrapper start
         long startTime = System.currentTimeMillis();
 
-            // Algorithmus
-            Planer planer = new Planer();
-            for (int i = 0; i < plaeneZuErstellen; i++)
+        // Algorithmus
+        Planer planer = new Planer();
+        for (int i = 0; i < checkedInput; i++)
 
-            {
-                Planer tempPlaner = new Planer();
+        {
+            Planer tempPlaner = new Planer();
 
-//                if (tempPlaner.GetSpielplanGewinn() > planer.GetSpielplanGewinn()) {
-//                    planer = tempPlaner;
-//                    System.out.println("Tickets: " + planer.GetSpielplanTicketeinnahmen() + "\n" +
-//                                        "Werbung: " + planer.GetSpielplanWerbeEinnahmen() + "\n" +
-//                                        "Ausgaben: " + planer.GetSpielplanAusgaben() + "\n" +
-//                                        "Gewinn:" + planer.GetSpielplanGewinn() + "\n" +
-//                                        "--------------------------------");
-//                }
-            }
+                if (tempPlaner.GetSpielplanGewinn() > planer.GetSpielplanGewinn()) {
+                    planer = tempPlaner;
+                    System.out.println("Tickets: " + planer.GetSpielplanTicketeinnahmen() + "\n" +
+                                        "Werbung: " + planer.GetSpielplanWerbeEinnahmen() + "\n" +
+                                        "Ausgaben: " + planer.GetSpielplanAusgaben() + "\n" +
+                                        "Gewinn:" + planer.GetSpielplanGewinn() + "\n" +
+                                        "--------------------------------");
+                }
+        }
 
         // Performance Wrapper ende
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
-        long totalTimeS = totalTime/1000;
+        long totalTimeS = totalTime / 1000;
         //endregion
 
         // Ausgabe Laufdauer und Geschwindigkeit
-        System.out.println(totalTimeS + " Sekunden für " + plaeneZuErstellen + " Durchläufe" + "\n" +
-                (double) plaeneZuErstellen / totalTimeS + " pro Sekunde");
+        System.out.println(totalTimeS + " Sekunden für " + checkedInput + " Durchläufe" + "\n" +
+                (double) checkedInput / totalTimeS + " pro Sekunde");
 
-        // Export
-        new ExportRaumplanung("C:/import/export/raumplan.txt", planer);
+        //region Export
+        new ExportRaumplanung(path + "/export/raumplan.txt", planer);
 
-        new ExportKinoprogramm("C:/import/export/kinoprogramm.csv", planer);
+        new ExportKinoprogramm(path + "/export/kinoprogramm.csv", planer);
 
-        new ExportFinanzplan( "C:/import/export/finanzplan.csv", planer);
-    } // TODO: Dateipfade auf das native Verzeichnis des programms legen
+        new ExportFinanzplan(path + "/export/finanzplan.csv", planer);
+        //endregion
+    }
+
+    private static boolean isValidPath(String input) throws IOException {
+
+        try {
+            if (!Files.exists(Paths.get(input))) {
+                throw new IOException();
+            }
+
+        } catch (IOException | InvalidPathException ex) {
+            return false;
+        }
+        return true;
+    }
 }

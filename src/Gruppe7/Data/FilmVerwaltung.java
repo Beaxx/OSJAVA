@@ -144,31 +144,31 @@ public class FilmVerwaltung {
     }
 
     // Setter (fügen Kinofilme zu Arraylisten hinzu)
-    public static void setFilmeFuer3DSaele(Kinofilm in_film) {
+    public static void SetFilmeFuer3DSaele(Kinofilm in_film) {
         filmeFuer3DSaele.add(in_film);
     }
 
-    public static void setFilmeFuer2DSaele(Kinofilm in_film) {
+    public static void SetFilmeFuer2DSaele(Kinofilm in_film) {
         filmeFuer2DSaele.add(in_film);
     }
 
-    public static void setFilmeFuer1500Uhr_1730Uhr(Kinofilm in_film) {
+    public static void SetFilmeFuer1500Uhr_1730Uhr(Kinofilm in_film) {
         filmeFuer1500Uhr_1730Uhr.add(in_film);
     }
 
-    public static void setFilmeFuer2000Uhr(Kinofilm in_film) {
+    public static void SetFilmeFuer2000Uhr(Kinofilm in_film) {
         filmeFuer2000Uhr.add(in_film);
     }
 
-    public static void setFilmeFuer2300Uhr(Kinofilm in_film) {
+    public static void SetFilmeFuer2300Uhr(Kinofilm in_film) {
         filmeFuer2300Uhr.add(in_film);
     }
 
-    public static void setFilmeFuer150minSlotlaenge(Kinofilm in_film) {
+    public static void SetFilmeFuer150minSlotlaenge(Kinofilm in_film) {
         filmeFuer150minSlotlaenge.add(in_film);
     }
 
-    public static void setFilmeFuer180minSlotlaenge(Kinofilm in_film) {
+    public static void SetFilmeFuer180minSlotlaenge(Kinofilm in_film) {
         filmeFuer180minSlotlaenge.add(in_film);
     }
 

@@ -56,7 +56,6 @@ public class Kinofilm extends Film {
     }
 
     // Getter
-
     /**
      * Gettermethode für die 3D-Eigenschaft des Films.
      *

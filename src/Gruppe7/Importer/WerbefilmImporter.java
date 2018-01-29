@@ -2,6 +2,9 @@ package Gruppe7.Importer;
 
 import Gruppe7.Data.*;
 
+/**
+ * Nur noch doku
+ */
 public class WerbefilmImporter extends Datei {
 
     /**
@@ -16,9 +19,9 @@ public class WerbefilmImporter extends Datei {
         Datei importFileWerbespots = new Datei(in_name);
         importFileWerbespots.openInFile_FS();
 
-        while (!importFileWerbespots.eof()){
+        while (!importFileWerbespots.eof()) {
             String importString = importFileWerbespots.readLine_FS();
-            if (importString != null){
+            if (importString != null) {
 
                 String arrayWerbung[] = importString.split(";");
 
@@ -31,5 +34,4 @@ public class WerbefilmImporter extends Datei {
         }
         WerbefilmVerwaltung.werbeplanSortieren();
     }
-
 }

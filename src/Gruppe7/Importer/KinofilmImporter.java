@@ -3,6 +3,11 @@ package Gruppe7.Importer;
 import Gruppe7.Data.*;
 import java.util.ArrayList;
 
+/**
+ * @author Fabian Ueberle
+ * nur noch doku
+ *
+ */
 public class KinofilmImporter extends Datei {
 
     private Fsk importKinofilmFSK;
@@ -12,14 +17,14 @@ public class KinofilmImporter extends Datei {
      * Konstruktor fuer Objekte der Klasse Datei
      * Legt einen String mit dem Namen der zu bearbeitenden Datei an.
      *
-     * @param in_name (String): Dateiname der benutzt werden soll.
+     * @param in_Name (String): Dateiname der benutzt werden soll.
      */
-    public KinofilmImporter(String in_name, int in_minBeliebtheit) {
-        super(in_name);
+    public KinofilmImporter(String in_Name, int in_minBeliebtheit) {
+        super(in_Name);
 
         minBeliebtheit = in_minBeliebtheit;
 
-        Datei importFileKinofilme = new Datei(in_name);
+        Datei importFileKinofilme = new Datei(in_Name);
         importFileKinofilme.openInFile_FS();
 
         while (true) {
@@ -114,92 +119,88 @@ public class KinofilmImporter extends Datei {
                     importKinofilmFSK,
                     importKinofilmGenres);
 
-            if(KinofilmFilter(tempKinofilm)){
-                KinofilmVerteiler3D2D(tempKinofilm);
-                KinofilmVerteilerTimeslot(tempKinofilm);
-                KinofilmVerteilerLaufzeit(tempKinofilm);
+            if (kinofilmFilter(tempKinofilm)) {
+                kinofilmVerteiler3D2D(tempKinofilm);
+                kinofilmVerteilerTimeslot(tempKinofilm);
+                kinofilmVerteilerLaufzeit(tempKinofilm);
             }
 
         }
     }
 
-    /** Debugged
+    /**
+     * Debugged
      * Ermittelt, ob ein Film die mindest Beliebtheit erfüllt.
      */
-    private boolean KinofilmFilter(Kinofilm in_film) {
-        return in_film.GetBeliebtheit() >= minBeliebtheit;
+    private boolean kinofilmFilter(Kinofilm in_Film) {
+        return in_Film.GetBeliebtheit() >= minBeliebtheit;
     }
 
-    /** Debugged
+    /**
+     * Debugged
      * Fügt einen Film entsprechend seiner 3D-eigenschaft zu den Kinofilmlisten hinzu.
      * Entscheidungskriterium ist, ob ein Film im entsprechenden Saal gezeigt werden könnte.
      * Ein 2D-Film kann sowohl in 3D-Sälen als auch in 2D-Sälen gezeigt werden.
      * Ein 2D-Film wird daher zur Liste der 3D-Filme hinzugefügt, da er in 3D-Sälen auch gezeigt werden kann
      *
-     * @param in_film ein Kinofilm
+     * @param in_Film ein Kinofilm
      */
-    private void KinofilmVerteiler3D2D(Kinofilm in_film) {
-            if (in_film.GetThreeD()) {
-                FilmVerwaltung.setFilmeFuer3DSaele(in_film);
-            } else {
-                FilmVerwaltung.setFilmeFuer2DSaele(in_film);
-                FilmVerwaltung.setFilmeFuer3DSaele(in_film);
-            }
+    private void kinofilmVerteiler3D2D(Kinofilm in_Film) {
+        if (in_Film.GetThreeD()) {
+            FilmVerwaltung.SetFilmeFuer3DSaele(in_Film);
+        } else {
+            FilmVerwaltung.SetFilmeFuer2DSaele(in_Film);
+            FilmVerwaltung.SetFilmeFuer3DSaele(in_Film);
+        }
     }
 
-    /** Debugged
+    /**
+     * Debugged
      * Fügt einen Film entsprechend seiner FSK-Eigenschaften zu den Kinofilmlisten hinzu.
      * Entscheidungskriterium ist, ob ein Film zum entsprechenden Timeslot gezeigt werden darf.
      * Ein FSK0 kann also zu jeder Tageszeit, auch um 23:00 gezeigt werden.
      *
-     * @param in_film ein Kinofilm
+     * @param in_Film ein Kinofilm
      */
-    private void KinofilmVerteilerTimeslot(Kinofilm in_film) {
-            switch (in_film.GetFsk()) {
-                case FSK_0:
-                case FSK_6:
-                case FSK_12: {
-                    FilmVerwaltung.setFilmeFuer1500Uhr_1730Uhr(in_film);
-                    FilmVerwaltung.setFilmeFuer2000Uhr(in_film);
-                    FilmVerwaltung.setFilmeFuer2300Uhr(in_film);
-                    break;
-                }
-                case FSK_16: {
-                    FilmVerwaltung.setFilmeFuer2000Uhr(in_film);
-                    FilmVerwaltung.setFilmeFuer2300Uhr(in_film);
-                    break;
-                }
-                case FSK_18: {
-                    FilmVerwaltung.setFilmeFuer2300Uhr(in_film);
-                    break;
-                }
-                default: break;
+    private void kinofilmVerteilerTimeslot(Kinofilm in_Film) {
+        switch (in_Film.GetFsk()) {
+            case FSK_0:
+            case FSK_6:
+            case FSK_12: {
+                FilmVerwaltung.SetFilmeFuer1500Uhr_1730Uhr(in_Film);
+                FilmVerwaltung.SetFilmeFuer2000Uhr(in_Film);
+                FilmVerwaltung.SetFilmeFuer2300Uhr(in_Film);
+                break;
+            }
+            case FSK_16: {
+                FilmVerwaltung.SetFilmeFuer2000Uhr(in_Film);
+                FilmVerwaltung.SetFilmeFuer2300Uhr(in_Film);
+                break;
+            }
+            case FSK_18: {
+                FilmVerwaltung.SetFilmeFuer2300Uhr(in_Film);
+                break;
+            }
+            default:
+                break;
         }
     }
 
-    /** Debugged
+    /**
+     * Debugged
      * Fügt einen Film entsprechend seiner Spieldauer zu den Kinofilmlisten hinzu.
      * Entscheidungskriterium ist, ob ein Film in den entsprechenden Timeslot passt.
      * Ein 150 Minuten langer film kann also auch in einem 180 Minuten timeslot laufen.
-     * @param in_film ein Kinofilm
+     *
+     * @param in_Film ein Kinofilm
      */
-    private void KinofilmVerteilerLaufzeit(Kinofilm in_film) {
+    private void kinofilmVerteilerLaufzeit(Kinofilm in_Film) {
 
-        if (in_film.GetLaufzeit() <= 150) {
-            FilmVerwaltung.setFilmeFuer150minSlotlaenge(in_film);
-            FilmVerwaltung.setFilmeFuer180minSlotlaenge(in_film);
-        }
-
-        else if (in_film.GetLaufzeit() > 150) {
-            FilmVerwaltung.setFilmeFuer180minSlotlaenge(in_film);
+        if (in_Film.GetLaufzeit() <= 150) {
+            FilmVerwaltung.SetFilmeFuer150minSlotlaenge(in_Film);
+            FilmVerwaltung.SetFilmeFuer180minSlotlaenge(in_Film);
+        } else if (in_Film.GetLaufzeit() > 150) {
+            FilmVerwaltung.SetFilmeFuer180minSlotlaenge(in_Film);
         }
     }
 }
-
-
-
-
-
-
-
-

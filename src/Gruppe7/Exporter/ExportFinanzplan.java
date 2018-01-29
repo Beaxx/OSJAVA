@@ -1,5 +1,6 @@
 package Gruppe7.Exporter;
 
+import Gruppe7.Data.Werbefilm;
 import Gruppe7.Importer.Datei;
 import Gruppe7.Logic.Planer;
 import Gruppe7.Logic.Vorstellung;
@@ -32,7 +33,16 @@ public class ExportFinanzplan extends Datei {
                 "Erwartete Ticketeinnahmen Vorstellung\t" +
                 "Erwartete Werbeeinnahmen Vorstellung\t" +
                 "Erwartete Ausgaben für Film NICHT für Vorstellung\t" +
-                "Erwarteer Gewinn für Film NICHT für Vorstellung\t" +
+                        "Werbefilm1-Einnahmen\t" +
+                        "Werbefilm2-Einnahmen\t" +
+                        "Werbefilm3-Einnahmen\t" +
+                        "Werbefilm4-Einnahmen\t" +
+                        "Werbefilm5-Einnahmen\t" +
+                        "Werbefilm6-Einnahmen\t" +
+                        "Werbefilm7-Einnahmen\t" +
+                        "Werbefilm8-Einnahmen\t" +
+                        "Werbefilm9-Einnahmen\t" +
+                        "Werbefilm10-Einnahmen\t" +
                 "Gesamtausgaben\t" +
                 "Gesamteinnahmen Werbung:\t" +
                 "Gesamteinnahmen Tickets:\t"  +
@@ -96,9 +106,6 @@ public class ExportFinanzplan extends Datei {
                                         aktuelleVorstellung.GetVorstellungTicketeinnahmen()[1]);
                         String kEinnahmenWerbung = String.valueOf(aktuelleVorstellung.GetVorstellungWerbeeinnahmen());
                         String kAusgabenFilmGesamt = String.valueOf(aktuelleVorstellung.GetKinofilm().GetGesamtkostenInSpielplan());
-                        String kGewinnFilmGesamt = String.valueOf(Integer.valueOf(kEinnahmenTickets) +
-                                                                    Integer.valueOf(kEinnahmenWerbung) -
-                                                                    Integer.valueOf(kAusgabenFilmGesamt));
 
                         String exportString = kFilm + "\t" +
                                 kWoche + "\t" +
@@ -110,8 +117,16 @@ public class ExportFinanzplan extends Datei {
                                 kZuschauerZuschauerLoge + "\t" +
                                 kEinnahmenTickets + "\t" +
                                 kEinnahmenWerbung + "\t" +
-                                kAusgabenFilmGesamt + "\t" +
-                                kGewinnFilmGesamt;
+                                kAusgabenFilmGesamt;
+
+                        // TODO: Debuggen
+//                        for (int i = 0; i < 10; i++) {
+//                            if (!(aktuelleVorstellung.GetWerbefilme().get(i) == null)) {
+//                                exportString += aktuelleVorstellung.GetWerbefilme().get(i);
+//                            } else {
+//                                exportString += "--";
+//                            }
+//                        }
 
                         // In erster Zeile Gesamtdaten anhängen
                         if (iSpielzeit == 0 && iSaal == 0 && iTag == 0 && iWoche == 0){
@@ -120,7 +135,6 @@ public class ExportFinanzplan extends Datei {
                                     String.valueOf(in_SpielplanObj.GetSpielplanTicketeinnahmen())+"\t"+
                                     String.valueOf(in_SpielplanObj.GetSpielplanGewinn());
                         }
-
                         exportFinanzplan.writeLine_FS(exportString);
                     }
                 }

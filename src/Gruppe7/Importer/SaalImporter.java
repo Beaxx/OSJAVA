@@ -4,6 +4,9 @@ package Gruppe7.Importer;
 import Gruppe7.Data.Saal;
 import Gruppe7.Data.SaalVerwaltung;
 
+/**
+ * nur noch doku
+ */
 public class SaalImporter extends Datei {
 
     /**
