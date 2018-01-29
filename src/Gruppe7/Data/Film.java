@@ -1,7 +1,7 @@
 package Gruppe7.Data;
 
 /**
- * @author Fabian Ueberled
+ * @author Fabian Ueberle
  * Stellt die abstrakte Mutterklasse für Werbefilme und Kinofilme dar. Stellt die Felder "titel" und "laufzeit"
  * sowie ihre Getter bereit.
  */

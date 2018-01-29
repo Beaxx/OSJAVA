@@ -25,7 +25,9 @@ public class Planer {
     private int spielplanWerbeEinnahmen = 0;
     private int spielplanAusgaben = 0;
 
-    // Spielplandaten
+    public ArrayList<Kinofilm> alleFilmeFinancials = new ArrayList<Kinofilm>(); //Nicole und Fabian
+
+    // Spielplandaten @TODO: Vorstellungsarray kann nicht mit festen Werten Erstellt werden, da sich die Importdateien verändern können.
     private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4]; //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
 
     // TODO: Ein Verschateltes Array verwenden.
@@ -264,6 +266,7 @@ public class Planer {
         }
         return kosten;
     }
+    //TODO: @Lennart: Die Eintrittspreisoptimierung berücksichtig die Werbefilmeinnahmen nicht.
 
     /**
      * Ermittlung der Kosten für die Filmleite aller drei wochen mit rabattverrechnung.
@@ -420,6 +423,7 @@ public class Planer {
      * @param in_Vorstellung eine Vorstellung
      * @return Faktor auf den Andrang in abhängigkeit vom Eintrittspreis.
      */
+          }
     private double preisAndrangFaktor(Vorstellung in_Vorstellung) {
 
         if (in_Vorstellung.getEintrittspreis() > 7) {
