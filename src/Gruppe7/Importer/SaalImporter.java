@@ -35,6 +35,6 @@ public class SaalImporter extends Datei {
                 SaalVerwaltung.SetSaele(new Saal(importPlaetzeLoge, importPlaetzeParkett, importThreeD, importSaalNr));
             }
         }
-        SaalVerwaltung.saalplanSortieren();
+        SaalVerwaltung.SaalplanSortieren();
     }
 }

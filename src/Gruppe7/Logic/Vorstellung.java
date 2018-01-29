@@ -54,7 +54,7 @@ public class Vorstellung {
      * @return Eine ArrayList der Werbung einer Vorstellung
      */
     private ArrayList<Werbefilm> werbungAnhaengen() {
-        int werbeDauerSoll = vorstellungsTimeslot.getSlotDuration() - vorstellungsFilm.GetLaufzeit();
+        int werbeDauerSoll = vorstellungsTimeslot.GetSlotDuration() - vorstellungsFilm.GetLaufzeit();
 
         if (werbeDauerSoll >= 20) {
             return WerbefilmVerwaltung.getWerbefilme20MinutenStandard();
@@ -113,7 +113,7 @@ public class Vorstellung {
             vorstellungWerbeeinnahmen = WerbefilmVerwaltung.GetWerbefilme20MinutenStandardUmsatzProZuschauer() * (zuschauerLoge + zuschauerParkett);
         } else {
             for (Werbefilm werbung : werbungen) {
-                vorstellungWerbeeinnahmen += werbung.getUmsatzProZuschauer() * (zuschauerLoge + zuschauerParkett);
+                vorstellungWerbeeinnahmen += werbung.GetUmsatzProZuschauer() * (zuschauerLoge + zuschauerParkett);
             }
         }
     }

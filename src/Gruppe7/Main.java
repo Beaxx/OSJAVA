@@ -9,13 +9,9 @@ import Gruppe7.Exporter.ExportRaumplanung;
 import Gruppe7.Logic.*;
 import Gruppe7.Importer.*;
 
-import java.net.URL;
-import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
-import java.security.CodeSource;
-import java.util.InputMismatchException;
 
 
 /**
@@ -148,8 +144,8 @@ public class Main {
         WerbefilmVerwaltung.standardWerbeblockUmsatzProZuschauer();
 
         // Saele sortieren
-        SaalVerwaltung.saalplanSortieren();
-        SaalVerwaltung.plaetzteInGroestemUndZweitgroestemSaal();
+        SaalVerwaltung.SaalplanSortieren();
+        SaalVerwaltung.PlaetzteInGroestemUndZweitgroestemSaal();
         //endregion
 
         //region Algorithmus

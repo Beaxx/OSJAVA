@@ -21,7 +21,7 @@ public class SaalVerwaltung {
     /**
      * Speichert größen und zweitgrößten Saal ab.
      */
-    public static void plaetzteInGroestemUndZweitgroestemSaal() {
+    public static void PlaetzteInGroestemUndZweitgroestemSaal() {
         int localPlaetzeGroesterSaal = 0;
         int localPlaetzeZweitgroesterSaal = 0;
 
@@ -85,7 +85,7 @@ public class SaalVerwaltung {
      * Sortiert die Liste aller Säle nach ihrer Fähigkeit 3D-Filme abzuspielen.
      * Säle, die 3D-Filme abspielen könnnen stehen am Anfang der Liste.
      */
-    public static void saalplanSortieren() {
+    public static void SaalplanSortieren() {
         saele.sort((s1, s2) -> {
             if (s1.GetThreeD()) {
                 return -1;

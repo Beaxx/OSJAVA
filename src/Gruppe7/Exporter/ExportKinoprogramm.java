@@ -34,7 +34,7 @@ public class ExportKinoprogramm extends Datei {
                         String kFilm = aktuelleVorstellung.GetKinofilm().GetTitel();
                         String kWoche = String.valueOf(iWoche + 1);
                         String kPreis = String.valueOf(aktuelleVorstellung.GetEintrittspreis());
-                        String kSpielzeit = aktuelleVorstellung.GetSpielzeiten().toString();
+                        String kSpielzeit = aktuelleVorstellung.GetSpielzeiten().ToString();
                         String kSaal = "Saal " + (iSaal + 1);
 
                         String kTag;

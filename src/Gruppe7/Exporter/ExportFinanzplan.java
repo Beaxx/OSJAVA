@@ -1,6 +1,5 @@
 package Gruppe7.Exporter;
 
-import Gruppe7.Data.Werbefilm;
 import Gruppe7.Importer.Datei;
 import Gruppe7.Logic.Planer;
 import Gruppe7.Logic.Vorstellung;
@@ -55,7 +54,7 @@ public class ExportFinanzplan extends Datei {
                         String kWoche = String.valueOf(iWoche + 1);
                         String kFilm = aktuelleVorstellung.GetKinofilm().GetTitel();
                         String kPreis = String.valueOf(aktuelleVorstellung.GetEintrittspreis());
-                        String kSpielzeit = aktuelleVorstellung.GetSpielzeiten().toString();
+                        String kSpielzeit = aktuelleVorstellung.GetSpielzeiten().ToString();
                         String kSaal = "Saal " + (iSaal + 1);
 
                         String kTag;
@@ -117,7 +116,7 @@ public class ExportFinanzplan extends Datei {
                         for (int i = 0; i < 10; i++) {
                             try {
                                 exportString += aktuelleVorstellung.GetWerbefilme().get(i).GetTitel() + "\t";
-                                exportString += aktuelleVorstellung.GetWerbefilme().get(i).getUmsatzProZuschauer() *
+                                exportString += aktuelleVorstellung.GetWerbefilme().get(i).GetUmsatzProZuschauer() *
                                         (aktuelleVorstellung.GetZuschauerLoge() +
                                                 aktuelleVorstellung.GetZuschauerParkett()) + "\t";
                             } catch (IndexOutOfBoundsException ex) {

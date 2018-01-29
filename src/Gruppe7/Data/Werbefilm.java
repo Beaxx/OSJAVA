@@ -1,31 +1,27 @@
 package Gruppe7.Data;
 
 /**
- * Erbt von Film.
  * @author Fabian Ueberle
+ * Erbt von Film.
+ *
+ * Ein Werbefilm ist ein von der Vorstellung losgelöstes Objekt. Werbefilme sind austauschbare Einheiten, die unabhängig
+ * vom Spielplan sind. Sie sind eine der Komponenten zur Erstellung von Vorstellungen.
  */
 public class Werbefilm extends Film {
     private int umsatzProZuschauer;
-    private int einnahmenProWerbeSpot = 0;
 
-    public Werbefilm(String in_titel, int in_laufzeit, int in_umsatzProZuschauer) {
-        super(in_titel, in_laufzeit);
-        umsatzProZuschauer = in_umsatzProZuschauer;
+    public Werbefilm(String in_Titel, int in_Laufzeit, int in_UmsatzProZuschauer) {
+        super(in_Titel, in_Laufzeit);
+        umsatzProZuschauer = in_UmsatzProZuschauer;
     }
 
     /**
      * Getmethode für den Umsatz pro Zuschauer eines Werbefilms
+     *
      * @return der Umsatz pro Zuschauer eines Werbefilms.
      */
-    public int getUmsatzProZuschauer() {
+    public int GetUmsatzProZuschauer() {
         return umsatzProZuschauer;
     }
-    public int getEinnahmenProWerbeSpot() {return einnahmenProWerbeSpot;}
 
-    public String getWerbespotTitel() {return this.GetTitel();}
-
-    //Setter
-    public void setEinnahmenProWerbeSpot(int in_EinnahmenProWerbeSpot) {
-        einnahmenProWerbeSpot = in_EinnahmenProWerbeSpot;
-    }
 }

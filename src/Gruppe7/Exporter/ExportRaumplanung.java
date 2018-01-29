@@ -62,7 +62,7 @@ public class ExportRaumplanung extends Datei {
                     // VORSTELLUNG
                     for (int iSpielzeit = 0; iSpielzeit < 4; iSpielzeit++) {
 
-                        exportStringRaumplan += spielplan[iWoche][iTag][iSaal][iSpielzeit].GetSpielzeiten().toString() +
+                        exportStringRaumplan += spielplan[iWoche][iTag][iSaal][iSpielzeit].GetSpielzeiten().ToString() +
                                 ": " + spielplan[iWoche][iTag][iSaal][iSpielzeit].GetKinofilm().GetTitel() + "\r\r\n\n";
                     }
                     exportStringRaumplan += "\r\r\n\n";

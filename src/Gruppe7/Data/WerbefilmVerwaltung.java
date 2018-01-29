@@ -61,12 +61,12 @@ public class WerbefilmVerwaltung {
      */
     public static void werbeplanSortieren() {
         Collections.sort(werbefilme, (w1, w2) -> {
-            if (((double) w1.getUmsatzProZuschauer() / (double) w1.GetLaufzeit()) <
-                    (double) w2.getUmsatzProZuschauer() / (double) w2.GetLaufzeit()) {
+            if (((double) w1.GetUmsatzProZuschauer() / (double) w1.GetLaufzeit()) <
+                    (double) w2.GetUmsatzProZuschauer() / (double) w2.GetLaufzeit()) {
                 return 1;
             }
-            if (((double) w1.getUmsatzProZuschauer() / (double) w1.GetLaufzeit()) >
-                    (double) w2.getUmsatzProZuschauer() / (double) w2.GetLaufzeit()) {
+            if (((double) w1.GetUmsatzProZuschauer() / (double) w1.GetLaufzeit()) >
+                    (double) w2.GetUmsatzProZuschauer() / (double) w2.GetLaufzeit()) {
                 return -1;
             }
             return 0;
@@ -94,7 +94,7 @@ public class WerbefilmVerwaltung {
 
     public static void standardWerbeblockUmsatzProZuschauer() {
         for (Werbefilm werbung : werbefilme20MinutenStandard) {
-            werbefilme20MinutenStandardUmsatzProZuschauer += werbung.getUmsatzProZuschauer();
+            werbefilme20MinutenStandardUmsatzProZuschauer += werbung.GetUmsatzProZuschauer();
         }
     }
 

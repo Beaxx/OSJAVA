@@ -26,7 +26,7 @@ public enum Spielzeiten {
      *
      * @return Die Spielzeit in Minuten
      */
-    public int getSlotDuration() {
+    public int GetSlotDuration() {
         return this.slotDuration;
     }
 
@@ -35,8 +35,7 @@ public enum Spielzeiten {
      *
      * @return Die Uhrzeit eines Timeslots im Format "XX:XX Uhr"
      */
-    @Override
-    public String toString() {
+    public String ToString() {
         switch (this) {
             case SLOT_1500:
                 return "15:00 Uhr";
