@@ -210,7 +210,7 @@ public class Planer {
     /**
      * ermittlung ob ein Kinofilm parallel am selben tag in zwei unterschiedlichen Sälen läuft. Wenn ja, entsprechende
      * Kostenrückgabe
-     *
+     * <p>
      * Funktion: Über hashset, wird versucht ein kinofilm hinzuzufügen, der bereits in der Liste ist, kann diese nicht
      * wachsen, wenn die Größte also unverändert bleibt ist der film doppelt vorhanden.
      */
@@ -267,9 +267,10 @@ public class Planer {
 
     /**
      * Ermittlung der Kosten für die Filmleite aller drei wochen mit rabattverrechnung.
+     *
      * @return
      */
-    private int spielplanAusgabenGesamtzeitraum(){
+    private int spielplanAusgabenGesamtzeitraum() {
         int kosten = 0;
 
         /*
