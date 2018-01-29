@@ -8,6 +8,9 @@ import Gruppe7.Exporter.ExportKinoprogramm;
 import Gruppe7.Exporter.ExportRaumplanung;
 import Gruppe7.Logic.*;
 import Gruppe7.Importer.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 
 /**
  * Zentraler Programeinstieg
@@ -56,8 +59,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         /* SETTINGS */
-
-        int plaeneZuErstellen = 1000;
+        int plaeneZuErstellen = 10000000;
         int mindestBeliebtheit = 93;
         /* /SETTINGS */
 

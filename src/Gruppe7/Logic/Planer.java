@@ -96,7 +96,7 @@ public class Planer {
 
                         // Andrangskalkulation
                         // Iteration über Eintrittspreise, lokale Optimierung
-                        for (int eintrittspreis = 11; eintrittspreis <= 15; eintrittspreis++) { // TODO Range verkleinern für mehr Performance
+                        for (int eintrittspreis = 13; eintrittspreis <= 15; eintrittspreis++) { // TODO Range verkleinern für mehr Performance
 
                             // Backup
                             int backupEinnahmen = vorstellung.GetVorstellungTicketeinnahmen()[0] +
@@ -302,7 +302,7 @@ public class Planer {
         */
         for (Map.Entry<Kinofilm, Integer> film : dreifachFilme.entrySet()) {
             if (film.getValue() == 3) {
-                kosten -= film.getKey().GetVerleihpreisProWoche() * 0.3;
+                kosten -= Math.round(film.getKey().GetVerleihpreisProWoche() * 0.3);
             }
         }
         return kosten;
