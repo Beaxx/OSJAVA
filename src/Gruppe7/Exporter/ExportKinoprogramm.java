@@ -4,9 +4,20 @@ import Gruppe7.Importer.Datei;
 import Gruppe7.Logic.Planer;
 import Gruppe7.Logic.Vorstellung;
 
-// TODO: DOKU!
+/**
+ * @author  Nicole Distler
+ * Erbt von Datei.
+ *
+ * Der Kinoprogramm Exporter exportiert das Kinoprogramm im CSV-Format.
+ */
 public class ExportKinoprogramm extends Datei {
 
+    /**
+     * Konstruktor
+     *
+     * @param in_Name         Dateinpfad
+     * @param in_SpielplanObj Planer-Objekt, das den Spielplan enthält.
+     */
     public ExportKinoprogramm(String in_Name, Planer in_SpielplanObj) {
         super(in_Name);
         Datei exportKinoprogramm = new Datei(in_Name);
@@ -14,7 +25,7 @@ public class ExportKinoprogramm extends Datei {
 
         Vorstellung[][][][] spielplan = in_SpielplanObj.GetSpielplan();
 
-        // Exportüberschrift
+        // CSV-Header Zeile
         String ueberschriftenString = "Kinofilm\t" +
                 "Vorführwoche\t" +
                 "Wochentag\t" +

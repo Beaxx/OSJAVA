@@ -8,7 +8,8 @@ import Gruppe7.Logic.Vorstellung;
  * @author  Nicole Distler
  * Erbt von Datei.
  *
- * Der Finazplan Exporter erweitert den Funktionsumfang dees Kinoprogramm Exports um finazielle Kennzahlen zum Spielplan
+ * Der Finazplan Exporter erweitert den Funktionsumfang des Kinoprogramm Exports um finazielle Kennzahlen zum Spielplan
+ * und exportiert das erweiterte Kinoprogramm im CSV-Format.
  */
 public class ExportFinanzplan extends Datei {
 
