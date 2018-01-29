@@ -24,11 +24,8 @@ public class Planer {
     private int spielplanWerbeEinnahmen = 0;
     private int spielplanAusgaben = 0;
 
-    // TODO:
-    public ArrayList<Kinofilm> alleFilmeFinancials = new ArrayList<>(); //Nicole und Fabian
-
     // Spielplandaten
-    private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4]; //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
+    private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4];
 
     private Set<Kinofilm> filmeWoche0 = new HashSet<>();
     private Set<Kinofilm> filmeWoche1 = new HashSet<>();
@@ -451,5 +448,9 @@ public class Planer {
 
     public int GetSpielplanGewinn() {
         return spielplanGewinn;
+    }
+
+    public int GetAnzahlSaele() {
+        return anzahlSaele;
     }
 }

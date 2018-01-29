@@ -3,7 +3,7 @@ package Gruppe7;
 import java.io.IOException;
 
 import Gruppe7.Data.*;
-import Gruppe7.Exporter.ExportFinanzplan;
+//import Gruppe7.Exporter.ExportFinanzplan;
 import Gruppe7.Exporter.ExportKinoprogramm;
 import Gruppe7.Exporter.ExportRaumplanung;
 import Gruppe7.Logic.*;
@@ -111,10 +111,10 @@ public class Main {
         Vorstellung[][][][] spielPlanObj;
         spielPlanObj = planer.GetSpielplan();
 
-        new ExportRaumplanung(spielPlanObj,"C:/import/raumplan.txt");
+        new ExportRaumplanung(spielPlanObj,"C:/import/export/raumplan.txt");
 
-        new ExportKinoprogramm(spielPlanObj, "C:/import/kinoprogramm.csv", planer);
+        new ExportKinoprogramm("C:/import/export/kinoprogramm.csv", planer);
 
-        new ExportFinanzplan(spielPlanObj, "C:/import/finanzplan.csv", planer);
+//        new ExportFinanzplan(spielPlanObj, "C:/import/export/finanzplan.csv", planer);
     }
 }
