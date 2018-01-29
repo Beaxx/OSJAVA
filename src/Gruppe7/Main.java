@@ -57,7 +57,7 @@ public class Main {
 
         /* SETTINGS */
 
-        int plaeneZuErstellen = 50000000;
+        int plaeneZuErstellen = 1000;
         int mindestBeliebtheit = 93;
         /* /SETTINGS */
 

@@ -24,25 +24,24 @@ public class Planer {
     private int spielplanWerbeEinnahmen = 0;
     private int spielplanAusgaben = 0;
 
-    public ArrayList<Kinofilm> alleFilmeFinancials = new ArrayList<Kinofilm>(); //Nicole und Fabian
+    // TODO:
+    public ArrayList<Kinofilm> alleFilmeFinancials = new ArrayList<>(); //Nicole und Fabian
 
-    // Spielplandaten @TODO: Vorstellungsarray kann nicht mit festen Werten Erstellt werden, da sich die Importdateien verändern können.
+    // Spielplandaten
     private Vorstellung[][][][] spielplan = new Vorstellung[3][7][anzahlSaele][4]; //Spielplan ist ein Array der Länge 3(Wochen) * 7(Tage) * Anzahl der Säle *  4(Spielzeiten)
 
-    // TODO: Ein Verschateltes Array verwenden.
-    //region Vorstellungen
     private Set<Kinofilm> filmeWoche0 = new HashSet<>();
     private Set<Kinofilm> filmeWoche1 = new HashSet<>();
     private Set<Kinofilm> filmeWoche2 = new HashSet<>();
 
     // Genredaten
-    private static List<Genre> genreList = Arrays.asList(Genre.values()); // Generiert eine Genre-List aus dem Genre Enum unabhängig vom Objekt
+    private static List<Genre> genreList = Arrays.asList(Genre.values());
     private boolean checkGenre = false;
 
     /**
      * Erstellung eines zufälligen Spielplans bei Iteration durch das leere Vorstellungs-Array.
      * Erstellt:  Ein vierdimensionales Vorstellungsarray [woche][tag][saal][timeslot]
-     */ // Constructor
+     */
     public Planer() {
 
         // Genre-Liste wird kopiert
@@ -319,7 +318,6 @@ public class Planer {
      * @return Basisandrang der Vorstellung
      */
     private int basisAndrang(Vorstellung in_Vorstellung) {
-        //Berechnung des Basisandrangs über die größe der beiden größten Säle.
         return (int) Math.round((plaetzeGroesterSaal + plaetzeZweitgroesterSaal) *
                 ((double) (in_Vorstellung.GetKinofilm().GetBeliebtheit()) / 85));
     }
