@@ -2,6 +2,9 @@ package Gruppe7.Data;
 
 /**
  * @author Fabian Ueberle
+ *
+ * Ein Saal ist ein von der Vorstellung losgelöstes Objekt. Säle sind austauschbare Einheiten, die unabhängig vom
+ * Spielplan sind. Sie sind eine der Komponenten zur Erstellung von Vorstellungen.
  */
 public class Saal {
     private int plaetzeLoge;
@@ -10,24 +13,24 @@ public class Saal {
     private int saalNummer;
 
     /**
-     * Saalkonstruktor erstellt Saalobjekt
-     * @param in_PlaetzeLoge Anzahl der Plätze in der Loge des Saals
+     * Konstruktor
+     *
+     * @param in_PlaetzeLoge    Anzahl der Plätze in der Loge des Saals
      * @param in_PlaetzeParkett Anzahl der Plätze im Parkett des Saals
-     * @param in_3D Fähigkeit des Saals 3D-Filme abspielen zu können
-     * @param in_getSaalNummer Die Nummer des Saals (gleichzeitig seine Bezeichnung)
+     * @param in_3D             Fähigkeit des Saals 3D-Filme abspielen zu können
+     * @param in_GetSaalNummer  Die Nummer des Saals (gleichzeitig seine Bezeichnung)
      */
-    public Saal(int in_PlaetzeLoge, int in_PlaetzeParkett, boolean in_3D, int in_getSaalNummer) {
+    public Saal(int in_PlaetzeLoge, int in_PlaetzeParkett, boolean in_3D, int in_GetSaalNummer) {
 
         plaetzeLoge = in_PlaetzeLoge;
         plaetzeParkett = in_PlaetzeParkett;
         threeD = in_3D;
-        saalNummer = in_getSaalNummer;
+        saalNummer = in_GetSaalNummer;
     }
 
     //Getter
 
     /**
-     *
      * @return die Anzahl der Plätze im Parkett des Saals
      */
     public int GetPlaetzeLoge() {
@@ -35,7 +38,6 @@ public class Saal {
     }
 
     /**
-     *
      * @return die Anzahl der Plätze in der Loge des Saals
      */
     public int GetPlaetzeParkett() {
@@ -43,7 +45,6 @@ public class Saal {
     }
 
     /**
-     *
      * @return die Fähigkeit des Saals 3D-Filme abzuspielen
      */
     public boolean GetThreeD() {
@@ -51,7 +52,6 @@ public class Saal {
     }
 
     /**
-     *
      * @return die Nummer des Saals
      */
     public int GetSaalNummer() {
