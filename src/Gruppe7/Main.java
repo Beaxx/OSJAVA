@@ -98,19 +98,6 @@ public class Main {
                 }
             }
 
-
-
-        Vorstellung[][][][] spielPlanObj;
-        spielPlanObj = planer.getSpielplan();
-
-        new ExportRaumplanung(spielPlanObj,"C:/import/raumplan.txt");
-
-        new ExportKinoprogramm(spielPlanObj, "C:/import/kinoprogramm.csv", planer);
-
-        new ExportFinanzplan(spielPlanObj, "C:/import/finanzplan.csv", planer);
-
-
-
         // Performance Wrapper ende
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
@@ -119,5 +106,15 @@ public class Main {
         // Ausgabe Laufdauer und Geschwindigkeit
         System.out.println(totalTimeS + " Sekunden für " + plaeneZuErstellen + " Durchläufe" + "\n" +
                 (double) plaeneZuErstellen / totalTimeS + " pro Sekunde");
+
+        // Export
+        Vorstellung[][][][] spielPlanObj;
+        spielPlanObj = planer.GetSpielplan();
+
+        new ExportRaumplanung(spielPlanObj,"C:/import/raumplan.txt");
+
+        new ExportKinoprogramm(spielPlanObj, "C:/import/kinoprogramm.csv", planer);
+
+        new ExportFinanzplan(spielPlanObj, "C:/import/finanzplan.csv", planer);
     }
 }

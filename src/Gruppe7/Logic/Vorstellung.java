@@ -1,14 +1,13 @@
 package Gruppe7.Logic;
 
 import Gruppe7.Data.*;
-
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Lennart Völler
  *
- * Die Vorstellung ist die Basis-Einheit des Spielplans. Jeder Spielplan setzt sich aus 21*4*[Anzahl derSäle]
+ * Die Vorstellung ist die Basis-Einheit des Spielplans. Jeder Spielplan setzt sich aus 21*4*[Anzahl der Säle]
  * Vorstellungen zusammen.
  */
 public class Vorstellung {
@@ -24,12 +23,6 @@ public class Vorstellung {
     private int zuschauerParkett = 0;
     private int vorstellungWerbeeinnahmen = 0;
     private int[] vorstellungTicketeinnahmen = {0, 0};
-
-    private int zuschauerLoge;
-    private int zuschauerParkett;
-    private int zuschauerGesamt;
-
-
 
     /**
      * Basis-Konstruktor, erstellt eine zufällige Vorstellung aus der Menge der möglichen, an dieser Stelle
@@ -80,11 +73,6 @@ public class Vorstellung {
         }
     }
 
-
-    //Getter
-    public Kinofilm GetKinofilm() {
-        return vorstellungsFilm;
-    }
     public void VorstellungsTicketEinnahmen(Vorstellung this) {
 
         int andrang50p = (int) Math.round((double) andrang * 0.5);
@@ -120,54 +108,15 @@ public class Vorstellung {
         vorstellungTicketeinnahmen[1] = eintrittspreis * zuschauerParkett;
     }
 
-    public void VorstellungWerbeeinnahmen(Vorstellung this){
-        if(werbungen == WerbefilmVerwaltung.getWerbefilme20MinutenStandard()){
+    public void VorstellungWerbeeinnahmen(Vorstellung this) {
+        if (werbungen == WerbefilmVerwaltung.getWerbefilme20MinutenStandard()) {
             vorstellungWerbeeinnahmen = WerbefilmVerwaltung.GetWerbefilme20MinutenStandardUmsatzProZuschauer() * (zuschauerLoge + zuschauerParkett);
-        }
-        else{
-            for (Werbefilm werbung : werbungen){
+        } else {
+            for (Werbefilm werbung : werbungen) {
                 vorstellungWerbeeinnahmen += werbung.getUmsatzProZuschauer() * (zuschauerLoge + zuschauerParkett);
             }
         }
     }
-
-
-
-
-
-    //Getter & Setter - Nicole und Fabian
-
-
-    public int GetZuschauerLoge() {
-        return zuschauerLoge;
-    }
-
-    public void SetZuschauerLoge(int in_ZuschauerLoge) {
-        zuschauerLoge = in_ZuschauerLoge;
-        zuschauerGesamt = zuschauerGesamt+zuschauerLoge;
-
-    }
-
-    public int GetZuschauerParkett() {
-        return zuschauerParkett;
-    }
-
-    public void SetZuschauerParkett(int in_ZuschauerParkett) {
-        zuschauerParkett = in_ZuschauerParkett;
-        zuschauerGesamt=zuschauerGesamt+zuschauerParkett;
-    }
-
-    public int GetZuschauerGesamt(){
-        return zuschauerGesamt;
-    }
-
-
-
-
-
-
-
-
 
     @Override
     public String toString() {
@@ -220,34 +169,32 @@ public class Vorstellung {
         return eintrittspreis;
     }
 
-    //Setter
-    public void SetEintrittspreis(int in_eintrittspreis) {
-        eintrittspreis = in_eintrittspreis;
-
-    }
-
     public int GetAndrang() {
         return andrang;
-    }
-
-    public void SetAndrang(int andrang) {
-        this.andrang = andrang;
     }
 
     public int GetVorstellungWerbeeinnahmen() {
         return vorstellungWerbeeinnahmen;
     }
 
-    public int getEintrittspreis() {
-        return eintrittspreis;
-    }
-
-    public void SetVorstellungTicketeinnahmen(int[] vorstellungTicketeinnahmen) {
-        this.vorstellungTicketeinnahmen = vorstellungTicketeinnahmen;
-    }
-
     public int[] GetVorstellungTicketeinnahmen() {
         return vorstellungTicketeinnahmen;
     }
 
+    public int GetZuschauerLoge() {
+        return zuschauerLoge;
+    }
+
+    public int GetZuschauerParkett() {
+        return zuschauerParkett;
+    }
+
+    //Setter
+    public void SetEintrittspreis(int in_eintrittspreis) {
+        eintrittspreis = in_eintrittspreis;
+    }
+
+    public void SetAndrang(int andrang) {
+        this.andrang = andrang;
+    }
 }

@@ -3,7 +3,6 @@ package Gruppe7.Logic;
 import java.util.*;
 
 import Gruppe7.Data.*;
-import Gruppe7.Main;
 
 /**
  * @author Lennart Völler
@@ -423,13 +422,13 @@ public class Planer {
      * @param in_Vorstellung eine Vorstellung
      * @return Faktor auf den Andrang in abhängigkeit vom Eintrittspreis.
      */
-          }
+
     private double preisAndrangFaktor(Vorstellung in_Vorstellung) {
 
-        if (in_Vorstellung.getEintrittspreis() > 7) {
-            return (1 - (in_Vorstellung.getEintrittspreis() - 7) * 0.05);
-        } else if (in_Vorstellung.getEintrittspreis() < 7) {
-            return (1 + (7 - in_Vorstellung.getEintrittspreis()) * 0.02);
+        if (in_Vorstellung.GetEintrittspreis() > 7) {
+            return (1 - (in_Vorstellung.GetEintrittspreis() - 7) * 0.05);
+        } else if (in_Vorstellung.GetEintrittspreis() < 7) {
+            return (1 + (7 - in_Vorstellung.GetEintrittspreis()) * 0.02);
         } else {
             return 1;
         }
