@@ -23,30 +23,40 @@ public class ExportFinanzplan extends Datei {
         // Exportüberschrift
         String headerString =
                 "Kinofilm\t" +
-                "Vorführwoche\t" +
-                "Wochentag\t" +
-                "Kinosaal\t" +
-                "Spielzeit\t" +
-                "Eintrittspreis (EUR)\t" +
-                "Erwartete Zuschauer Parkett\t" +
-                "Erwartete Zuschauer Loge\t" +
-                "Erwartete Ticketeinnahmen Vorstellung\t" +
-                "Erwartete Werbeeinnahmen Vorstellung\t" +
-                "Erwartete Ausgaben für Film NICHT für Vorstellung\t" +
+                        "Vorführwoche\t" +
+                        "Wochentag\t" +
+                        "Kinosaal\t" +
+                        "Spielzeit\t" +
+                        "Eintrittspreis (EUR)\t" +
+                        "Erwartete Zuschauer Parkett\t" +
+                        "Erwartete Zuschauer Loge\t" +
+                        "Erwartete Ticketeinnahmen Vorstellung\t" +
+                        "Erwartete Werbeeinnahmen Vorstellung\t" +
+                        "Erwartete Ausgaben für Film NICHT für Vorstellung\t" +
+                        "Werbefilm1-Name\t" +
                         "Werbefilm1-Einnahmen\t" +
+                        "Werbefilm2-Name\t" +
                         "Werbefilm2-Einnahmen\t" +
+                        "Werbefilm3-Name\t" +
                         "Werbefilm3-Einnahmen\t" +
+                        "Werbefilm4-Name\t" +
                         "Werbefilm4-Einnahmen\t" +
+                        "Werbefilm5-Name\t" +
                         "Werbefilm5-Einnahmen\t" +
+                        "Werbefilm6-Name\t" +
                         "Werbefilm6-Einnahmen\t" +
+                        "Werbefilm7-Name\t" +
                         "Werbefilm7-Einnahmen\t" +
+                        "Werbefilm8-Name\t" +
                         "Werbefilm8-Einnahmen\t" +
+                        "Werbefilm9-Name\t" +
                         "Werbefilm9-Einnahmen\t" +
+                        "Werbefilm10-Name\t" +
                         "Werbefilm10-Einnahmen\t" +
-                "Gesamtausgaben\t" +
-                "Gesamteinnahmen Werbung:\t" +
-                "Gesamteinnahmen Tickets:\t"  +
-                "Gewinn:\t";
+                        "Gesamtausgaben\t" +
+                        "Gesamteinnahmen Werbung:\t" +
+                        "Gesamteinnahmen Tickets:\t" +
+                        "Gewinn:\t";
 
         exportFinanzplan.writeLine_FS(headerString);
 
@@ -117,22 +127,24 @@ public class ExportFinanzplan extends Datei {
                                 kZuschauerZuschauerLoge + "\t" +
                                 kEinnahmenTickets + "\t" +
                                 kEinnahmenWerbung + "\t" +
-                                kAusgabenFilmGesamt;
+                                kAusgabenFilmGesamt + "\t";
 
-                        // TODO: Debuggen
-//                        for (int i = 0; i < 10; i++) {
-//                            if (!(aktuelleVorstellung.GetWerbefilme().get(i) == null)) {
-//                                exportString += aktuelleVorstellung.GetWerbefilme().get(i);
-//                            } else {
-//                                exportString += "--";
-//                            }
-//                        }
+                        for (int i = 0; i < 10; i++) {
+                            try {
+                                exportString += aktuelleVorstellung.GetWerbefilme().get(i).GetTitel() + "\t";
+                                exportString += aktuelleVorstellung.GetWerbefilme().get(i).getUmsatzProZuschauer() *
+                                        (aktuelleVorstellung.GetZuschauerLoge() +
+                                                aktuelleVorstellung.GetZuschauerParkett()) + "\t";
+                            } catch (IndexOutOfBoundsException ex) {
+                                exportString += "--"  + "\t" + "--"  + "\t";
+                            }
+                        }
 
                         // In erster Zeile Gesamtdaten anhängen
-                        if (iSpielzeit == 0 && iSaal == 0 && iTag == 0 && iWoche == 0){
-                            exportString += "\t" +String.valueOf(in_SpielplanObj.GetSpielplanAusgaben()) + "\t"+
-                                    String.valueOf(in_SpielplanObj.GetSpielplanWerbeEinnahmen())+"\t"+
-                                    String.valueOf(in_SpielplanObj.GetSpielplanTicketeinnahmen())+"\t"+
+                        if (iSpielzeit == 0 && iSaal == 0 && iTag == 0 && iWoche == 0) {
+                            exportString +=  String.valueOf(in_SpielplanObj.GetSpielplanAusgaben()) + "\t" +
+                                    String.valueOf(in_SpielplanObj.GetSpielplanWerbeEinnahmen()) + "\t" +
+                                    String.valueOf(in_SpielplanObj.GetSpielplanTicketeinnahmen()) + "\t" +
                                     String.valueOf(in_SpielplanObj.GetSpielplanGewinn());
                         }
                         exportFinanzplan.writeLine_FS(exportString);
