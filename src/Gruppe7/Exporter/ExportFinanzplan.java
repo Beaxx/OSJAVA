@@ -14,7 +14,8 @@ public class ExportFinanzplan extends Datei {
 
     /**
      * Konstruktor
-     * @param in_Name Dateinpfad
+     *
+     * @param in_Name         Dateinpfad
      * @param in_SpielplanObj Planer-Objekt, das den Spielplan enthält.
      */
     public ExportFinanzplan(String in_Name, Planer in_SpielplanObj) {
@@ -26,7 +27,7 @@ public class ExportFinanzplan extends Datei {
 
         // CSV-Header Zeile
         String headerString =
-                        "Kinofilm\t" +
+                "Kinofilm\t" +
                         "Vorführwoche\t" +
                         "Wochentag\t" +
                         "Kinosaal\t" +
@@ -39,13 +40,13 @@ public class ExportFinanzplan extends Datei {
                         "Erwartete Ausgaben für Film NICHT für Vorstellung\t";
 
         for (int i = 0; i < 10; i++) {
-            headerString += "Werbefilm" + (i+1) + "-Name\t" +
-                            "Werbefilm" + (i+1) + "-Einnahmen\t";
+            headerString += "Werbefilm" + (i + 1) + "-Name\t" +
+                    "Werbefilm" + (i + 1) + "-Einnahmen\t";
         }
         headerString += "Gesamtausgaben\t" +
-                        "Gesamteinnahmen Werbung:\t" +
-                        "Gesamteinnahmen Tickets:\t" +
-                        "Gewinn:\t";
+                "Gesamteinnahmen Werbung:\t" +
+                "Gesamteinnahmen Tickets:\t" +
+                "Gewinn:\t";
 
         exportFinanzplan.writeLine_FS(headerString);
 
@@ -91,13 +92,13 @@ public class ExportFinanzplan extends Datei {
                                         (aktuelleVorstellung.GetZuschauerLoge() +
                                                 aktuelleVorstellung.GetZuschauerParkett()) + "\t";
                             } catch (IndexOutOfBoundsException ex) {
-                                exportString += "--"  + "\t" + "--"  + "\t";
+                                exportString += "--" + "\t" + "--" + "\t";
                             }
                         }
 
-                        // In erster Zeile Gesamtdaten anhängen
+                        // In erster Zeile daten zur Gesamtperformance des Spielplans erfasse
                         if (iSpielzeit == 0 && iSaal == 0 && iTag == 0 && iWoche == 0) {
-                            exportString +=  String.valueOf(in_SpielplanObj.GetSpielplanAusgaben()) + "\t" +
+                            exportString += String.valueOf(in_SpielplanObj.GetSpielplanAusgaben()) + "\t" +
                                     String.valueOf(in_SpielplanObj.GetSpielplanWerbeEinnahmen()) + "\t" +
                                     String.valueOf(in_SpielplanObj.GetSpielplanTicketeinnahmen()) + "\t" +
                                     String.valueOf(in_SpielplanObj.GetSpielplanGewinn());
