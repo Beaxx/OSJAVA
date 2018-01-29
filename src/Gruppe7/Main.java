@@ -3,7 +3,7 @@ package Gruppe7;
 import java.io.IOException;
 
 import Gruppe7.Data.*;
-//import Gruppe7.Exporter.ExportFinanzplan;
+import Gruppe7.Exporter.ExportFinanzplan;
 import Gruppe7.Exporter.ExportKinoprogramm;
 import Gruppe7.Exporter.ExportRaumplanung;
 import Gruppe7.Logic.*;
@@ -58,7 +58,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        // User Interaktion
+        //region User Interaktion
         System.out.println("Stellen Sie sicher, dass die Datensätze im Ordner dieser Java-Datei liegen.\n" +
                 "Wenn Sie die Datein im Entsprechenden Ordner abgelegt haben drücken Sie bitte ENTER");
 
@@ -68,23 +68,25 @@ public class Main {
         System.out.println("Wie viele Optimierungsdurchläufe möchten Sie machen? \nMit steigender Anzahl der Optimierungen" +
                 " steigt die Qualität der generierten Spielpläne.\nWählen Sie eine Zahl zwischen 1.000 und 10.000.000\n\n" +
                 "Laufzeiten (ca.)\n" +
-                "1.000 Durchläufe: < 1 Sekunde\n" +
-                "10.000 Durchläufe: 2 Sekunden\n" +
-                "100.000 Durchläufe: 20 Sekunden\n" +
-                "1.000.000 Durchläufe: 2 Minuten\n" +
-                "10.000.000 Durchläufe: 37 Minuten\n");
+                "1.000 Durchläufe:      <1  Sekunde\n" +
+                "10.000 Durchläufe:     2   Sekunden\n" +
+                "100.000 Durchläufe:    20  Sekunden\n" +
+                "1.000.000 Durchläufe:  2   Minuten\n" +
+                "10.000.000 Durchläufe: 37  Minuten\n");
 
         int input = Integer.valueOf(reader.readLine());
 
         int dauer = Math.round(input/4000/60);
         System.out.println(input + " Durchläufe werden durchgeführt. Bitte warten Sie ca. " + dauer + "Minuten");
         reader.close();
+        //endregion
 
         /* SETTINGS */
         int plaeneZuErstellen = input;
         int mindestBeliebtheit = 93;
         /* /SETTINGS */
 
+        //region Start-Up
         // Datenimport
         new WerbefilmImporter("C:/import/werbespots.csv");
         new SaalImporter("C:/import/saele.csv");
@@ -101,7 +103,9 @@ public class Main {
         // Saele sortieren
         SaalVerwaltung.saalplanSortieren();
         SaalVerwaltung.plaetzteInGroestemUndZweitgroestemSaal();
+        //endregion
 
+        //region Algorithmus
         // Performance Wrapper start
         long startTime = System.currentTimeMillis();
 
@@ -126,6 +130,7 @@ public class Main {
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
         long totalTimeS = totalTime/1000;
+        //endregion
 
         // Ausgabe Laufdauer und Geschwindigkeit
         System.out.println(totalTimeS + " Sekunden für " + plaeneZuErstellen + " Durchläufe" + "\n" +
@@ -139,6 +144,6 @@ public class Main {
 
         new ExportKinoprogramm("C:/import/export/kinoprogramm.csv", planer);
 
-//        new ExportFinanzplan(spielPlanObj, "C:/import/export/finanzplan.csv", planer);
-    }
+        new ExportFinanzplan( "C:/import/export/finanzplan.csv", planer);
+    } // TODO: Dateipfade auf das native Verzeichnis des programms legen
 }

@@ -49,7 +49,7 @@ public class Planer {
         while (!checkGenre) {
             filmeWoche0.clear();
             filmeWoche1.clear();
-            filmeWoche2.clear();
+    filmeWoche2.clear();
 
             localGenreListWoche0.addAll(genreList);
             localGenreListWoche1.addAll(genreList);
