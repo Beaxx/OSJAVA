@@ -17,12 +17,19 @@ public class Vorstellung {
     private ArrayList<Werbefilm> werbungen = new ArrayList<>();
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
+
     private int eintrittspreis = 0;
     private int andrang = 0;
     private int zuschauerLoge = 0;
     private int zuschauerParkett = 0;
     private int vorstellungWerbeeinnahmen = 0;
     private int[] vorstellungTicketeinnahmen = {0, 0};
+
+    private int zuschauerLoge;
+    private int zuschauerParkett;
+    private int zuschauerGesamt;
+
+
 
     /**
      * Basis-Konstruktor, erstellt eine zufällige Vorstellung aus der Menge der möglichen, an dieser Stelle
@@ -73,6 +80,11 @@ public class Vorstellung {
         }
     }
 
+
+    //Getter
+    public Kinofilm GetKinofilm() {
+        return vorstellungsFilm;
+    }
     public void VorstellungsTicketEinnahmen(Vorstellung this) {
 
         int andrang50p = (int) Math.round((double) andrang * 0.5);
@@ -118,6 +130,44 @@ public class Vorstellung {
             }
         }
     }
+
+
+
+
+
+    //Getter & Setter - Nicole und Fabian
+
+
+    public int GetZuschauerLoge() {
+        return zuschauerLoge;
+    }
+
+    public void SetZuschauerLoge(int in_ZuschauerLoge) {
+        zuschauerLoge = in_ZuschauerLoge;
+        zuschauerGesamt = zuschauerGesamt+zuschauerLoge;
+
+    }
+
+    public int GetZuschauerParkett() {
+        return zuschauerParkett;
+    }
+
+    public void SetZuschauerParkett(int in_ZuschauerParkett) {
+        zuschauerParkett = in_ZuschauerParkett;
+        zuschauerGesamt=zuschauerGesamt+zuschauerParkett;
+    }
+
+    public int GetZuschauerGesamt(){
+        return zuschauerGesamt;
+    }
+
+
+
+
+
+
+
+
 
     @Override
     public String toString() {

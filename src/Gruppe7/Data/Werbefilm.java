@@ -22,6 +22,8 @@ public class Werbefilm extends Film {
     }
     public int getEinnahmenProWerbeSpot() {return einnahmenProWerbeSpot;}
 
+    public String getWerbespotTitel() {return this.GetTitel();}
+
     //Setter
     public void setEinnahmenProWerbeSpot(int in_EinnahmenProWerbeSpot) {
         einnahmenProWerbeSpot = in_EinnahmenProWerbeSpot;

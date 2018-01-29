@@ -3,6 +3,9 @@ package Gruppe7;
 import java.io.IOException;
 
 import Gruppe7.Data.*;
+import Gruppe7.Exporter.ExportFinanzplan;
+import Gruppe7.Exporter.ExportKinoprogramm;
+import Gruppe7.Exporter.ExportRaumplanung;
 import Gruppe7.Logic.*;
 import Gruppe7.Importer.*;
 
@@ -53,6 +56,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         /* SETTINGS */
+
         int plaeneZuErstellen = 50000000;
         int mindestBeliebtheit = 93;
         /* /SETTINGS */
@@ -94,72 +98,26 @@ public class Main {
                 }
             }
 
+
+
+        Vorstellung[][][][] spielPlanObj;
+        spielPlanObj = planer.getSpielplan();
+
+        new ExportRaumplanung(spielPlanObj,"C:/import/raumplan.txt");
+
+        new ExportKinoprogramm(spielPlanObj, "C:/import/kinoprogramm.csv", planer);
+
+        new ExportFinanzplan(spielPlanObj, "C:/import/finanzplan.csv", planer);
+
+
+
         // Performance Wrapper ende
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
-        long totalTimeS = totalTime / 1000;
+        long totalTimeS = totalTime/1000;
 
         // Ausgabe Laufdauer und Geschwindigkeit
         System.out.println(totalTimeS + " Sekunden für " + plaeneZuErstellen + " Durchläufe" + "\n" +
                 (double) plaeneZuErstellen / totalTimeS + " pro Sekunde");
-
-
-        Vorstellung[][][][] spielPlanObj;
-        spielPlanObj = planer.GetSpielplan();
-
-        // TODO: Broken @ fabian / nicole
-//        System.out.println("Spielplan: " + spielPlanObj);
-//        final Stream<Vorstellung[][][]> stream = Arrays.stream(spielPlanObj);
-//        System.out.println(stream.toArray());
-
-//        //region Ausgabe
-//
-//        //[WOCHE][TAG][SAAL][SPIELZEIT]
-//        System.out.println(spielPlanObj.length); //Wochen 0-2
-//        System.out.println(spielPlanObj[0].length); //Tage 0-6
-//        System.out.println(spielPlanObj[0][0].length); //Kinosaal
-//        System.out.println(spielPlanObj[0][0][0].length); //Spielzeit
-//        //System.out.println("Get: "+spielPlanObj[0][0][0][0].GetSaal().getSaalNummer()); //Spielzeit
-//
-//        //Raumplan
-//        System.out.println("Raumplan");
-//        System.out.println("Saal: "+spielPlanObj[0][0][0][0].GetSaal().GetSaalNummer());
-//        System.out.println("Tag 1");
-//        System.out.println("Spielzeit: "+spielPlanObj[0][0][0][0].GetSpielzeiten());
-//        System.out.println("Film: "+spielPlanObj[0][0][0][0].GetKinofilm().GetTitel());
-//
-//        System.out.println("--- --- --- ---");
-//
-//        System.out.println("Raumplan");
-//        System.out.println("Saal: "+spielPlanObj[0][0][0][0].GetSaal().GetSaalNummer());
-//        System.out.println("Tag 1");
-//        System.out.println("Spielzeit: "+spielPlanObj[0][0][0][1].GetSpielzeiten());
-//        System.out.println("Film: "+spielPlanObj[0][0][0][1].GetKinofilm().GetTitel());
-//
-//        System.out.println("--- --- --- ---");
-//
-//        System.out.println("Raumplan");
-//        System.out.println("Saal: "+spielPlanObj[0][0][0][0].GetSaal().GetSaalNummer());
-//        System.out.println("Tag 1");
-//        System.out.println("Spielzeit: "+spielPlanObj[0][0][0][2].GetSpielzeiten());
-//        System.out.println("Film: "+spielPlanObj[0][0][0][2].GetKinofilm().GetTitel());
-//
-//        System.out.println("--- --- --- ---");
-//
-//        System.out.println("Raumplan");
-//        System.out.println("Saal: "+spielPlanObj[0][0][0][0].GetSaal().GetSaalNummer());
-//        System.out.println("Tag 1");
-//        System.out.println("Spielzeit: "+spielPlanObj[0][0][0][3].GetSpielzeiten());
-//        System.out.println("Film: "+spielPlanObj[0][0][0][3].GetKinofilm().GetTitel());
-//
-//        System.out.println("--- --- --- ---");
-//
-//        System.out.println("Raumplan");
-//        System.out.println("Saal: "+spielPlanObj[0][1][0][0].GetSaal().GetSaalNummer());
-//        System.out.println("Tag 2");
-//        System.out.println("Spielzeit: "+spielPlanObj[0][1][0][0].GetSpielzeiten());
-//        System.out.println("Film: "+spielPlanObj[0][1][0][0].GetKinofilm().GetTitel());
-//
-//        //endregion
     }
 }
