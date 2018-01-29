@@ -1,5 +1,9 @@
 package Gruppe7.Exporter;
 
+/**
+ * @author Lennart Völler
+ * Enum zur Verwaltung von Wochentagen.
+ */
 public enum Wochentage {
 
     Montag(0),
@@ -10,6 +14,11 @@ public enum Wochentage {
     Samstag(5),
     Sonntag(6);
 
+    /**
+     * in_TagIndex wird nicht genutzt, muss für enum-Definition jedoch verwendet werden.
+     *
+     * @param in_TagIndex der Wochentag.
+     */
     Wochentage(int in_TagIndex) {
     }
 
