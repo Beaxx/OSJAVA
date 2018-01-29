@@ -47,7 +47,7 @@ public class WerbefilmVerwaltung {
      * Profitabilität = UmsatzProZuschauer/Laufzeit.
      */
     public static void WerbeplanSortieren() {
-        Collections.sort(werbefilme, (w1, w2) -> {
+        werbefilme.sort((w1, w2) -> {
             if (((double) w1.GetUmsatzProZuschauer() / (double) w1.GetLaufzeit()) <
                     (double) w2.GetUmsatzProZuschauer() / (double) w2.GetLaufzeit()) {
                 return 1;
