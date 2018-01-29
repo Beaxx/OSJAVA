@@ -53,8 +53,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         /* SETTINGS */
-        int plaeneZuErstellen = 100000;
-        int mindestBeliebtheit = 96;
+        int plaeneZuErstellen = 50000000;
+        int mindestBeliebtheit = 93;
         /* /SETTINGS */
 
         // Datenimport
@@ -68,6 +68,7 @@ public class Main {
         // Werbeplan sortieren und Standard 20 Minunten Block festlegen
         WerbefilmVerwaltung.werbeplanSortieren();
         WerbefilmVerwaltung.standardWerbeblock();
+        WerbefilmVerwaltung.standardWerbeblockUmsatzProZuschauer();
 
         // Saele sortieren
         SaalVerwaltung.saalplanSortieren();
@@ -85,7 +86,8 @@ public class Main {
 
                 if (tempPlaner.GetSpielplanGewinn() > planer.GetSpielplanGewinn()) {
                     planer = tempPlaner;
-                    System.out.println("Einnahmen: " + planer.GetSpielplanEinnahmen() + "\n" +
+                    System.out.println("Tickets: " + planer.GetSpielplanTicketeinnahmen() + "\n" +
+                                        "Werbung: " + planer.GetSpielplanWerbeEinnahmen() + "\n" +
                                         "Ausgaben: " + planer.GetSpielplanAusgaben() + "\n" +
                                         "Gewinn:" + planer.GetSpielplanGewinn() + "\n" +
                                         "--------------------------------");

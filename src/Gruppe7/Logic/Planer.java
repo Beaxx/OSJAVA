@@ -21,7 +21,8 @@ public class Planer {
 
     // Finanzdaten
     private int spielplanGewinn = 0;
-    private  int spielplanEinnahmen = 0;
+    private int spielplanTicketeinnahmen = 0;
+    private int spielplanWerbeEinnahmen = 0;
     private int spielplanAusgaben = 0;
 
     // Spielplandaten
@@ -33,38 +34,6 @@ public class Planer {
     private Set<Kinofilm> filmeWoche1 = new HashSet<>();
     private Set<Kinofilm> filmeWoche2 = new HashSet<>();
 
-//    private Set<Vorstellung> vorstellungen0 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen1 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen2 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen3 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen4 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen5 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen6 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen7 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen8 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen9 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen10 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen11 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen12 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen13 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen14 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen15 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen16 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen17 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen18 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen19 = new HashSet<>();
-//    private Set<Vorstellung> vorstellungen20 = new HashSet<>();
-//
-//
-//    private ArrayList<Set<Vorstellung>> vorstellungTage =
-//            new ArrayList<>(Arrays.asList(
-//                    vorstellungen0, vorstellungen1, vorstellungen2, vorstellungen3, vorstellungen4,
-//                    vorstellungen5, vorstellungen6, vorstellungen7, vorstellungen8, vorstellungen9,
-//                    vorstellungen10, vorstellungen11, vorstellungen12, vorstellungen13, vorstellungen14,
-//                    vorstellungen15, vorstellungen15, vorstellungen16, vorstellungen17, vorstellungen18,
-//                    vorstellungen19, vorstellungen20));
-    //endregion
-
     // Genredaten
     private static List<Genre> genreList = Arrays.asList(Genre.values()); // Generiert eine Genre-List aus dem Genre Enum unabhängig vom Objekt
     private boolean checkGenre = false;
@@ -72,7 +41,7 @@ public class Planer {
     /**
      * Erstellung eines zufälligen Spielplans bei Iteration durch das leere Vorstellungs-Array.
      * Erstellt:  Ein vierdimensionales Vorstellungsarray [woche][tag][saal][timeslot]
-     */
+     */ // Constructor
     public Planer() {
 
         // Genre-Liste wird kopiert
@@ -91,134 +60,90 @@ public class Planer {
 
             spielplan = createRandomSpielplan(localGenreListWoche0, localGenreListWoche1, localGenreListWoche2);
         }
+
+        spielplanGewinn = spielplanWerbeEinnahmen + spielplanTicketeinnahmen - spielplanAusgaben;
     }
 
     /**
-     * Fügt Kinofilme in Sets pro Woche zusammen
+     *
      */
-    private void wochenKinofilme(Vorstellung in_Vorstellung, int in_WochenIndex) {
-        switch (in_WochenIndex) {
-            case 0: {
-                filmeWoche0.add(in_Vorstellung.GetKinofilm());
-                break;
-            }
+    private Vorstellung[][][][] createRandomSpielplan(Set<Genre> in_localGenreListWoche0,
+                                                      Set<Genre> in_localGenreListWoche1,
+                                                      Set<Genre> in_localGenreListWoche2) {
 
-            case 1: {
-                filmeWoche1.add(in_Vorstellung.GetKinofilm());
-                break;
-            }
+        boolean breakstatement;
+        spielplanWerbeEinnahmen = 0;
+        spielplanTicketeinnahmen = 0;
+        spielplanAusgaben = 0;
+        spielplanGewinn = 0;
 
-            case 2: {
-                filmeWoche2.add(in_Vorstellung.GetKinofilm());
-                break;
+        for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++) {
+            for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
+                for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
+                    for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
+
+                        // Erstellung einer zufälligen Vorstellung
+                        Vorstellung vorstellung = new Vorstellung(saalIndex, vorstellungIndex);
+
+                        if (!checkGenre) {
+                            breakstatement = checkGenre(vorstellung.GetKinofilm().GetGenre(),
+                                    in_localGenreListWoche0, in_localGenreListWoche1, in_localGenreListWoche2, wochenIndex);
+
+                            if (breakstatement) {
+                                break;
+                            }
+                        }
+
+                        // Hinzufügen der Vorstellung zur filmWoche (für Ausgabenberechnung)
+                        wochenKinofilme(vorstellung, wochenIndex);
+
+                        // Andrangskalkulation
+                        // Iteration über Eintrittspreise, lokale Optimierung
+                        for (int eintrittspreis = 11; eintrittspreis <= 15; eintrittspreis++) { // TODO Range verkleinern für mehr Performance
+
+                            // Backup
+                            int backupEinnahmen = vorstellung.GetVorstellungTicketeinnahmen()[0] +
+                                    vorstellung.GetVorstellungTicketeinnahmen()[1] +
+                                    vorstellung.GetVorstellungWerbeeinnahmen();
+
+                            int backupAndrang = vorstellung.GetAndrang();
+                            int backupEintrittspreis = vorstellung.GetEintrittspreis();
+                            vorstellung.SetEintrittspreis(eintrittspreis);
+
+                            // Andrangsberechnung
+                            vorstellung.SetAndrang((int) Math.round(basisAndrang(vorstellung) * uhrzeitAndrangFaktor(vorstellung) *
+                                    wochenTagAndrangFaktor(tagIndex) * wiederholungAndrangFaktor(vorstellung, wochenIndex) *
+                                    preisAndrangFaktor(vorstellung)));
+
+                            // Ticketeinnahmen und Werbeeinnahmen
+                            vorstellung.VorstellungsTicketEinnahmen();
+                            vorstellung.VorstellungWerbeeinnahmen();
+
+
+                            if (backupEinnahmen > (vorstellung.GetVorstellungTicketeinnahmen()[0] +
+                                    vorstellung.GetVorstellungTicketeinnahmen()[1] +
+                                    vorstellung.GetVorstellungWerbeeinnahmen())) {
+                                vorstellung.SetEintrittspreis(backupEintrittspreis);
+                                vorstellung.SetAndrang(backupAndrang);
+                            }
+                        }
+
+                        // Einnahmenkalkulation für spätere Gewinnberechnung
+                        spielplanTicketeinnahmen += vorstellung.GetVorstellungTicketeinnahmen()[0] +
+                                vorstellung.GetVorstellungTicketeinnahmen()[1];
+                        spielplanWerbeEinnahmen += vorstellung.GetVorstellungWerbeeinnahmen();
+
+                        spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex] = vorstellung;
+                    }
+                }
+                // Ausgaben Tagesabhängig bei parallelem Zeigen eines Films in unterschiedlichen Sälen.
+                spielplanAusgaben += spielplanAusgabenParallel(spielplan[wochenIndex][tagIndex]);
             }
         }
+        spielplanAusgaben += spielplanAusgabenGesamtzeitraum();
+
+        return spielplan;
     }
-//
-//    private void spielplanAufspaltung() {
-//        // Alle vorstellungen jeder Woche werden in je einer Liste zusammengefasst.
-//        for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++) {
-//            for (int tagesIndex = 0; tagesIndex < 7; tagesIndex++) {
-//                for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
-//                    for (int vorstellungsIndex = 0; vorstellungsIndex < 4; vorstellungsIndex++) {
-//
-//                        int wochenIndexAddition = 0;
-//                        if (wochenIndex == 1)
-//                            wochenIndexAddition += 7;
-//                        else if (wochenIndex == 2)
-//                            wochenIndexAddition += 14;
-//
-//                        switch ((tagesIndex + wochenIndexAddition)) {
-//                            case 0: {
-//                                vorstellungen0.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 1: {
-//                                vorstellungen1.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 2: {
-//                                vorstellungen2.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 3: {
-//                                vorstellungen3.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 4: {
-//                                vorstellungen4.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 5: {
-//                                vorstellungen5.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 6: {
-//                                vorstellungen6.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 7: {
-//                                vorstellungen7.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 8: {
-//                                vorstellungen8.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 9: {
-//                                vorstellungen9.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 10: {
-//                                vorstellungen10.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 11: {
-//                                vorstellungen11.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 12: {
-//                                vorstellungen12.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 13: {
-//                                vorstellungen13.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 14: {
-//                                vorstellungen14.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 15: {
-//                                vorstellungen15.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 16: {
-//                                vorstellungen16.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 17: {
-//                                vorstellungen17.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 18: {
-//                                vorstellungen18.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 19: {
-//                                vorstellungen19.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                            case 20: {
-//                                vorstellungen20.add(spielplan[wochenIndex][tagesIndex][saalIndex][vorstellungsIndex]);
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     /**
      * Debugged
@@ -261,82 +186,26 @@ public class Planer {
     }
 
     /**
-     *
+     * Fügt Kinofilme in Sets pro Woche zusammen
      */
-    private Vorstellung[][][][] createRandomSpielplan(Set<Genre> in_localGenreListWoche0,
-                                                      Set<Genre> in_localGenreListWoche1,
-                                                      Set<Genre> in_localGenreListWoche2) {
+    private void wochenKinofilme(Vorstellung in_Vorstellung, int in_WochenIndex) {
+        switch (in_WochenIndex) {
+            case 0: {
+                filmeWoche0.add(in_Vorstellung.GetKinofilm());
+                break;
+            }
 
-        boolean breakstatement;
+            case 1: {
+                filmeWoche1.add(in_Vorstellung.GetKinofilm());
+                break;
+            }
 
-        for (int wochenIndex = 0; wochenIndex < 3; wochenIndex++) {
-            for (int tagIndex = 0; tagIndex < 7; tagIndex++) {
-                for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
-                    for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
-
-                        // Erstellung einer zufälligen Vorstellung
-                        Vorstellung vorstellung = new Vorstellung(saalIndex, vorstellungIndex);
-
-                        if (!checkGenre) {
-                            breakstatement = checkGenre(vorstellung.GetKinofilm().GetGenre(),
-                                    in_localGenreListWoche0, in_localGenreListWoche1, in_localGenreListWoche2, wochenIndex);
-
-                            if (breakstatement) {
-                                break;
-                            }
-                        }
-
-                        // Hinzufügen der Vorstellung zur filmWoche (für Ausgabenberechnung)
-                        wochenKinofilme(vorstellung, wochenIndex);
-
-                        // Andrangskalkulation
-                        // Iteration über Eintrittspreise, lokale Optimierung
-                        for (int eintrittspreis = 15; eintrittspreis <= 15; eintrittspreis++) { // TODO Range verkleinern für mehr Performance
-
-                            // Backup
-                            int backupEinnahmen = vorstellung.GetVorstellungTicketeinnahmen()[0] +
-                                    vorstellung.GetVorstellungTicketeinnahmen()[1] +
-                                    vorstellung.GetVorstellungWerbeeinnahmen();
-
-                            int backupAndrang = vorstellung.GetAndrang();
-                            int backupEintrittspreis = vorstellung.GetEintrittspreis();
-                            vorstellung.SetEintrittspreis(eintrittspreis);
-
-                            // Andrangsberechnung
-                            vorstellung.SetAndrang((int) Math.round(basisAndrang(vorstellung) * uhrzeitAndrangFaktor(vorstellung) *
-                                    wochenTagAndrangFaktor(tagIndex) * wiederholungAndrangFaktor(vorstellung, wochenIndex) *
-                                    preisAndrangFaktor(vorstellung)));
-
-                            // Ticketeinnahmen und Werbeeinnahmen
-                            vorstellung.VorstellungsTicketEinnahmen();
-                            vorstellung.VorstellungWerbeeinnahmen();
-
-
-                            if (backupEinnahmen > (vorstellung.GetVorstellungTicketeinnahmen()[0] +
-                                    vorstellung.GetVorstellungTicketeinnahmen()[1] +
-                                    vorstellung.GetVorstellungWerbeeinnahmen())) {
-                                vorstellung.SetEintrittspreis(backupEintrittspreis);
-                                vorstellung.SetAndrang(backupAndrang);
-                            }
-                        }
-
-                        // Einnahmenkalkulation für spätere Gewinnberechnung
-                        spielplanEinnahmen += vorstellung.GetVorstellungTicketeinnahmen()[0] +
-                                vorstellung.GetVorstellungTicketeinnahmen()[1] +
-                                vorstellung.GetVorstellungWerbeeinnahmen();
-
-                        spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex] = vorstellung;
-                    }
-                }
-                // Ausgaben Tagesabhängig bei parallelem Zeigen eines Films in unterschiedlichen Sälen.
-                spielplanAusgaben += spielplanAusgabenParallel(spielplan[wochenIndex][tagIndex]);
+            case 2: {
+                filmeWoche2.add(in_Vorstellung.GetKinofilm());
+                break;
             }
         }
-        spielplanAusgaben += spielplanAusgabenGesamtzeitraum();
-
-        return spielplan;
     }
-
 
     /**
      * ermittlung ob ein Kinofilm parallel am selben tag in zwei unterschiedlichen Sälen läuft. Wenn ja, entsprechende
@@ -439,8 +308,6 @@ public class Planer {
         }
         return kosten;
     }
-
-    //region AndrangsBerechnung
 
     /**
      * Berechnung des Basisandrangs basierend auf der Beliebtheit eines Films
@@ -562,7 +429,6 @@ public class Planer {
             return 1;
         }
     }
-    //endregion
 
     //Getter
     public Vorstellung[][][][] GetSpielplan() {
@@ -573,8 +439,12 @@ public class Planer {
         return spielplanAusgaben;
     }
 
-    public int GetSpielplanEinnahmen() {
-        return spielplanEinnahmen;
+    public int GetSpielplanTicketeinnahmen() {
+        return spielplanTicketeinnahmen;
+    }
+
+    public int GetSpielplanWerbeEinnahmen() {
+        return spielplanWerbeEinnahmen;
     }
 
     public int GetSpielplanGewinn() {

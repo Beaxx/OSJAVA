@@ -19,6 +19,8 @@ public class Vorstellung {
     private Spielzeiten vorstellungsTimeslot;
     private int eintrittspreis = 0;
     private int andrang = 0;
+    private int zuschauerLoge = 0;
+    private int zuschauerParkett = 0;
     private int vorstellungWerbeeinnahmen = 0;
     private int[] vorstellungTicketeinnahmen = {0, 0};
 
@@ -74,8 +76,6 @@ public class Vorstellung {
     public void VorstellungsTicketEinnahmen(Vorstellung this) {
 
         int andrang50p = (int) Math.round((double) andrang * 0.5);
-        int zuschauerLoge;
-        int zuschauerParkett;
         int ueberhang = 0;
 
         // Andrang in der Loge. Wenn Andrang > Plätze: Andrang = Plätze + Überhang
@@ -110,11 +110,11 @@ public class Vorstellung {
 
     public void VorstellungWerbeeinnahmen(Vorstellung this){
         if(werbungen == WerbefilmVerwaltung.getWerbefilme20MinutenStandard()){
-            vorstellungWerbeeinnahmen = WerbefilmVerwaltung.GetWerbefilme20MinutenStandardUmsatzProZuschauer() * andrang;
+            vorstellungWerbeeinnahmen = WerbefilmVerwaltung.GetWerbefilme20MinutenStandardUmsatzProZuschauer() * (zuschauerLoge + zuschauerParkett);
         }
         else{
             for (Werbefilm werbung : werbungen){
-                vorstellungWerbeeinnahmen += werbung.getUmsatzProZuschauer() * andrang;
+                vorstellungWerbeeinnahmen += werbung.getUmsatzProZuschauer() * (zuschauerLoge + zuschauerParkett);
             }
         }
     }
