@@ -21,6 +21,7 @@ public class WerbefilmVerwaltung {
     static private ArrayList<Werbefilm> werbefilme = new ArrayList<>();
     static private ArrayList<Werbefilm> werbefilme20MinutenStandard = new ArrayList<>();
     static private int werbefilme20MinutenStandardDauer = 0;
+    static private int werbefilme20MinutenStandardUmsatzProZuschauer = 0;
 
     //Getter
 
@@ -98,4 +99,15 @@ public class WerbefilmVerwaltung {
         }
         werbefilme20MinutenStandardDauer = werbedauerIst;
     }
+
+    public static void standardWerbeblockUmsatzProZuschauer() {
+        for (Werbefilm werbung : werbefilme20MinutenStandard) {
+            werbefilme20MinutenStandardUmsatzProZuschauer += werbung.getUmsatzProZuschauer();
+        }
+    }
+
+    public static int GetWerbefilme20MinutenStandardUmsatzProZuschauer() {
+        return werbefilme20MinutenStandardUmsatzProZuschauer;
+    }
+
 }
