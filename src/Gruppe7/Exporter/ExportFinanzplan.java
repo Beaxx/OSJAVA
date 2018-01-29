@@ -22,7 +22,7 @@ public class ExportFinanzplan extends Datei {
 
         // Exportüberschrift
         String headerString =
-                "Kinofilm\t" +
+                        "Kinofilm\t" +
                         "Vorführwoche\t" +
                         "Wochentag\t" +
                         "Kinosaal\t" +
@@ -32,28 +32,13 @@ public class ExportFinanzplan extends Datei {
                         "Erwartete Zuschauer Loge\t" +
                         "Erwartete Ticketeinnahmen Vorstellung\t" +
                         "Erwartete Werbeeinnahmen Vorstellung\t" +
-                        "Erwartete Ausgaben für Film NICHT für Vorstellung\t" +
-                        "Werbefilm1-Name\t" +
-                        "Werbefilm1-Einnahmen\t" +
-                        "Werbefilm2-Name\t" +
-                        "Werbefilm2-Einnahmen\t" +
-                        "Werbefilm3-Name\t" +
-                        "Werbefilm3-Einnahmen\t" +
-                        "Werbefilm4-Name\t" +
-                        "Werbefilm4-Einnahmen\t" +
-                        "Werbefilm5-Name\t" +
-                        "Werbefilm5-Einnahmen\t" +
-                        "Werbefilm6-Name\t" +
-                        "Werbefilm6-Einnahmen\t" +
-                        "Werbefilm7-Name\t" +
-                        "Werbefilm7-Einnahmen\t" +
-                        "Werbefilm8-Name\t" +
-                        "Werbefilm8-Einnahmen\t" +
-                        "Werbefilm9-Name\t" +
-                        "Werbefilm9-Einnahmen\t" +
-                        "Werbefilm10-Name\t" +
-                        "Werbefilm10-Einnahmen\t" +
-                        "Gesamtausgaben\t" +
+                        "Erwartete Ausgaben für Film NICHT für Vorstellung\t";
+
+        for (int i = 0; i < 10; i++) {
+            headerString += "Werbefilm" + (i+1) + "-Name\t" +
+                            "Werbefilm" + (i+1) + "-Einnahmen\t";
+        }
+        headerString += "Gesamtausgaben\t" +
                         "Gesamteinnahmen Werbung:\t" +
                         "Gesamteinnahmen Tickets:\t" +
                         "Gewinn:\t";

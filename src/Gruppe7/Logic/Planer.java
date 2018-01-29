@@ -267,7 +267,6 @@ public class Planer {
         }
         return kosten;
     }
-    //TODO: @Lennart: Die Eintrittspreisoptimierung berücksichtig die Werbefilmeinnahmen nicht.
 
     /**
      * Ermittlung der Kosten für die Filmleite aller drei wochen mit rabattverrechnung.

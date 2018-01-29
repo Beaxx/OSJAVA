@@ -74,11 +74,12 @@ public class FilmVerwaltung {
 
     /**
      * Befüllung der 6 vordefinierten Sets aus allen Filmen.
-     * (s. Doku FilmVerwaltung Konstruktor)
-     *
+     * (s. Kommentare FilmVerwaltung Konstruktor)
+     * <p>
      * Die Metode bekommt ihre Parameter von FilmArraysHelper(), die die Iteration steuert.
+     *
      * @param in_saal3Dfaehig 1 oder 0 | 1: Vorstellung kann 3D-Filme zeigen 2: Vorstellung kann nur 2D-Filme zeigen
-     * @param in_uhrzeit Elemnt der Enumeration Spielzeiten: 15:00, 17:30, 20:00 oder 23:00
+     * @param in_uhrzeit      Elemnt der Enumeration Spielzeiten: 15:00, 17:30, 20:00 oder 23:00
      */
     private static void setFilmArrays(int in_saal3Dfaehig, Spielzeiten in_uhrzeit) {
 
@@ -175,8 +176,9 @@ public class FilmVerwaltung {
     /**
      * Der Getter funktioniert ähnlich dem Setter, anhand von 3D-Fähigkeit des Saals und dem Timeslot wird
      * das passsende Filmset ausgewählt und zurückgegeben.
+     *
      * @param in_saal3Dfaehig 1 oder 0 | 1: Vorstellung kann 3D-Filme zeigen 2: Vorstellung kann nur 2D-Filme zeigen
-     * @param in_uhrzeit Elemnt der Enumeration Spielzeiten: 15:00, 17:30, 20:00 oder 23:00
+     * @param in_uhrzeit      Elemnt der Enumeration Spielzeiten: 15:00, 17:30, 20:00 oder 23:00
      * @return eine Liste an Kinofilmen, die in dieser Vorstellung gezeigt werden dürfen.
      */
     public static ArrayList<Kinofilm> GetFilme(boolean in_saal3Dfaehig, Spielzeiten in_uhrzeit) {
@@ -233,30 +235,38 @@ public class FilmVerwaltung {
         }
     }
 
-    public static void CleanUpGesamtkosten(){
-        for (Kinofilm film: filmeFuer3DSaele){
+    /**
+     * Um die Gesamtkosten, die ein Kinofilm hervorruft erfassen zu können brauchen Kinofilme ein entsprechendes
+     * Feld zur Speicherung dieser Information. Da Kinofilme jedoch statisch sind, können diese Ojekteigenschaften
+     * nicht automatisch bereinigt werden sondern müssen manuell beim erstellen eines neuen Spielplans überschrieben
+     * werden.
+     *
+     * Die Methode iteriert durch alle Kinofilme und setzt ihre Gesamtkosten auf 0.
+     */
+    public static void CleanUpGesamtkosten() {
+        for (Kinofilm film : filmeFuer3DSaele) {
             film.SetGesamtkostenInSpielplan(0);
         }
 
-        for (Kinofilm film: filmeFuer2DSaele){
+        for (Kinofilm film : filmeFuer2DSaele) {
             film.SetGesamtkostenInSpielplan(0);
         }
 
-        for (Kinofilm film: filmeFuer1500Uhr_1730Uhr){
+        for (Kinofilm film : filmeFuer1500Uhr_1730Uhr) {
             film.SetGesamtkostenInSpielplan(0);
         }
 
-        for (Kinofilm film: filmeFuer2000Uhr){
+        for (Kinofilm film : filmeFuer2000Uhr) {
             film.SetGesamtkostenInSpielplan(0);
         }
 
-        for (Kinofilm film: filmeFuer2300Uhr){
+        for (Kinofilm film : filmeFuer2300Uhr) {
             film.SetGesamtkostenInSpielplan(0);
         }
-        for (Kinofilm film: filmeFuer150minSlotlaenge){
+        for (Kinofilm film : filmeFuer150minSlotlaenge) {
             film.SetGesamtkostenInSpielplan(0);
         }
-        for (Kinofilm film: filmeFuer180minSlotlaenge){
+        for (Kinofilm film : filmeFuer180minSlotlaenge) {
             film.SetGesamtkostenInSpielplan(0);
         }
     }
