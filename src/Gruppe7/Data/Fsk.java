@@ -2,6 +2,7 @@ package Gruppe7.Data;
 
 /**
  * @author Fabian Ueberle
+ * Enum zur Verwaltung von FSK-Einstufungen.
  */
 public enum Fsk {
 
@@ -11,21 +12,12 @@ public enum Fsk {
     FSK_16("16"),
     FSK_18("18");
 
-    private String fskName;
-
     /**
+     * fskName wird nicht genutzt, muss für enum-Definition jedoch verwendet werden.
      *
-     * @param fskName die Bezeichnung eines FSK-Siegels
+     * @param in_fskName Die Bezeichnung der FSK Einstufung.
      */
-    Fsk(String fskName){
-        this.fskName = fskName;
-    }
-
-    /**
-     * Die Gethmethode für die Bezeichnung eines FSK-Siegels
-     * @return die Bezeichnung des FSK-Siegels.
-     */
-    public String getFskName(){
-        return this.fskName;
+    Fsk(String in_fskName) {
+        String fskName = in_fskName;
     }
 }
