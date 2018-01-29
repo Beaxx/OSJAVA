@@ -63,12 +63,12 @@ public class Main {
                 "Wenn Sie die Datein im Entsprechenden Ordner abgelegt haben drücken Sie bitte ENTER");
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        reader.readLine();
+            reader.readLine();
+
 
         System.out.println("Wie viele Optimierungsdurchläufe möchten Sie machen? \nMit steigender Anzahl der Optimierungen" +
-                " steigt die Qualität der generierten Spielpläne.\nWählen Sie eine Zahl zwischen 1.000 und 10.000.000\n\n" +
+                " steigt die Qualität der generierten Spielpläne.\nWählen Sie eine Zahl zwischen 10.000 und 10.000.000\n\n" +
                 "Laufzeiten (ca.)\n" +
-                "1.000 Durchläufe:      <1  Sekunde\n" +
                 "10.000 Durchläufe:     2   Sekunden\n" +
                 "100.000 Durchläufe:    20  Sekunden\n" +
                 "1.000.000 Durchläufe:  2   Minuten\n" +
@@ -137,9 +137,6 @@ public class Main {
                 (double) plaeneZuErstellen / totalTimeS + " pro Sekunde");
 
         // Export
-        Vorstellung[][][][] spielPlanObj;
-        spielPlanObj = planer.GetSpielplan();
-
         new ExportRaumplanung("C:/import/export/raumplan.txt", planer);
 
         new ExportKinoprogramm("C:/import/export/kinoprogramm.csv", planer);

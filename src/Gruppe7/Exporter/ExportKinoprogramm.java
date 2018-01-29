@@ -15,7 +15,13 @@ public class ExportKinoprogramm extends Datei {
         Vorstellung[][][][] spielplan = in_SpielplanObj.GetSpielplan();
 
         // Exportüberschrift
-        String ueberschriftenString = "Kinofilm \t Vorführwoche\tWochentag\tKinosaal\tSpielzeit\tEintrittspreis (EUR)*";
+        String ueberschriftenString = "Kinofilm\t" +
+                "Vorführwoche\t" +
+                "Wochentag\t" +
+                "Kinosaal\t" +
+                "Spielzeit\t" +
+                "Eintrittspreis (EUR)*";
+
         exportKinoprogramm.writeLine_FS(ueberschriftenString);
 
         for (int iWoche = 0; iWoche < 3; iWoche++) {
@@ -82,5 +88,6 @@ public class ExportKinoprogramm extends Datei {
         String fusszeileString = "\r*Logenaufschlag 2,00 EUR.";
         exportKinoprogramm.writeLine_FS(fusszeileString);
         exportKinoprogramm.closeOutFile_FS();
+        exportKinoprogramm.eof();
     }
 }

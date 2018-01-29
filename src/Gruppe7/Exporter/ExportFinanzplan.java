@@ -9,29 +9,36 @@ import Gruppe7.Logic.Vorstellung;
  */
 public class ExportFinanzplan extends Datei {
 
+    Planer spielplanObj;
+
     public ExportFinanzplan(String in_Name, Planer in_SpielplanObj) {
         super(in_Name);
-        Datei exportKinoprogramm = new Datei(in_Name);
-        exportKinoprogramm.openOutFile_FS();
+        Datei exportFinanzplan = new Datei(in_Name);
+        exportFinanzplan.openOutFile_FS();
 
         Vorstellung[][][][] spielplan = in_SpielplanObj.GetSpielplan();
+        spielplanObj = in_SpielplanObj;
 
         // Exportüberschrift
         String headerString =
-                "Kinofilm\t " +
-                        "Vorführwoche\t" +
-                        "Wochentag\t" +
-                        "Kinosaal\t" +
-                        "Spielzeit\t" +
-                        "Eintrittspreis (EUR)\t" +
-                        "Erwartete Zuschauer\nParkett\t" +
-                        "Erwartete Zuschauer\nLoge\t" +
-                        "Erwartete Ticketeinnahmen\nVorstellung\t" +
-                        "Erwartete Werbeeinnahmen\nVorstellung\t" +
-                        "Erwartete Ausgaben für Film\nNICHT für Vorstellung\t" +
-                        "Erwarteer Gewinn für Film\nNICHT für Vorstellung\t";
+                "Kinofilm\t" +
+                "Vorführwoche\t" +
+                "Wochentag\t" +
+                "Kinosaal\t" +
+                "Spielzeit\t" +
+                "Eintrittspreis (EUR)\t" +
+                "Erwartete Zuschauer Parkett\t" +
+                "Erwartete Zuschauer Loge\t" +
+                "Erwartete Ticketeinnahmen Vorstellung\t" +
+                "Erwartete Werbeeinnahmen Vorstellung\t" +
+                "Erwartete Ausgaben für Film NICHT für Vorstellung\t" +
+                "Erwarteer Gewinn für Film NICHT für Vorstellung\t" +
+                "Gesamtausgaben\t" +
+                "Gesamteinnahmen Werbung:\t" +
+                "Gesamteinnahmen Tickets:\t"  +
+                "Gewinn:\t";
 
-        exportKinoprogramm.writeLine_FS(headerString);
+        exportFinanzplan.writeLine_FS(headerString);
 
         for (int iWoche = 0; iWoche < 3; iWoche++) {
             for (int iTag = 0; iTag < 7; iTag++) {
@@ -106,11 +113,21 @@ public class ExportFinanzplan extends Datei {
                                 kAusgabenFilmGesamt + "\t" +
                                 kGewinnFilmGesamt;
 
-                        exportKinoprogramm.writeLine_FS(exportString);
+                        // In erster Zeile Gesamtdaten anhängen
+                        if (iSpielzeit == 0 && iSaal == 0 && iTag == 0 && iWoche == 0){
+                            exportString += "\t" +String.valueOf(in_SpielplanObj.GetSpielplanAusgaben()) + "\t"+
+                                    String.valueOf(in_SpielplanObj.GetSpielplanWerbeEinnahmen())+"\t"+
+                                    String.valueOf(in_SpielplanObj.GetSpielplanTicketeinnahmen())+"\t"+
+                                    String.valueOf(in_SpielplanObj.GetSpielplanGewinn());
+                        }
+
+                        exportFinanzplan.writeLine_FS(exportString);
                     }
                 }
             }
         }
+        exportFinanzplan.closeOutFile_FS();
+        exportFinanzplan.eof();
     }
 
     private int filmausgaben(Vorstellung vorstellung){
