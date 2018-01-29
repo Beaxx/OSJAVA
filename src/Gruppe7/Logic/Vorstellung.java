@@ -57,11 +57,11 @@ public class Vorstellung {
         int werbeDauerSoll = vorstellungsTimeslot.GetSlotDuration() - vorstellungsFilm.GetLaufzeit();
 
         if (werbeDauerSoll >= 20) {
-            return WerbefilmVerwaltung.getWerbefilme20MinutenStandard();
+            return WerbefilmVerwaltung.GetWerbefilme20MinutenStandard();
         } else {
-            int werbeDauerIst = WerbefilmVerwaltung.getWerbefilme20MinutenStandardDauer();
+            int werbeDauerIst = WerbefilmVerwaltung.GetWerbefilme20MinutenStandardDauer();
 
-            ArrayList<Werbefilm> output = WerbefilmVerwaltung.getWerbefilme20MinutenStandard();
+            ArrayList<Werbefilm> output = WerbefilmVerwaltung.GetWerbefilme20MinutenStandard();
 
             for (Werbefilm werbung : output) {
                 if ((werbeDauerIst - werbung.GetLaufzeit()) <= werbeDauerSoll) {
@@ -109,7 +109,7 @@ public class Vorstellung {
     }
 
     public void VorstellungWerbeeinnahmen(Vorstellung this) {
-        if (werbungen == WerbefilmVerwaltung.getWerbefilme20MinutenStandard()) {
+        if (werbungen == WerbefilmVerwaltung.GetWerbefilme20MinutenStandard()) {
             vorstellungWerbeeinnahmen = WerbefilmVerwaltung.GetWerbefilme20MinutenStandardUmsatzProZuschauer() * (zuschauerLoge + zuschauerParkett);
         } else {
             for (Werbefilm werbung : werbungen) {

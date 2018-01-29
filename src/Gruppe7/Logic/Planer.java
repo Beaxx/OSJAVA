@@ -1,7 +1,6 @@
 package Gruppe7.Logic;
 
 import java.util.*;
-
 import Gruppe7.Data.*;
 
 /**

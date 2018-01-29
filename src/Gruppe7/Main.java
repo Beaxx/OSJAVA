@@ -139,9 +139,9 @@ public class Main {
         FilmVerwaltung.FilmArraysHelper();
 
         // Werbeplan sortieren und Standard 20 Minunten Block festlegen
-        WerbefilmVerwaltung.werbeplanSortieren();
-        WerbefilmVerwaltung.standardWerbeblock();
-        WerbefilmVerwaltung.standardWerbeblockUmsatzProZuschauer();
+        WerbefilmVerwaltung.WerbeplanSortieren();
+        WerbefilmVerwaltung.StandardWerbeblock();
+        WerbefilmVerwaltung.StandardWerbeblockUmsatzProZuschauer();
 
         // Saele sortieren
         SaalVerwaltung.SaalplanSortieren();

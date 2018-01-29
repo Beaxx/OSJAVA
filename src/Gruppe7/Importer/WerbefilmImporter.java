@@ -29,9 +29,9 @@ public class WerbefilmImporter extends Datei {
                 int importWerbespotEinnahmenen = Integer.valueOf(arrayWerbung[1]);
                 int importWerbespotLaufzeit = Integer.valueOf(arrayWerbung[2]);
 
-                WerbefilmVerwaltung.setWerbefilm(new Werbefilm(importWerbespotBezeichnung, importWerbespotLaufzeit, importWerbespotEinnahmenen));
+                WerbefilmVerwaltung.SetWerbefilm(new Werbefilm(importWerbespotBezeichnung, importWerbespotLaufzeit, importWerbespotEinnahmenen));
             }
         }
-        WerbefilmVerwaltung.werbeplanSortieren();
+        WerbefilmVerwaltung.WerbeplanSortieren();
     }
 }
