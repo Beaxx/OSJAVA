@@ -5,16 +5,31 @@ import Gruppe7.Importer.Datei;
 import java.lang.String;
 
 /**
- * @author Fabian und Nicole
+ * @author  Nicole Distler
+ * Erbt von Datei.
+ *
+ * Der Raumplan Exporter erstellt eine Datei ähnlich dem Kinoprogramm, dass Aufschluss darüber gibt, wann in welchem
+ * Saal zu welcher Uhrzeit welcher Film läuft. Da dieser Plan das Kinopersonal unterstützen soll ist er im .txt-Format
+ * gespeichert, sodass er schnell ausgedruckt und ausgehängt werden kann.
  */
 public class ExportRaumplanung extends Datei {
-    public ExportRaumplanung(String in_name, Planer in_spielPlanObj) {
 
-        super(in_name);
-        Datei exportRaumplan = new Datei(in_name);
+    /**
+     * Konstruktor
+     * <p>
+     * Als new-Line Characters werden sowohl carriage returns als auch newline returns verwendet, sodass sowohl eine
+     * Ausgabe in der Konsole wie auch in der Dateiausgabe das richtige Format hat.
+     *
+     * @param in_Name         Dateinpfad
+     * @param in_SpielplanObj Planer-Objekt, das den Spielplan enthält.
+     */
+    public ExportRaumplanung(String in_Name, Planer in_SpielplanObj) {
+
+        super(in_Name);
+        Datei exportRaumplan = new Datei(in_Name);
 
         exportRaumplan.openOutFile_FS();
-        Vorstellung[][][][] spielplan = in_spielPlanObj.GetSpielplan();
+        Vorstellung[][][][] spielplan = in_SpielplanObj.GetSpielplan();
 
         String exportStringRaumplan = "Raumplanung" + "\r\r\n\n";
 
@@ -28,7 +43,7 @@ public class ExportRaumplanung extends Datei {
                 exportStringRaumplan += "Woche " + (iWoche + 1) + " | " + wochenTag + "\r\r\n\n";
 
                 // SÄLE
-                for (int iSaal = 0; iSaal < in_spielPlanObj.GetAnzahlSaele(); iSaal++) {
+                for (int iSaal = 0; iSaal < in_SpielplanObj.GetAnzahlSaele(); iSaal++) {
 
                     exportStringRaumplan += "Saal Nummer: " + (iSaal + 1) + "\r\r\n\n";
 
