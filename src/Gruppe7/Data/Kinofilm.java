@@ -17,6 +17,8 @@ public class Kinofilm extends Film {
 
     /**
      * Konstruktor
+     * <p>
+     * gesamtkostenInSpielplan wird mit 0 initialisierunt und während der Spielplanerstellung befüllt.
      *
      * @param in_titel            der Titel des Films.
      * @param in_laufzeit         die Laufzeit des Films in Minuten.
@@ -26,7 +28,7 @@ public class Kinofilm extends Film {
      * @param in_erscheinungsjahr das Erscheinungsjahr des Filmes.
      * @param in_erscheinungsland das Erscheinungsland des Filmes.
      * @param in_beliebtheit      der Beliebtheitswert des Filmes (0-100).
-     * @param in_verleihpreis      der Verleihpreis des Filmes in ganzzahligen Euro.
+     * @param in_verleihpreis     der Verleihpreis des Filmes in ganzzahligen Euro.
      * @param in_fsk              das FSK-Rating des Filmes als Element des FSK-Enums.
      * @param in_genre            das Genre des Filmes als Emenet des Genre-Enums.
      */
@@ -55,7 +57,30 @@ public class Kinofilm extends Film {
         gesamtkostenInSpielplan = 0;
     }
 
+    /**
+     * Die Berechnung der Kosten, die ein Kinofilm im Spielplan hervorruft basiert stehts auf dem Ferleihpreis pro Woche
+     * dieses Filmes. Entsprechend ist dieser Verleihpreis mit einem Faktor (für gewöhnlich 1.0) zu multiplizieren, je
+     * nach zusammenhang. Werden die Kosten des Films lediglich einfach hinzugefügt ist der Faktor 1.0. Werden
+     * jedoch Rabatte für das Mehrfach-zeigen eines Filmes gewährt, so ist der Faktor -0.3 (Siehe Planer).
+     *
+     * @param in_Faktor Faktor, der mit dem VerleihpreisProWoche des Filmes multipliziert wird.
+     */
+    public void InkrementGesamtkostenInSpielplan(double in_Faktor) {
+        this.gesamtkostenInSpielplan += (int) Math.round(verleihpreisProWoche * in_Faktor);
+    }
+
+    // Setter
+    /**
+     * Setmethode für die Gesamtkosten, die ein Kinofilm im Spielplan verursacht.
+     * Wird ausschließlich dazu verwendet die Gesamtkosten auf 0 zu setzen. Für das tatsächliche erhöhen der Kosten
+     * wird InkrementGesamtkostenInSpielplan() verwendet.
+     */
+    void SetGesamtkostenInSpielplan() {
+        this.gesamtkostenInSpielplan = 0;
+    }
+
     // Getter
+
     /**
      * Gettermethode für die 3D-Eigenschaft des Films.
      *
@@ -84,15 +109,6 @@ public class Kinofilm extends Film {
     }
 
     /**
-     * Getmethode für das erscheinungsjahr des Filmes.
-     *
-     * @return Erscheinungsjahr des Filmes.
-     */
-    public int GetErscheinungsjahr() {
-        return erscheinungsjahr;
-    }
-
-    /**
      * Getmethode für die Beliebtheit des Filmes.
      *
      * @return Beliebtheitswert des Filmes (0-100)
@@ -103,6 +119,7 @@ public class Kinofilm extends Film {
 
     /**
      * Getmethode für den Verleihpreis des Filmes pro Woche.
+     *
      * @return Verleihpreis des Filmes pro woche als Ganzzahl.
      */
     public int GetVerleihpreisProWoche() {
@@ -111,6 +128,7 @@ public class Kinofilm extends Film {
 
     /**
      * Getmethode für das FSK-Siegel des Filmes.
+     *
      * @return FSK-Siegel des Filmes als Element des FSK-Enums
      */
     public Fsk GetFsk() {
@@ -135,19 +153,12 @@ public class Kinofilm extends Film {
         return erscheinungsland;
     }
 
+    /**
+     * Getmethode für die Gesamtkosten, die der Kinofilm im Spielplan verursacht.
+     *
+     * @return Gesamtkosten als Ganzzahl
+     */
     public int GetGesamtkostenInSpielplan() {
         return gesamtkostenInSpielplan;
-    }
-
-    /**
-     * fügt den Kosten für den Film die Kosten entsprechend eines Faktors hinzu mit dem der Verleihpreis multipliziertwird
-     * @param faktor
-     */
-    public void InkrementGesamtkostenInSpielplan(double in_Faktor) {
-        this.gesamtkostenInSpielplan += (int)Math.round(verleihpreisProWoche * in_Faktor);
-    }
-
-    public void SetGesamtkostenInSpielplan(int gesamtkostenInSpielplan) {
-        this.gesamtkostenInSpielplan = gesamtkostenInSpielplan;
     }
 }

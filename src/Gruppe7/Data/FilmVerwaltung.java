@@ -245,29 +245,29 @@ public class FilmVerwaltung {
      */
     public static void CleanUpGesamtkosten() {
         for (Kinofilm film : filmeFuer3DSaele) {
-            film.SetGesamtkostenInSpielplan(0);
+            film.SetGesamtkostenInSpielplan();
         }
 
         for (Kinofilm film : filmeFuer2DSaele) {
-            film.SetGesamtkostenInSpielplan(0);
+            film.SetGesamtkostenInSpielplan();
         }
 
         for (Kinofilm film : filmeFuer1500Uhr_1730Uhr) {
-            film.SetGesamtkostenInSpielplan(0);
+            film.SetGesamtkostenInSpielplan();
         }
 
         for (Kinofilm film : filmeFuer2000Uhr) {
-            film.SetGesamtkostenInSpielplan(0);
+            film.SetGesamtkostenInSpielplan();
         }
 
         for (Kinofilm film : filmeFuer2300Uhr) {
-            film.SetGesamtkostenInSpielplan(0);
+            film.SetGesamtkostenInSpielplan();
         }
         for (Kinofilm film : filmeFuer150minSlotlaenge) {
-            film.SetGesamtkostenInSpielplan(0);
+            film.SetGesamtkostenInSpielplan();
         }
         for (Kinofilm film : filmeFuer180minSlotlaenge) {
-            film.SetGesamtkostenInSpielplan(0);
+            film.SetGesamtkostenInSpielplan();
         }
     }
 }
