@@ -32,7 +32,7 @@ public class Vorstellung {
      * @param in_vorstellungsTimeslotIndex der Index des Timeslots zu dem die Vorstellung stattfindet.
      */
     public Vorstellung(int in_saalIndex, int in_vorstellungsTimeslotIndex) {
-        vorstellungsSaal = SaalVerwaltung.getSaele().get(in_saalIndex);
+        vorstellungsSaal = SaalVerwaltung.GetSaele().get(in_saalIndex);
         vorstellungsTimeslot = Spielzeiten.values()[in_vorstellungsTimeslotIndex];
 
         // Aus der Filmverwaltung wird ein FilmSet geholt, dessen Filme die Kriterien hinsichtlich Technik und Timeslot erfüllt

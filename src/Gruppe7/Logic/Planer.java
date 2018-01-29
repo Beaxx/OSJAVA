@@ -14,9 +14,9 @@ import Gruppe7.Data.*;
  */
 public class Planer {
     // Saaldaten
-    private int plaetzeGroesterSaal = SaalVerwaltung.getPlaetzeGroesterSaal();
-    private int plaetzeZweitgroesterSaal = SaalVerwaltung.getPlaetzeZweitgroesterSaal();
-    private int anzahlSaele = SaalVerwaltung.getSize();
+    private int plaetzeGroesterSaal = SaalVerwaltung.GetPlaetzeGroesterSaal();
+    private int plaetzeZweitgroesterSaal = SaalVerwaltung.GetPlaetzeZweitgroesterSaal();
+    private int anzahlSaele = SaalVerwaltung.GetSaele().size();
 
     // Finanzdaten
     private int spielplanGewinn = 0;

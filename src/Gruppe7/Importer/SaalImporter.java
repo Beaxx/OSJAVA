@@ -32,7 +32,7 @@ public class SaalImporter extends Datei {
                 int importPlaetzeLoge = Integer.valueOf(array[2]);
                 boolean importThreeD = Boolean.valueOf(array[3]);
 
-                SaalVerwaltung.setSaele(new Saal(importPlaetzeLoge, importPlaetzeParkett, importThreeD, importSaalNr));
+                SaalVerwaltung.SetSaele(new Saal(importPlaetzeLoge, importPlaetzeParkett, importThreeD, importSaalNr));
             }
         }
         SaalVerwaltung.saalplanSortieren();
