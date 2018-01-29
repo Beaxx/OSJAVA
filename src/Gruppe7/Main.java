@@ -50,15 +50,10 @@ import Gruppe7.Importer.*;
 
 public class Main {
 
-    public static boolean OptimierungSwitch;
-
     public static void main(String[] args) throws IOException {
 
         /* SETTINGS */
         int plaeneZuErstellen = 100000;
-        OptimierungSwitch = false;
-        int mindestPreisVorstellung = 14;
-        int maximalPreisVorstellung = 15;
         int mindestBeliebtheit = 96;
         /* /SETTINGS */
 
@@ -82,19 +77,18 @@ public class Main {
         long startTime = System.currentTimeMillis();
 
             // Algorithmus
-            Planer planer = new Planer(mindestPreisVorstellung, maximalPreisVorstellung);
+            Planer planer = new Planer();
             for (int i = 0; i < plaeneZuErstellen; i++)
 
             {
-                Planer tempPlaner = new Planer(mindestPreisVorstellung, maximalPreisVorstellung);
+                Planer tempPlaner = new Planer();
 
-                if (tempPlaner.getSpielplanGewinn() > planer.getSpielplanGewinn()) {
+                if (tempPlaner.GetSpielplanGewinn() > planer.GetSpielplanGewinn()) {
                     planer = tempPlaner;
-                    System.out.println("Ticket Einnahmen: " + planer.getSpielplanEinnahmenAusKartenverkaeufen() + "\n" +
-                            "Werbungs Einnahmen: " + planer.getSpielplanWerbungsEinnahmen() + "\n" +
-                            "Ausgaben: " + planer.getSpielplanAusgaben() + "\n" +
-                            "Gewinn:" + planer.getSpielplanGewinn() + "\n" +
-                            "--------------------------------");
+                    System.out.println("Einnahmen: " + planer.GetSpielplanEinnahmen() + "\n" +
+                                        "Ausgaben: " + planer.GetSpielplanAusgaben() + "\n" +
+                                        "Gewinn:" + planer.GetSpielplanGewinn() + "\n" +
+                                        "--------------------------------");
                 }
             }
 
@@ -109,7 +103,7 @@ public class Main {
 
 
         Vorstellung[][][][] spielPlanObj;
-        spielPlanObj = planer.getSpielplan();
+        spielPlanObj = planer.GetSpielplan();
 
         // TODO: Broken @ fabian / nicole
 //        System.out.println("Spielplan: " + spielPlanObj);

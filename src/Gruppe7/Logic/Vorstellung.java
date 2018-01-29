@@ -17,7 +17,7 @@ public class Vorstellung {
     private ArrayList<Werbefilm> werbungen = new ArrayList<>();
     private Saal vorstellungsSaal;
     private Spielzeiten vorstellungsTimeslot;
-    private int eintrittspreis = 13; // Ausgangswert
+    private int eintrittspreis = 0;
     private int andrang = 0;
     private int vorstellungWerbeeinnahmen = 0;
     private int[] vorstellungTicketeinnahmen = {0, 0};
@@ -184,7 +184,7 @@ public class Vorstellung {
         this.andrang = andrang;
     }
 
-    public int getVorstellungWerbeeinnahmen() {
+    public int GetVorstellungWerbeeinnahmen() {
         return vorstellungWerbeeinnahmen;
     }
 
@@ -192,11 +192,11 @@ public class Vorstellung {
         return eintrittspreis;
     }
 
-    public void setVorstellungTicketeinnahmen(int[] vorstellungTicketeinnahmen) {
+    public void SetVorstellungTicketeinnahmen(int[] vorstellungTicketeinnahmen) {
         this.vorstellungTicketeinnahmen = vorstellungTicketeinnahmen;
     }
 
-    public int[] getVorstellungTicketeinnahmen() {
+    public int[] GetVorstellungTicketeinnahmen() {
         return vorstellungTicketeinnahmen;
     }
 
