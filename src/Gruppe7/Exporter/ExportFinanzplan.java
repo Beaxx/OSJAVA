@@ -5,21 +5,26 @@ import Gruppe7.Logic.Planer;
 import Gruppe7.Logic.Vorstellung;
 
 /**
- * @author  Nicole und Fabian
+ * @author  Nicole Distler
+ * Erbt von Datei.
+ *
+ * Der Finazplan Exporter erweitert den Funktionsumfang dees Kinoprogramm Exports um finazielle Kennzahlen zum Spielplan
  */
 public class ExportFinanzplan extends Datei {
 
-    Planer spielplanObj;
-
+    /**
+     * Konstruktor
+     * @param in_Name Dateinpfad
+     * @param in_SpielplanObj Planer-Objekt, das den Spielplan enthält.
+     */
     public ExportFinanzplan(String in_Name, Planer in_SpielplanObj) {
         super(in_Name);
         Datei exportFinanzplan = new Datei(in_Name);
         exportFinanzplan.openOutFile_FS();
 
         Vorstellung[][][][] spielplan = in_SpielplanObj.GetSpielplan();
-        spielplanObj = in_SpielplanObj;
 
-        // Exportüberschrift
+        // CSV-Header Zeile
         String headerString =
                         "Kinofilm\t" +
                         "Vorführwoche\t" +
@@ -44,6 +49,8 @@ public class ExportFinanzplan extends Datei {
 
         exportFinanzplan.writeLine_FS(headerString);
 
+
+        // Zeilenweises Schreiben der Datei
         for (int iWoche = 0; iWoche < 3; iWoche++) {
             for (int iTag = 0; iTag < 7; iTag++) {
                 for (int iSaal = 0; iSaal < in_SpielplanObj.GetAnzahlSaele(); iSaal++) {
@@ -56,43 +63,7 @@ public class ExportFinanzplan extends Datei {
                         String kPreis = String.valueOf(aktuelleVorstellung.GetEintrittspreis());
                         String kSpielzeit = aktuelleVorstellung.GetSpielzeiten().ToString();
                         String kSaal = "Saal " + (iSaal + 1);
-
-                        String kTag;
-                        switch (iTag) {
-                            case 0: {
-                                kTag = "Montag";
-                                break;
-                            }
-                            case 1: {
-                                kTag = "Dienstag";
-                                break;
-                            }
-                            case 2: {
-                                kTag = "Mittwoch";
-                                break;
-                            }
-                            case 3: {
-                                kTag = "Donnerstag";
-                                break;
-                            }
-                            case 4: {
-                                kTag = "Freitag";
-                                break;
-                            }
-                            case 5: {
-                                kTag = "Samstag";
-                                break;
-                            }
-                            case 6: {
-                                kTag = "Sonntag";
-                                break;
-                            }
-                            default: {
-                                kTag = "-----";
-                                break;
-                            }
-                        }
-
+                        String kTag = Wochentage.values()[iTag].ToString();
                         String kZuschauerParkett = String.valueOf(aktuelleVorstellung.GetZuschauerParkett());
                         String kZuschauerZuschauerLoge = String.valueOf(aktuelleVorstellung.GetZuschauerLoge());
                         String kEinnahmenTickets = String.valueOf(

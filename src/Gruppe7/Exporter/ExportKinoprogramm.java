@@ -36,42 +36,7 @@ public class ExportKinoprogramm extends Datei {
                         String kPreis = String.valueOf(aktuelleVorstellung.GetEintrittspreis());
                         String kSpielzeit = aktuelleVorstellung.GetSpielzeiten().ToString();
                         String kSaal = "Saal " + (iSaal + 1);
-
-                        String kTag;
-                        switch (iTag) {
-                            case 0: {
-                                kTag = "Montag";
-                                break;
-                            }
-                            case 1: {
-                                kTag = "Dienstag";
-                                break;
-                            }
-                            case 2: {
-                                kTag = "Mittwoch";
-                                break;
-                            }
-                            case 3: {
-                                kTag = "Donnerstag";
-                                break;
-                            }
-                            case 4: {
-                                kTag = "Freitag";
-                                break;
-                            }
-                            case 5: {
-                                kTag = "Samstag";
-                                break;
-                            }
-                            case 6: {
-                                kTag = "Sonntag";
-                                break;
-                            }
-                            default: {
-                                kTag = "-----";
-                                break;
-                            }
-                        }
+                        String kTag = Wochentage.values()[iTag].ToString();
 
                         String exportString = kFilm + "\t" +
                                 kWoche + "\t" +

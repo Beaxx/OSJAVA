@@ -24,34 +24,7 @@ public class ExportRaumplanung extends Datei {
             // TAGE
             for (int iTag = 0; iTag < 7; iTag++) {
 
-                String wochenTag;
-                switch (iTag) {
-                    case 0:
-                        wochenTag = "Montag";
-                        break;
-                    case 1:
-                        wochenTag = "Dienstag";
-                        break;
-                    case 2:
-                        wochenTag = "Mittwoch";
-                        break;
-                    case 3:
-                        wochenTag = "Donnerstag";
-                        break;
-                    case 4:
-                        wochenTag = "Freitag";
-                        break;
-                    case 5:
-                        wochenTag = "Samstag";
-                        break;
-                    case 6:
-                        wochenTag = "Sonntag";
-                        break;
-                    default:
-                        wochenTag = "-----";
-                        break;
-                }
-
+                String wochenTag = Wochentage.values()[iTag].ToString();
                 exportStringRaumplan += "Woche " + (iWoche + 1) + " | " + wochenTag + "\r\r\n\n";
 
                 // SÄLE
