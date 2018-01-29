@@ -11,12 +11,9 @@ import java.util.ArrayList;
 public class Kinofilm extends Film {
     private boolean threeD;
     private String sprache, regisseur, erscheinungsland;
-    private int erscheinungsjahr, beliebtheit, verleihpreisProWoche, kostenFuerFilmInSpielplan;
+    private int erscheinungsjahr, beliebtheit, verleihpreisProWoche, gesamtkostenInSpielplan;
     private Fsk fsk;
     private ArrayList<Genre> genre = new ArrayList<>();
-
-    private ArrayList<String> idVorstellung = new ArrayList<String>(); //Fabian und Nicole
-
 
     /**
      * Konstruktor
@@ -55,7 +52,7 @@ public class Kinofilm extends Film {
         verleihpreisProWoche = in_verleihpreis;
         fsk = in_fsk;
         genre = in_genre;
-        kostenFuerFilmInSpielplan = 0;
+        gesamtkostenInSpielplan = 0;
     }
 
     // Getter
@@ -139,34 +136,19 @@ public class Kinofilm extends Film {
         return erscheinungsland;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int GetKostenFuerFilmInSpielplan() {
-        return kostenFuerFilmInSpielplan;
+    public int GetGesamtkostenInSpielplan() {
+        return gesamtkostenInSpielplan;
     }
-
-    //Setter
 
     /**
-     *
-     * @param in_kosten
-     * @return
+     * fügt den Kosten für den Film die Kosten entsprechend eines Faktors hinzu mit dem der Verleihpreis multipliziertwird
+     * @param faktor
      */
-    public int SetKostenFuerFilmInSpielplan(int in_kosten) {
-        kostenFuerFilmInSpielplan = in_kosten;
-        return kostenFuerFilmInSpielplan;
+    public void InkrementGesamtkostenInSpielplan(double in_Faktor) {
+        this.gesamtkostenInSpielplan += (int)Math.round(verleihpreisProWoche * in_Faktor);
     }
 
-    public ArrayList<String> GetIdVorstellung() {
-        return idVorstellung;
-    }
-
-    public void SetIdVorstellung(String in_idVorstellung) {
-
-        idVorstellung.add(in_idVorstellung);
-
-
+    public void SetGesamtkostenInSpielplan(int gesamtkostenInSpielplan) {
+        this.gesamtkostenInSpielplan = gesamtkostenInSpielplan;
     }
 }

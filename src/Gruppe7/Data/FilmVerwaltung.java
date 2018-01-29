@@ -179,7 +179,7 @@ public class FilmVerwaltung {
      * @param in_uhrzeit Elemnt der Enumeration Spielzeiten: 15:00, 17:30, 20:00 oder 23:00
      * @return eine Liste an Kinofilmen, die in dieser Vorstellung gezeigt werden dürfen.
      */
-    public static ArrayList<Kinofilm> getFilme(boolean in_saal3Dfaehig, Spielzeiten in_uhrzeit) {
+    public static ArrayList<Kinofilm> GetFilme(boolean in_saal3Dfaehig, Spielzeiten in_uhrzeit) {
 
         // Übersetzung von Boolean in Int für Switch
         int switch3D;
@@ -230,6 +230,34 @@ public class FilmVerwaltung {
             default:
                 return null;
             //endregion
+        }
+    }
+
+    public static void CleanUpGesamtkosten(){
+        for (Kinofilm film: filmeFuer3DSaele){
+            film.SetGesamtkostenInSpielplan(0);
+        }
+
+        for (Kinofilm film: filmeFuer2DSaele){
+            film.SetGesamtkostenInSpielplan(0);
+        }
+
+        for (Kinofilm film: filmeFuer1500Uhr_1730Uhr){
+            film.SetGesamtkostenInSpielplan(0);
+        }
+
+        for (Kinofilm film: filmeFuer2000Uhr){
+            film.SetGesamtkostenInSpielplan(0);
+        }
+
+        for (Kinofilm film: filmeFuer2300Uhr){
+            film.SetGesamtkostenInSpielplan(0);
+        }
+        for (Kinofilm film: filmeFuer150minSlotlaenge){
+            film.SetGesamtkostenInSpielplan(0);
+        }
+        for (Kinofilm film: filmeFuer180minSlotlaenge){
+            film.SetGesamtkostenInSpielplan(0);
         }
     }
 }

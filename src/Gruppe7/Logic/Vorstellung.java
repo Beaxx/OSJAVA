@@ -36,7 +36,7 @@ public class Vorstellung {
         vorstellungsTimeslot = Spielzeiten.values()[in_vorstellungsTimeslotIndex];
 
         // Aus der Filmverwaltung wird ein FilmSet geholt, dessen Filme die Kriterien hinsichtlich Technik und Timeslot erfüllt
-        ArrayList<Kinofilm> filmSet = FilmVerwaltung.getFilme(vorstellungsSaal.GetThreeD(), vorstellungsTimeslot);
+        ArrayList<Kinofilm> filmSet = FilmVerwaltung.GetFilme(vorstellungsSaal.GetThreeD(), vorstellungsTimeslot);
 
         // Zufälligen Film aus dem Set auswählen.
         vorstellungsFilm = (Kinofilm) filmSet.toArray()[ThreadLocalRandom.current().nextInt(0, filmSet.size() - 1)];

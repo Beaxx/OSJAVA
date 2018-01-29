@@ -95,7 +95,7 @@ public class ExportFinanzplan extends Datei {
                                 aktuelleVorstellung.GetVorstellungTicketeinnahmen()[0] +
                                         aktuelleVorstellung.GetVorstellungTicketeinnahmen()[1]);
                         String kEinnahmenWerbung = String.valueOf(aktuelleVorstellung.GetVorstellungWerbeeinnahmen());
-                        String kAusgabenFilmGesamt = String.valueOf(filmausgaben(aktuelleVorstellung));
+                        String kAusgabenFilmGesamt = String.valueOf(aktuelleVorstellung.GetKinofilm().GetGesamtkostenInSpielplan());
                         String kGewinnFilmGesamt = String.valueOf(Integer.valueOf(kEinnahmenTickets) +
                                                                     Integer.valueOf(kEinnahmenWerbung) -
                                                                     Integer.valueOf(kAusgabenFilmGesamt));
@@ -128,9 +128,5 @@ public class ExportFinanzplan extends Datei {
         }
         exportFinanzplan.closeOutFile_FS();
         exportFinanzplan.eof();
-    }
-
-    private int filmausgaben(Vorstellung vorstellung){
-        return 5;
     }
 }

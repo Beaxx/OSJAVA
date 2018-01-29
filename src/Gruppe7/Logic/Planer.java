@@ -49,13 +49,15 @@ public class Planer {
         while (!checkGenre) {
             filmeWoche0.clear();
             filmeWoche1.clear();
-    filmeWoche2.clear();
+            filmeWoche2.clear();
 
             localGenreListWoche0.addAll(genreList);
             localGenreListWoche1.addAll(genreList);
             localGenreListWoche2.addAll(genreList);
 
             spielplan = createRandomSpielplan(localGenreListWoche0, localGenreListWoche1, localGenreListWoche2);
+
+            FilmVerwaltung.CleanUpGesamtkosten();
         }
 
         spielplanGewinn = spielplanWerbeEinnahmen + spielplanTicketeinnahmen - spielplanAusgaben;
@@ -135,6 +137,7 @@ public class Planer {
                 }
                 // Ausgaben Tagesabhängig bei parallelem Zeigen eines Films in unterschiedlichen Sälen.
                 spielplanAusgaben += spielplanAusgabenParallel(spielplan[wochenIndex][tagIndex]);
+
             }
         }
         spielplanAusgaben += spielplanAusgabenGesamtzeitraum();
@@ -209,7 +212,7 @@ public class Planer {
      * Kostenrückgabe
      * <p>
      * Funktion: Über hashset, wird versucht ein kinofilm hinzuzufügen, der bereits in der Liste ist, kann diese nicht
-     * wachsen, wenn die Größte also unverändert bleibt ist der film doppelt vorhanden.
+     * wachsen, wenn die Größte also unverändert bleibt ist der film doppelt vorhanden. + Fügt dem kinofilmkosten hinzu
      */
     private int spielplanAusgabenParallel(Vorstellung[][] in_VorstellungsTag) {
 
@@ -229,6 +232,7 @@ public class Planer {
                         slot1500.add(in_VorstellungsTag[saalIndex][vorstellungIndex].GetKinofilm());
                         if (slot1500.size() == presize) {
                             kosten += in_VorstellungsTag[saalIndex][vorstellungIndex].GetKinofilm().GetVerleihpreisProWoche();
+                            in_VorstellungsTag[saalIndex][vorstellungIndex].GetKinofilm().InkrementGesamtkostenInSpielplan(1);
                         }
                         break;
                     }
@@ -237,6 +241,7 @@ public class Planer {
                         slot1730.add(in_VorstellungsTag[saalIndex][vorstellungIndex].GetKinofilm());
                         if (slot1730.size() == presize) {
                             kosten += in_VorstellungsTag[saalIndex][vorstellungIndex].GetKinofilm().GetVerleihpreisProWoche();
+                            in_VorstellungsTag[saalIndex][vorstellungIndex].GetKinofilm().InkrementGesamtkostenInSpielplan(1);
                         }
                         break;
                     }
@@ -245,6 +250,7 @@ public class Planer {
                         slot2000.add(in_VorstellungsTag[saalIndex][vorstellungIndex].GetKinofilm());
                         if (slot2000.size() == presize) {
                             kosten += in_VorstellungsTag[saalIndex][vorstellungIndex].GetKinofilm().GetVerleihpreisProWoche();
+                            in_VorstellungsTag[saalIndex][vorstellungIndex].GetKinofilm().InkrementGesamtkostenInSpielplan(1);
                         }
                         break;
                     }
@@ -253,6 +259,7 @@ public class Planer {
                         slot2300.add(in_VorstellungsTag[saalIndex][vorstellungIndex].GetKinofilm());
                         if (slot2300.size() == presize) {
                             kosten += in_VorstellungsTag[saalIndex][vorstellungIndex].GetKinofilm().GetVerleihpreisProWoche();
+                            in_VorstellungsTag[saalIndex][vorstellungIndex].GetKinofilm().InkrementGesamtkostenInSpielplan(1);
                         }
                         break;
                     }
@@ -284,6 +291,7 @@ public class Planer {
 
         for (Kinofilm kinofilm : alleFilme) {
             kosten += kinofilm.GetVerleihpreisProWoche();
+            kinofilm.InkrementGesamtkostenInSpielplan(1);
         }
 
         // Identifizieren der Filme die alle drei wochen Gespielt werden.
@@ -303,6 +311,7 @@ public class Planer {
         for (Map.Entry<Kinofilm, Integer> film : dreifachFilme.entrySet()) {
             if (film.getValue() == 3) {
                 kosten -= Math.round(film.getKey().GetVerleihpreisProWoche() * 0.3);
+                film.getKey().InkrementGesamtkostenInSpielplan(-0.3);
             }
         }
         return kosten;

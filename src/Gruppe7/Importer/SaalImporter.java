@@ -6,13 +6,6 @@ import Gruppe7.Data.SaalVerwaltung;
 
 public class SaalImporter extends Datei {
 
-    private Datei importFileSaele;
-    private String importString;
-    private int importSaalNr;
-    private int importPlaetzeParkett;
-    private int importPlaetzeLoge;
-    private boolean importThreeD;
-
     /**
      * Konstruktor fuer Objekte der Klasse Datei
      * Legt einen String mit dem Namen der zu bearbeitenden Datei an.
@@ -22,19 +15,19 @@ public class SaalImporter extends Datei {
     public SaalImporter(String in_name) {
         super(in_name);
 
-        importFileSaele = new Datei(in_name);
+        Datei importFileSaele = new Datei(in_name);
         importFileSaele.openInFile_FS();
 
         while (!importFileSaele.eof()){
-            importString = importFileSaele.readLine_FS();
+            String importString = importFileSaele.readLine_FS();
             if (importString != null){
 
                 String array[] = importString.split(";");
 
-                importSaalNr = Integer.valueOf(array[0]);
-                importPlaetzeParkett = Integer.valueOf(array[1]);
-                importPlaetzeLoge = Integer.valueOf(array[2]);
-                importThreeD = Boolean.valueOf(array[3]);
+                int importSaalNr = Integer.valueOf(array[0]);
+                int importPlaetzeParkett = Integer.valueOf(array[1]);
+                int importPlaetzeLoge = Integer.valueOf(array[2]);
+                boolean importThreeD = Boolean.valueOf(array[3]);
 
                 SaalVerwaltung.setSaele(new Saal(importPlaetzeLoge, importPlaetzeParkett, importThreeD, importSaalNr));
             }

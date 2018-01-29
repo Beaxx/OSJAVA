@@ -59,30 +59,30 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //region User Interaktion
-        System.out.println("Stellen Sie sicher, dass die Datensätze im Ordner dieser Java-Datei liegen.\n" +
-                "Wenn Sie die Datein im Entsprechenden Ordner abgelegt haben drücken Sie bitte ENTER");
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            reader.readLine();
-
-
-        System.out.println("Wie viele Optimierungsdurchläufe möchten Sie machen? \nMit steigender Anzahl der Optimierungen" +
-                " steigt die Qualität der generierten Spielpläne.\nWählen Sie eine Zahl zwischen 10.000 und 10.000.000\n\n" +
-                "Laufzeiten (ca.)\n" +
-                "10.000 Durchläufe:     2   Sekunden\n" +
-                "100.000 Durchläufe:    20  Sekunden\n" +
-                "1.000.000 Durchläufe:  2   Minuten\n" +
-                "10.000.000 Durchläufe: 37  Minuten\n");
-
-        int input = Integer.valueOf(reader.readLine());
-
-        int dauer = Math.round(input/4000/60);
-        System.out.println(input + " Durchläufe werden durchgeführt. Bitte warten Sie ca. " + dauer + "Minuten");
-        reader.close();
+//        System.out.println("Stellen Sie sicher, dass die Datensätze im Ordner dieser Java-Datei liegen.\n" +
+//                "Wenn Sie die Datein im Entsprechenden Ordner abgelegt haben drücken Sie bitte ENTER");
+//
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+//            reader.readLine();
+//
+//
+//        System.out.println("Wie viele Optimierungsdurchläufe möchten Sie machen? \nMit steigender Anzahl der Optimierungen" +
+//                " steigt die Qualität der generierten Spielpläne.\nWählen Sie eine Zahl zwischen 10.000 und 10.000.000\n\n" +
+//                "Laufzeiten (ca.)\n" +
+//                "10.000 Durchläufe:     2   Sekunden\n" +
+//                "100.000 Durchläufe:    20  Sekunden\n" +
+//                "1.000.000 Durchläufe:  2   Minuten\n" +
+//                "10.000.000 Durchläufe: 37  Minuten\n");
+//
+//        int input = Integer.valueOf(reader.readLine());
+//
+//        int dauer = Math.round(input/4000/60);
+//        System.out.println(input + " Durchläufe werden durchgeführt. Bitte warten Sie ca. " + dauer + "Minuten");
+//        reader.close();
         //endregion
 
         /* SETTINGS */
-        int plaeneZuErstellen = input;
+        int plaeneZuErstellen = 150000;
         int mindestBeliebtheit = 93;
         /* /SETTINGS */
 
@@ -116,14 +116,14 @@ public class Main {
             {
                 Planer tempPlaner = new Planer();
 
-                if (tempPlaner.GetSpielplanGewinn() > planer.GetSpielplanGewinn()) {
-                    planer = tempPlaner;
-                    System.out.println("Tickets: " + planer.GetSpielplanTicketeinnahmen() + "\n" +
-                                        "Werbung: " + planer.GetSpielplanWerbeEinnahmen() + "\n" +
-                                        "Ausgaben: " + planer.GetSpielplanAusgaben() + "\n" +
-                                        "Gewinn:" + planer.GetSpielplanGewinn() + "\n" +
-                                        "--------------------------------");
-                }
+//                if (tempPlaner.GetSpielplanGewinn() > planer.GetSpielplanGewinn()) {
+//                    planer = tempPlaner;
+//                    System.out.println("Tickets: " + planer.GetSpielplanTicketeinnahmen() + "\n" +
+//                                        "Werbung: " + planer.GetSpielplanWerbeEinnahmen() + "\n" +
+//                                        "Ausgaben: " + planer.GetSpielplanAusgaben() + "\n" +
+//                                        "Gewinn:" + planer.GetSpielplanGewinn() + "\n" +
+//                                        "--------------------------------");
+//                }
             }
 
         // Performance Wrapper ende
