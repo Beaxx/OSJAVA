@@ -9,7 +9,7 @@ import Gruppe7.Data.*;
  * Die Planerklasse stellt die zentrale Logik des Programs dar. Jedes Objekt der Klasse Planer beinhaltet ein
  * 4-dimensionales Array vom Typ Vorstellung. Nach der Erstellung eines zufälligen Spielplans wird dieser lokal
  * optimiert. Ist der Optimierungsprozess abgeschlossen beendes der Planer den Konstruktor und gibt den optimierten
- * Spielplan zurück.
+ * Spielplan zurück. -
  */
 public class Planer {
     // Saaldaten
