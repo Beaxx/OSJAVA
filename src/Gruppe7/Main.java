@@ -63,7 +63,7 @@ public class Main {
         //region User Interaktion
         System.out.println("Bitte geben Sie den gesamten Verzeichnis-Pfad ihres Datensatzes an.\n" +
                 "Die Importdateien müssen wiefolgt benannt sein:\n\n" +
-                "Werbefilme:    werbespots.csv\n" +
+                "Filme:         filme.csv\n" +
                 "Säle:          saele.csv\n" +
                 "Werbespots:    werbespots.csv\n\n" +
                 "Das Standardverzeichnis ist: C:/import/Datensatz/...\n" +

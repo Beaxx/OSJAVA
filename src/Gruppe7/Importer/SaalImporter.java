@@ -6,15 +6,14 @@ import Gruppe7.Data.SaalVerwaltung;
 /**
  * @author Fabian Ueberle
  *
- * Der Saalimporter liest zeilenweise Saalinformationen aus der "saele.csv"-Datei aus dem Datensatz.
+ * Der Saalimporter ließt zeilenweise Saalinformationen aus der "saele.csv"-Datei aus dem Datensatz.
  */
 public class SaalImporter extends Datei {
 
     /**
-     * Konstruktor fuer Objekte der Klasse Datei
-     * Legt einen String mit dem Namen der zu bearbeitenden Datei an.
+     * Erstellt aus den serialisierten Saalobjekten in der Import-Datei Saal-Objekte.
      *
-     * @param in_Name (String): Dateiname der benutzt werden soll.
+     * @param in_Name Name der Importdatei
      */
     public SaalImporter(String in_Name) {
         super(in_Name);

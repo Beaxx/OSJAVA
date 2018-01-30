@@ -10,15 +10,14 @@ import Gruppe7.Data.*;
 public class WerbefilmImporter extends Datei {
 
     /**
-     * Konstruktor fuer Objekte der Klasse Datei
-     * Legt einen String mit dem Namen der zu bearbeitenden Datei an.
+     * Erstellt aus den serialisierten Werbefilm-Objekten in der Import-Datei Werbefilm-Objekte.
      *
-     * @param in_name (String): Dateiname der benutzt werden soll.
+     * @param in_Name Name der Importdatei
      */
-    public WerbefilmImporter(String in_name) {
-        super(in_name);
+    public WerbefilmImporter(String in_Name) {
+        super(in_Name);
 
-        Datei importFileWerbespots = new Datei(in_name);
+        Datei importFileWerbespots = new Datei(in_Name);
         importFileWerbespots.openInFile_FS();
 
         while (!importFileWerbespots.eof()) {

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * @author Fabian Ueberle
  *
- *
+ * Der KinofilmImporter ließt zeilenweise Kinofilminformationen aus der "filme.csv"-Datei aus dem Datensatz.
  */
 public class KinofilmImporter extends Datei {
 
@@ -14,15 +14,15 @@ public class KinofilmImporter extends Datei {
     private int minBeliebtheit;
 
     /**
-     * Konstruktor fuer Objekte der Klasse Datei
-     * Legt einen String mit dem Namen der zu bearbeitenden Datei an.
+     * Erstellt aus den serialisierten Kinofilmobjekten in der Import-Datei Kinofilm-Objekte.
      *
-     * @param in_Name (String): Dateiname der benutzt werden soll.
+     * @param in_Name           Name der Importdatei
+     * @param in_MinBeliebtheit Mindestbeliebtheitswert unter dem keine Filme importiert werden.
      */
-    public KinofilmImporter(String in_Name, int in_minBeliebtheit) {
+    public KinofilmImporter(String in_Name, int in_MinBeliebtheit) {
         super(in_Name);
 
-        minBeliebtheit = in_minBeliebtheit;
+        minBeliebtheit = in_MinBeliebtheit;
 
         Datei importFileKinofilme = new Datei(in_Name);
         importFileKinofilme.openInFile_FS();
@@ -119,17 +119,18 @@ public class KinofilmImporter extends Datei {
                     importKinofilmFSK,
                     importKinofilmGenres);
 
+            //Beliebtheitscheck -> Verteilung auf ArrayListen in Verwaltungsklasse.
             if (kinofilmFilter(tempKinofilm)) {
                 kinofilmVerteiler3D2D(tempKinofilm);
                 kinofilmVerteilerTimeslot(tempKinofilm);
                 kinofilmVerteilerLaufzeit(tempKinofilm);
             }
-
         }
     }
 
     /**
-     * Debugged
+     * @author Lennart Völler
+     * <p>
      * Ermittelt, ob ein Film die mindest Beliebtheit erfüllt.
      */
     private boolean kinofilmFilter(Kinofilm in_Film) {
@@ -137,13 +138,13 @@ public class KinofilmImporter extends Datei {
     }
 
     /**
-     * Debugged
+     * @param in_Film ein Kinofilm
+     * @author Lennart Völler
+     * <p>
      * Fügt einen Film entsprechend seiner 3D-eigenschaft zu den Kinofilmlisten hinzu.
      * Entscheidungskriterium ist, ob ein Film im entsprechenden Saal gezeigt werden könnte.
      * Ein 2D-Film kann sowohl in 3D-Sälen als auch in 2D-Sälen gezeigt werden.
-     * Ein 2D-Film wird daher zur Liste der 3D-Filme hinzugefügt, da er in 3D-Sälen auch gezeigt werden kann
-     *
-     * @param in_Film ein Kinofilm
+     * Ein 2D-Film wird daher zur Liste der 3D-Filme hinzugefügt, da er in 3D-Sälen auch gezeigt werden kann.
      */
     private void kinofilmVerteiler3D2D(Kinofilm in_Film) {
         if (in_Film.GetThreeD()) {
@@ -155,12 +156,12 @@ public class KinofilmImporter extends Datei {
     }
 
     /**
-     * Debugged
-     * Fügt einen Film entsprechend seiner FSK-Eigenschaften zu den Kinofilmlisten hinzu.
+     * @param in_Film ein Kinofilm
+     * @author Lennart Völler
+     * <p>
+     * Fügt einen Film entsprechend seiner FSK-Einstufung zu den Kinofilmlisten hinzu.
      * Entscheidungskriterium ist, ob ein Film zum entsprechenden Timeslot gezeigt werden darf.
      * Ein FSK0 kann also zu jeder Tageszeit, auch um 23:00 gezeigt werden.
-     *
-     * @param in_Film ein Kinofilm
      */
     private void kinofilmVerteilerTimeslot(Kinofilm in_Film) {
         switch (in_Film.GetFsk()) {
@@ -187,12 +188,12 @@ public class KinofilmImporter extends Datei {
     }
 
     /**
-     * Debugged
+     * @param in_Film ein Kinofilm
+     * @author Lennart Völler
+     * <p>
      * Fügt einen Film entsprechend seiner Spieldauer zu den Kinofilmlisten hinzu.
      * Entscheidungskriterium ist, ob ein Film in den entsprechenden Timeslot passt.
      * Ein 150 Minuten langer film kann also auch in einem 180 Minuten timeslot laufen.
-     *
-     * @param in_Film ein Kinofilm
      */
     private void kinofilmVerteilerLaufzeit(Kinofilm in_Film) {
 
