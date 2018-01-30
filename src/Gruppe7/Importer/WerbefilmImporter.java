@@ -3,7 +3,9 @@ package Gruppe7.Importer;
 import Gruppe7.Data.*;
 
 /**
- * Nur noch doku
+ * @author Fabian Ueberle
+ *
+ * Der WerbefilmImporter liest zeilenweise Werbefilminformationen aus der "werbespots.csv"-Datei aus dem Datensatz.
  */
 public class WerbefilmImporter extends Datei {
 
