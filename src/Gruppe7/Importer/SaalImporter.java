@@ -9,6 +9,7 @@ import static java.lang.Integer.parseInt;
 
 /**
  * @author Fabian Ueberle
+ * Erbt von Datei
  *
  * Der Saalimporter ließt zeilenweise Saalinformationen aus der "saele.csv"-Datei aus dem Datensatz.
  */
@@ -32,7 +33,7 @@ public class SaalImporter extends Datei {
 
             if (importString != null) {
 
-                flowControl(importString);
+                flowControl(importString, in_Name);
 
 
                     String array[] = importString.split(";", 4);
@@ -51,6 +52,7 @@ public class SaalImporter extends Datei {
 
     /**
      * @param in_importstring der einzulesende String für die späteren Objektinstanzen
+     * @param  in_name Name und Pfade der Importdatei
      * @author Fabian Ueberle
      * <p>
      *     Die Methode flowControl() prüft jede Zeile der Importdatei ob diese die erwartete Struktur aufweist.
@@ -59,7 +61,7 @@ public class SaalImporter extends Datei {
      * </p>
      * */
 
-    private boolean flowControl (String in_importstring){
+    private boolean flowControl (String in_importstring, String in_name){
 
         String testImportStrigng = in_importstring;
 
@@ -67,7 +69,7 @@ public class SaalImporter extends Datei {
 
         if (array.length!=4){
             System.err.println("Fehlerhafte Importdatei für Kinosäle. Das Programm wird abgebrochen. " +
-                            "Bitte prüfen Sie Ihre saal.csv Datei auf vier Spalten.");
+                            "Bitte prüfen Sie Ihre Datei "+in_name+" auf vier Spalten.");
             System.exit(-1);
             return false;
         }

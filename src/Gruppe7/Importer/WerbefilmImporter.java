@@ -4,6 +4,7 @@ import Gruppe7.Data.*;
 
 /**
  * @author Fabian Ueberle
+ * Erbt von Datei
  *
  * Der WerbefilmImporter liest zeilenweise Werbefilminformationen aus der "werbespots.csv"-Datei aus dem Datensatz.
  */
@@ -24,7 +25,7 @@ public class WerbefilmImporter extends Datei {
             String importString = importFileWerbespots.readLine_FS();
             if (importString != null) {
 
-                flowControl(importString);
+                flowControl(importString,in_Name);
 
                 String arrayWerbung[] = importString.split(";");
 
@@ -40,6 +41,7 @@ public class WerbefilmImporter extends Datei {
 
     /**
      * @param in_importstring der einzulesende String für die späteren Objektinstanzen
+     * @param  in_name Name und Pfade der Importdatei
      * @author Fabian Ueberle
      * <p>
      *     Die Methode flowControl() prüft jede Zeile der Importdatei ob diese die erwartete Struktur aufweist.
@@ -47,15 +49,15 @@ public class WerbefilmImporter extends Datei {
      *     Die ausgegebene Fehlermeldung soll den Anwender auf die betroffene Datei hinweisen.
      * </p>
      * */
-    private boolean flowControl (String in_importstring){
+    private boolean flowControl (String in_importstring, String in_name){
 
         String testImportStrigng = in_importstring;
 
         String array[] = testImportStrigng.split(";");
 
-        if (array.length!=11){
-            System.err.println("Fehlerhafte Importdatei für Kinofilme. Das Programm wird abgebrochen. " +
-                    "Bitte prüfen Sie Ihre filme.csv Datei auf 11 Spalten.");
+        if (array.length!=3){
+            System.err.println("Fehlerhafte Importdatei für Werbespots. Das Programm wird abgebrochen. " +
+                    "Bitte prüfen Sie Ihre Datei "+in_name+ " auf 3 Spalten.");
             System.exit(-1);
             return false;
         }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 /**
  * @author Fabian Ueberle
+ * Erbt von Datei
  *
  * Der KinofilmImporter ließt zeilenweise Kinofilminformationen aus der "filme.csv"-Datei aus dem Datensatz.
  */
@@ -38,7 +39,7 @@ public class KinofilmImporter extends Datei {
             if (importString == null) {
                 break;
             }
-            flowControl(importString);
+            flowControl(importString, in_Name);
             String[] arrayKinofilm;
 
             //Zerlegt den Import String (Zeile der Datei) und erstellt ein Array.
@@ -210,14 +211,15 @@ public class KinofilmImporter extends Datei {
 
     /**
      * @param in_importstring der einzulesende String für die späteren Objektinstanzen
+     * @param  in_name Name und Pfade der Importdatei
      * @author Fabian Ueberle
      * <p>
      *     Die Methode flowControl() prüft jede Zeile der Importdatei ob diese die erwartete Struktur aufweist.
      *     Dies soll zum einen einen Absturz des Programms sowie die Erzeugung unvollständiger Objekte vermeiden.
      *     Die ausgegebene Fehlermeldung soll den Anwender auf die betroffene Datei hinweisen.
      * </p>
-    * */
-    private boolean flowControl (String in_importstring){
+     * */
+    private boolean flowControl (String in_importstring, String in_name){
 
         String testImportStrigng = in_importstring;
 
@@ -225,7 +227,7 @@ public class KinofilmImporter extends Datei {
 
         if (array.length!=11){
             System.err.println("Fehlerhafte Importdatei für Kinofilme. Das Programm wird abgebrochen. " +
-                    "Bitte prüfen Sie Ihre filme.csv Datei auf 11 Spalten.");
+                    "Bitte prüfen Sie Ihre Datei "+ in_name+" auf 11 Spalten.");
             System.exit(-1);
             return false;
         }
