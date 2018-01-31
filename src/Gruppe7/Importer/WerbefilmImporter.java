@@ -24,6 +24,8 @@ public class WerbefilmImporter extends Datei {
             String importString = importFileWerbespots.readLine_FS();
             if (importString != null) {
 
+                flowControl(importString);
+
                 String arrayWerbung[] = importString.split(";");
 
                 String importWerbespotBezeichnung = String.valueOf(arrayWerbung[0]);
@@ -34,5 +36,29 @@ public class WerbefilmImporter extends Datei {
             }
         }
         WerbefilmVerwaltung.WerbeplanSortieren();
+    }
+
+    /**
+     * @param in_importstring der einzulesende String für die späteren Objektinstanzen
+     * @author Fabian Ueberle
+     * <p>
+     *     Die Methode flowControl() prüft jede Zeile der Importdatei ob diese die erwartete Struktur aufweist.
+     *     Dies soll zum einen einen Absturz des Programms sowie die Erzeugung unvollständiger Objekte vermeiden.
+     *     Die ausgegebene Fehlermeldung soll den Anwender auf die betroffene Datei hinweisen.
+     * </p>
+     * */
+    private boolean flowControl (String in_importstring){
+
+        String testImportStrigng = in_importstring;
+
+        String array[] = testImportStrigng.split(";");
+
+        if (array.length!=11){
+            System.err.println("Fehlerhafte Importdatei für Kinofilme. Das Programm wird abgebrochen. " +
+                    "Bitte prüfen Sie Ihre filme.csv Datei auf 11 Spalten.");
+            System.exit(-1);
+            return false;
+        }
+        return true;
     }
 }

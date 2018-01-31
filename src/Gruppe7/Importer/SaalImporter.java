@@ -49,6 +49,16 @@ public class SaalImporter extends Datei {
         SaalVerwaltung.SaalplanSortieren();
     }
 
+    /**
+     * @param in_importstring der einzulesende String für die späteren Objektinstanzen
+     * @author Fabian Ueberle
+     * <p>
+     *     Die Methode flowControl() prüft jede Zeile der Importdatei ob diese die erwartete Struktur aufweist.
+     *     Dies soll zum einen einen Absturz des Programms sowie die Erzeugung unvollständiger Objekte vermeiden.
+     *     Die ausgegebene Fehlermeldung soll den Anwender auf die betroffene Datei hinweisen.
+     * </p>
+     * */
+
     private boolean flowControl (String in_importstring){
 
         String testImportStrigng = in_importstring;
@@ -61,8 +71,6 @@ public class SaalImporter extends Datei {
             System.exit(-1);
             return false;
         }
-
-
         return true;
 
 
