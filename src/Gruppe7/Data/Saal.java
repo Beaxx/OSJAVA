@@ -18,7 +18,7 @@ public class Saal {
      * @param in_PlaetzeLoge    Anzahl der Plätze in der Loge des Saals
      * @param in_PlaetzeParkett Anzahl der Plätze im Parkett des Saals
      * @param in_3D             Fähigkeit des Saals 3D-Filme abspielen zu können
-     * @param in_SaalNummer  Die Nummer des Saals (gleichzeitig seine Bezeichnung)
+     * @param in_SaalNummer     Die Nummer des Saals (gleichzeitig seine Bezeichnung)
      */
     public Saal(int in_PlaetzeLoge, int in_PlaetzeParkett, boolean in_3D, int in_SaalNummer) {
 

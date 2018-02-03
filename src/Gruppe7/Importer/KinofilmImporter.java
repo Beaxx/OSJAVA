@@ -134,7 +134,7 @@ public class KinofilmImporter extends Datei {
     /**
      * @author Lennart Völler
      * <p>
-     * Ermittelt, ob ein Film die mindest Beliebtheit erfüllt.
+     * Ermittelt, ob ein Film die Mindestbeliebtheit erfüllt.
      */
     private boolean kinofilmFilter(Kinofilm in_Film) {
         return in_Film.GetBeliebtheit() >= minBeliebtheit;
@@ -210,7 +210,7 @@ public class KinofilmImporter extends Datei {
 
 
     /**
-     * @param in_importstring der einzulesende String für die späteren Objektinstanzen
+     * @param  in_importstring der einzulesende String für die späteren Objektinstanzen
      * @param  in_name Name und Pfade der Importdatei
      * @author Fabian Ueberle
      * <p>

@@ -9,7 +9,7 @@ import Gruppe7.Logic.Vorstellung;
  * Erbt von Datei.
  *
  * Der Finanzplan Exporter erweitert den Funktionsumfang des Kinoprogramm Exports um finanzielle Kennzahlen
- * und exportiert das erweiterte Kinoprogramm im CSV-Format. Der Export umfasst einen Spielplan.
+ * und exportiert das erweiterte Kinoprogramm im CSV-Format. Der Export umfasst einen Spielplan von 21 Tagen.
  */
 public class ExportFinanzplan extends Datei {
 
@@ -17,7 +17,7 @@ public class ExportFinanzplan extends Datei {
      * Konstruktor für die Klasse ExportFinanzplan
      *
      *
-     * @param in_Name         Dateinpfad
+     * @param in_Name         Datei und Pfad
      * @param in_SpielplanObj Planer-Objekt, das den Spielplan enthält.
      */
     public ExportFinanzplan(String in_Name, Planer in_SpielplanObj) {
@@ -29,7 +29,7 @@ public class ExportFinanzplan extends Datei {
 
         // CSV-Header Zeile für Tabelle
         String headerString =
-                "Kinofilm\t" +
+                        "Kinofilm\t" +
                         "Vorführwoche\t" +
                         "Wochentag\t" +
                         "Kinosaal\t" +
@@ -46,9 +46,9 @@ public class ExportFinanzplan extends Datei {
                     "Werbefilm" + (i + 1) + "-Einnahmen\t";
         }
         headerString += "Gesamtausgaben\t" +
-                "Gesamteinnahmen Werbung:\t" +
-                "Gesamteinnahmen Tickets:\t" +
-                "Gewinn:\t";
+                        "Gesamteinnahmen Werbung:\t" +
+                        "Gesamteinnahmen Tickets:\t" +
+                        "Gewinn:\t";
 
         exportFinanzplan.writeLine_FS(headerString);
 

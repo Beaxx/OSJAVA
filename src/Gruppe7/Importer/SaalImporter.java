@@ -51,7 +51,7 @@ public class SaalImporter extends Datei {
     }
 
     /**
-     * @param in_importstring der einzulesende String für die späteren Objektinstanzen
+     * @param  in_importstring der einzulesende String für die späteren Objektinstanzen
      * @param  in_name Name und Pfade der Importdatei
      * @author Fabian Ueberle
      * <p>
