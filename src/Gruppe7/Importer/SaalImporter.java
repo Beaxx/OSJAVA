@@ -15,7 +15,7 @@ import static java.lang.Integer.parseInt;
  */
 public class SaalImporter extends Datei {
 
-    String importString;
+    private String importString;
 
     /**
      * Erstellt aus den serialisierten Saalobjekten in der Import-Datei Saal-Objekte.

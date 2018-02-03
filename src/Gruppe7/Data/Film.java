@@ -9,9 +9,9 @@ public abstract class Film {
     private String titel;
     private int laufzeit;
 
-    Film(String in_titel, int in_laufzeit) {
-        titel = in_titel;
-        laufzeit = in_laufzeit;
+    Film(String in_Titel, int in_Laufzeit) {
+        titel = in_Titel;
+        laufzeit = in_Laufzeit;
     }
 
     /**

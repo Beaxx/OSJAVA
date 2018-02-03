@@ -58,7 +58,7 @@ public class Kinofilm extends Film {
     }
 
     /**
-     * Die Berechnung der Kosten, die ein Kinofilm im Spielplan hervorruft basiert stehts auf dem Ferleihpreis pro Woche
+     * Die Berechnung der Kosten, die ein Kinofilm im Spielplan hervorruft basiert stehts auf dem Verleihpreis pro Woche
      * dieses Filmes. Entsprechend ist dieser Verleihpreis mit einem Faktor (für gewöhnlich 1.0) zu multiplizieren, je
      * nach zusammenhang. Werden die Kosten des Films lediglich einfach hinzugefügt ist der Faktor 1.0. Werden
      * jedoch Rabatte für das Mehrfach-zeigen eines Filmes gewährt, so ist der Faktor -0.3 (Siehe Planer).
@@ -76,7 +76,7 @@ public class Kinofilm extends Film {
      * wird InkrementGesamtkostenInSpielplan() verwendet.
      */
     void SetGesamtkostenInSpielplan() {
-        this.gesamtkostenInSpielplan = 0;
+        this.gesamtkostenInSpielplan = 0;  //@TODO @Lennart: Wieso =0?
     }
 
     // Getter

@@ -145,7 +145,7 @@ public class Main {
 
         // Saele sortieren
         SaalVerwaltung.SaalplanSortieren();
-        SaalVerwaltung.PlaetzteInGroestemUndZweitgroestemSaal();
+        SaalVerwaltung.PlaetzteInGroestemUndZweitgroesstemSaal();
         //endregion
 
         //region Algorithmus

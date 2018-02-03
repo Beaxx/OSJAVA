@@ -13,8 +13,8 @@ import Gruppe7.Data.*;
  */
 public class Planer {
     // Saaldaten
-    private int plaetzeGroesterSaal = SaalVerwaltung.GetPlaetzeGroesterSaal();
-    private int plaetzeZweitgroesterSaal = SaalVerwaltung.GetPlaetzeZweitgroesterSaal();
+    private int plaetzeGroessterSaal = SaalVerwaltung.GetPlaetzeGroessterSaal();
+    private int plaetzeZweitgroessterSaal = SaalVerwaltung.GetPlaetzeZweitgroessterSaal();
     private int anzahlSaele = SaalVerwaltung.GetSaele().size();
 
     // Finanzdaten
@@ -321,7 +321,7 @@ public class Planer {
      * @return Basisandrang der Vorstellung
      */
     private int basisAndrang(Vorstellung in_Vorstellung) {
-        return (int) Math.round((plaetzeGroesterSaal + plaetzeZweitgroesterSaal) *
+        return (int) Math.round((plaetzeGroessterSaal + plaetzeZweitgroessterSaal) *
                 ((double) (in_Vorstellung.GetKinofilm().GetBeliebtheit()) / 85));
     }
 
