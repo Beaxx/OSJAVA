@@ -15,8 +15,6 @@ import static java.lang.Integer.parseInt;
  */
 public class SaalImporter extends Datei {
 
-    private String importString;
-
     /**
      * Erstellt aus den serialisierten Saalobjekten in der Import-Datei Saal-Objekte.
      *
@@ -29,12 +27,11 @@ public class SaalImporter extends Datei {
         importFileSaele.openInFile_FS();
 
         while (!importFileSaele.eof()) {
-            importString = importFileSaele.readLine_FS();
+            String importString = importFileSaele.readLine_FS();
 
             if (importString != null) {
 
-                flowControl(importString, in_Name);
-
+                dataValidation(importString, in_Name);
 
                     String array[] = importString.split(";", 4);
 
@@ -55,27 +52,22 @@ public class SaalImporter extends Datei {
      * @param  in_name Name und Pfade der Importdatei
      * @author Fabian Ueberle
      * <p>
-     *     Die Methode flowControl() prüft jede Zeile der Importdatei ob diese die erwartete Struktur aufweist.
+     *     Die Methode dataValidation() prüft jede Zeile der Importdatei ob diese die erwartete Struktur aufweist.
      *     Dies soll zum einen einen Absturz des Programms sowie die Erzeugung unvollständiger Objekte vermeiden.
      *     Die ausgegebene Fehlermeldung soll den Anwender auf die betroffene Datei hinweisen.
      * </p>
      * */
 
-    private boolean flowControl (String in_importstring, String in_name){
+    private void dataValidation(String in_importstring, String in_name){
 
-        String testImportStrigng = in_importstring;
-
-        String array[] = testImportStrigng.split(";");
+        String array[] = in_importstring.split(";");
 
         if (array.length!=4){
             System.err.println("Fehlerhafte Importdatei für Kinosäle. Das Programm wird abgebrochen. " +
                             "Bitte prüfen Sie Ihre Datei "+in_name+" auf vier Spalten.");
             System.exit(-1);
-            return false;
+
         }
-        return true;
-
-
     }
 
 }

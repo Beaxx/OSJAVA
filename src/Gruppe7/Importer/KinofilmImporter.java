@@ -39,7 +39,7 @@ public class KinofilmImporter extends Datei {
             if (importString == null) {
                 break;
             }
-            flowControl(importString, in_Name);
+            dataValidation(importString, in_Name);
             String[] arrayKinofilm;
 
             //Zerlegt den Import String (Zeile der Datei) und erstellt ein Array.
@@ -50,18 +50,22 @@ public class KinofilmImporter extends Datei {
             if (importKinofilmFskInt == 18) {
                 importKinofilmFSK = Fsk.FSK_18;
             }
-            if (importKinofilmFskInt == 16) {
+            else if (importKinofilmFskInt == 16) {
                 importKinofilmFSK = Fsk.FSK_16;
             }
-            if (importKinofilmFskInt == 12) {
+            else if (importKinofilmFskInt == 12) {
                 importKinofilmFSK = Fsk.FSK_12;
             }
-            if (importKinofilmFskInt == 6) {
+            else if (importKinofilmFskInt == 6) {
                 importKinofilmFSK = Fsk.FSK_6;
             }
-            if (importKinofilmFskInt == 0) {
+            else if (importKinofilmFskInt == 0) {
                 importKinofilmFSK = Fsk.FSK_0;
             }
+
+            /* Ist die FSK-Einstufung nicht lesbar wird FSK = 18 gesetzt um sicher zu gehen, das der Jugendschutz
+            nicht verletzt wird. */
+            else{ importKinofilmFSK = Fsk.FSK_18; }
             //endregion
 
             /*Genres Auslesen und Zuweisen
@@ -82,45 +86,45 @@ public class KinofilmImporter extends Datei {
                 if (inputGenre.trim().equals("Action")) {
                     importKinofilmGenres.add(Genre.ACTION);
                 }
-                if (inputGenre.trim().equals("Dokumentation")) {
+                else if (inputGenre.trim().equals("Dokumentation")) {
                     importKinofilmGenres.add(Genre.DOKUMENTATION);
                 }
-                if (inputGenre.trim().equals("Drama")) {
+                else if (inputGenre.trim().equals("Drama")) {
                     importKinofilmGenres.add(Genre.DRAMA);
                 }
-                if (inputGenre.trim().equals("Horror")) {
+                else if (inputGenre.trim().equals("Horror")) {
                     importKinofilmGenres.add(Genre.HORROR);
                 }
-                if (inputGenre.trim().equals("Komödie")) {
+                else if (inputGenre.trim().equals("Komödie")) {
                     importKinofilmGenres.add(Genre.KOMOEDIE);
                 }
-                if (inputGenre.trim().equals("Krimi")) {
+                else if (inputGenre.trim().equals("Krimi")) {
                     importKinofilmGenres.add(Genre.KRIMI);
                 }
-                if (inputGenre.trim().equals("Science Fiction")) {
+                else if (inputGenre.trim().equals("Science Fiction")) {
                     importKinofilmGenres.add(Genre.SCIENCE_FICTION);
                 }
-                if (inputGenre.trim().equals("Zeichentrick")) {
+                else if (inputGenre.trim().equals("Zeichentrick")) {
                     importKinofilmGenres.add(Genre.ZEICHENTRICK);
                 }
-                if (inputGenre.trim().equals("Thriller")) {
+                else if (inputGenre.trim().equals("Thriller")) {
                     importKinofilmGenres.add(Genre.THRILLER);
                 }
             }
             //endregion
 
-            Kinofilm tempKinofilm = new Kinofilm(
-                    String.valueOf(arrayKinofilm[0]),
-                    Integer.valueOf(arrayKinofilm[6]),
-                    Boolean.valueOf(arrayKinofilm[10]),
-                    String.valueOf(arrayKinofilm[7]),
-                    String.valueOf(arrayKinofilm[1]),
-                    Integer.valueOf(arrayKinofilm[9]),
-                    String.valueOf(arrayKinofilm[8]),
-                    Integer.valueOf(arrayKinofilm[5]),
-                    Integer.valueOf(arrayKinofilm[4]),
-                    importKinofilmFSK,
-                    importKinofilmGenres);
+                Kinofilm tempKinofilm = new Kinofilm(
+                        String.valueOf(arrayKinofilm[0]),
+                        Integer.valueOf(arrayKinofilm[6]),
+                        Boolean.valueOf(arrayKinofilm[10]),
+                        String.valueOf(arrayKinofilm[7]),
+                        String.valueOf(arrayKinofilm[1]),
+                        Integer.valueOf(arrayKinofilm[9]),
+                        String.valueOf(arrayKinofilm[8]),
+                        Integer.valueOf(arrayKinofilm[5]),
+                        Integer.valueOf(arrayKinofilm[4]),
+                        importKinofilmFSK,
+                        importKinofilmGenres);
 
             //Beliebtheitscheck -> Verteilung auf ArrayListen in Verwaltungsklasse.
             if (kinofilmFilter(tempKinofilm)) {
@@ -208,31 +212,24 @@ public class KinofilmImporter extends Datei {
         }
     }
 
-
     /**
      * @param  in_importstring der einzulesende String für die späteren Objektinstanzen
      * @param  in_name Name und Pfade der Importdatei
      * @author Fabian Ueberle
      * <p>
-     *     Die Methode flowControl() prüft jede Zeile der Importdatei ob diese die erwartete Struktur aufweist.
+     *     Die Methode dataValidation() prüft jede Zeile der Importdatei ob diese die erwartete Struktur aufweist.
      *     Dies soll zum einen einen Absturz des Programms sowie die Erzeugung unvollständiger Objekte vermeiden.
      *     Die ausgegebene Fehlermeldung soll den Anwender auf die betroffene Datei hinweisen.
      * </p>
      * */
-    private boolean flowControl (String in_importstring, String in_name){
+    private void dataValidation(String in_importstring, String in_name){
 
-        String testImportStrigng = in_importstring;
-
-        String array[] = testImportStrigng.split(";");
+       String array[] = in_importstring.split(";");
 
         if (array.length!=11){
             System.err.println("Fehlerhafte Importdatei für Kinofilme. Das Programm wird abgebrochen. " +
                     "Bitte prüfen Sie Ihre Datei "+ in_name+" auf 11 Spalten.");
             System.exit(-1);
-            return false;
         }
-        return true;
-
-
     }
 }

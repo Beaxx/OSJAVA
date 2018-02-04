@@ -1,3 +1,5 @@
+// TODO Ans Google Doc Anpassen.
+
 Programmablauf:
 Die main-Methode startet alle Klassen in folgender Reihenfolge: Importerklassen, Planerklasse und Exporterklassen.
 Das Programm startet damit, dass die Importerklassen zeilenweise die Importdateien einlesen. Es werden Arrays mit den nötigen Parametern für die Klassen Kinofilm, Werbefilm und Saal erstellt.
@@ -21,7 +23,7 @@ Der Finanzplan kann als Grundlage für eine Forecastbildung der Einnahmen und Au
 
 
 
-Klassen Lennart:
+Klassen Lennart Völler:
 - FilmVerwaltung
 - SaalVerwaltung
 - WerbefilmVerwaltung
@@ -31,12 +33,12 @@ Klassen Lennart:
 - Planer
 - Main
 
-Klassen Nicole:
+Klassen Nicole Distler:
 - ExportFinanzplan
 - ExportKinoprogramm
 - ExportRaumplanung
 
-Klassen Fabian:
+Klassen Fabian Ueberle:
 - Saal
 - Film
 - Werbefilm

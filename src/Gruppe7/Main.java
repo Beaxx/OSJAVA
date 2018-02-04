@@ -73,7 +73,7 @@ public class Main {
         // Input Stream für Userinput öffnen
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        //Inputvalidierung Input-Pfad
+        // Inputvalidierung Input-Pfad
         String path = "C:/import/Datensatz";
         boolean validInput = false;
         do {
