@@ -11,12 +11,13 @@ package Gruppe7.Data;
 public class Werbefilm extends Film {
     private int umsatzProZuschauer;
 
-
-  /** Konstruktor
-   * @param in_Titel                der Titel des Films.
-   * @param in_Laufzeit             die Laufzeit des Films in Minuten.
-   * @param in_UmsatzProZuschauer   Umsatz bzw. Einnahmen des Werbespots pro Zuschauer und Vorstellung.
-   */
+    /**
+     * Konstruktor
+     *
+     * @param in_Titel              der Titel des Films.
+     * @param in_Laufzeit           die Laufzeit des Films in Minuten.
+     * @param in_UmsatzProZuschauer Umsatz bzw. Einnahmen des Werbespots pro Zuschauer und Vorstellung.
+     */
 
     public Werbefilm(String in_Titel, int in_Laufzeit, int in_UmsatzProZuschauer) {
         super(in_Titel, in_Laufzeit);
@@ -31,5 +32,4 @@ public class Werbefilm extends Film {
     public int GetUmsatzProZuschauer() {
         return umsatzProZuschauer;
     }
-
 }

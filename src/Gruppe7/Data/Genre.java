@@ -24,5 +24,3 @@ public enum Genre {
     Genre(String in_GenreName) {
     }
 }
-
-

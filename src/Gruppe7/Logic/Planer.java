@@ -7,9 +7,13 @@ import Gruppe7.Data.*;
  * @author Lennart Völler
  *
  * Die Planerklasse stellt die zentrale Logik des Programs dar. Jedes Objekt der Klasse Planer beinhaltet ein
- * 4-dimensionales Array vom Typ Vorstellung. Nach der Erstellung eines zufälligen Spielplans wird dieser lokal
- * optimiert. Ist der Optimierungsprozess abgeschlossen beendes der Planer den Konstruktor und gibt den optimierten
- * Spielplan zurück. --
+ * 4-dimensionales Array vom Typ Vorstellung der Form:
+ *
+ * Vorstellung[WochenIndex][TagesIndex][SaalIndex][VorstellungsIndex]
+ *
+ * Nach der Erstellung eines zufälligen Spielplans wird dieser lokal optimiert.
+ * Ist der Optimierungsprozess abgeschlossen beendes der Planer den Konstruktor und gibt den optimierten
+ * Spielplan zurück.
  */
 public class Planer {
     // Saaldaten
@@ -35,8 +39,7 @@ public class Planer {
     private boolean checkGenre = false;
 
     /**
-     * Erstellung eines zufälligen Spielplans bei Iteration durch das leere Vorstellungs-Array.
-     * Erstellt:  Ein vierdimensionales Vorstellungsarray [woche][tag][saal][timeslot]
+     * Erstellung ein Planungsobjektes, dass alle Informationen zu einem Spielplan enthält.
      */
     public Planer() {
 
@@ -62,7 +65,11 @@ public class Planer {
     }
 
     /**
-     *
+     * Erstellt einen zufälligen Spielplan als vierdimensionales Array.
+     * @param in_localGenreListWoche0 Ein Set in dem jedes Genre einmal enthalten ist.
+     * @param in_localGenreListWoche1 Ein Set in dem jedes Genre einmal enthalten ist.
+     * @param in_localGenreListWoche2 Ein Set in dem jedes Genre einmal enthalten ist.
+     * @return einen Spielplan
      */
     private Vorstellung[][][][] createRandomSpielplan(Set<Genre> in_localGenreListWoche0,
                                                       Set<Genre> in_localGenreListWoche1,
@@ -96,7 +103,7 @@ public class Planer {
 
                         // Andrangskalkulation
                         // Iteration über Eintrittspreise, lokale Optimierung
-                        for (int eintrittspreis = 13; eintrittspreis <= 15; eintrittspreis++) { // TODO Range verkleinern für mehr Performance
+                        for (int eintrittspreis = 12; eintrittspreis <= 13; eintrittspreis++) { // TODO Range verkleinern für mehr Performance
 
                             // Backup
                             int backupEinnahmen = vorstellung.GetVorstellungTicketeinnahmen()[0] +
@@ -129,6 +136,7 @@ public class Planer {
                         spielplanTicketeinnahmen += vorstellung.GetVorstellungTicketeinnahmen()[0] +
                                 vorstellung.GetVorstellungTicketeinnahmen()[1];
                         spielplanWerbeEinnahmen += vorstellung.GetVorstellungWerbeeinnahmen();
+
 
                         spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex] = vorstellung;
                     }
@@ -223,6 +231,14 @@ public class Planer {
 
         for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
             for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
+
+                try
+                {
+                    in_VorstellungsTag[saalIndex][vorstellungIndex].GetSpielzeiten();
+                }
+                catch (NullPointerException n){
+                    int x = 0;
+                }
 
                 switch (in_VorstellungsTag[saalIndex][vorstellungIndex].GetSpielzeiten()) {
                     case SLOT_1500: {

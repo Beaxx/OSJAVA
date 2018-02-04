@@ -25,7 +25,7 @@ public class WerbefilmImporter extends Datei {
             String importString = importFileWerbespots.readLine_FS();
             if (importString != null) {
 
-                dataValidation(importString,in_Name);
+                dataValidation(importString, in_Name);
 
                 String arrayWerbung[] = importString.split(";");
 
@@ -40,22 +40,22 @@ public class WerbefilmImporter extends Datei {
     }
 
     /**
-     * @param  in_importstring der einzulesende String für die späteren Objektinstanzen
-     * @param  in_name Name und Pfade der Importdatei
+     * @param in_importstring der einzulesende String für die späteren Objektinstanzen
+     * @param in_name         Name und Pfade der Importdatei
      * @author Fabian Ueberle
      * <p>
-     *     Die Methode dataValidation() prüft jede Zeile der Importdatei ob diese die erwartete Struktur aufweist.
-     *     Dies soll zum einen einen Absturz des Programms sowie die Erzeugung unvollständiger Objekte vermeiden.
-     *     Die ausgegebene Fehlermeldung soll den Anwender auf die betroffene Datei hinweisen.
+     * Die Methode dataValidation() prüft jede Zeile der Importdatei ob diese die erwartete Struktur aufweist.
+     * Dies soll zum einen einen Absturz des Programms sowie die Erzeugung unvollständiger Objekte vermeiden.
+     * Die ausgegebene Fehlermeldung soll den Anwender auf die betroffene Datei hinweisen.
      * </p>
-     * */
-    private void dataValidation(String in_importstring, String in_name){
+     */
+    private void dataValidation(String in_importstring, String in_name) {
 
         String array[] = in_importstring.split(";");
 
-        if (array.length!=3){
+        if (array.length != 3) {
             System.err.println("Fehlerhafte Importdatei für Werbespots. Das Programm wird abgebrochen. " +
-                    "Bitte prüfen Sie Ihre Datei "+in_name+ " auf 3 Spalten.");
+                    "Bitte prüfen Sie Ihre Datei " + in_name + " auf 3 Spalten.");
             System.exit(-1);
         }
 

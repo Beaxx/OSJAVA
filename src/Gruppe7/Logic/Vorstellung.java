@@ -108,6 +108,9 @@ public class Vorstellung {
         vorstellungTicketeinnahmen[1] = eintrittspreis * zuschauerParkett;
     }
 
+    /**
+     * Berechnet die Werbeeinnahmen einer Vorstellung.
+     */
     public void VorstellungWerbeeinnahmen(Vorstellung this) {
         if (werbungen == WerbefilmVerwaltung.GetWerbefilme20MinutenStandard()) {
             vorstellungWerbeeinnahmen = WerbefilmVerwaltung.GetWerbefilme20MinutenStandardUmsatzProZuschauer() * (zuschauerLoge + zuschauerParkett);

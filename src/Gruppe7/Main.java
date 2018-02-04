@@ -96,9 +96,9 @@ public class Main {
                 " steigt die Qualität der generierten Spielpläne.\nWählen Sie eine Zahl zwischen 10.000 und 10.000.000\n\n" +
                 "Laufzeiten (ca.)\n" +
                 "10.000 Durchläufe:     2   Sekunden\n" +
-                "100.000 Durchläufe:    20  Sekunden\n" +
-                "1.000.000 Durchläufe:  2   Minuten\n" +
-                "10.000.000 Durchläufe: 37  Minuten\n\n" +
+                "100.000 Durchläufe:    30  Sekunden\n" +
+                "1.000.000 Durchläufe:  4.5   Minuten\n" +
+                "10.000.000 Durchläufe: 45  Minuten\n\n" +
                 "Die Ausgabe erfolgt im Ordner 'export' in Ihrem Datensatz-Verzeichnis.");
 
         // Erstellung des Exportordners falls noch nicht vorhanden.
@@ -132,7 +132,7 @@ public class Main {
         // Datenimport
         new WerbefilmImporter(path + "/werbespots.csv");
         new SaalImporter(path + "/saele.csv");
-        int mindestBeliebtheit = 93;
+        int mindestBeliebtheit = 95;
         new KinofilmImporter(path + "/filme.csv", mindestBeliebtheit);
 
         // FilmArrays erstellen
@@ -152,6 +152,7 @@ public class Main {
         // Performance Wrapper start
         long startTime = System.currentTimeMillis();
 
+
         // Algorithmus
         Planer planer = new Planer();
         for (int i = 0; i < checkedInput; i++)
@@ -165,9 +166,8 @@ public class Main {
                                         "Werbung:   " + planer.GetSpielplanWerbeEinnahmen() + "\n" +
                                         "Ausgaben:  " + planer.GetSpielplanAusgaben() + "\n" +
                                         "Gewinn:    " + planer.GetSpielplanGewinn() + "\n" +
-                                        "--------------------------------");
+                                        "--------------------------------\n\n");
                 }
-        }
 
         // Performance Wrapper ende
         long endTime = System.currentTimeMillis();
@@ -176,8 +176,9 @@ public class Main {
         //endregion
 
         // Ausgabe Laufdauer und Geschwindigkeit
-        System.out.println(totalTimeS + " Sekunden für " + checkedInput + " Durchläufe" + "\n" +
+        System.out.println("\n\n\n" + totalTimeS + " Sekunden für " + checkedInput + " Durchläufe" + "\n" +
                 (double) checkedInput / totalTimeS + " pro Sekunde");
+        }
 
         //region Export
         new ExportRaumplanung(path + "/export/raumplan.txt", planer);

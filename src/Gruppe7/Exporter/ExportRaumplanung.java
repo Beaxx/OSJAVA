@@ -57,7 +57,6 @@ public class ExportRaumplanung extends Datei {
                 }
             }
         }
-        System.out.println(exportStringRaumplan);
         exportRaumplan.writeLine_FS(exportStringRaumplan);
         exportRaumplan.closeOutFile_FS();
         exportRaumplan.eof();

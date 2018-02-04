@@ -17,12 +17,12 @@ public class Kinofilm extends Film {
 
     /**
      * Konstruktor
-     *
+     * <p>
      * gesamtkostenInSpielplan wird mit 0 initialisierunt und während der Spielplanerstellung befüllt.
      *
      * @param in_Titel            der Titel des Films.
      * @param in_Laufzeit         die Laufzeit des Films in Minuten.
-     * @param in_3D           die 3D-Eigenschaft eines Films.
+     * @param in_3D               die 3D-Eigenschaft eines Films.
      * @param in_Sprache          die Sprache des Films.
      * @param in_Regisseur        der Name des Regisseurs des Filmes.
      * @param in_Erscheinungsjahr das Erscheinungsjahr des Filmes.
@@ -70,6 +70,7 @@ public class Kinofilm extends Film {
     }
 
     // Setter
+
     /**
      * Setmethode für die Gesamtkosten, die ein Kinofilm im Spielplan verursacht.
      * Wird ausschließlich dazu verwendet die Gesamtkosten auf 0 zu setzen. Für das tatsächliche erhöhen der Kosten
