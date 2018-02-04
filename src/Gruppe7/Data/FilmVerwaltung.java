@@ -78,16 +78,16 @@ public class FilmVerwaltung {
      * <p>
      * Die Metode bekommt ihre Parameter von FilmArraysHelper(), die die Iteration steuert.
      *
-     * @param in_saal3Dfaehig 1 oder 0 | 1: Vorstellung kann 3D-Filme zeigen 2: Vorstellung kann nur 2D-Filme zeigen
-     * @param in_uhrzeit      Elemnt der Enumeration Spielzeiten: 15:00, 17:30, 20:00 oder 23:00
+     * @param in_Saal3Dfaehig 1 oder 0 | 1: Vorstellung kann 3D-Filme zeigen 2: Vorstellung kann nur 2D-Filme zeigen
+     * @param in_Uhrzeit      Elemnt der Enumeration Spielzeiten: 15:00, 17:30, 20:00 oder 23:00
      */
-    private static void setFilmArrays(int in_saal3Dfaehig, Spielzeiten in_uhrzeit) {
+    private static void setFilmArrays(int in_Saal3Dfaehig, Spielzeiten in_Uhrzeit) {
 
-        switch (in_saal3Dfaehig) {
+        switch (in_Saal3Dfaehig) {
 
             //region  3D-Faehiger Saal
             case 1: {
-                switch (in_uhrzeit) {
+                switch (in_Uhrzeit) {
                     case SLOT_1500:
                     case SLOT_1730: {
                         filme3D_150_1500_1730 = filmeFuer3DSaele;
@@ -116,7 +116,7 @@ public class FilmVerwaltung {
 
             //region 2D-Faehiger Saal
             case 0: {
-                switch (in_uhrzeit) {
+                switch (in_Uhrzeit) {
                     case SLOT_1500:
                     case SLOT_1730: {
                         filme2D_150_1500_1730 = filmeFuer2DSaele;
@@ -177,15 +177,15 @@ public class FilmVerwaltung {
      * Der Getter funktioniert ähnlich dem Setter, anhand von 3D-Fähigkeit des Saals und dem Timeslot wird
      * das passsende Filmset ausgewählt und zurückgegeben.
      *
-     * @param in_saal3Dfaehig 1 oder 0 | 1: Vorstellung kann 3D-Filme zeigen 2: Vorstellung kann nur 2D-Filme zeigen
-     * @param in_uhrzeit      Elemnt der Enumeration Spielzeiten: 15:00, 17:30, 20:00 oder 23:00
+     * @param in_Saal3Dfaehig 1 oder 0 | 1: Vorstellung kann 3D-Filme zeigen 2: Vorstellung kann nur 2D-Filme zeigen
+     * @param in_Uhrzeit      Elemnt der Enumeration Spielzeiten: 15:00, 17:30, 20:00 oder 23:00
      * @return eine Liste an Kinofilmen, die in dieser Vorstellung gezeigt werden dürfen.
      */
-    public static ArrayList<Kinofilm> GetFilme(boolean in_saal3Dfaehig, Spielzeiten in_uhrzeit) {
+    public static ArrayList<Kinofilm> GetFilme(boolean in_Saal3Dfaehig, Spielzeiten in_Uhrzeit) {
 
         // Übersetzung von Boolean in Int für Switch
         int switch3D;
-        if (in_saal3Dfaehig) {
+        if (in_Saal3Dfaehig) {
             switch3D = 1;
         } else {
             switch3D = 0;
@@ -195,7 +195,7 @@ public class FilmVerwaltung {
 
             //region  3D-Faehiger Saal
             case 1: {
-                switch (in_uhrzeit) {
+                switch (in_Uhrzeit) {
                     case SLOT_1500:
                     case SLOT_1730: {
                         return filme3D_150_1500_1730;
@@ -214,7 +214,7 @@ public class FilmVerwaltung {
 
             //region 2D-Faehiger Saal
             case 0: {
-                switch (in_uhrzeit) {
+                switch (in_Uhrzeit) {
                     case SLOT_1500:
                     case SLOT_1730: {
                         return filme2D_150_1500_1730;

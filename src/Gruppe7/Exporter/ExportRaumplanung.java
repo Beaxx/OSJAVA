@@ -8,8 +8,8 @@ import java.lang.String;
  * @author  Nicole Distler
  * Erbt von Datei.
  *
- * Der Raumplan Exporter erstellt eine Datei ähnlich dem Kinoprogramm, dass Aufschluss darüber gibt, wann in welchem
- * Saal zu welcher Uhrzeit welcher Film läuft. Da dieser Plan das Kinopersonal unterstützen soll ist er im .txt-Format
+ * Der Raumplan Exporter erstellt eine Datei ähnlich dem Kinoprogramm, das Aufschluss darüber gibt, wann in welchem
+ * Saal zu welcher Uhrzeit welcher Film läuft. Da dieser Plan das Kinopersonal unterstützen soll, ist er im .txt-Format
  * gespeichert, sodass er schnell ausgedruckt und ausgehängt werden kann.
  */
 public class ExportRaumplanung extends Datei {

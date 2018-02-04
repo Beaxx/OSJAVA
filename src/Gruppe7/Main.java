@@ -124,7 +124,7 @@ public class Main {
 
         // Wartezeit ausgeben
         int dauer = Math.round(checkedInput / 4000 / 60);
-        System.out.println(checkedInput + " Durchläufe werden durchgeführt. Bitte warten Sie ca. " + dauer + "Minuten");
+        System.out.println(checkedInput + " Durchläufe werden durchgeführt. Bitte warten Sie ca. " + dauer + " Minuten");
         reader.close();
         //endregion
 
@@ -145,7 +145,7 @@ public class Main {
 
         // Saele sortieren
         SaalVerwaltung.SaalplanSortieren();
-        SaalVerwaltung.PlaetzteInGroestemUndZweitgroestemSaal();
+        SaalVerwaltung.PlaetzteInGroestemUndZweitgroesstemSaal();
         //endregion
 
         //region Algorithmus
@@ -161,10 +161,10 @@ public class Main {
 
                 if (tempPlaner.GetSpielplanGewinn() > planer.GetSpielplanGewinn()) {
                     planer = tempPlaner;
-                    System.out.println("Tickets: " + planer.GetSpielplanTicketeinnahmen() + "\n" +
-                                        "Werbung: " + planer.GetSpielplanWerbeEinnahmen() + "\n" +
-                                        "Ausgaben: " + planer.GetSpielplanAusgaben() + "\n" +
-                                        "Gewinn:" + planer.GetSpielplanGewinn() + "\n" +
+                    System.out.println("Tickets:    " + planer.GetSpielplanTicketeinnahmen() + "\n" +
+                                        "Werbung:   " + planer.GetSpielplanWerbeEinnahmen() + "\n" +
+                                        "Ausgaben:  " + planer.GetSpielplanAusgaben() + "\n" +
+                                        "Gewinn:    " + planer.GetSpielplanGewinn() + "\n" +
                                         "--------------------------------");
                 }
         }

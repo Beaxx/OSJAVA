@@ -8,15 +8,16 @@ import Gruppe7.Logic.Vorstellung;
  * @author  Nicole Distler
  * Erbt von Datei.
  *
- * Der Finazplan Exporter erweitert den Funktionsumfang des Kinoprogramm Exports um finazielle Kennzahlen zum Spielplan
- * und exportiert das erweiterte Kinoprogramm im CSV-Format.
+ * Der Finanzplan Exporter erweitert den Funktionsumfang des Kinoprogramm Exports um finanzielle Kennzahlen
+ * und exportiert das erweiterte Kinoprogramm im CSV-Format. Der Export umfasst einen Spielplan von 21 Tagen.
  */
 public class ExportFinanzplan extends Datei {
 
     /**
-     * Konstruktor
+     * Konstruktor für die Klasse ExportFinanzplan
      *
-     * @param in_Name         Dateinpfad
+     *
+     * @param in_Name         Datei und Pfad
      * @param in_SpielplanObj Planer-Objekt, das den Spielplan enthält.
      */
     public ExportFinanzplan(String in_Name, Planer in_SpielplanObj) {
@@ -26,9 +27,9 @@ public class ExportFinanzplan extends Datei {
 
         Vorstellung[][][][] spielplan = in_SpielplanObj.GetSpielplan();
 
-        // CSV-Header Zeile
+        // CSV-Header Zeile für Tabelle
         String headerString =
-                "Kinofilm\t" +
+                        "Kinofilm\t" +
                         "Vorführwoche\t" +
                         "Wochentag\t" +
                         "Kinosaal\t" +
@@ -45,9 +46,9 @@ public class ExportFinanzplan extends Datei {
                     "Werbefilm" + (i + 1) + "-Einnahmen\t";
         }
         headerString += "Gesamtausgaben\t" +
-                "Gesamteinnahmen Werbung:\t" +
-                "Gesamteinnahmen Tickets:\t" +
-                "Gewinn:\t";
+                        "Gesamteinnahmen Werbung:\t" +
+                        "Gesamteinnahmen Tickets:\t" +
+                        "Gewinn:\t";
 
         exportFinanzplan.writeLine_FS(headerString);
 
@@ -97,7 +98,7 @@ public class ExportFinanzplan extends Datei {
                             }
                         }
 
-                        // In erster Zeile daten zur Gesamtperformance des Spielplans erfasse
+                        // In erster Zeile Daten zur Gesamtperformance des Spielplans erfasse
                         if (iSpielzeit == 0 && iSaal == 0 && iTag == 0 && iWoche == 0) {
                             exportString += String.valueOf(in_SpielplanObj.GetSpielplanAusgaben()) + "\t" +
                                     String.valueOf(in_SpielplanObj.GetSpielplanWerbeEinnahmen()) + "\t" +

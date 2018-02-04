@@ -26,12 +26,12 @@ public class ExportKinoprogramm extends Datei {
         Vorstellung[][][][] spielplan = in_SpielplanObj.GetSpielplan();
 
         // CSV-Header Zeile
-        String ueberschriftenString = "Kinofilm\t" +
-                "Vorführwoche\t" +
-                "Wochentag\t" +
-                "Kinosaal\t" +
-                "Spielzeit\t" +
-                "Eintrittspreis (EUR)*";
+        String ueberschriftenString =   "Kinofilm\t" +
+                                        "Vorführwoche\t" +
+                                        "Wochentag\t" +
+                                        "Kinosaal\t" +
+                                        "Spielzeit\t" +
+                                        "Eintrittspreis (EUR)*";
 
         exportKinoprogramm.writeLine_FS(ueberschriftenString);
 

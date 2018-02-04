@@ -15,13 +15,13 @@ import java.util.ArrayList;
  */
 public class SaalVerwaltung {
     static private ArrayList<Saal> saele = new ArrayList<>();
-    private static int plaetzeGroesterSaal;
-    private static int plaetzeZweitgroesterSaal;
+    private static int plaetzeGroessterSaal;
+    private static int plaetzeZweitgroessterSaal;
 
     /**
      * Speichert größen und zweitgrößten Saal ab.
      */
-    public static void PlaetzteInGroestemUndZweitgroestemSaal() {
+    public static void PlaetzteInGroestemUndZweitgroesstemSaal() {
         int localPlaetzeGroesterSaal = 0;
         int localPlaetzeZweitgroesterSaal = 0;
 
@@ -37,8 +37,8 @@ public class SaalVerwaltung {
                 localPlaetzeZweitgroesterSaal = saal.GetPlaetzeLoge() + saal.GetPlaetzeParkett();
             }
         }
-        plaetzeGroesterSaal = localPlaetzeGroesterSaal;
-        plaetzeZweitgroesterSaal = localPlaetzeZweitgroesterSaal;
+        plaetzeGroessterSaal = localPlaetzeGroesterSaal;
+        plaetzeZweitgroessterSaal = localPlaetzeZweitgroesterSaal;
     }
 
     // Getter
@@ -57,8 +57,8 @@ public class SaalVerwaltung {
      *
      * @return Die Anzahl der Plätze im größten Saal
      */
-    public static int GetPlaetzeGroesterSaal() {
-        return plaetzeGroesterSaal;
+    public static int GetPlaetzeGroessterSaal() {
+        return plaetzeGroessterSaal;
     }
 
     /**
@@ -66,8 +66,8 @@ public class SaalVerwaltung {
      *
      * @return Die Anzahl der Plätze im zweitgrößten Saal
      */
-    public static int GetPlaetzeZweitgroesterSaal() {
-        return plaetzeZweitgroesterSaal;
+    public static int GetPlaetzeZweitgroessterSaal() {
+        return plaetzeZweitgroessterSaal;
     }
 
     //Setter
