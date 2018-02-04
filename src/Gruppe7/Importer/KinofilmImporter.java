@@ -42,39 +42,38 @@ public class KinofilmImporter extends Datei {
                 break;
             }
             //Prüft auf Array Größe
-            dataValidation(importString, in_Name);
+            if (!dataValidation(importString, in_Name)){
+                System.err.println("Fehler in Spaltenstruktur.");
+            }
 
 
             //Zerlegt den Import String (Zeile der Datei) und erstellt ein Array.
             String[] arrayKinofilm;
             arrayKinofilm = importString.split(";");
 
+            if (
+                    //FSK Prüfung
+                    !checkForInt(arrayKinofilm[2])||
+                    !checkForValidFSK(Integer.valueOf(arrayKinofilm[2]))||
+                    //Preis Prüfung
+                    !checkForInt(arrayKinofilm[4])||
+                    //Beliebtheit Prüfung
+                    !checkForInt(arrayKinofilm[5])||
+                    !checkForValidBeliebtheit(Integer.valueOf(arrayKinofilm[5]))||
+                    //Spielzeit Prüfung
+                    !checkForInt(arrayKinofilm[6])||
+                    !checkForValidSpielzeit(Integer.valueOf(arrayKinofilm[6]))||
+                    //Prüfung auf Jahr
+                    !checkForInt(arrayKinofilm[9])||
+                    !checkForValidJahr(Integer.valueOf(arrayKinofilm[9]))||
+                    //Prüung auf 3D
+                    !checkForBoolean(arrayKinofilm[10])) {
 
+                    System.err.println("Fehler in der Datei "+in_Name+". Fahlerhafte Datensätz wurden Übersprungen.");
 
-            //FSK Prüfung
-            checkForInt(arrayKinofilm[2]);
-            checkForValidFSK(Integer.valueOf(arrayKinofilm[2]));
+                    importString=importFileKinofilme.readLine_FS();
 
-            //Preisprüfung
-            checkForInt(arrayKinofilm[4]);
-
-            //Beliebtheit Prüung
-            checkForInt(arrayKinofilm[5]);
-            checkForValidBeliebtheit(Integer.valueOf(arrayKinofilm[5]));
-
-            //Spielzeit Prüfung
-            checkForInt(arrayKinofilm[6]);
-            checkForValidSpielzeit(Integer.valueOf(arrayKinofilm[6]));
-
-            //Prüfung auf Jahr
-            checkForInt(arrayKinofilm[9]);
-            checkForValidJahr(Integer.valueOf(arrayKinofilm[9]));
-
-
-            //Prüung auf 3D
-            checkForBoolean(arrayKinofilm[10]);
-
-
+            }
 
 
 
@@ -256,18 +255,20 @@ public class KinofilmImporter extends Datei {
      *     Die ausgegebene Fehlermeldung soll den Anwender auf die betroffene Datei hinweisen.
      * </p>
      * */
-    private void dataValidation(String in_importstring, String in_name){
+    private boolean dataValidation(String in_importstring, String in_name){
 
        String array[] = in_importstring.split(";");
 
         if (array.length!=11){
             System.err.println("Fehlerhafte Importdatei für Kinofilme. Die Fehlerhafte Zeile wird übersprungen. " +
                     "Bitte prüfen Sie Ihre Datei "+ in_name+" auf 11 Spalten.");
+            return false;
             //String importString = importFileKinofilme.readLine_FS();
 
             //System.exit(-1);
 
         }
+        return true;
     }
 
     private boolean checkForInt(String in_InputCheck) {
