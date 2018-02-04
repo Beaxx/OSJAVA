@@ -2,6 +2,7 @@ package Gruppe7.Importer;
 
 import Gruppe7.Data.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * @author Fabian Ueberle
@@ -13,6 +14,7 @@ public class KinofilmImporter extends Datei {
 
     private Fsk importKinofilmFSK;
     private int minBeliebtheit;
+    private Datei importFileKinofilme;
 
     /**
      * Erstellt aus den serialisierten Kinofilmobjekten in der Import-Datei Kinofilm-Objekte.
@@ -39,11 +41,43 @@ public class KinofilmImporter extends Datei {
             if (importString == null) {
                 break;
             }
+            //Prüft auf Array Größe
             dataValidation(importString, in_Name);
-            String[] arrayKinofilm;
+
 
             //Zerlegt den Import String (Zeile der Datei) und erstellt ein Array.
+            String[] arrayKinofilm;
             arrayKinofilm = importString.split(";");
+
+
+
+            //FSK Prüfung
+            checkForInt(arrayKinofilm[2]);
+            checkForValidFSK(Integer.valueOf(arrayKinofilm[2]));
+
+            //Preisprüfung
+            checkForInt(arrayKinofilm[4]);
+
+            //Beliebtheit Prüung
+            checkForInt(arrayKinofilm[5]);
+            checkForValidBeliebtheit(Integer.valueOf(arrayKinofilm[5]));
+
+            //Spielzeit Prüfung
+            checkForInt(arrayKinofilm[6]);
+            checkForValidSpielzeit(Integer.valueOf(arrayKinofilm[6]));
+
+            //Prüfung auf Jahr
+            checkForInt(arrayKinofilm[9]);
+            checkForValidJahr(Integer.valueOf(arrayKinofilm[9]));
+
+
+            //Prüung auf 3D
+            checkForBoolean(arrayKinofilm[10]);
+
+
+
+
+
 
             //region FSK des aktuellen Films
             int importKinofilmFskInt = Integer.valueOf(arrayKinofilm[2]);
@@ -227,9 +261,135 @@ public class KinofilmImporter extends Datei {
        String array[] = in_importstring.split(";");
 
         if (array.length!=11){
-            System.err.println("Fehlerhafte Importdatei für Kinofilme. Das Programm wird abgebrochen. " +
+            System.err.println("Fehlerhafte Importdatei für Kinofilme. Die Fehlerhafte Zeile wird übersprungen. " +
                     "Bitte prüfen Sie Ihre Datei "+ in_name+" auf 11 Spalten.");
-            System.exit(-1);
+            //String importString = importFileKinofilme.readLine_FS();
+
+            //System.exit(-1);
+
         }
     }
+
+    private boolean checkForInt(String in_InputCheck) {
+        String input = in_InputCheck;
+        Boolean isInt;
+        isInt = false;
+        try {
+            Integer.valueOf(in_InputCheck);
+            isInt = true;
+            return true;
+        } catch (NumberFormatException e) {
+            System.err.println("Kein Integer Wert");
+            isInt = false;
+            return false;
+        }
+    }
+
+
+    private boolean checkForBoolean(String in_InputCheck) {
+        String input = in_InputCheck;
+        Boolean isBool;
+        isBool = false;
+        try {
+            Boolean.valueOf(in_InputCheck);
+            isBool = true;
+            return true;
+        } catch (NumberFormatException e) {
+            System.err.println("Kein Boolean Wert");
+            isBool = false;
+            return false;
+        }
+    }
+
+    private boolean checkForValidFSK(Integer in_Input) {
+
+        int checkedInput = in_Input;
+        Boolean isValidFSK;
+        isValidFSK = false;
+
+        try {
+            if ((checkedInput == 0 || checkedInput == 6 || checkedInput == 12 || checkedInput == 16 || checkedInput == 18)) {
+                isValidFSK = true;
+                return true;
+            }
+            throw new Exception();
+
+        } catch (Exception e) {
+            System.err.println("Fehlerhafter FSK Wert");
+
+            return false;
+        }
+    }
+
+
+        private boolean checkForValidBeliebtheit(Integer in_Input) {
+
+            int checkedInputBeliebtheit =in_Input;
+            Boolean isValidBeliebtheit;
+            isValidBeliebtheit = false;
+
+            try {
+                if (checkedInputBeliebtheit >= 0 && checkedInputBeliebtheit <= 100) {
+                    isValidBeliebtheit = true;
+                    return true;
+                }
+                throw new Exception();
+
+            } catch (Exception e) {
+                System.err.println("Beliebtheit außerhalb der Norm von 0-100.");
+
+                return false;
+            }
+
+        }
+
+    private boolean checkForValidJahr(Integer in_Input) {
+
+        int checkedInputJahr = in_Input;
+        Boolean isValidJahr;
+        isValidJahr = false;
+
+        Calendar cal = Calendar.getInstance();
+        //cal.setTime(new Date()); //heute
+        int jahr = cal.get(Calendar.YEAR);
+
+        try {
+            if (checkedInputJahr >= 1900 && checkedInputJahr <= jahr) {
+                isValidJahr = true;
+                return true;
+            }
+            throw new Exception();
+
+        } catch (Exception e) {
+            System.err.println("Erscheinungsjahr außerhalb der Norm von 1900-akutelles Jahr.");
+
+            return false;
+        }
+    }
+
+     private boolean checkForValidSpielzeit(Integer in_Input){
+
+            int checkedInputSpielzeit = in_Input;
+            Boolean isValidSpielzeit;
+            isValidSpielzeit = false;
+
+            try {
+                if (checkedInputSpielzeit > 0 && checkedInputSpielzeit <= 180) {
+                    isValidSpielzeit = true;
+                    return true;
+                }
+                throw new Exception();
+
+            } catch (Exception e) {
+                System.err.println("Unzulässige Spielzeitdauer.");
+                isValidSpielzeit = false;
+                return false;
+            }
+        }
+
+
+
+
+
+
 }
