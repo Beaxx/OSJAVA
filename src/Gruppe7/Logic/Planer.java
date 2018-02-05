@@ -1,7 +1,11 @@
 package Gruppe7.Logic;
 
+import Gruppe7.Data.FilmVerwaltung;
+import Gruppe7.Data.Genre;
+import Gruppe7.Data.Kinofilm;
+import Gruppe7.Data.SaalVerwaltung;
+
 import java.util.*;
-import Gruppe7.Data.*;
 
 /**
  * @author Lennart Völler
@@ -42,7 +46,6 @@ public class Planer {
      * Erstellung ein Planungsobjektes, dass alle Informationen zu einem Spielplan enthält.
      */
     public Planer() {
-
         // Genre-Liste wird kopiert
         Set<Genre> localGenreListWoche0 = new HashSet<>();
         Set<Genre> localGenreListWoche1 = new HashSet<>();
@@ -65,6 +68,7 @@ public class Planer {
 
     /**
      * Erstellt einen zufälligen Spielplan als vierdimensionales Array.
+     *
      * @param in_localGenreListWoche0 Ein Set in dem jedes Genre einmal enthalten ist.
      * @param in_localGenreListWoche1 Ein Set in dem jedes Genre einmal enthalten ist.
      * @param in_localGenreListWoche2 Ein Set in dem jedes Genre einmal enthalten ist.
@@ -152,11 +156,11 @@ public class Planer {
      * *
      * Jedes Genre muss einmal in der Woche gezeigt werden
      *
-     * @param in_vorstellungsGenres Die Genres, des in der Vorstellung gezeigten Filmes
+     * @param in_vorstellungsGenres   Die Genres, des in der Vorstellung gezeigten Filmes
      * @param in_localGenreListWoche0 Eine Liste zur Überprüfung ob Genres in Woche 0 gezeigt wurden.
      * @param in_localGenreListWoche1 Eine Liste zur Überprüfung ob Genres in Woche 1 gezeigt wurden.
      * @param in_localGenreListWoche2 Eine Liste zur Überprüfung ob Genres in Woche 2 gezeigt wurden.
-     * @param in_wochenindex der Index der Woche aus der heraus der Check initialisiert wird.
+     * @param in_wochenindex          der Index der Woche aus der heraus der Check initialisiert wird.
      * @return bool auf basis der Erfüllung der genre Kriterien. Abbruchkriterium für Schleife.
      */
     private boolean checkGenre(
@@ -224,7 +228,7 @@ public class Planer {
     /**
      * Ermittlung ob ein Kinofilm parallel am selben Tag in zwei unterschiedlichen Sälen läuft. Wenn ja, entsprechende
      * Kostenrückgabe.
-     *
+     * <p>
      * Funktion: Bei den slot[...] Listen handelt es sich um Hashets, die jedes Element nur einmalig enthalten können.
      * Der Kinofilm der aktuellen Vorstellung wird dem Hashset hinzugefügt, scheitert diese Aktion (die größe des Sets
      * bleibt unverändert) kann geschlossen werden, dass der Film bereits Teil der Liste ist. Entsprechend wird der
