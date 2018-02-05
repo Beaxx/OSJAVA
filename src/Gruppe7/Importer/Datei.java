@@ -1,20 +1,21 @@
 package Gruppe7.Importer;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Die Klasse Datei soll in einfacherer Weise Strings als Zeilen ausgeben,
  * bzw einlesen koennen.
- * 
+ *
  * Beachten Sie, dass es fuer einige Aufgaben mehrere Methoden gibt, die sich
  * darin unterscheiden ob mit Java-Ausnahmen gearbeitet wird oder nicht. Dies
  * soll Sie in die Lage versetzen, die Datei-Klasse benutzen zu können, auch
  * wenn sie sich noch nicht mit dem Ausnahmekonzept auseinandergesetzt haben.
  * Hier wird dann stattdessen nur mit Fehlercodes gearbeitet.
- * 
+ *
  * Selbstverstaendlich duerfen Sie diese Klasse in ihrem Projekt nicht nur
  * benutzen, sondern auch nach Belieben veraendern!
- * 
+ *
  * @author  Patrick Veith et al.
  * @version 2.1 on 11.10.2012
  */
@@ -31,11 +32,11 @@ public class Datei
     // Objekt einer Java-Klasse zum Lesen von Zeichenketten
     private BufferedReader dEin;
     /**
-    * Enthaelt nach dem Aufruf einer Methode einen Fehlercode.
-    * 0 bedeutet, dass kein Fehler aufgetreten ist und ueber die 
-    * Methode errorMessage kann man eine Beschreibung eines 
-    * Fehlercodes erfragen.
-    */
+     * Enthaelt nach dem Aufruf einer Methode einen Fehlercode.
+     * 0 bedeutet, dass kein Fehler aufgetreten ist und ueber die
+     * Methode errorMessage kann man eine Beschreibung eines
+     * Fehlercodes erfragen.
+     */
     public int errorCode;
     // Enthaelt, wenn eine Eingabedatei ihr Ende erreicht true,
     // ansonsten enthaelt eof immer false.
@@ -49,8 +50,7 @@ public class Datei
      * Legt einen String mit dem Namen der zu bearbeitenden Datei an.
      * @param in_name (String): Dateiname der benutzt werden soll.
      */
-    public Datei(String in_name)
-    {   
+    public Datei(String in_name) {
         dName = new String(in_name);
         errorCode =0;
         eof=false;
@@ -59,35 +59,34 @@ public class Datei
     /**
      * Ueberprueft, ob das Ende einer Eingabedatei erreicht wurde.
      *
-     * @return gibt true nur zurueck, wenn das Ende einer Eingabedatei 
+     * @return gibt true nur zurueck, wenn das Ende einer Eingabedatei
      *          erreicht wurde. Ansosnsten wird immer false zurueckgegeben.
      */
-    public boolean eof()
-    {   
+    public boolean eof() {
         return eof;
     }
 
-     /**
+    /**
      * Oeffnet eine Ausgabedatei namens dName.
-     * 
+     *
      * @return (int) - Fehlernummer, oder 0 fuer OK!
      */
     public void openOutFile() throws IOException
     {
         eof=false;
         errorCode =0;
-        dAus = new PrintWriter(new BufferedWriter(new FileWriter(dName)));
+        dAus = new PrintWriter(new BufferedWriter((new OutputStreamWriter(new FileOutputStream(dName), StandardCharsets.UTF_8))));
     }
-    
+
     /**
      * Oeffnet eine Ausgabedatei namens dName. (Variante mit Fehlercodes!)
-     * 
+     *
      */
     public int openOutFile_FS()
     {
         eof=false;
         try {
-            dAus = new PrintWriter(new BufferedWriter(new FileWriter(dName)));
+            dAus = new PrintWriter(new BufferedWriter((new OutputStreamWriter(new FileOutputStream(dName), StandardCharsets.UTF_8))));
             errorCode =0;
             return 0;
         }
@@ -98,10 +97,10 @@ public class Datei
             return 1;
         }
     }
-    
+
     /**
      * Schreibt einen String als Zeile in eine Datei.
-     * 
+     *
      * @param  in_str - (String)Zeichenkette die in die Datei geschrieben
      *                  werden soll.
      */
@@ -112,10 +111,10 @@ public class Datei
         dAus.write(in_str+"\n");
 
     }
-    
+
     /**
      * Schreibt einen String als Zeile in eine Datei. (Variante mit Fehlercodes!)
-     * 
+     *
      * @param  in_str - (String)Zeichenkette die in die Datei geschrieben
      *                  werden soll.
      * @return (int) - Fehlernummer oder 0 fuer OK!
@@ -138,17 +137,17 @@ public class Datei
 
     /**
      * Schliesst eine Ausgabedatei.
-     * 
+     *
      */
     public void closeOutFile()
     {
         errorCode =0;
         dAus.close();
     }
-    
+
     /**
      * Schliesst eine Ausgabedatei.  (Variante mit Fehlercodes!)
-     * 
+     *
      * @return int - Fehlernummer oder 0 fuer OK
      */
     public int closeOutFile_FS()
@@ -165,27 +164,27 @@ public class Datei
             return 3;
         }
     }
-   
+
     /**
      * Oeffnet eine Eingabedatei namens dName.
-     * 
+     *
      */
     public void openInFile() throws IOException
     {
         errorCode =0;
         eof = false;
-        dEin = new BufferedReader(new FileReader(dName));
+        dEin = new BufferedReader(new InputStreamReader(new FileInputStream(dName), "UTF8"));
     }
 
     /**
      * Oeffnet eine Eingabedatei namens dName. (Variante mit Fehlercodes!)
-     * 
+     *
      * @return (int) - Fehlernummer, oder 0 fuer OK!
      */
     public int openInFile_FS()
     {
         try {
-            dEin = new BufferedReader(new FileReader(dName));
+            dEin = new BufferedReader(new InputStreamReader(new FileInputStream(dName), "UTF8"));
             errorCode =0;
             eof = false;
             return 0;
@@ -197,10 +196,10 @@ public class Datei
             return 4;
         }
     }
-    
+
     /**
      * Liest eine Zeile aus einer Eingabedatei.
-     * 
+     *
      * @return String - ausgelesene Zeile.
      */
     public String readLine() throws IOException
@@ -219,9 +218,9 @@ public class Datei
 
     /**
      * Liest eine Zeile aus einer Eingabedatei. (Variante mit Fehlercodes!)
-     * Hier bitte darauf achten, das die Methode keinen Fehlercode zurueck gibt, 
+     * Hier bitte darauf achten, das die Methode keinen Fehlercode zurueck gibt,
      * sondern -falls ein Fehler passiert) diesen nur ins Attribut errorCode schreibt.
-     * 
+     *
      * @return String - ausgelesene Zeile.
      */
     public String readLine_FS()
@@ -248,7 +247,7 @@ public class Datei
 
     /**
      * Schliesst eine Eingabedatei.
-     * 
+     *
      */
     public void closeInFile()  throws IOException
     {
@@ -256,10 +255,10 @@ public class Datei
         eof = false;
         dEin.close();
     }
-    
+
     /**
      * Schliesst eine Eingabedatei. (Variante mit Fehlercodes!)
-     * 
+     *
      * @return int - Fehlernummer oder 0 fuer OK
      */
     public int closeInFile_FS()
@@ -280,7 +279,7 @@ public class Datei
 
     /**
      * Loescht eine Datei.
-     * 
+     *
      */
     public int deleteFile() throws IOException
     {
@@ -295,10 +294,10 @@ public class Datei
         return errorCode;
 
     }
-    
+
     /**
      * Loescht eine Datei. (Variante mit Fehlercodes!)
-     * 
+     *
      * @return int - Fehlernummer oder 0 fuer OK
      */
     public int deleteFile_FS()
@@ -308,7 +307,7 @@ public class Datei
             errorCode =0;
             if (f.isFile()){
                 f.delete();
-                return 0;  
+                return 0;
             }
             else{
                 errorCode=98;
@@ -322,29 +321,26 @@ public class Datei
             return 7;
         }
     }
-    
+
     /**
      * Gibt den aktuellen Zustand des Dateiobjektes zurueck. "true" bedeutet es sind
-     * keine Fehler aufgetreten, "false" bedeutet es sind Fehler aufgetreten, die 
-     * ueber den Fehlercode in errorCode genauer zu identifizieren sind. 
-     * Diese Methode ist -mit einer Ausnahme- nur bei Nutzung des integrierten 
-     * Exceptionhandlings (<Methodenname>_FS) sinnvoll nutzbar. Allein die Methode 
-     * "deleteFile()" schreibt einen Errorcode (fuer den Fall das die zu loeschende 
+     * keine Fehler aufgetreten, "false" bedeutet es sind Fehler aufgetreten, die
+     * ueber den Fehlercode in errorCode genauer zu identifizieren sind.
+     * Diese Methode ist -mit einer Ausnahme- nur bei Nutzung des integrierten
+     * Exceptionhandlings (<Methodenname>_FS) sinnvoll nutzbar. Allein die Methode
+     * "deleteFile()" schreibt einen Errorcode (fuer den Fall das die zu loeschende
      * Datei keine Datei ist).
-     * 
+     *
      * @return boolean - Zustand des Dateiobjektes.
      */
     public boolean state()
     {
-        if (errorCode == 0)
-            return true;
-        else
-            return false;
-    }    
+        return errorCode == 0;
+    }
 
     /**
      * Gibt einen Fehlerbeschreibung als Text aus.
-     * 
+     *
      * @param  in_error - (int)Fehlernummer, die bei einem Methodenaufruf zurueck
      *                    gegeben wurde
      * @return String - Klartextbeschreibung des Fehlers!
