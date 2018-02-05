@@ -1,4 +1,3 @@
-// TODO Ans Google Doc Anpassen.
 
 Programmablauf:
 Die main-Methode startet alle Klassen in folgender Reihenfolge: Importerklassen, Planerklasse und Exporterklassen.
@@ -22,7 +21,7 @@ Die Anforderungen der Mitarbeiter des VAWi Filmpalastes werden durch das Program
 Der Finanzplan kann als Grundlage für eine Forecastbildung der Einnahmen und Ausgaben des Filmpalastes hinzugezogen werden. Durch die erwarteten Besucherzahlen könnten weitere Berechnungen (z.B. Einnahmen aus Getränken, Popcorn, etc.) durchgeführt werden.
 
 
-
+###Klassenautoren###
 Klassen Lennart Völler:
 - FilmVerwaltung
 - SaalVerwaltung
@@ -48,3 +47,9 @@ Klassen Fabian Ueberle:
 - KinofilmImporter
 - WerbefilmImporter
 - Saalimporter
+
+###Zuständigkeitsbereiche###
+
+Import: Fabian Ueberle
+Verarbeitung / Algorithmus: Lennart Völler
+Export: Nicole Distler

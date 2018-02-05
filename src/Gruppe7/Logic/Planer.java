@@ -105,32 +105,32 @@ public class Planer {
                         // Iteration über Eintrittspreise, lokale Optimierung
                         for (int eintrittspreis = 1; eintrittspreis <= 13; eintrittspreis++) {
 
-                        // Backup
-                        int backupEinnahmen = vorstellung.GetVorstellungTicketeinnahmen()[0] +
-                                vorstellung.GetVorstellungTicketeinnahmen()[1] +
-                                vorstellung.GetVorstellungWerbeeinnahmen();
+                            // Backup
+                            int backupEinnahmen = vorstellung.GetVorstellungTicketeinnahmen()[0] +
+                                    vorstellung.GetVorstellungTicketeinnahmen()[1] +
+                                    vorstellung.GetVorstellungWerbeeinnahmen();
 
-                        int backupAndrang = vorstellung.GetAndrang();
-                        int backupEintrittspreis = vorstellung.GetEintrittspreis();
-                        vorstellung.SetEintrittspreis(eintrittspreis);
+                            int backupAndrang = vorstellung.GetAndrang();
+                            int backupEintrittspreis = vorstellung.GetEintrittspreis();
+                            vorstellung.SetEintrittspreis(eintrittspreis);
 
-                        // Andrangsberechnung
-                        vorstellung.SetAndrang((int) Math.round(basisAndrang(vorstellung) * uhrzeitAndrangFaktor(vorstellung) *
-                                wochenTagAndrangFaktor(tagIndex) * wiederholungAndrangFaktor(vorstellung, wochenIndex) *
-                                preisAndrangFaktor(vorstellung)));
+                            // Andrangsberechnung
+                            vorstellung.SetAndrang((int) Math.round(basisAndrang(vorstellung) * uhrzeitAndrangFaktor(vorstellung) *
+                                    wochenTagAndrangFaktor(tagIndex) * wiederholungAndrangFaktor(vorstellung, wochenIndex) *
+                                    preisAndrangFaktor(vorstellung)));
 
-                        // Ticketeinnahmen und Werbeeinnahmen
-                        vorstellung.VorstellungsTicketEinnahmen();
-                        vorstellung.VorstellungWerbeeinnahmen();
+                            // Ticketeinnahmen und Werbeeinnahmen
+                            vorstellung.VorstellungsTicketEinnahmen();
+                            vorstellung.VorstellungWerbeeinnahmen();
 
 
-                        if (backupEinnahmen > (vorstellung.GetVorstellungTicketeinnahmen()[0] +
-                                vorstellung.GetVorstellungTicketeinnahmen()[1] +
-                                vorstellung.GetVorstellungWerbeeinnahmen())) {
-                            vorstellung.SetEintrittspreis(backupEintrittspreis);
-                            vorstellung.SetAndrang(backupAndrang);
+                            if (backupEinnahmen > (vorstellung.GetVorstellungTicketeinnahmen()[0] +
+                                    vorstellung.GetVorstellungTicketeinnahmen()[1] +
+                                    vorstellung.GetVorstellungWerbeeinnahmen())) {
+                                vorstellung.SetEintrittspreis(backupEintrittspreis);
+                                vorstellung.SetAndrang(backupAndrang);
+                            }
                         }
-//                        }
 
                         // Einnahmenkalkulation für spätere Gewinnberechnung
                         spielplanTicketeinnahmen += vorstellung.GetVorstellungTicketeinnahmen()[0] +

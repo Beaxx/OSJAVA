@@ -95,10 +95,10 @@ public class Main {
         System.out.println("Wie viele Optimierungsdurchläufe möchten Sie machen? \nMit steigender Anzahl der Optimierungen" +
                 " steigt die Qualität der generierten Spielpläne.\nWählen Sie eine Zahl zwischen 10.000 und 10.000.000\n\n" +
                 "Laufzeiten (ca.)\n" +
-                "10.000 Durchläufe:     2   Sekunden\n" +
-                "100.000 Durchläufe:    30  Sekunden\n" +
-                "1.000.000 Durchläufe:  4.5   Minuten\n" +
-                "10.000.000 Durchläufe: 45  Minuten\n\n" +
+                "10.000 Durchläufe:     4   Sekunden\n" +
+                "100.000 Durchläufe:    48  Sekunden\n" +
+                "250.000 Durchläufe:    2   Minuten\n" +
+                "1.000.000 Durchläufe:  8   Minuten\n" +
                 "Die Ausgabe erfolgt im Ordner 'export' in Ihrem Datensatz-Verzeichnis.");
 
         // Erstellung des Exportordners falls noch nicht vorhanden.
@@ -112,13 +112,13 @@ public class Main {
                 String input = reader.readLine();
                 checkedInput = Integer.parseInt(input);
 
-                if (checkedInput < 10000 || checkedInput > 10000000) {
+                if (checkedInput < 10000 || checkedInput > 1000000) {
                     throw new Exception();
                 }
 
                 validInput = true;
             } catch (Exception e) {
-                System.out.print("Bitte geben Sie eine Zahl zwischen 10.000 und 10.000.000 ein.");
+                System.out.print("Bitte geben Sie eine Zahl zwischen 10.000 und 1.000.000 ein.");
             }
         } while (!validInput);
 
