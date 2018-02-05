@@ -1,25 +1,85 @@
-
 Programmablauf:
-Die main-Methode startet alle Klassen in folgender Reihenfolge: Importerklassen, Planerklasse und Exporterklassen.
-Das Programm startet damit, dass die Importerklassen zeilenweise die Importdateien einlesen. Es werden Arrays mit den nötigen Parametern für die Klassen Kinofilm, Werbefilm und Saal erstellt.
-Die Importerklassen erstellen Objekte der Datenklassen Kinofilm, Werbefilm und Saal und fügen diese den Verwaltungsklassen hinzu. Die Verwaltungsklassen enthalten Sortier- und Gruppierungsfunktionen, die für die Geschäftslogik der Planerklasse benötigt werden.
-Die Daten- und Verwaltungsklassen stellen u.a. Get- und Set-Methoden bereit, damit andere Klassen auf die erzeugten Instanzen einfach zugreifen können.
+Die main-Methode startet den Import von Datensätzen über die Klassen: Importerklassen, Planerklasse und Exporterklassen.
+Das Programm startet damit, dass die Importerklassen zeilenweise die Datensätze einlesen. Es werden Arrays mit den
+Eigenschaften der Klassen Kinofilm, Werbefilm und Saal erstellt.Die Importerklassen erstellen Objekte der Datenklassen
+Kinofilm, Werbefilm und Saal und fügen diese den Verwaltungsklassen hinzu. Die statischen Verwaltungsklassen enthalten
+Sortier- und Gruppierungsfunktionen, die der Geschäftslogik der Planerklasse vorweggenommen werden, um Daten mit
+häufigem Lesezugriff, jedoch nur einem Schreibzugriff nicht wiederholt initialisieren bzw. instanziieren zu müssen.
 
-Die Klasse Vorstellung nutzt die Datenklassen Saal, Kinofilm und Werbefilm. Eine Instanz der Klasse Vorstellung ist ein vierdimensionales Array aus [Woche][Tag][Saal][Spielzeit]. Ein Objekt der Klasse Vorstellung bekommt einen Kinofilm und n Werbefilme aus der Film- und Werbefilmverwaltung. Nach Auswahl eines Kinofilms wird diesem ein Werbeblock angehängt. Je nach Timeslot wird bei mehr als 20 Minuten Zeit für Werbung ein optimierter Standardwerbeblock mit den profitabelsten Werbefilmen herangezogen.
+Die Klasse Vorstellung nutzt die Datenklassen Saal, Kinofilm und Werbefilm sowie Enums.
+Eine Instanz der Klasse Vorstellung stellt eine Vorstellung im 21-tägigen Spielplan des Kinos dar.
+Eine Vorstellung enthält demnach:
+Einen Saal
+Eine Uhrzeit
+Einen Film
+Eine Menge an Werbefilmen.
 
-Der Planer ermittelt die Finanzzahlen Einnahmen aus Ticketverkäufen, Einnahmen aus Werbefilmen, Ausgaben für Filmmiete und den daraus resultierenden Gewinn für das Kinoprogramm. Hierfür wird im Planer der Andrang je Vorstellung auf Basis der in der Aufgabenstellung gegebenen Restriktionen, abhängig von Wochentag, Spielzeit und Eintrittspreis, ermittelt. Dadurch werden die Plätze für Parkett und Loge für die Berechnung der Einnahmen aus Ticketverkäufen ermittelt. Die Plätze sind weiterführend die Grundlage für die Ermittlung der Werbeeinnahmen. Ein Spielplanobjekt beinhaltet n Objekte der Klasse Vorstellung und erstellt auf dieser Basis einen zufälligen Spielplan.
-In der Klasse Planer ist der Optimierungsalgorithmus implementiert. Je nach vom User vorgegebener Anzahl der Durchläufe wird ein zufälliger Spielplan auf Basis von Vorstellungen generiert. Der Algorithmus prüft, ob alle Genres in einer Spielwoche enthalten sind. Trifft dies zu, wird der Spielplan lokal gespeichert. Sobald ein nachfolgender Spielplan einen höheren Gewinn einbringt, ersetzt dieser den vorherigen Spielplan. Nach Abschluss der Optimierung wird der Spielplan in Form eines Raumplanes, eines Kinoprogramms und eines Finanzplans als Text- bzw. CSV-Datei ausgegeben.
+Es fällt auf, dass der Tag, an dem die Vorstellung stattfindet, nicht Teil der zur Vorstellung gehörenden Informationen
+ist. Diese Information ist Teil des Spielplans. Ein Objekt der Klasse Vorstellung enthält einen Kinofilm und n
+Werbefilme aus der Werbefilmverwaltung. Je nach Timeslot wird bei mehr als 20 Minuten Zeit für Werbung ein optimierter
+20-Minuten-Standardwerbeblock mit den profitabelsten Werbefilmen verwendet. Hierdurch erübrigt sich eine dynamische
+Erstellung von Werbeblöcken zu jeder Vorstellung, wenn die Werbezeit unverändert bleibt.
+
+Eine Instanz der Planer-Klasse enthält den eigentlichen Spielplan. Ein Spielplan besteht aus einem vierdimensionalen
+Array aus Vorstellungen der Form [WochenIndex][TagesIndex] [SaalIndex][VorstellungsIndex]. Über dieses Array ist jede
+Vorstellung, die für sich genommen austauschbar ist, einem festen Platz im Spielplan zuordenbar. Der Planer enthält die
+zentrale Logik, mit der Spielpläne erstellt und optimiert werden. Die Instanzen des Planers werden von der Main-Methode
+erstellt und verwaltet.
+
+Der Planer ermittelt die Finanzzahlen Einnahmen aus Ticketverkäufen, Einnahmen aus Werbefilmen, Ausgaben für Filmmiete
+und den daraus resultierenden Gewinn für das Kinoprogramm. Hierfür wird im Planer der Andrang je Vorstellung auf Basis
+der in der Aufgabenstellung gegebenen Restriktionen, abhängig von Wochentag, Spielzeit und Eintrittspreis, ermittelt.
+In der Klasse Planer ist der Optimierungsalgorithmus implementiert. Je nach der vom User vorgegebenen Anzahl der
+Durchläufe wird ein zufälliger Spielplan auf Basis von Vorstellungen generiert. Der Algorithmus prüft, ob alle Genres
+in einer Spielwoche enthalten sind. Trifft dies zu, wird der Spielplan lokal gespeichert. Sobald ein nachfolgender
+Spielplan einen höheren Gewinn einbringt, ersetzt dieser den vorherigen Spielplan. Nach Abschluss der Optimierung
+wird der Spielplan in Form eines Raumplanes, eines Kinoprogramms und eines Finanzplans als Text- bzw. CSV-Datei
+exportiert.
+
+Informationen zur Arbeitsweise des Algorithmus
+Der Algorithmus, auf den sich Gruppe 7 in dieser Studienleistung konzentriert hat, beinhaltet ausgefeilte Methoden
+zur Generierung optimaler Spielpläne. In der beigefügten Algo-Analyse.xlsx wurden die Parameter des Algorithmus,
+die Mindestbeliebtheit der Filme und der Eintrittspreis, für alle Datensätze getestet. Die Ergebnisse lassen
+folgende Schlüsse zu:
+
+Der optimale Eintrittspreis variiert zwischen 11 und 13 Euro.
+Die Mindestbeliebtheit für Filme sollte so hoch wie möglich gewählt werden, ohne dabei die Genre-Kriterien zu verletzen.
+
+Entsprechend dieser Erkenntnisse optimiert der Algorithmus für jede Vorstellung im Spielplan den Preis
+zwischen 11 und 13 Euro. Die Mindestbeliebtheit für Filme wird durch den Benutzer festgelegt. Sollte die
+Schwelle zu hoch gewählt werden, werden keine Spielpläne erzeugt, in diesem Fall bietet sich der Programabbruch und der
+erneute Versuch mit einem niedrigeren Schwellenwert an. Ein Wert von 96 hat sich als sicher herausgestellt.
+
+Der Algorithmus arbeitet nur auf Basis einer zufälligen Komponente: Dem Kinofilm. Bei Import des Datensatzes werden die
+Kinofilme nach ihrer Zeigbarkeit, sprich 2D oder 3D und FSK-Stufe, in einem bestimmten Saal zu einer bestimmten Uhrzeit
+geordnet. Der Zugriff auf die Filme dieser Listen erfolgt zufällig. Nach 250.000 bis 1.000.000 Optimierungsläufen kann
+davon ausgegangen werden, dass sich kein signifikant besserer Spielplan mehr finden lässt. Die Gewinnmarge  der
+erstellten Spielpläne variiert bei 250.000 Durchläufen nur noch um 0,114%.
+
+Ab 250.000 Durchläufen werden die Ergebnisabweichungen marginal. Bei 1.000.000 Durchläufen kann im Schnitt nur eine
+Gewinnsteigerung um 0,1% bei vierfacher Laufzeit des Algorithmus erreicht werden. Es ist daher davon auszugehen, dass
+der Algorithmus sein Potenzial nach einer Laufzeit von 2-3 Minuten bzw. 250.000 Optimierungsläufen ausgeschöpft hat.
 
 Bedienung des Programms:
-Über die Konsole wird der User zuerst dazu aufgefordert, den Verzeichnis-Pfad der Import-Datensätze saele, filme und werbespots für das Programm einzugeben. Alle drei Dateien müssen im selben Verzeichnis liegen. Nach Eingabe des Pfades wird der User dazu aufgefordert, die Anzahl der Durchläufe für die Optimierung des Spielplans festzulegen.
-Je höher die Anzahl der Durchläufe, desto wahrscheinlicher nähert sich der generierte Spielplan an das wirtschaftliche Optimum an. Bei mehr Durchläufen dauert die Erstellung des Spielplans entsprechend länger.
-Im ausgewählten Importpfad wird der Ordner “export” angelegt, soweit dieser noch nicht vorhanden ist. Auf Basis des generierten Spielplans werden drei Export-Dateien erzeugt und abgelegt. Diese heißen raumplan.txt, kinoprogramm.csv und finanzplan.csv.
+Über die Konsole wird der User zuerst dazu aufgefordert, den Verzeichnis-Pfad der Import-Datensätze saele, filme und
+werbespots für das Programm einzugeben. Alle drei Dateien müssen im selben Verzeichnis liegen. Ist kein Pfad angegeben,
+wird automatisch das Verzeichnis C:/import/Datensatz/ verwendet. Nach Eingabe des Pfades wird der User dazu
+aufgefordert, die Anzahl der Durchläufe für die Optimierung des Spielplans festzulegen. Je höher die Anzahl der
+Durchläufe, desto wahrscheinlicher nähert sich der generierte Spielplan an das wirtschaftliche Optimum an. Bei mehr
+Durchläufen dauert die Erstellung des Spielplans entsprechend länger. Ist die Optimierung beendet, wird im ausgewählten
+Importpfad der Ordner “export” angelegt, soweit dieser noch nicht vorhanden ist. Auf Basis des generierten Spielplans
+werden drei Export-Dateien erzeugt und abgelegt. Diese heißen raumplan.txt, kinoprogramm.csv und finanzplan.csv.
 
 Funktionen des Programms:
-Das Programm verfügt über einen variablen Optimierungsalgorithmus. Dieser wird durch die Anzahl der Wiederholungen gesteuert, die vom Anwender in einer Range von 10.000 bis 10.000.000 eingegeben werden können.
-Die Anforderungen der Mitarbeiter des VAWi Filmpalastes werden durch das Programm und den Optimierungsalgorithmus vollumfänglich erfüllt. Zum Einen wird ein wirtschaftlich attraktiver Spielplan generiert und zum Anderen wird Herrn Hollywood eine nahezu vollständig automatisierte Software für die Erstellung eines Kinoprogramms zur Verfügung gestellt. Der Aufwand für die Spielplanerstellung wird auf ein Minimum reduziert (Eingabezeit in der Konsole < 1 Min., um die Erstellung zu starten).
-Der Finanzplan kann als Grundlage für eine Forecastbildung der Einnahmen und Ausgaben des Filmpalastes hinzugezogen werden. Durch die erwarteten Besucherzahlen könnten weitere Berechnungen (z.B. Einnahmen aus Getränken, Popcorn, etc.) durchgeführt werden.
-
+Das Programm verfügt über einen variablen Optimierungsalgorithmus. Dieser wird durch die Anzahl der Optimierungsläufe
+gesteuert, die vom Anwender in einer Spanne von 10.000 bis 1.000.000 eingegeben werden können.
+Die Anforderungen der Mitarbeiter des VAWi Filmpalastes werden durch das Programm und den Optimierungsalgorithmus
+vollumfänglich erfüllt. Zum Einen wird ein wirtschaftlich attraktiver Spielplan generiert und zum Anderen wird Herrn
+Hollywood eine nahezu vollständig automatisierte Software für die Erstellung eines Kinoprogramms zur Verfügung gestellt.
+Der Aufwand für die Spielplanerstellung wird auf ein Minimum reduziert (Eingabezeit in der Konsole < 1 Min., um die
+Erstellung zu starten). Der Finanzplan kann als Grundlage für eine Forecastbildung der Einnahmen und Ausgaben des
+Filmpalastes hinzugezogen werden. Durch die erwarteten Besucherzahlen könnten weitere Berechnungen (z.B. Einnahmen aus
+Getränken, Popcorn, etc.) durchgeführt werden.
 
 ###Klassenautoren###
 Klassen Lennart Völler:

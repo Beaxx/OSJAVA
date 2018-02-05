@@ -71,10 +71,10 @@ public class Main {
         //region User Interaktion Mindestbeliebtheit
         System.out.println("Bitte geben Sie die Mindestbeliebtheit für die zu Importierenden Filme an.\n" +
                 "Dieser Wert muss zwischen 0 und 100 liegen.\n\n" +
-                "Sie sollten den Wert möglichst hoch wählen,\n" +
-                "wird der Wert jedoch zu hoch gewählt, kann der Spielplan\n" +
-                "bestimmte Restriktionen nicht mehr erfüllen und das Ausgabefenster bleibt leer. \n" +
-                "In diesem, Fall verwenden Sie bitte einen niedrigeren Schwellenwert.\n" +
+                "Sie sollten den Wert möglichst hoch wählen.\n" +
+                "Wird der Wert jedoch zu hoch gewählt, kann der Spielplan\n" +
+                "bestimmte Restriktionen nicht mehr erfüllen und das Ausgabefensterbleibt leer. \n" +
+                "Verwenden Sie in diesem Fall bitte einen niedrigeren Schwellenwert.\n" +
                 "Empfohlen wird der Wert 96.\n\n");
 
         validInput = false;

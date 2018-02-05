@@ -1,6 +1,10 @@
 package Gruppe7.Importer;
 
-import Gruppe7.Data.*;
+import Gruppe7.Data.FilmVerwaltung;
+import Gruppe7.Data.Fsk;
+import Gruppe7.Data.Genre;
+import Gruppe7.Data.Kinofilm;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -40,7 +44,7 @@ public class KinofilmImporter extends Datei {
             }
 
             //Prüft auf Array Größe
-            if (!dataValidation(importString, in_Name)){
+            if (!dataValidation(importString, in_Name) || importFileKinofilme.errorCode != 0) {
                 System.err.println("Fehler in Spaltenstruktur.");
 
                 while (!dataValidation(importString, in_Name)){

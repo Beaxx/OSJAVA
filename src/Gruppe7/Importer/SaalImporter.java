@@ -2,10 +2,6 @@ package Gruppe7.Importer;
 
 import Gruppe7.Data.Saal;
 import Gruppe7.Data.SaalVerwaltung;
-import java.lang.*;
-import java.lang.String;
-
-import static java.lang.Integer.parseInt;
 
 /**
  * @author Fabian Ueberle
@@ -36,11 +32,13 @@ public class SaalImporter extends Datei {
             }
 
 
-            if(!dataValidation(importString, in_Name)){
+            if (!dataValidation(importString, in_Name) || importFileSaele.errorCode != 0) {
                 System.err.println("Fehler in Spaltenstruktur.");
                 while (!dataValidation(importString, in_Name)){
                     importString = importFileSaele.readLine_FS();
-                    if (importString == null) {break;}
+                    if (importString == null || importFileSaele.errorCode != 0) {
+                        break;
+                    }
                     dataValidation(importString, in_Name);
                 }
             }

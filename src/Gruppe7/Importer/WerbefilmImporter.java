@@ -1,6 +1,7 @@
 package Gruppe7.Importer;
 
-import Gruppe7.Data.*;
+import Gruppe7.Data.Werbefilm;
+import Gruppe7.Data.WerbefilmVerwaltung;
 
 /**
  * @author Fabian Ueberle
@@ -30,12 +31,11 @@ public class WerbefilmImporter extends Datei {
                 break;
             }
 
-
-            if (!dataValidation(importString, in_Name)) {
+            if (!dataValidation(importString, in_Name) || importFileWerbespots.errorCode != 0) {
                 System.err.println("Fehler in Spaltenstruktur.");
                 while (!dataValidation(importString, in_Name)) {
                     importString = importFileWerbespots.readLine_FS();
-                    if (importString == null) {
+                    if (importString == null || importFileWerbespots.errorCode != 0) {
                         break;
                     }
                     dataValidation(importString, in_Name);
@@ -66,7 +66,6 @@ public class WerbefilmImporter extends Datei {
 
         WerbefilmVerwaltung.WerbeplanSortieren();
     }
-
 
 
         /**
