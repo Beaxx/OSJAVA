@@ -49,21 +49,22 @@ public class SaalImporter extends Datei {
             if (importString == null) {break;}
             String array[] = importString.split(";", 4);
 
+            if(!checkForInt(array[0])||!checkForInt(array[1])||!checkForInt(array[2])||!checkForBoolean(array[3])){
+                System.err.println("Fehler in der Datei "+in_Name+". Fehlerhafte Datensätze wurden Übersprungen.");
+                while (!checkForInt(array[0])||!checkForInt(array[1])||!checkForInt(array[2])||!checkForBoolean(array[3])){
+                    importString=importFileSaele.readLine_FS();
+                    array=importString.split(";", 4);
+                }
 
+            }
 
-
-
-
-
-
-
-
-
+                    //Wertzuweisung für späteren Konstruktoraufruf
                     int importSaalNr = Integer.valueOf(array[0]);
                     int importPlaetzeParkett = Integer.valueOf(array[1]);
                     int importPlaetzeLoge = Integer.valueOf(array[2]);
                     boolean importThreeD = Boolean.valueOf(array[3]);
 
+                    //Konstruktoraufruf
                     SaalVerwaltung.SetSaele(new Saal(importPlaetzeLoge, importPlaetzeParkett, importThreeD, importSaalNr));
 
                 }
