@@ -2,6 +2,7 @@ package Gruppe7.Importer;
 
 import Gruppe7.Data.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * @author Fabian Ueberle
@@ -13,6 +14,7 @@ public class KinofilmImporter extends Datei {
 
     private Fsk importKinofilmFSK;
     private int minBeliebtheit;
+    private Datei importFileKinofilme;
 
     /**
      * Erstellt aus den serialisierten Kinofilmobjekten in der Import-Datei Kinofilm-Objekte.
@@ -39,11 +41,74 @@ public class KinofilmImporter extends Datei {
             if (importString == null) {
                 break;
             }
-            dataValidation(importString, in_Name);
-            String[] arrayKinofilm;
+            //Prüft auf Array Größe
+            if (!dataValidation(importString, in_Name)){
+                System.err.println("Fehler in Spaltenstruktur.");
+
+                while (!dataValidation(importString, in_Name)){
+                    importString = importFileKinofilme.readLine_FS();
+                    if (importString == null) {break;}
+                    dataValidation(importString, in_Name);
+                }
+            }
+
 
             //Zerlegt den Import String (Zeile der Datei) und erstellt ein Array.
+            if (importString == null) {break;}
+            String[] arrayKinofilm;
             arrayKinofilm = importString.split(";");
+
+            //Validierung der wichtigsten Spalten.
+            if (
+                    //FSK Prüfung
+                    !checkForInt(arrayKinofilm[2])||
+                    !checkForValidFSK(Integer.valueOf(arrayKinofilm[2]))||
+                    //Preis Prüfung
+                    !checkForInt(arrayKinofilm[4])||
+                    //Beliebtheit Prüfung
+                    !checkForInt(arrayKinofilm[5])||
+                    !checkForValidBeliebtheit(Integer.valueOf(arrayKinofilm[5]))||
+                    //Spielzeit Prüfung
+                    !checkForInt(arrayKinofilm[6])||
+                    !checkForValidSpielzeit(Integer.valueOf(arrayKinofilm[6]))||
+                    //Prüfung auf Jahr
+                    !checkForInt(arrayKinofilm[9])||
+                    !checkForValidJahr(Integer.valueOf(arrayKinofilm[9]))||
+                    //Prüung auf 3D
+                    !checkForBoolean(arrayKinofilm[10])) {
+
+
+
+                    System.err.println("Fehler in der Datei "+in_Name+". Fehlerhafte Datensätze wurden übersprungen.");
+
+                            while ( !checkForInt(arrayKinofilm[2])||
+                                    !checkForValidFSK(Integer.valueOf(arrayKinofilm[2]))||
+                                    //Preis Prüfung
+                                    !checkForInt(arrayKinofilm[4])||
+                                    //Beliebtheit Prüfung
+                                    !checkForInt(arrayKinofilm[5])||
+                                    !checkForValidBeliebtheit(Integer.valueOf(arrayKinofilm[5]))||
+                                    //Spielzeit Prüfung
+                                    !checkForInt(arrayKinofilm[6])||
+                                    !checkForValidSpielzeit(Integer.valueOf(arrayKinofilm[6]))||
+                                    //Prüfung auf Jahr
+                                    !checkForInt(arrayKinofilm[9])||
+                                    !checkForValidJahr(Integer.valueOf(arrayKinofilm[9]))||
+                                    //Prüung auf 3D
+                                    !checkForBoolean(arrayKinofilm[10])
+                                    )
+                            {
+                                importString=importFileKinofilme.readLine_FS(); //nächste Zeile
+                                if (importString == null) {break;}
+                                arrayKinofilm = importString.split(";");  //Array neu bestücken.
+                            }
+
+
+
+            }
+
+
+
 
             //region FSK des aktuellen Films
             int importKinofilmFskInt = Integer.valueOf(arrayKinofilm[2]);
@@ -222,14 +287,149 @@ public class KinofilmImporter extends Datei {
      *     Die ausgegebene Fehlermeldung soll den Anwender auf die betroffene Datei hinweisen.
      * </p>
      * */
-    private void dataValidation(String in_importstring, String in_name){
+    private boolean dataValidation(String in_importstring, String in_name){
 
        String array[] = in_importstring.split(";");
 
         if (array.length!=11){
-            System.err.println("Fehlerhafte Importdatei für Kinofilme. Das Programm wird abgebrochen. " +
+            System.err.println("Fehlerhafte Importdatei für Kinofilme. Die Fehlerhafte Zeile wird übersprungen. " +
                     "Bitte prüfen Sie Ihre Datei "+ in_name+" auf 11 Spalten.");
-            System.exit(-1);
+            return false;
+
+        }
+        return true;
+    }
+
+    /**
+     * @param  in_InputCheck der zu prüfende String
+     * @author Fabian Ueberle
+     * <p>
+     *     Die Methode checkForInt prüft ob der aktuelle String einen Integer Wert ist.
+     * </p>
+     * */
+
+    private boolean checkForInt(String in_InputCheck) {
+        try {
+            Integer.valueOf(in_InputCheck);
+            return true;
+        } catch (NumberFormatException e) {
+            System.err.println("Kein Integer Wert");
+            return false;
         }
     }
+
+    /**
+     * @param  in_InputCheck der zu prüfende Wert
+     * @author Fabian Ueberle
+     * <p>
+     *     Die Methode checkForBoolean prüft ob der aktuelle Wert ein Boolen ist.
+     * </p>
+     * */
+
+    private boolean checkForBoolean(String in_InputCheck) {
+        try {
+            Boolean.valueOf(in_InputCheck);
+            return true;
+        } catch (NumberFormatException e) {
+            System.err.println("Kein Boolean Wert");
+            return false;
+        }
+    }
+
+    /**
+     * @param  in_Input der zu prüfende String bzw. Integer.
+     * @author Fabian Ueberle
+     * <p>
+     *     Die Methode checkForValidFSK prüft oder der aktuelle String bzw. Integer einen validen FSK Wert aufweißt.
+     * </p>
+     * */
+
+    private boolean checkForValidFSK(Integer in_Input) {
+        try {
+            if ((in_Input == 0 || in_Input == 6 || in_Input == 12 || in_Input == 16 || in_Input == 18)) {
+                return true;
+            }
+            throw new Exception();
+
+        } catch (Exception e) {
+            System.err.println("Fehlerhafter FSK Wert");
+            return false;
+        }
+    }
+
+    /**
+     * @param  in_Input der zu prüfende String bzw. Integer
+     * @author Fabian Ueberle
+     * <p>
+     *     Die Methode checkForValidBeliebtheit prüft oder der aktuelle Integer Wert für die Beliebtheit
+     *     zwischen 0 und 100 liegt.
+     * </p>
+     * */
+
+        private boolean checkForValidBeliebtheit(Integer in_Input) {
+            try {
+                if (in_Input >= 0 && in_Input <= 100) {
+                    return true;
+                }
+                throw new Exception();
+
+            } catch (Exception e) {
+                System.err.println("Beliebtheit außerhalb der Norm von 0-100.");
+
+                return false;
+            }
+
+        }
+
+    /**
+     * @param  in_Input der zu prüfende String bzw. Integer
+     * @author Fabian Ueberle
+     * <p>
+     *     Die Methode checkForValidJahr prüft ob das Erscheinungsjahr zwischen 1900 und dem aktuellen Jahr liegt.
+     * </p>
+     * */
+
+    private boolean checkForValidJahr(Integer in_Input) {
+
+        Calendar cal = Calendar.getInstance();
+        //cal.setTime(new Date()); //heute
+        int jahr = cal.get(Calendar.YEAR);
+
+        try {
+            if (in_Input >= 1900 && in_Input <= jahr) {
+                return true;
+            }
+            throw new Exception();
+
+        } catch (Exception e) {
+            System.err.println("Erscheinungsjahr außerhalb der Norm von 1900-akutelles Jahr.");
+
+            return false;
+        }
+    }
+
+    /**
+     * @param  in_Input der zu prüfende String bzw. Integer
+     * @author Fabian Ueberle
+     * <p>
+     *     Die Methode checkForValidSpielzeit prüft ob die Filmspielzeit größer 0 und kleiner 180 (maximal Filmlänge)
+     *     liegt. Filme mit mehr als 180 min können nicht gezeigt werden.
+     * </p>
+     * */
+
+     private boolean checkForValidSpielzeit(Integer in_Input){
+
+            int checkedInputSpielzeit = in_Input;
+
+            try {
+                if (checkedInputSpielzeit > 0 && checkedInputSpielzeit <= 180) {
+                    return true;
+                }
+                throw new Exception();
+
+            } catch (Exception e) {
+                System.err.println("Unzulässige Spielzeitdauer.");
+                return false;
+            }
+        }
 }
