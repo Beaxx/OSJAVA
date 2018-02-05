@@ -79,7 +79,7 @@ public class KinofilmImporter extends Datei {
 
 
 
-                    System.err.println("Fehler in der Datei "+in_Name+". Fehlerhafte Datensätze wurden Übersprungen.");
+                    System.err.println("Fehler in der Datei "+in_Name+". Fehlerhafte Datensätze wurden übersprungen.");
 
                             while ( !checkForInt(arrayKinofilm[2])||
                                     !checkForValidFSK(Integer.valueOf(arrayKinofilm[2]))||
@@ -309,16 +309,11 @@ public class KinofilmImporter extends Datei {
      * */
 
     private boolean checkForInt(String in_InputCheck) {
-        String input = in_InputCheck;
-        Boolean isInt;
-        isInt = false;
         try {
             Integer.valueOf(in_InputCheck);
-            isInt = true;
             return true;
         } catch (NumberFormatException e) {
             System.err.println("Kein Integer Wert");
-            isInt = false;
             return false;
         }
     }
@@ -332,16 +327,11 @@ public class KinofilmImporter extends Datei {
      * */
 
     private boolean checkForBoolean(String in_InputCheck) {
-        String input = in_InputCheck;
-        Boolean isBool;
-        isBool = false;
         try {
             Boolean.valueOf(in_InputCheck);
-            isBool = true;
             return true;
         } catch (NumberFormatException e) {
             System.err.println("Kein Boolean Wert");
-            isBool = false;
             return false;
         }
     }
@@ -355,21 +345,14 @@ public class KinofilmImporter extends Datei {
      * */
 
     private boolean checkForValidFSK(Integer in_Input) {
-
-        int checkedInput = in_Input;
-        Boolean isValidFSK;
-        isValidFSK = false;
-
         try {
-            if ((checkedInput == 0 || checkedInput == 6 || checkedInput == 12 || checkedInput == 16 || checkedInput == 18)) {
-                isValidFSK = true;
+            if ((in_Input == 0 || in_Input == 6 || in_Input == 12 || in_Input == 16 || in_Input == 18)) {
                 return true;
             }
             throw new Exception();
 
         } catch (Exception e) {
             System.err.println("Fehlerhafter FSK Wert");
-
             return false;
         }
     }
@@ -384,14 +367,8 @@ public class KinofilmImporter extends Datei {
      * */
 
         private boolean checkForValidBeliebtheit(Integer in_Input) {
-
-            int checkedInputBeliebtheit =in_Input;
-            Boolean isValidBeliebtheit;
-            isValidBeliebtheit = false;
-
             try {
-                if (checkedInputBeliebtheit >= 0 && checkedInputBeliebtheit <= 100) {
-                    isValidBeliebtheit = true;
+                if (in_Input >= 0 && in_Input <= 100) {
                     return true;
                 }
                 throw new Exception();
@@ -412,11 +389,7 @@ public class KinofilmImporter extends Datei {
      * </p>
      * */
 
-    private boolean checkForValidJahr(Integer in_Input) {
-
-        int checkedInputJahr = in_Input;
-        Boolean isValidJahr;
-        isValidJahr = false;
+    private boolean checkForValidJahr(Integer checkedInputJahr) {
 
         Calendar cal = Calendar.getInstance();
         //cal.setTime(new Date()); //heute
@@ -424,7 +397,6 @@ public class KinofilmImporter extends Datei {
 
         try {
             if (checkedInputJahr >= 1900 && checkedInputJahr <= jahr) {
-                isValidJahr = true;
                 return true;
             }
             throw new Exception();
@@ -448,26 +420,16 @@ public class KinofilmImporter extends Datei {
      private boolean checkForValidSpielzeit(Integer in_Input){
 
             int checkedInputSpielzeit = in_Input;
-            Boolean isValidSpielzeit;
-            isValidSpielzeit = false;
 
             try {
                 if (checkedInputSpielzeit > 0 && checkedInputSpielzeit <= 180) {
-                    isValidSpielzeit = true;
                     return true;
                 }
                 throw new Exception();
 
             } catch (Exception e) {
                 System.err.println("Unzulässige Spielzeitdauer.");
-                isValidSpielzeit = false;
                 return false;
             }
         }
-
-
-
-
-
-
 }

@@ -50,7 +50,7 @@ public class SaalImporter extends Datei {
             String array[] = importString.split(";", 4);
 
             if(!checkForInt(array[0])||!checkForInt(array[1])||!checkForInt(array[2])||!checkForBoolean(array[3])){
-                System.err.println("Fehler in der Datei "+in_Name+". Fehlerhafte Datensätze wurden Übersprungen.");
+                System.err.println("Fehler in der Datei "+in_Name+". Fehlerhafte Datensätze wurden übersprungen.");
                 while (!checkForInt(array[0])||!checkForInt(array[1])||!checkForInt(array[2])||!checkForBoolean(array[3])){
                     importString=importFileSaele.readLine_FS();
                     array=importString.split(";", 4);
@@ -107,16 +107,11 @@ public class SaalImporter extends Datei {
          * */
 
         private boolean checkForInt (String in_InputCheck){
-            String input = in_InputCheck;
-            Boolean isInt;
-            isInt = false;
             try {
                 Integer.valueOf(in_InputCheck);
-                isInt = true;
                 return true;
             } catch (NumberFormatException e) {
                 System.err.println("Kein Integer Wert");
-                isInt = false;
                 return false;
             }
         }
@@ -130,21 +125,14 @@ public class SaalImporter extends Datei {
          * */
 
         private boolean checkForBoolean (String in_InputCheck){
-            String input = in_InputCheck;
-            Boolean isBool;
-            isBool = false;
             try {
                 Boolean.valueOf(in_InputCheck);
-                isBool = true;
                 return true;
             } catch (NumberFormatException e) {
                 System.err.println("Kein Boolean Wert");
-                isBool = false;
                 return false;
             }
         }
-
-
 }
 
 
