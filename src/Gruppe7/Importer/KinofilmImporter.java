@@ -44,6 +44,11 @@ public class KinofilmImporter extends Datei {
             //Prüft auf Array Größe
             if (!dataValidation(importString, in_Name)){
                 System.err.println("Fehler in Spaltenstruktur.");
+
+                while (!dataValidation(importString, in_Name)){
+                    importString = importFileKinofilme.readLine_FS();
+                    dataValidation(importString, in_Name);
+                }
             }
 
 
@@ -51,6 +56,7 @@ public class KinofilmImporter extends Datei {
             String[] arrayKinofilm;
             arrayKinofilm = importString.split(";");
 
+            //Validierung der wichtigsten Spalten.
             if (
                     //FSK Prüfung
                     !checkForInt(arrayKinofilm[2])||
@@ -69,9 +75,32 @@ public class KinofilmImporter extends Datei {
                     //Prüung auf 3D
                     !checkForBoolean(arrayKinofilm[10])) {
 
-                    System.err.println("Fehler in der Datei "+in_Name+". Fahlerhafte Datensätz wurden Übersprungen.");
 
-                    importString=importFileKinofilme.readLine_FS();
+
+                    System.err.println("Fehler in der Datei "+in_Name+". Fehlerhafte Datensätz wurden Übersprungen.");
+
+                            while ( !checkForInt(arrayKinofilm[2])||
+                                    !checkForValidFSK(Integer.valueOf(arrayKinofilm[2]))||
+                                    //Preis Prüfung
+                                    !checkForInt(arrayKinofilm[4])||
+                                    //Beliebtheit Prüfung
+                                    !checkForInt(arrayKinofilm[5])||
+                                    !checkForValidBeliebtheit(Integer.valueOf(arrayKinofilm[5]))||
+                                    //Spielzeit Prüfung
+                                    !checkForInt(arrayKinofilm[6])||
+                                    !checkForValidSpielzeit(Integer.valueOf(arrayKinofilm[6]))||
+                                    //Prüfung auf Jahr
+                                    !checkForInt(arrayKinofilm[9])||
+                                    !checkForValidJahr(Integer.valueOf(arrayKinofilm[9]))||
+                                    //Prüung auf 3D
+                                    !checkForBoolean(arrayKinofilm[10])
+                                    )
+                            {
+                                importString=importFileKinofilme.readLine_FS(); //nächste Zeile
+                                arrayKinofilm = importString.split(";");  //Array neu bestücken.
+                            }
+
+
 
             }
 
@@ -271,6 +300,14 @@ public class KinofilmImporter extends Datei {
         return true;
     }
 
+    /**
+     * @param  in_InputCheck der zu prüfende String
+     * @author Fabian Ueberle
+     * <p>
+     *     Die Methode checkForInt prüft ob der aktuelle String einen Integer Wert ist.
+     * </p>
+     * */
+
     private boolean checkForInt(String in_InputCheck) {
         String input = in_InputCheck;
         Boolean isInt;
@@ -286,6 +323,13 @@ public class KinofilmImporter extends Datei {
         }
     }
 
+    /**
+     * @param  in_InputCheck der zu prüfende Wert
+     * @author Fabian Ueberle
+     * <p>
+     *     Die Methode checkForBoolean prüft ob der aktuelle Wert ein Boolen ist.
+     * </p>
+     * */
 
     private boolean checkForBoolean(String in_InputCheck) {
         String input = in_InputCheck;
@@ -301,6 +345,14 @@ public class KinofilmImporter extends Datei {
             return false;
         }
     }
+
+    /**
+     * @param  in_Input der zu prüfende String bzw. Integer.
+     * @author Fabian Ueberle
+     * <p>
+     *     Die Methode checkForValidFSK prüft oder der aktuelle String bzw. Integer einen validen FSK Wert aufweißt.
+     * </p>
+     * */
 
     private boolean checkForValidFSK(Integer in_Input) {
 
@@ -322,6 +374,14 @@ public class KinofilmImporter extends Datei {
         }
     }
 
+    /**
+     * @param  in_Input der zu prüfende String bzw. Integer
+     * @author Fabian Ueberle
+     * <p>
+     *     Die Methode checkForValidBeliebtheit prüft oder der aktuelle Integer Wert für die Beliebtheit
+     *     zwischen 0 und 100 liegt.
+     * </p>
+     * */
 
         private boolean checkForValidBeliebtheit(Integer in_Input) {
 
@@ -343,6 +403,14 @@ public class KinofilmImporter extends Datei {
             }
 
         }
+
+    /**
+     * @param  in_Input der zu prüfende String bzw. Integer
+     * @author Fabian Ueberle
+     * <p>
+     *     Die Methode checkForValidJahr prüft ob das Erscheinungsjahr zwischen 1900 und dem aktuellen Jahr liegt.
+     * </p>
+     * */
 
     private boolean checkForValidJahr(Integer in_Input) {
 
@@ -367,6 +435,15 @@ public class KinofilmImporter extends Datei {
             return false;
         }
     }
+
+    /**
+     * @param  in_Input der zu prüfende String bzw. Integer
+     * @author Fabian Ueberle
+     * <p>
+     *     Die Methode checkForValidSpielzeit prüft ob die Filmspielzeit größer 0 und kleiner 180 (maximal Filmlänge)
+     *     liegt. Filme mit mehr als 180 min können nicht gezeigt werden.
+     * </p>
+     * */
 
      private boolean checkForValidSpielzeit(Integer in_Input){
 
