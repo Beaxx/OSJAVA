@@ -47,12 +47,14 @@ public class KinofilmImporter extends Datei {
 
                 while (!dataValidation(importString, in_Name)){
                     importString = importFileKinofilme.readLine_FS();
+                    if (importString == null) {break;}
                     dataValidation(importString, in_Name);
                 }
             }
 
 
             //Zerlegt den Import String (Zeile der Datei) und erstellt ein Array.
+            if (importString == null) {break;}
             String[] arrayKinofilm;
             arrayKinofilm = importString.split(";");
 
@@ -77,7 +79,7 @@ public class KinofilmImporter extends Datei {
 
 
 
-                    System.err.println("Fehler in der Datei "+in_Name+". Fehlerhafte Datensätz wurden Übersprungen.");
+                    System.err.println("Fehler in der Datei "+in_Name+". Fehlerhafte Datensätze wurden Übersprungen.");
 
                             while ( !checkForInt(arrayKinofilm[2])||
                                     !checkForValidFSK(Integer.valueOf(arrayKinofilm[2]))||
@@ -97,6 +99,7 @@ public class KinofilmImporter extends Datei {
                                     )
                             {
                                 importString=importFileKinofilme.readLine_FS(); //nächste Zeile
+                                if (importString == null) {break;}
                                 arrayKinofilm = importString.split(";");  //Array neu bestücken.
                             }
 
@@ -292,9 +295,6 @@ public class KinofilmImporter extends Datei {
             System.err.println("Fehlerhafte Importdatei für Kinofilme. Die Fehlerhafte Zeile wird übersprungen. " +
                     "Bitte prüfen Sie Ihre Datei "+ in_name+" auf 11 Spalten.");
             return false;
-            //String importString = importFileKinofilme.readLine_FS();
-
-            //System.exit(-1);
 
         }
         return true;
