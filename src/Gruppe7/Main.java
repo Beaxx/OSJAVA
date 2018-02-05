@@ -41,7 +41,7 @@ public class Main {
                 "Filme:         filme.csv\n" +
                 "Säle:          saele.csv\n" +
                 "Werbespots:    werbespots.csv\n\n" +
-                "Das Standardverzeichnis ist: C:/import/Datensatz/...\n" +
+                "Das Standardverzeichnis ist: C:/import/...\n" +
                 "Wenn Ihr Datensatz dort liegt drücken Sie bitte 'ENTER'\n" +
                 "Ansonsten geben Sie bitte den Pfad an. (Ohne '/' am Ende)\n\n");
 
@@ -50,7 +50,7 @@ public class Main {
 
         // Inputvalidierung Input-Pfad
 
-        String path = "C:" + File.separator + "import" + File.separator + "Datensatz";
+        String path = "C:" + File.separator + "import";
         boolean validInput = false;
         do {
             try {
@@ -175,11 +175,11 @@ public class Main {
                 "Sie können das Fenster nun schließen...");
 
         //region Export
-        new ExportRaumplanung(path + "/export/raumplan.txt", planer);
+        new ExportRaumplanung(path + File.separator + "export" + File.separator + "raumplan.txt", planer);
 
-        new ExportKinoprogramm(path + "/export/kinoprogramm.csv", planer);
+        new ExportKinoprogramm(path + File.separator + "export" + File.separator + "kinoprogramm.csv", planer);
 
-        new ExportFinanzplan(path + "/export/finanzplan.csv", planer);
+        new ExportFinanzplan(path + File.separator + "export" + File.separator + "finanzplan.csv", planer);
         //endregion
     }
 
