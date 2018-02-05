@@ -389,14 +389,14 @@ public class KinofilmImporter extends Datei {
      * </p>
      * */
 
-    private boolean checkForValidJahr(Integer checkedInputJahr) {
+    private boolean checkForValidJahr(Integer in_Input) {
 
         Calendar cal = Calendar.getInstance();
         //cal.setTime(new Date()); //heute
         int jahr = cal.get(Calendar.YEAR);
 
         try {
-            if (checkedInputJahr >= 1900 && checkedInputJahr <= jahr) {
+            if (in_Input >= 1900 && in_Input <= jahr) {
                 return true;
             }
             throw new Exception();
