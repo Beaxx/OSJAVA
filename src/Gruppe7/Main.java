@@ -49,7 +49,8 @@ public class Main {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         // Inputvalidierung Input-Pfad
-        String path = "C:/import/Datensatz";
+
+        String path = "C:" + File.separator + "import" + File.separator + "Datensatz";
         boolean validInput = false;
         do {
             try {
@@ -107,7 +108,7 @@ public class Main {
                 "Die Ausgabe erfolgt im Ordner 'export' in Ihrem Datensatz-Verzeichnis.");
 
         // Erstellung des Exportordners falls noch nicht vorhanden.
-        new File(path + "/export").mkdirs();
+        new File(path + File.separator + "export").mkdirs();
 
         // Inputvalidierung Durchläufe
         validInput = false;
@@ -135,9 +136,9 @@ public class Main {
 
         //region Import
         // Datenimport
-        new WerbefilmImporter(path + "/werbespots.csv");
-        new SaalImporter(path + "/saele.csv");
-        new KinofilmImporter(path + "/filme.csv", mindestBeliebtheit);
+        new WerbefilmImporter(path + File.separator + "werbespots.csv");
+        new SaalImporter(path + File.separator + "saele.csv");
+        new KinofilmImporter(path + File.separator + "filme.csv", mindestBeliebtheit);
 
         // FilmArrays erstellen
         FilmVerwaltung.FilmArraysHelper();

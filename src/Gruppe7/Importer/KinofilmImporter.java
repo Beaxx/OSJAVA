@@ -50,6 +50,9 @@ public class KinofilmImporter extends Datei {
                 while (!dataValidation(importString, in_Name)){
                     importString = importFileKinofilme.readLine_FS();
 
+                    if (importString == null || importFileKinofilme.errorCode != 0) {
+                        break;
+                    }
                     dataValidation(importString, in_Name);
                 }
             }
