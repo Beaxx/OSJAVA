@@ -12,16 +12,13 @@ import java.util.Calendar;
  */
 public class KinofilmImporter extends Datei {
 
-    private Fsk importKinofilmFSK;
     private int minBeliebtheit;
-    private Datei importFileKinofilme;
 
     /**
      * Erstellt aus den serialisierten Kinofilmobjekten in der Import-Datei Kinofilm-Objekte.
      *
      * @param in_Name           Name und Pfad der Importdatei
      * @param in_MinBeliebtheit Mindestbeliebtheitswert unter dem keine Filme importiert werden.
-     *
      *
      */
     public KinofilmImporter(String in_Name, int in_MinBeliebtheit) {
@@ -41,39 +38,38 @@ public class KinofilmImporter extends Datei {
             if (importString == null) {
                 break;
             }
+
             //Prüft auf Array Größe
             if (!dataValidation(importString, in_Name)){
                 System.err.println("Fehler in Spaltenstruktur.");
 
                 while (!dataValidation(importString, in_Name)){
                     importString = importFileKinofilme.readLine_FS();
-                    if (importString == null) {break;}
+
                     dataValidation(importString, in_Name);
                 }
             }
 
-
             //Zerlegt den Import String (Zeile der Datei) und erstellt ein Array.
-            if (importString == null) {break;}
             String[] arrayKinofilm;
             arrayKinofilm = importString.split(";");
 
             //Validierung der wichtigsten Spalten.
             if (
                     //FSK Prüfung
-                    !checkForInt(arrayKinofilm[2])||
-                    !checkForValidFSK(Integer.valueOf(arrayKinofilm[2]))||
+                    !checkForInt(arrayKinofilm[2]) ||
+                    !checkForValidFSK(Integer.valueOf(arrayKinofilm[2])) ||
                     //Preis Prüfung
-                    !checkForInt(arrayKinofilm[4])||
+                    !checkForInt(arrayKinofilm[4]) ||
                     //Beliebtheit Prüfung
-                    !checkForInt(arrayKinofilm[5])||
-                    !checkForValidBeliebtheit(Integer.valueOf(arrayKinofilm[5]))||
+                    !checkForInt(arrayKinofilm[5]) ||
+                    !checkForValidBeliebtheit(Integer.valueOf(arrayKinofilm[5])) ||
                     //Spielzeit Prüfung
-                    !checkForInt(arrayKinofilm[6])||
-                    !checkForValidSpielzeit(Integer.valueOf(arrayKinofilm[6]))||
+                    !checkForInt(arrayKinofilm[6]) ||
+                    !checkForValidSpielzeit(Integer.valueOf(arrayKinofilm[6])) ||
                     //Prüfung auf Jahr
                     !checkForInt(arrayKinofilm[9])||
-                    !checkForValidJahr(Integer.valueOf(arrayKinofilm[9]))||
+                    !isValidJahr(Integer.valueOf(arrayKinofilm[9])) ||
                     //Prüung auf 3D
                     !checkForBoolean(arrayKinofilm[10])) {
 
@@ -93,7 +89,7 @@ public class KinofilmImporter extends Datei {
                                     !checkForValidSpielzeit(Integer.valueOf(arrayKinofilm[6]))||
                                     //Prüfung auf Jahr
                                     !checkForInt(arrayKinofilm[9])||
-                                    !checkForValidJahr(Integer.valueOf(arrayKinofilm[9]))||
+                                    !isValidJahr(Integer.valueOf(arrayKinofilm[9]))||
                                     //Prüung auf 3D
                                     !checkForBoolean(arrayKinofilm[10])
                                     )
@@ -102,16 +98,11 @@ public class KinofilmImporter extends Datei {
                                 if (importString == null) {break;}
                                 arrayKinofilm = importString.split(";");  //Array neu bestücken.
                             }
-
-
-
             }
-
-
-
 
             //region FSK des aktuellen Films
             int importKinofilmFskInt = Integer.valueOf(arrayKinofilm[2]);
+            Fsk importKinofilmFSK;
             if (importKinofilmFskInt == 18) {
                 importKinofilmFSK = Fsk.FSK_18;
             }
@@ -385,14 +376,13 @@ public class KinofilmImporter extends Datei {
      * @param  in_Input der zu prüfende String bzw. Integer
      * @author Fabian Ueberle
      * <p>
-     *     Die Methode checkForValidJahr prüft ob das Erscheinungsjahr zwischen 1900 und dem aktuellen Jahr liegt.
+     *     Die Methode isValidJahr prüft ob das Erscheinungsjahr zwischen 1900 und dem aktuellen Jahr liegt.
      * </p>
      * */
 
-    private boolean checkForValidJahr(Integer in_Input) {
+    private boolean isValidJahr(Integer in_Input) {
 
         Calendar cal = Calendar.getInstance();
-        //cal.setTime(new Date()); //heute
         int jahr = cal.get(Calendar.YEAR);
 
         try {
@@ -431,5 +421,5 @@ public class KinofilmImporter extends Datei {
                 System.err.println("Unzulässige Spielzeitdauer.");
                 return false;
             }
-        }
+     }
 }

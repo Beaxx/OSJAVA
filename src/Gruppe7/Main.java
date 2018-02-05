@@ -132,7 +132,7 @@ public class Main {
         // Datenimport
         new WerbefilmImporter(path + "/werbespots.csv");
         new SaalImporter(path + "/saele.csv");
-        int mindestBeliebtheit = 95;
+        int mindestBeliebtheit = 96;
         new KinofilmImporter(path + "/filme.csv", mindestBeliebtheit);
 
         // FilmArrays erstellen
@@ -152,22 +152,23 @@ public class Main {
         // Performance Wrapper start
         long startTime = System.currentTimeMillis();
 
+            // Algorithmus
+            Planer planer = new Planer();
+            for (int i = 0; i < checkedInput; i++)
 
-        // Algorithmus
-        Planer planer = new Planer();
-        for (int i = 0; i < checkedInput; i++)
-
-        {
-            Planer tempPlaner = new Planer();
+            {
+                Planer tempPlaner = new Planer();
 
                 if (tempPlaner.GetSpielplanGewinn() > planer.GetSpielplanGewinn()) {
                     planer = tempPlaner;
                     System.out.println("Tickets:    " + planer.GetSpielplanTicketeinnahmen() + "\n" +
-                                        "Werbung:   " + planer.GetSpielplanWerbeEinnahmen() + "\n" +
-                                        "Ausgaben:  " + planer.GetSpielplanAusgaben() + "\n" +
-                                        "Gewinn:    " + planer.GetSpielplanGewinn() + "\n" +
-                                        "--------------------------------\n\n");
+                            "Werbung:   " + planer.GetSpielplanWerbeEinnahmen() + "\n" +
+                            "Ausgaben:  " + planer.GetSpielplanAusgaben() + "\n" +
+                            "Gewinn:    " + planer.GetSpielplanGewinn() + "\n" +
+                            "Minb " + mindestBeliebtheit +"\n" +
+                            "--------------------------------\n\n");
                 }
+            }
 
         // Performance Wrapper ende
         long endTime = System.currentTimeMillis();
@@ -178,15 +179,15 @@ public class Main {
         // Ausgabe Laufdauer und Geschwindigkeit
         System.out.println("\n\n\n" + totalTimeS + " Sekunden für " + checkedInput + " Durchläufe" + "\n" +
                 (double) checkedInput / totalTimeS + " pro Sekunde");
-        }
 
-        //region Export
-        new ExportRaumplanung(path + "/export/raumplan.txt", planer);
-
-        new ExportKinoprogramm(path + "/export/kinoprogramm.csv", planer);
-
-        new ExportFinanzplan(path + "/export/finanzplan.csv", planer);
-        //endregion
+//
+//        //region Export
+//        new ExportRaumplanung(path + "/export/raumplan.txt", planer);
+//
+//        new ExportKinoprogramm(path + "/export/kinoprogramm.csv", planer);
+//
+//        new ExportFinanzplan(path + "/export/finanzplan.csv", planer);
+//        //endregion
     }
 
     private static boolean isValidPath(String input) throws IOException {

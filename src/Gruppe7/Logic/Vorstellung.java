@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * @author Lennart Völler
  *
- * Die Vorstellung ist die Basis-Einheit des Spielplans. Jeder Spielplan setzt sich aus 21*4*[Anzahl der Säle]
+ * Die Vorstellung ist die Basis-Einheit des Spielplans. Jeder Spielplan setzt sich aus 21 * 4 * [Anzahl der Säle]
  * Vorstellungen zusammen.
  */
 public class Vorstellung {
@@ -25,8 +25,8 @@ public class Vorstellung {
     private int[] vorstellungTicketeinnahmen = {0, 0};
 
     /**
-     * Basis-Konstruktor, erstellt eine zufällige Vorstellung aus der Menge der möglichen, an dieser Stelle
-     * erlaubten Vorstellungen. Ist ein Kinofilm für die Vorstellung gewählt, wird der Werbeblock angehängt.
+     * Basis-Konstruktor, erstellt eine zufällige Vorstellung aus der Menge der möglichen, an dieser Stelle im
+     * Spielplan erlaubten Vorstellungen. Ist ein Kinofilm für die Vorstellung gewählt, wird der Werbeblock angehängt.
      *
      * @param in_saalIndex                 die Saalnummer
      * @param in_vorstellungsTimeslotIndex der Index des Timeslots zu dem die Vorstellung stattfindet.
@@ -48,7 +48,7 @@ public class Vorstellung {
     /**
      * Je nach verbleibender Zeit zum Zeigen von Werbung wird eine Liste aus Werbungen mit den besten
      * Profitabilitätswerten (UmsatzProZuschauer/Laufzeit) erstellt. Die Zeit zum Zeigen von Werbung ist auf
-     * 20 Minuten begrenzt. Für den Fall, dass 20 Minuten Werbung gezeigt werden können wird ein
+     * 20 Minuten begrenzt. Für den Fall, dass 20 Minuten Werbung gezeigt werden können, wird ein
      * Standard-Werbeblock verwendet.
      *
      * @return Eine ArrayList der Werbung einer Vorstellung
@@ -73,7 +73,10 @@ public class Vorstellung {
         }
     }
 
-    public void VorstellungsTicketEinnahmen(Vorstellung this) {
+    /**
+     *Berechnet die Ticketeinnahmen einer Vorstellung aufgeteilt nach Zuschauern im Parkett und in der Loge
+     */
+    void VorstellungsTicketEinnahmen(Vorstellung this) {
 
         int andrang50p = (int) Math.round((double) andrang * 0.5);
         int ueberhang = 0;
@@ -140,10 +143,6 @@ public class Vorstellung {
         // Financials
         output += "Beliebtheit: " + vorstellungsFilm.GetBeliebtheit() + "\n" +
                 "Verleihpreis: " + vorstellungsFilm.GetVerleihpreisProWoche() + "\n";
-//                  "Vorstellungseinnahme aus Tickets: " + vorstellungsEinnahmenTickets + "\n" +
-//                  "Zuschauer Loge: " + zuschauerLoge + "\n" +
-//                  "Zuschauer Parkett: " + zuschauerParkett + "\n" +
-//                  "Zuschauer Gesamt: " + zuschauerGesamt + "\n";
         output += "Beliebtheit: " + vorstellungsFilm.GetBeliebtheit() + "\n" +
                 "Verleihpreis: " + vorstellungsFilm.GetVerleihpreisProWoche() + "\n" +
                 "Eintrittspreis: " + GetEintrittspreis() + "\n"; // Fabian
@@ -172,7 +171,7 @@ public class Vorstellung {
         return eintrittspreis;
     }
 
-    public int GetAndrang() {
+    int GetAndrang() {
         return andrang;
     }
 
@@ -193,11 +192,11 @@ public class Vorstellung {
     }
 
     //Setter
-    public void SetEintrittspreis(int in_eintrittspreis) {
+    void SetEintrittspreis(int in_eintrittspreis) {
         eintrittspreis = in_eintrittspreis;
     }
 
-    public void SetAndrang(int andrang) {
+    void SetAndrang(int andrang) {
         this.andrang = andrang;
     }
 }

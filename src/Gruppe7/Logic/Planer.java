@@ -58,7 +58,6 @@ public class Planer {
             localGenreListWoche2.addAll(genreList);
 
             FilmVerwaltung.CleanUpGesamtkosten();
-
             spielplan = createRandomSpielplan(localGenreListWoche0, localGenreListWoche1, localGenreListWoche2);
         }
         spielplanGewinn = spielplanWerbeEinnahmen + spielplanTicketeinnahmen - spielplanAusgaben;
@@ -94,7 +93,8 @@ public class Planer {
                                     in_localGenreListWoche0, in_localGenreListWoche1, in_localGenreListWoche2, wochenIndex);
 
                             if (breakstatement) {
-                                break;
+                                spielplan = new Vorstellung[3][7][anzahlSaele][4];
+                                return spielplan;
                             }
                         }
 
@@ -103,56 +103,61 @@ public class Planer {
 
                         // Andrangskalkulation
                         // Iteration über Eintrittspreise, lokale Optimierung
-                        for (int eintrittspreis = 12; eintrittspreis <= 13; eintrittspreis++) { // TODO Range verkleinern für mehr Performance
+                        for (int eintrittspreis = 1; eintrittspreis <= 13; eintrittspreis++) {
 
-                            // Backup
-                            int backupEinnahmen = vorstellung.GetVorstellungTicketeinnahmen()[0] +
-                                    vorstellung.GetVorstellungTicketeinnahmen()[1] +
-                                    vorstellung.GetVorstellungWerbeeinnahmen();
+                        // Backup
+                        int backupEinnahmen = vorstellung.GetVorstellungTicketeinnahmen()[0] +
+                                vorstellung.GetVorstellungTicketeinnahmen()[1] +
+                                vorstellung.GetVorstellungWerbeeinnahmen();
 
-                            int backupAndrang = vorstellung.GetAndrang();
-                            int backupEintrittspreis = vorstellung.GetEintrittspreis();
-                            vorstellung.SetEintrittspreis(eintrittspreis);
+                        int backupAndrang = vorstellung.GetAndrang();
+                        int backupEintrittspreis = vorstellung.GetEintrittspreis();
+                        vorstellung.SetEintrittspreis(eintrittspreis);
 
-                            // Andrangsberechnung
-                            vorstellung.SetAndrang((int) Math.round(basisAndrang(vorstellung) * uhrzeitAndrangFaktor(vorstellung) *
-                                    wochenTagAndrangFaktor(tagIndex) * wiederholungAndrangFaktor(vorstellung, wochenIndex) *
-                                    preisAndrangFaktor(vorstellung)));
+                        // Andrangsberechnung
+                        vorstellung.SetAndrang((int) Math.round(basisAndrang(vorstellung) * uhrzeitAndrangFaktor(vorstellung) *
+                                wochenTagAndrangFaktor(tagIndex) * wiederholungAndrangFaktor(vorstellung, wochenIndex) *
+                                preisAndrangFaktor(vorstellung)));
 
-                            // Ticketeinnahmen und Werbeeinnahmen
-                            vorstellung.VorstellungsTicketEinnahmen();
-                            vorstellung.VorstellungWerbeeinnahmen();
+                        // Ticketeinnahmen und Werbeeinnahmen
+                        vorstellung.VorstellungsTicketEinnahmen();
+                        vorstellung.VorstellungWerbeeinnahmen();
 
 
-                            if (backupEinnahmen > (vorstellung.GetVorstellungTicketeinnahmen()[0] +
-                                    vorstellung.GetVorstellungTicketeinnahmen()[1] +
-                                    vorstellung.GetVorstellungWerbeeinnahmen())) {
-                                vorstellung.SetEintrittspreis(backupEintrittspreis);
-                                vorstellung.SetAndrang(backupAndrang);
-                            }
+                        if (backupEinnahmen > (vorstellung.GetVorstellungTicketeinnahmen()[0] +
+                                vorstellung.GetVorstellungTicketeinnahmen()[1] +
+                                vorstellung.GetVorstellungWerbeeinnahmen())) {
+                            vorstellung.SetEintrittspreis(backupEintrittspreis);
+                            vorstellung.SetAndrang(backupAndrang);
                         }
+//                        }
 
                         // Einnahmenkalkulation für spätere Gewinnberechnung
                         spielplanTicketeinnahmen += vorstellung.GetVorstellungTicketeinnahmen()[0] +
                                 vorstellung.GetVorstellungTicketeinnahmen()[1];
                         spielplanWerbeEinnahmen += vorstellung.GetVorstellungWerbeeinnahmen();
 
-
                         spielplan[wochenIndex][tagIndex][saalIndex][vorstellungIndex] = vorstellung;
                     }
                 }
                 // Ausgaben Tagesabhängig bei parallelem Zeigen eines Films in unterschiedlichen Sälen.
                 spielplanAusgaben += spielplanAusgabenParallel(spielplan[wochenIndex][tagIndex]);
-
             }
         }
         spielplanAusgaben += spielplanAusgabenGesamtzeitraum();
-
         return spielplan;
     }
 
     /**
-     * Debugged
+     * *
+     * Jedes Genre muss einmal in der Woche gezeigt werden
+     *
+     * @param in_vorstellungsGenres Die Genres, des in der Vorstellung gezeigten Filmes
+     * @param in_localGenreListWoche0 Eine Liste zur Überprüfung ob Genres in Woche 0 gezeigt wurden.
+     * @param in_localGenreListWoche1 Eine Liste zur Überprüfung ob Genres in Woche 1 gezeigt wurden.
+     * @param in_localGenreListWoche2 Eine Liste zur Überprüfung ob Genres in Woche 2 gezeigt wurden.
+     * @param in_wochenindex der Index der Woche aus der heraus der Check initialisiert wird.
+     * @return bool auf basis der Erfüllung der genre Kriterien. Abbruchkriterium für Schleife.
      */
     private boolean checkGenre(
             ArrayList<Genre> in_vorstellungsGenres,
@@ -192,7 +197,10 @@ public class Planer {
     }
 
     /**
-     * Fügt Kinofilme in Sets pro Woche zusammen
+     * Fügt Kinofilme in Sets je Woche zusammen, für spätere Berechnungen.
+     *
+     * @param in_Vorstellung Vorstellung, deren Kinofilm hinzugefügt werden soll
+     * @param in_WochenIndex Woche, deren Index genutzt wird
      */
     private void wochenKinofilme(Vorstellung in_Vorstellung, int in_WochenIndex) {
         switch (in_WochenIndex) {
@@ -214,11 +222,16 @@ public class Planer {
     }
 
     /**
-     * ermittlung ob ein Kinofilm parallel am selben tag in zwei unterschiedlichen Sälen läuft. Wenn ja, entsprechende
-     * Kostenrückgabe
-     * <p>
-     * Funktion: Über hashset, wird versucht ein kinofilm hinzuzufügen, der bereits in der Liste ist, kann diese nicht
-     * wachsen, wenn die Größte also unverändert bleibt ist der film doppelt vorhanden. + Fügt dem kinofilmkosten hinzu
+     * Ermittlung ob ein Kinofilm parallel am selben Tag in zwei unterschiedlichen Sälen läuft. Wenn ja, entsprechende
+     * Kostenrückgabe.
+     *
+     * Funktion: Bei den slot[...] Listen handelt es sich um Hashets, die jedes Element nur einmalig enthalten können.
+     * Der Kinofilm der aktuellen Vorstellung wird dem Hashset hinzugefügt, scheitert diese Aktion (die größe des Sets
+     * bleibt unverändert) kann geschlossen werden, dass der Film bereits Teil der Liste ist. Entsprechend wird der
+     * Verleihpreis für den Film ein weiteres Mal den Kosten hinzugefügt, da er parallel in zwei Sälen läuft.
+     *
+     * @param in_VorstellungsTag Die Vorstellungen eine Tages
+     * @return Die ausgaben, die ein Spielplan täglich durch parallel Laufende Vorstellungen verursacht
      */
     private int spielplanAusgabenParallel(Vorstellung[][] in_VorstellungsTag) {
 
@@ -231,14 +244,6 @@ public class Planer {
 
         for (int saalIndex = 0; saalIndex < anzahlSaele; saalIndex++) {
             for (int vorstellungIndex = 0; vorstellungIndex < 4; vorstellungIndex++) {
-
-                try
-                {
-                    in_VorstellungsTag[saalIndex][vorstellungIndex].GetSpielzeiten();
-                }
-                catch (NullPointerException n){
-                    int x = 0;
-                }
 
                 switch (in_VorstellungsTag[saalIndex][vorstellungIndex].GetSpielzeiten()) {
                     case SLOT_1500: {
@@ -284,9 +289,9 @@ public class Planer {
     }
 
     /**
-     * Ermittlung der Kosten für die Filmleite aller drei wochen mit rabattverrechnung.
+     * Ermittlung der Kosten für die Filmmiete aller drei wochen mit Rabattverrechnung.
      *
-     * @return
+     * @return die Kosten für die Filmmiete eines Spielplans (ausgenommen parallelvorstellungen)
      */
     private int spielplanAusgabenGesamtzeitraum() {
         int kosten = 0;
